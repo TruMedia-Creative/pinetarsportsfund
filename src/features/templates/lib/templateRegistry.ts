@@ -4,7 +4,7 @@ import { defaultTemplates } from "../model/defaultTemplates";
 type Template = (typeof defaultTemplates)[number];
 
 export function getTemplates(): Template[] {
-  return defaultTemplates;
+  return [...defaultTemplates];
 }
 
 export function getTemplateById(id: string): Template | undefined {
