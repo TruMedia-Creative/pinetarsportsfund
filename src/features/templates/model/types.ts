@@ -5,6 +5,22 @@ export type AudienceType =
   | "municipality"
   | "internal";
 
+export const AUDIENCE_TYPES: readonly AudienceType[] = [
+  "investor",
+  "lender",
+  "sponsor",
+  "municipality",
+  "internal",
+] as const;
+
+export const AUDIENCE_LABELS: Record<AudienceType, string> = {
+  investor: "Investor",
+  lender: "Lender",
+  sponsor: "Sponsor",
+  municipality: "Municipality",
+  internal: "Internal",
+};
+
 export type SectionType =
   | "cover"
   | "executive_summary"
