@@ -57,7 +57,7 @@ export const mockDecks: Deck[] = [
     slug: "riverside-sports-village-municipal",
     audienceType: "municipality",
     status: "exported",
-    templateId: "tpl-municipality",
+    templateId: "tpl-municipality-partnership",
     projectName: "Riverside Sports Village",
     subtitle: "Public-Private Partnership Proposal",
     summary:

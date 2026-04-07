@@ -18,13 +18,14 @@ const AUDIENCE_TEMPLATE_MAP: Partial<Record<AudienceType, string>> = Object.from
   ),
 );
 
+/** Only offer audience types that have an assigned template. */
 const AUDIENCE_OPTIONS: { value: AudienceType; label: string }[] = [
   { value: "investor", label: "Investor" },
   { value: "lender", label: "Lender" },
   { value: "sponsor", label: "Sponsor" },
   { value: "municipality", label: "Municipality" },
   { value: "internal", label: "Internal" },
-];
+].filter((o) => Boolean(AUDIENCE_TEMPLATE_MAP[o.value]));
 
 const STATUS_OPTIONS: { value: DeckStatus; label: string }[] = [
   { value: "draft", label: "Draft" },
@@ -77,10 +78,11 @@ export default function DeckFormPage() {
     setSaving(true);
     setError(null);
 
-    const slug = title
+    const rawSlug = title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
+    const slug = rawSlug || `deck-${Date.now()}`;
 
     const payload = {
       title,
