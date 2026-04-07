@@ -1,36 +1,38 @@
 import { useEffect, useState } from "react";
 import {
-  getEvents,
-  getTenants,
-  updateEvent,
-  deleteEvent,
+  getDecks,
+  updateDeck,
+  deleteDeck,
 } from "../../../lib/api/mock";
 import { LoadingSpinner } from "../../../components/ui";
-import type { EventData } from "../../events/model";
-import type { Tenant } from "../../tenants/model";
+import type { Deck } from "../../decks/model";
 
-const statusBadge: Record<EventData["status"], string> = {
+const statusBadge: Record<Deck["status"], string> = {
   draft: "bg-yellow-100 text-yellow-800",
-  published: "bg-green-100 text-green-800",
+  ready: "bg-blue-100 text-blue-800",
+  exported: "bg-green-100 text-green-800",
   archived: "bg-gray-100 text-gray-600",
 };
 
+const AUDIENCE_LABELS: Record<Deck["audienceType"], string> = {
+  investor: "Investor",
+  lender: "Lender",
+  sponsor: "Sponsor",
+  municipality: "Municipality",
+  internal: "Internal",
+};
+
 export function AdminDashboardPage() {
-  const [tenants, setTenants] = useState<Tenant[]>([]);
-  const [events, setEvents] = useState<EventData[]>([]);
+  const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    getTenants()
-      .then(async (loadedTenants) => {
-        const allEvents = (
-          await Promise.all(loadedTenants.map((t) => getEvents(t.id)))
-        ).flat();
+    getDecks()
+      .then((loadedDecks) => {
         if (cancelled) return;
-        setTenants(loadedTenants);
-        setEvents(allEvents);
+        setDecks(loadedDecks);
         setLoading(false);
       })
       .catch(() => {
@@ -43,45 +45,41 @@ export function AdminDashboardPage() {
 
   const [actionError, setActionError] = useState<string | null>(null);
 
-  const handlePublish = async (id: string) => {
+  const handleMarkReady = async (id: string) => {
     try {
       setActionError(null);
-      await updateEvent(id, { status: "published" });
+      await updateDeck(id, { status: "ready" });
       setRefreshKey((k) => k + 1);
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : "Failed to publish event");
+      setActionError(err instanceof Error ? err.message : "Failed to update deck");
     }
   };
 
   const handleArchive = async (id: string) => {
     try {
       setActionError(null);
-      await updateEvent(id, { status: "archived" });
+      await updateDeck(id, { status: "archived" });
       setRefreshKey((k) => k + 1);
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : "Failed to archive event");
+      setActionError(err instanceof Error ? err.message : "Failed to archive deck");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
+    if (!window.confirm("Are you sure you want to delete this deck?")) return;
     try {
       setActionError(null);
-      await deleteEvent(id);
+      await deleteDeck(id);
       setRefreshKey((k) => k + 1);
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : "Failed to delete event");
+      setActionError(err instanceof Error ? err.message : "Failed to delete deck");
     }
   };
 
-  const tenantName = (tenantId: string) =>
-    tenants.find((t) => t.id === tenantId)?.name ?? tenantId;
-
   if (loading) return <LoadingSpinner />;
 
-  const publishedCount = events.filter(
-    (e) => e.status === "published",
-  ).length;
+  const readyCount = decks.filter((d) => d.status === "ready").length;
+  const exportedCount = decks.filter((d) => d.status === "exported").length;
 
   return (
     <div className="space-y-8">
@@ -96,80 +94,29 @@ export function AdminDashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Total Tenants</p>
+          <p className="text-sm text-gray-500">Total Decks</p>
           <p className="text-2xl font-semibold text-gray-900">
-            {tenants.length}
+            {decks.length}
           </p>
         </div>
         <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Total Events</p>
+          <p className="text-sm text-gray-500">Ready</p>
           <p className="text-2xl font-semibold text-gray-900">
-            {events.length}
+            {readyCount}
           </p>
         </div>
         <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Published Events</p>
+          <p className="text-sm text-gray-500">Exported</p>
           <p className="text-2xl font-semibold text-gray-900">
-            {publishedCount}
+            {exportedCount}
           </p>
         </div>
       </div>
 
-      {/* Tenants */}
-      <section>
-        <h2 className="mb-3 text-lg font-semibold text-gray-900">Tenants</h2>
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200 bg-white text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Name
-                </th>
-                <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Slug
-                </th>
-                <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Domain
-                </th>
-                <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Primary Color
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {tenants.map((t) => (
-                <tr key={t.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900">
-                    {t.name}
-                  </td>
-                  <td className="px-4 py-2 text-gray-600">{t.slug}</td>
-                  <td className="px-4 py-2 text-gray-600">
-                    {t.domain ?? "—"}
-                  </td>
-                  <td className="px-4 py-2">
-                    <span className="inline-flex items-center gap-2">
-                      <span
-                        className="inline-block h-4 w-4 rounded-full border border-gray-300"
-                        style={{
-                          backgroundColor: t.branding.primaryColor,
-                        }}
-                      />
-                      <span className="text-gray-600">
-                        {t.branding.primaryColor}
-                      </span>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Events */}
+      {/* Decks */}
       <section>
         <h2 className="mb-3 text-lg font-semibold text-gray-900">
-          All Events
+          All Decks
         </h2>
         <div className="overflow-x-auto rounded-lg border border-gray-200">
           <table className="min-w-full divide-y divide-gray-200 bg-white text-sm">
@@ -179,19 +126,16 @@ export function AdminDashboardPage() {
                   Title
                 </th>
                 <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Tenant
+                  Project
+                </th>
+                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                  Audience
                 </th>
                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                   Status
                 </th>
                 <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Start
-                </th>
-                <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  End
-                </th>
-                <th className="px-4 py-2 text-left font-medium text-gray-700">
-                  Venue
+                  Updated
                 </th>
                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                   Actions
@@ -199,47 +143,44 @@ export function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {events.map((ev) => (
-                <tr key={ev.id}>
+              {decks.map((deck) => (
+                <tr key={deck.id}>
                   <td className="px-4 py-2 font-medium text-gray-900">
-                    {ev.title}
+                    {deck.title}
                   </td>
+                  <td className="px-4 py-2 text-gray-600">{deck.projectName}</td>
                   <td className="px-4 py-2 text-gray-600">
-                    {tenantName(ev.tenantId)}
+                    {AUDIENCE_LABELS[deck.audienceType]}
                   </td>
                   <td className="px-4 py-2">
                     <span
-                      className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge[ev.status]}`}
+                      className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge[deck.status]}`}
                     >
-                      {ev.status}
+                      {deck.status}
                     </span>
                   </td>
                   <td className="px-4 py-2 text-gray-600">
-                    {new Date(ev.startAt).toLocaleDateString()}
+                    {new Date(deck.updatedAt).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-2 text-gray-600">
-                    {new Date(ev.endAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-2 text-gray-600">{ev.venue}</td>
                   <td className="space-x-2 px-4 py-2">
-                    {ev.status === "draft" && (
+                    {deck.status === "draft" && (
                       <button
-                        onClick={() => handlePublish(ev.id)}
-                        className="rounded bg-green-600 px-2 py-1 text-xs font-medium text-white hover:bg-green-700"
+                        onClick={() => handleMarkReady(deck.id)}
+                        className="rounded bg-blue-600 px-2 py-1 text-xs font-medium text-white hover:bg-blue-700"
                       >
-                        Publish
+                        Mark Ready
                       </button>
                     )}
-                    {ev.status === "published" && (
+                    {deck.status === "ready" && (
                       <button
-                        onClick={() => handleArchive(ev.id)}
+                        onClick={() => handleArchive(deck.id)}
                         className="rounded bg-gray-500 px-2 py-1 text-xs font-medium text-white hover:bg-gray-600"
                       >
                         Archive
                       </button>
                     )}
                     <button
-                      onClick={() => handleDelete(ev.id)}
+                      onClick={() => handleDelete(deck.id)}
                       className="rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700"
                     >
                       Delete
@@ -254,3 +195,4 @@ export function AdminDashboardPage() {
     </div>
   );
 }
+

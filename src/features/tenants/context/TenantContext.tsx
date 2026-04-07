@@ -10,7 +10,7 @@ import { TenantContext } from "./tenantContextValue";
 export type { TenantContextValue } from "./tenantContextValue";
 export { TenantContext } from "./tenantContextValue";
 
-const FALLBACK_TENANT_SLUG = "Eventudio";
+const FALLBACK_TENANT_SLUG = "pinetarsportsfund";
 
 function resolveSlugFromHostname(): string | null {
   const hostname = window.location.hostname;

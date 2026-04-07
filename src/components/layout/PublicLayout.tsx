@@ -16,7 +16,7 @@ export function PublicLayout() {
             />
           ) : (
             <span className="text-xl font-bold">
-              {tenant?.name ?? "Event"}
+              {tenant?.name ?? "Pine Tar Sports Fund"}
             </span>
           )}
         </div>

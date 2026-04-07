@@ -1,6 +1,6 @@
-import type { Template } from "./types";
+import type { SlideTemplate } from "./types";
 
-export const defaultTemplates: Template[] = [
+export const defaultTemplates: SlideTemplate[] = [
   // ─── 1. Investor Pitch Deck ───────────────────────────────────────────────
   {
     id: "tpl-investor-pitch",
@@ -18,7 +18,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 1,
       },
       {
-        type: "executive-summary",
+        type: "executive_summary",
         defaultTitle: "Executive Summary",
         defaultContent:
           "Pine Tar Sports Fund is acquiring and developing a premier multi-use sports complex in [City]. This project targets [X]% preferred returns for accredited investors through a [X]-year hold strategy anchored by long-term anchor tenant leases.",
@@ -26,7 +26,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 2,
       },
       {
-        type: "investment-thesis",
+        type: "investment_thesis",
         defaultTitle: "Investment Thesis",
         defaultContent:
           "Sports and recreation real estate is an under-served, recession-resilient asset class. Pine Tar Sports Fund targets facilities with strong community demand, verified anchor tenants, and scalable operating models that deliver consistent cash flow.",
@@ -50,7 +50,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 5,
       },
       {
-        type: "project-overview",
+        type: "project_overview",
         defaultTitle: "Project Overview",
         defaultContent:
           "[Facility Name] will be a [X] sq ft multi-sport complex featuring [X] courts, turf fields, training areas, and concession facilities. Located at [Address], the site is accessible to [X]+ residents within a [X]-mile radius.",
@@ -58,7 +58,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 6,
       },
       {
-        type: "use-of-funds",
+        type: "use_of_funds",
         defaultTitle: "Use of Funds",
         defaultContent:
           "Total Raise: $[X]M — Land Acquisition: [X]% | Construction: [X]% | FF&E & Fit-Out: [X]% | Operating Reserve: [X]% | Closing Costs & Fees: [X]%",
@@ -90,7 +90,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 10,
       },
       {
-        type: "risks-disclaimer",
+        type: "risks_disclaimer",
         defaultTitle: "Risk Factors & Disclaimer",
         defaultContent:
           "This presentation is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any securities. Investing involves risk, including loss of principal. Past performance is not indicative of future results.",
@@ -98,7 +98,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 11,
       },
       {
-        type: "closing-cta",
+        type: "closing_cta",
         defaultTitle: "Get Involved",
         defaultContent:
           "Minimum Investment: $[X]K | Offering Close: [Date] | Contact: invest@pinetarsportsfund.com | Schedule a call to learn more.",
@@ -125,7 +125,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 1,
       },
       {
-        type: "executive-summary",
+        type: "executive_summary",
         defaultTitle: "Transaction Summary",
         defaultContent:
           "Pine Tar Sports Fund is requesting a $[X]M [construction / bridge / permanent] loan for the development of [Project Name], a [X] sq ft multi-use sports complex in [City, State]. The loan is secured by the underlying real estate asset and supported by pre-signed anchor tenant commitments.",
@@ -133,7 +133,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 2,
       },
       {
-        type: "project-overview",
+        type: "project_overview",
         defaultTitle: "Project Overview",
         defaultContent:
           "[Facility Name] is a [X] sq ft sports and recreation complex located at [Address]. The project includes [X] courts, turf fields, and ancillary retail space. Estimated completion: [Month, Year]. Total project cost: $[X]M.",
@@ -149,7 +149,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 4,
       },
       {
-        type: "use-of-funds",
+        type: "use_of_funds",
         defaultTitle: "Sources & Uses",
         defaultContent:
           "Total Project Cost: $[X]M | Senior Loan: $[X]M ([X]% LTC) | Equity: $[X]M | Mezzanine (if applicable): $[X]M | Land Basis: $[X]M | Hard Costs: $[X]M | Soft Costs: $[X]M | Reserves: $[X]M",
@@ -181,7 +181,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 8,
       },
       {
-        type: "risks-disclaimer",
+        type: "risks_disclaimer",
         defaultTitle: "Risk Mitigation & Disclaimer",
         defaultContent:
           "Key risks and mitigants: Construction risk (fixed-price GMP contract), lease-up risk (anchor tenant pre-commitment), and market risk (diversified revenue streams). This document is confidential and intended solely for the named recipient.",
@@ -189,7 +189,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 9,
       },
       {
-        type: "closing-cta",
+        type: "closing_cta",
         defaultTitle: "Next Steps",
         defaultContent:
           "We welcome a follow-up call to discuss underwriting details, site visits, and due diligence materials. Contact: finance@pinetarsportsfund.com | [Phone]",
@@ -216,7 +216,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 1,
       },
       {
-        type: "executive-summary",
+        type: "executive_summary",
         defaultTitle: "Why Partner With Us",
         defaultContent:
           "Pine Tar Sports Fund facilities serve [X]K+ athletes, families, and fans annually. Our venues are gathering places for the community — delivering your brand unmatched dwell time, repeat visits, and authentic local connections.",
@@ -240,7 +240,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 4,
       },
       {
-        type: "project-overview",
+        type: "project_overview",
         defaultTitle: "Facility Highlights",
         defaultContent:
           "[X] Indoor Courts | [X] Turf Fields | [X] Sq Ft Training Center | Pro Shop & Concessions | Digital Scoreboard & PA System | Streaming & Broadcast Infrastructure",
@@ -248,7 +248,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 5,
       },
       {
-        type: "use-of-funds",
+        type: "use_of_funds",
         defaultTitle: "Sponsorship Packages",
         defaultContent:
           "Presenting Sponsor: $[X]K/yr — Naming rights, premium signage, digital presence, hospitality suite\nGold Sponsor: $[X]K/yr — Branded court / field, LED display ads, event booth\nSilver Sponsor: $[X]K/yr — Signage package, social media mentions, program listing\nCommunity Sponsor: $[X]K/yr — Facility directory listing, website logo",
@@ -272,7 +272,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 8,
       },
       {
-        type: "risks-disclaimer",
+        type: "risks_disclaimer",
         defaultTitle: "Terms & Conditions",
         defaultContent:
           "Sponsorship packages are subject to availability. All placements and activations are outlined in a formal agreement. Projected attendance figures are estimates based on comparable facilities and are not guaranteed.",
@@ -280,7 +280,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 9,
       },
       {
-        type: "closing-cta",
+        type: "closing_cta",
         defaultTitle: "Become a Partner",
         defaultContent:
           "Contact our partnerships team to reserve your sponsorship package. Spots are limited for the Presenting Sponsor tier. Contact: partnerships@pinetarsportsfund.com | [Phone]",
@@ -307,7 +307,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 1,
       },
       {
-        type: "executive-summary",
+        type: "executive_summary",
         defaultTitle: "Project Summary",
         defaultContent:
           "Pine Tar Sports Fund proposes to develop [Project Name], a [X] sq ft community sports and recreation complex in [City]. The project will be privately funded, requiring no direct municipal capital outlay, while delivering significant economic and community benefits.",
@@ -331,7 +331,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 4,
       },
       {
-        type: "project-overview",
+        type: "project_overview",
         defaultTitle: "Project Overview",
         defaultContent:
           "[Facility Name] will be a [X] sq ft, privately developed sports complex located at [Address / Site]. The facility will include [X] multi-sport courts, [X] turf fields, a fitness center, community meeting rooms, and concessions serving [X]+ users annually.",
@@ -339,7 +339,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 5,
       },
       {
-        type: "investment-thesis",
+        type: "investment_thesis",
         defaultTitle: "Public Benefits",
         defaultContent:
           "Estimated economic impact: $[X]M annually | [X]+ permanent jobs created | [X]+ construction jobs | $[X]K+ annual property and sales tax revenue | Priority access for [City] youth programs during daytime hours",
@@ -347,7 +347,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 6,
       },
       {
-        type: "use-of-funds",
+        type: "use_of_funds",
         defaultTitle: "Project Funding Structure",
         defaultContent:
           "Total Project Cost: $[X]M | Private Equity: $[X]M | Debt Financing: $[X]M | Municipal Partnership (if applicable): Land Lease / Tax Abatement / Infrastructure Contribution | No direct capital expenditure required from [City]",
@@ -371,7 +371,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 9,
       },
       {
-        type: "risks-disclaimer",
+        type: "risks_disclaimer",
         defaultTitle: "Disclaimer",
         defaultContent:
           "This presentation is intended for informational purposes and does not constitute a binding commitment. Projections are estimates based on comparable projects. All partnership terms are subject to negotiation and formal agreement.",
@@ -379,7 +379,7 @@ export const defaultTemplates: Template[] = [
         sortOrder: 10,
       },
       {
-        type: "closing-cta",
+        type: "closing_cta",
         defaultTitle: "Let's Build Together",
         defaultContent:
           "Pine Tar Sports Fund is ready to engage your economic development and parks & recreation departments. Next steps: site assessment, community needs review, and partnership term sheet. Contact: partnerships@pinetarsportsfund.com",

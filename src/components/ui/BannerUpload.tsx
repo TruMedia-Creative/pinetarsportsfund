@@ -9,9 +9,9 @@ interface BannerUploadProps {
 }
 
 /**
- * Drag-and-drop image uploader for the event banner.
+ * Drag-and-drop image uploader for the deck banner.
  * Accepts image files from the local machine and stores them as base64
- * data URLs (held in localStorage alongside the rest of the event data).
+ * data URLs (held in localStorage alongside the rest of the deck data).
  * Also accepts any existing HTTPS banner URL as a preview.
  */
 export function BannerUpload({
@@ -82,7 +82,7 @@ export function BannerUpload({
         <div className="relative overflow-hidden rounded-md">
           <img
             src={value}
-            alt="Event banner preview"
+            alt="Banner preview"
             className="h-40 w-full object-cover"
           />
           <button
@@ -104,7 +104,7 @@ export function BannerUpload({
           role="button"
           tabIndex={0}
           onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
-          aria-label="Upload event banner image"
+          aria-label="Upload banner image"
         >
           <svg
             className={`mb-3 h-10 w-10 ${isDark ? "text-gray-500" : "text-gray-400"}`}

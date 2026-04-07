@@ -39,14 +39,14 @@ export const sectionTemplateSchema = z.object({
 export type SectionTemplateInput = z.infer<typeof sectionTemplateSchema>;
 
 export const templateSectionDefinitionSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   type: sectionTypeSchema,
-  title: z.string().min(1),
+  defaultTitle: z.string().min(1),
   description: z.string().optional(),
   isRequired: z.boolean(),
-  defaultEnabled: z.boolean(),
+  defaultEnabled: z.boolean().optional(),
   sortOrder: z.number().int().nonnegative(),
-  defaultContent: z.record(z.string(), z.unknown()),
+  defaultContent: z.string(),
 });
 
 export type TemplateSectionDefinitionInput = z.infer<
