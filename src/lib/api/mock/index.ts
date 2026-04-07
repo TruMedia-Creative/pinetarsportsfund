@@ -1,3 +1,4 @@
 export * from "./data";
-export * from "./events";
+export * from "./decks";
 export * from "./tenants";
+

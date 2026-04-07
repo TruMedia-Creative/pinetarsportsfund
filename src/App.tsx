@@ -1,14 +1,10 @@
 import { BrowserRouter, Routes, Route, useParams, Navigate, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { TenantProvider, useTenant } from "./features/tenants";
-import { AppShell, PublicLayout } from "./components/layout";
+import { AppShell } from "./components/layout";
 import { LoadingSpinner } from "./components/ui";
 import { DashboardPage } from "./features/dashboard/routes";
-import {
-  EventListPage,
-  EventFormPage,
-  EventLandingPage,
-} from "./features/events/routes";
+import { DeckListPage, DeckFormPage } from "./features/decks/routes";
 import { AdminDashboardPage } from "./features/admin/routes";
 import { SettingsPage } from "./features/settings/routes";
 import { AuthProvider, useAuth, LoginPage } from "./features/auth";
@@ -35,11 +31,11 @@ function TenantGate({ children }: { children: ReactNode }) {
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="max-w-md text-center">
           <h1 className="mb-2 text-xl font-semibold text-gray-900">
-            Tenant not found
+            Workspace not found
           </h1>
           <p className="text-sm text-gray-500">
             We could not load this workspace. Please check the URL or contact
-            your Eventudio administrator.
+            your administrator.
           </p>
         </div>
       </div>
@@ -53,19 +49,13 @@ function TenantRoutes() {
   return (
     <TenantGate>
       <Routes>
-        {/* Client area */}
         <Route element={<RequireAuth><AppShell /></RequireAuth>}>
           <Route index element={<DashboardPage />} />
-          <Route path="events" element={<EventListPage />} />
-          <Route path="events/new" element={<EventFormPage />} />
-          <Route path="events/:eventId/edit" element={<EventFormPage />} />
+          <Route path="decks" element={<DeckListPage />} />
+          <Route path="decks/new" element={<DeckFormPage />} />
+          <Route path="decks/:deckId/edit" element={<DeckFormPage />} />
           <Route path="admin" element={<AdminDashboardPage />} />
           <Route path="settings" element={<SettingsPage />} />
-        </Route>
-
-        {/* Public event pages */}
-        <Route path="e/:eventSlug" element={<PublicLayout />}>
-          <Route index element={<EventLandingPage />} />
         </Route>
       </Routes>
     </TenantGate>
@@ -83,7 +73,7 @@ function TenantSlugWrapper() {
 
 function App() {
   return (
-    <BrowserRouter basename="/live-events-dashboard">
+    <BrowserRouter basename="/pinetarsportsfund">
       <AuthProvider>
         <Routes>
           {/* Login page */}
@@ -111,3 +101,4 @@ function App() {
 }
 
 export default App;
+

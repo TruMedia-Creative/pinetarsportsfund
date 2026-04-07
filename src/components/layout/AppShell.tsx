@@ -79,7 +79,7 @@ export function AppShell() {
                 />
               ) : (
                 <span className="text-xl font-bold" style={{ color: brandTextColor }}>
-                  {tenant?.name ?? "Eventudio"}
+                  {tenant?.name ?? "Pine Tar Sports Fund"}
                 </span>
               )}
             </div>
@@ -87,8 +87,8 @@ export function AppShell() {
               <Link to="/" className={linkClasses}>
                 Dashboard
               </Link>
-              <Link to="/events" className={linkClasses}>
-                Events
+              <Link to="/decks" className={linkClasses}>
+                Decks
               </Link>
               <Link to="/admin" className={linkClasses}>
                 Admin

@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useTenant } from "../../tenants";
-import { getEvents } from "../../../lib/api/mock/events";
+import { getDecks } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
-import type { EventData } from "../../events/model/types";
+import type { Deck } from "../../decks/model";
 
-const STATUS_STYLES: Record<string, string> = {
+const STATUS_STYLES: Record<Deck["status"], string> = {
   draft: "bg-yellow-100 text-yellow-800",
-  published: "bg-green-100 text-green-800",
+  ready: "bg-blue-100 text-blue-800",
+  exported: "bg-green-100 text-green-800",
   archived: "bg-gray-100 text-gray-600",
 };
 
 export function DashboardPage() {
-  const { tenant, loading: tenantLoading } = useTenant();
-  const [events, setEvents] = useState<EventData[]>([]);
+  const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!tenant) return;
-
     let cancelled = false;
 
-    getEvents(tenant.id)
+    getDecks()
       .then((data) => {
         if (cancelled) return;
-        setEvents(data);
+        setDecks(data);
         setLoading(false);
       })
       .catch(() => {
@@ -35,17 +32,17 @@ export function DashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, [tenant]);
+  }, []);
 
-  if (tenantLoading || loading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner />;
 
-  const published = events.filter((e) => e.status === "published").length;
-  const drafts = events.filter((e) => e.status === "draft").length;
-  const recent = events.slice(0, 3);
+  const ready = decks.filter((d) => d.status === "ready").length;
+  const drafts = decks.filter((d) => d.status === "draft").length;
+  const recent = decks.slice(0, 3);
 
   const stats = [
-    { label: "Total Events", value: events.length, color: "text-indigo-600" },
-    { label: "Published", value: published, color: "text-green-600" },
+    { label: "Total Decks", value: decks.length, color: "text-indigo-600" },
+    { label: "Ready", value: ready, color: "text-green-600" },
     { label: "Drafts", value: drafts, color: "text-yellow-600" },
   ];
 
@@ -54,15 +51,13 @@ export function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="mt-1 text-gray-600">
-            Welcome back, {tenant?.name ?? "Team"}
-          </p>
+          <p className="mt-1 text-gray-600">Pine Tar Sports Fund</p>
         </div>
         <Link
-          to="/events/new"
+          to="/decks/new"
           className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700"
         >
-          + Create New Event
+          + Create New Deck
         </Link>
       </div>
 
@@ -79,14 +74,14 @@ export function DashboardPage() {
         ))}
       </div>
 
-      {/* Recent Events */}
+      {/* Recent Decks */}
       <div>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">
-            Recent Events
+            Recent Decks
           </h2>
           <Link
-            to="/events"
+            to="/decks"
             className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
           >
             View all →
@@ -95,33 +90,30 @@ export function DashboardPage() {
 
         {recent.length === 0 ? (
           <p className="mt-4 text-gray-500">
-            No events yet.{" "}
-            <Link to="/events/new" className="text-indigo-600 hover:underline">
-              Create your first event
+            No decks yet.{" "}
+            <Link to="/decks/new" className="text-indigo-600 hover:underline">
+              Create your first deck
             </Link>
           </p>
         ) : (
           <ul className="mt-4 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-sm">
-            {recent.map((event) => (
-              <li key={event.id} className="flex items-center justify-between px-6 py-4">
+            {recent.map((deck) => (
+              <li key={deck.id} className="flex items-center justify-between px-6 py-4">
                 <div>
                   <Link
-                    to={`/events/${event.id}/edit`}
+                    to={`/decks/${deck.id}/edit`}
                     className="font-medium text-gray-900 hover:text-indigo-600"
                   >
-                    {event.title}
+                    {deck.title}
                   </Link>
                   <p className="mt-0.5 text-sm text-gray-500">
-                    {new Intl.DateTimeFormat("en-US", {
-                      dateStyle: "medium",
-                    }).format(new Date(event.startAt))}{" "}
-                    · {event.venue}
+                    {deck.projectName} · {deck.audienceType}
                   </p>
                 </div>
                 <span
-                  className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${STATUS_STYLES[event.status] ?? ""}`}
+                  className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${STATUS_STYLES[deck.status]}`}
                 >
-                  {event.status}
+                  {deck.status}
                 </span>
               </li>
             ))}
@@ -131,3 +123,4 @@ export function DashboardPage() {
     </div>
   );
 }
+

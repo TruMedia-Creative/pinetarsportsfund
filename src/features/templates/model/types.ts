@@ -29,14 +29,14 @@ export interface SectionTemplate {
 }
 
 export interface TemplateSectionDefinition {
-  id: string;
+  id?: string;
   type: SectionType;
-  title: string;
+  defaultTitle: string;
   description?: string;
   isRequired: boolean;
-  defaultEnabled: boolean;
+  defaultEnabled?: boolean;
   sortOrder: number;
-  defaultContent: Record<string, unknown>;
+  defaultContent: string;
 }
 
 export interface ThemeOverrides {
