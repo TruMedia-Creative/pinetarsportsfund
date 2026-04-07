@@ -38,6 +38,15 @@ const STATUS_OPTIONS: { value: DeckStatus; label: string }[] = [
   { value: "archived", label: "Archived" },
 ];
 
+/** Derive a URL-safe slug from a title string. */
+function deriveSlug(title: string): string {
+  const raw = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  return raw || `deck-${Date.now()}`;
+}
+
 export default function DeckFormPage() {
   const { deckId } = useParams();
   const navigate = useNavigate();
@@ -46,7 +55,9 @@ export default function DeckFormPage() {
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [savedDeckId, setSavedDeckId] = useState<string | null>(deckId ?? null);
+  // `createdDeckId` tracks the id of a deck just created in this session.
+  // In edit mode we always use the `deckId` route param directly.
+  const [createdDeckId, setCreatedDeckId] = useState<string | null>(null);
 
   const [title, setTitle] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -73,7 +84,14 @@ export default function DeckFormPage() {
         setSubtitle(deck.subtitle ?? "");
         setSummary(deck.summary ?? "");
         setExistingSlug(deck.slug);
-        setSections(deck.sections);
+        // If the deck was saved before section editing existed, seed from template.
+        if (deck.sections.length > 0) {
+          setSections(deck.sections);
+        } else {
+          const templateId = AUDIENCE_TEMPLATE_MAP[deck.audienceType];
+          const template = defaultTemplates.find((t) => t.id === templateId);
+          setSections(template ? createDeckSectionsFromTemplate(template) : []);
+        }
         setLoading(false);
       })
       .catch(() => {
@@ -105,15 +123,7 @@ export default function DeckFormPage() {
     }
 
     // On create: derive slug from title. On edit: preserve the existing slug.
-    const slug = isEdit
-      ? existingSlug
-      : (() => {
-          const raw = title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/(^-|-$)/g, "");
-          return raw || `deck-${Date.now()}`;
-        })();
+    const slug = isEdit ? existingSlug : deriveSlug(title);
 
     const payload = {
       title,
@@ -131,10 +141,9 @@ export default function DeckFormPage() {
     try {
       if (isEdit && deckId) {
         await updateDeck(deckId, payload);
-        setSavedDeckId(deckId);
       } else {
         const created = await createDeck(payload);
-        setSavedDeckId(created.id);
+        setCreatedDeckId(created.id);
         navigate(`/decks/${created.id}/edit`, { replace: true });
         setSaving(false);
         return;
@@ -148,7 +157,10 @@ export default function DeckFormPage() {
 
   if (loading) return <LoadingSpinner />;
 
-  const previewUrl = savedDeckId ? `/decks/${savedDeckId}/preview` : null;
+  // In edit mode always point at the current route param; in create mode point at the
+  // newly-created deck id (only available after the first successful save).
+  const resolvedDeckId = deckId ?? createdDeckId;
+  const previewUrl = resolvedDeckId ? `/decks/${resolvedDeckId}/preview` : null;
   const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
   const shareUrl = existingSlug
     ? `${window.location.origin}${baseUrl}/view/${existingSlug}`
@@ -316,7 +328,7 @@ export default function DeckFormPage() {
                 setSaving(true);
                 setError(null);
                 const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
-                const slug = existingSlug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || `deck-${Date.now()}`;
+                const slug = existingSlug || deriveSlug(title);
                 const payload = {
                   title, projectName, audienceType, status, slug,
                   subtitle: subtitle || undefined,
@@ -324,8 +336,8 @@ export default function DeckFormPage() {
                   templateId, sections, assetIds: [],
                 };
                 try {
-                  if (savedDeckId) {
-                    await updateDeck(savedDeckId, payload);
+                  if (resolvedDeckId) {
+                    await updateDeck(resolvedDeckId, payload);
                   }
                 } catch (err) {
                   setError(err instanceof Error ? err.message : "Failed to save sections.");

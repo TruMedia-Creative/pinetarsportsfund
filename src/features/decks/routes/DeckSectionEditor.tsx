@@ -299,7 +299,7 @@ function ExecutiveSummaryEditor({
             <div key={idx} className="flex items-center gap-2">
               <span className="w-6 text-center text-xs font-medium text-gray-500">{String(item.number).padStart(2, "0")}</span>
               <TextInput value={item.label} onChange={(v) => updateTocItem(idx, v)} placeholder="Section label" />
-              <button type="button" onClick={() => removeTocItem(idx)} className="text-xs text-red-500 hover:text-red-700">✕</button>
+              <button type="button" onClick={() => removeTocItem(idx)} aria-label="Remove table of contents item" className="text-xs text-red-500 hover:text-red-700">✕</button>
             </div>
           ))}
           <button type="button" onClick={addTocItem} className="text-xs text-indigo-600 hover:underline">+ Add item</button>
@@ -329,7 +329,7 @@ function ExecutiveSummaryEditor({
                   />
                   Highlight
                 </label>
-                <button type="button" onClick={() => removeReturnRow(idx)} className="text-xs text-red-500 hover:text-red-700">✕</button>
+                <button type="button" onClick={() => removeReturnRow(idx)} aria-label="Remove returns row" className="text-xs text-red-500 hover:text-red-700">✕</button>
               </div>
             ))}
             <button type="button" onClick={addReturnRow} className="text-xs text-indigo-600 hover:underline">+ Add row</button>
@@ -394,7 +394,7 @@ function UseOfFundsEditor({
             <div key={idx} className="flex items-center gap-2">
               <TextInput value={row.category} onChange={(v) => updateRow(idx, "category", v)} placeholder="Category (e.g. Land Acquisition)" />
               <TextInput value={row.amount} onChange={(v) => updateRow(idx, "amount", v)} placeholder="Amount (e.g. $470,000)" />
-              <button type="button" onClick={() => removeRow(idx)} className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
+              <button type="button" onClick={() => removeRow(idx)} aria-label="Remove allocation row" className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
             </div>
           ))}
           <button type="button" onClick={addRow} className="text-xs text-indigo-600 hover:underline">+ Add row</button>
@@ -419,7 +419,7 @@ function UseOfFundsEditor({
             <div key={idx} className="rounded border border-gray-200 p-2 space-y-2">
               <div className="flex items-center gap-2">
                 <TextInput value={h.title} onChange={(v) => updateHighlight(idx, "title", v)} placeholder="Callout title" />
-                <button type="button" onClick={() => removeHighlight(idx)} className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
+                <button type="button" onClick={() => removeHighlight(idx)} aria-label="Remove callout" className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
               </div>
               <TextArea value={h.body} onChange={(v) => updateHighlight(idx, "body", v)} placeholder="Callout body text" rows={2} />
             </div>
@@ -498,7 +498,7 @@ function ReturnsEditor({
                   <FieldLabel>Description</FieldLabel>
                   <TextArea value={item.description} onChange={(v) => updateTimelineItem(idx, "description", v)} rows={2} placeholder="Description of this phase..." />
                 </div>
-                <button type="button" onClick={() => removeTimelineItem(idx)} className="self-start text-xs text-red-500 hover:text-red-700">✕</button>
+                <button type="button" onClick={() => removeTimelineItem(idx)} aria-label="Remove timeline item" className="self-start text-xs text-red-500 hover:text-red-700">✕</button>
               </div>
             </div>
           ))}
@@ -513,7 +513,7 @@ function ReturnsEditor({
             <div key={idx} className="flex items-center gap-2">
               <TextInput value={m.value} onChange={(v) => updateMetric(idx, "value", v)} placeholder="9%" />
               <TextInput value={m.label} onChange={(v) => updateMetric(idx, "label", v)} placeholder="PREFERRED RETURN" />
-              <button type="button" onClick={() => removeMetric(idx)} className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
+              <button type="button" onClick={() => removeMetric(idx)} aria-label="Remove metric" className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
             </div>
           ))}
           <button type="button" onClick={addMetric} className="text-xs text-indigo-600 hover:underline">+ Add metric</button>
@@ -669,7 +669,7 @@ function ProjectionsEditor({
             <div key={idx} className="flex items-center gap-2">
               <TextInput value={row.label} onChange={(v) => updateRow(idx, "label", v)} placeholder="Label (e.g. Year 1 Revenue)" />
               <TextInput value={row.value} onChange={(v) => updateRow(idx, "value", v)} placeholder="Value (e.g. $1.2M)" />
-              <button type="button" onClick={() => removeRow(idx)} className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
+              <button type="button" onClick={() => removeRow(idx)} aria-label="Remove projection row" className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
             </div>
           ))}
           <button type="button" onClick={addRow} className="text-xs text-indigo-600 hover:underline">+ Add row</button>
@@ -683,7 +683,7 @@ function ProjectionsEditor({
             <div key={idx} className="flex items-center gap-2">
               <TextInput value={m.value} onChange={(v) => updateMetric(idx, "value", v)} placeholder="Value (e.g. $600K)" />
               <TextInput value={m.label} onChange={(v) => updateMetric(idx, "label", v)} placeholder="Label (e.g. Annual NOI)" />
-              <button type="button" onClick={() => removeMetric(idx)} className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
+              <button type="button" onClick={() => removeMetric(idx)} aria-label="Remove metric" className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
             </div>
           ))}
           <button type="button" onClick={addMetric} className="text-xs text-indigo-600 hover:underline">+ Add metric</button>
@@ -733,7 +733,7 @@ function GenericEditor({
           {bullets.map((b, idx) => (
             <div key={idx} className="flex items-center gap-2">
               <TextInput value={b} onChange={(v) => updateBullet(idx, v)} placeholder="Bullet point..." />
-              <button type="button" onClick={() => removeBullet(idx)} className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
+              <button type="button" onClick={() => removeBullet(idx)} aria-label="Remove bullet point" className="shrink-0 text-xs text-red-500 hover:text-red-700">✕</button>
             </div>
           ))}
           <button type="button" onClick={addBullet} className="text-xs text-indigo-600 hover:underline">+ Add bullet</button>
@@ -865,6 +865,7 @@ function SectionCard({
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
+          aria-label={open ? "Collapse section" : "Expand section"}
           className="text-gray-400 hover:text-gray-600"
         >
           {open ? "▲" : "▼"}
