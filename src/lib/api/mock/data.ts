@@ -1,5 +1,7 @@
 import type { Tenant } from "../../../features/tenants/model";
 import type { EventData } from "../../../features/events/model";
+import { defaultTemplates } from "../../../features/templates/model";
+import type { Template } from "../../../features/templates/model";
 
 export const mockTenants: Tenant[] = [
   {
@@ -283,3 +285,5 @@ export const mockEvents: EventData[] = [
     ],
   },
 ];
+
+export const mockTemplates: Template[] = defaultTemplates;
