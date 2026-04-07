@@ -7,24 +7,36 @@ export type AudienceType =
 
 export type SectionType =
   | "cover"
-  | "executive-summary"
-  | "investment-thesis"
-  | "market"
+  | "executive_summary"
+  | "investment_thesis"
   | "opportunity"
-  | "project-overview"
-  | "use-of-funds"
+  | "market"
+  | "project_overview"
+  | "team"
+  | "use_of_funds"
   | "returns"
   | "projections"
-  | "team"
-  | "risks-disclaimer"
-  | "closing-cta";
+  | "risks_disclaimer"
+  | "closing_cta";
 
-export interface SectionDefinition {
+export interface SectionTemplate {
+  id: string;
   type: SectionType;
-  defaultTitle: string;
-  defaultContent?: string;
-  isRequired: boolean;
+  title: string;
+  isEnabled: boolean;
   sortOrder: number;
+  content: Record<string, unknown>;
+}
+
+export interface TemplateSectionDefinition {
+  id: string;
+  type: SectionType;
+  title: string;
+  description?: string;
+  isRequired: boolean;
+  defaultEnabled: boolean;
+  sortOrder: number;
+  defaultContent: Record<string, unknown>;
 }
 
 export interface ThemeOverrides {
@@ -33,11 +45,11 @@ export interface ThemeOverrides {
   fontFamily?: string;
 }
 
-export interface Template {
+export interface SlideTemplate {
   id: string;
   name: string;
   description: string;
   supportedAudienceTypes: AudienceType[];
-  sectionDefinitions: SectionDefinition[];
+  sectionDefinitions: TemplateSectionDefinition[];
   themeOverrides?: ThemeOverrides;
 }

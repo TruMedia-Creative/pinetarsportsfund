@@ -10,26 +10,48 @@ export const audienceTypeSchema = z.enum([
 
 export const sectionTypeSchema = z.enum([
   "cover",
-  "executive-summary",
-  "investment-thesis",
-  "market",
+  "executive_summary",
+  "investment_thesis",
   "opportunity",
-  "project-overview",
-  "use-of-funds",
+  "market",
+  "project_overview",
+  "team",
+  "use_of_funds",
   "returns",
   "projections",
-  "team",
-  "risks-disclaimer",
-  "closing-cta",
+  "risks_disclaimer",
+  "closing_cta",
 ]);
 
-export const sectionDefinitionSchema = z.object({
+export type AudienceTypeInput = z.infer<typeof audienceTypeSchema>;
+
+export type SectionTypeInput = z.infer<typeof sectionTypeSchema>;
+
+export const sectionTemplateSchema = z.object({
+  id: z.string(),
   type: sectionTypeSchema,
-  defaultTitle: z.string().min(1),
-  defaultContent: z.string().optional(),
-  isRequired: z.boolean(),
+  title: z.string().min(1),
+  isEnabled: z.boolean(),
   sortOrder: z.number().int().nonnegative(),
+  content: z.record(z.string(), z.unknown()),
 });
+
+export type SectionTemplateInput = z.infer<typeof sectionTemplateSchema>;
+
+export const templateSectionDefinitionSchema = z.object({
+  id: z.string(),
+  type: sectionTypeSchema,
+  title: z.string().min(1),
+  description: z.string().optional(),
+  isRequired: z.boolean(),
+  defaultEnabled: z.boolean(),
+  sortOrder: z.number().int().nonnegative(),
+  defaultContent: z.record(z.string(), z.unknown()),
+});
+
+export type TemplateSectionDefinitionInput = z.infer<
+  typeof templateSectionDefinitionSchema
+>;
 
 export const themeOverridesSchema = z.object({
   primaryColor: z.string().optional(),
@@ -37,13 +59,15 @@ export const themeOverridesSchema = z.object({
   fontFamily: z.string().optional(),
 });
 
-export const templateSchema = z.object({
-  id: z.string().min(1),
+export type ThemeOverridesInput = z.infer<typeof themeOverridesSchema>;
+
+export const slideTemplateSchema = z.object({
+  id: z.string(),
   name: z.string().min(1),
   description: z.string().min(1),
   supportedAudienceTypes: z.array(audienceTypeSchema).min(1),
-  sectionDefinitions: z.array(sectionDefinitionSchema).min(1),
+  sectionDefinitions: z.array(templateSectionDefinitionSchema),
   themeOverrides: themeOverridesSchema.optional(),
 });
 
-export type TemplateInput = z.infer<typeof templateSchema>;
+export type SlideTemplateInput = z.infer<typeof slideTemplateSchema>;
