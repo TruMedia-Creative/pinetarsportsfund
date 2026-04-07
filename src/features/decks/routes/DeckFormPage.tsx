@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
-import { defaultTemplates } from "../../templates/model";
+import { defaultTemplates, AUDIENCE_LABELS } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
 import type { DeckStatus } from "../model";
 
@@ -19,13 +19,13 @@ const AUDIENCE_TEMPLATE_MAP: Partial<Record<AudienceType, string>> = Object.from
 );
 
 /** Only offer audience types that have an assigned template. */
-const AUDIENCE_OPTIONS: { value: AudienceType; label: string }[] = [
-  { value: "investor", label: "Investor" },
-  { value: "lender", label: "Lender" },
-  { value: "sponsor", label: "Sponsor" },
-  { value: "municipality", label: "Municipality" },
-  { value: "internal", label: "Internal" },
-].filter((o) => Boolean(AUDIENCE_TEMPLATE_MAP[o.value]));
+const ALL_AUDIENCE_OPTIONS = (
+  Object.keys(AUDIENCE_LABELS) as AudienceType[]
+).map((value) => ({ value, label: AUDIENCE_LABELS[value] }));
+
+const AUDIENCE_OPTIONS = ALL_AUDIENCE_OPTIONS.filter((o) =>
+  Boolean(AUDIENCE_TEMPLATE_MAP[o.value]),
+);
 
 const STATUS_OPTIONS: { value: DeckStatus; label: string }[] = [
   { value: "draft", label: "Draft" },
