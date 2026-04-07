@@ -49,6 +49,7 @@ export default function DeckFormPage() {
   const [status, setStatus] = useState<DeckStatus>("draft");
   const [subtitle, setSubtitle] = useState("");
   const [summary, setSummary] = useState("");
+  const [existingSlug, setExistingSlug] = useState("");
 
   useEffect(() => {
     if (!deckId) return;
@@ -65,6 +66,7 @@ export default function DeckFormPage() {
         setStatus(deck.status);
         setSubtitle(deck.subtitle ?? "");
         setSummary(deck.summary ?? "");
+        setExistingSlug(deck.slug);
         setLoading(false);
       })
       .catch(() => {
@@ -78,11 +80,23 @@ export default function DeckFormPage() {
     setSaving(true);
     setError(null);
 
-    const rawSlug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
-    const slug = rawSlug || `deck-${Date.now()}`;
+    const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
+    if (!templateId) {
+      setError("No template is available for the selected audience type.");
+      setSaving(false);
+      return;
+    }
+
+    // On create: derive slug from title. On edit: preserve the existing slug.
+    const slug = isEdit
+      ? existingSlug
+      : (() => {
+          const raw = title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+          return raw || `deck-${Date.now()}`;
+        })();
 
     const payload = {
       title,
@@ -92,7 +106,7 @@ export default function DeckFormPage() {
       slug,
       subtitle: subtitle || undefined,
       summary: summary || undefined,
-      templateId: AUDIENCE_TEMPLATE_MAP[audienceType] ?? "",
+      templateId,
       sections: [],
       assetIds: [],
     };

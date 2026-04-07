@@ -34,7 +34,10 @@ export function DeckListPage() {
         setLoading(false);
       })
       .catch(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setActionError("Failed to load decks. Please refresh and try again.");
+          setLoading(false);
+        }
       });
     return () => {
       cancelled = true;
