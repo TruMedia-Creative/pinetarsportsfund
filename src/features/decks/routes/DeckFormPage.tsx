@@ -2,8 +2,21 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
+import { defaultTemplates } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
 import type { DeckStatus } from "../model";
+
+/** Map each audience type to the first matching template's ID, if one exists. */
+const AUDIENCE_TEMPLATE_MAP: Partial<Record<AudienceType, string>> = Object.fromEntries(
+  (["investor", "lender", "sponsor", "municipality", "internal"] as AudienceType[]).map(
+    (audience) => {
+      const match = defaultTemplates.find((t) =>
+        t.supportedAudienceTypes.includes(audience),
+      );
+      return [audience, match?.id ?? ""];
+    },
+  ),
+);
 
 const AUDIENCE_OPTIONS: { value: AudienceType; label: string }[] = [
   { value: "investor", label: "Investor" },
@@ -77,7 +90,7 @@ export default function DeckFormPage() {
       slug,
       subtitle: subtitle || undefined,
       summary: summary || undefined,
-      templateId: `tpl-${audienceType}`,
+      templateId: AUDIENCE_TEMPLATE_MAP[audienceType] ?? "",
       sections: [],
       assetIds: [],
     };
