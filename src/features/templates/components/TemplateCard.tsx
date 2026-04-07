@@ -11,12 +11,19 @@ export function TemplateCard({ template, isSelected, onSelect }: TemplateCardPro
   const sectionCount = template.sectionDefinitions.length;
 
   return (
-    <button
-      type="button"
+    <div
+      role="radio"
+      aria-checked={isSelected}
+      tabIndex={0}
       onClick={() => onSelect(template.id)}
-      aria-pressed={isSelected}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(template.id);
+        }
+      }}
       className={[
-        "w-full rounded-lg border-2 p-5 text-left transition-colors",
+        "w-full cursor-pointer rounded-lg border-2 p-5 text-left transition-colors",
         isSelected
           ? "border-indigo-600 bg-indigo-50"
           : "border-gray-200 bg-white hover:border-indigo-300 hover:bg-gray-50",
@@ -46,6 +53,6 @@ export function TemplateCard({ template, isSelected, onSelect }: TemplateCardPro
           {sectionCount} section{sectionCount !== 1 ? "s" : ""}
         </span>
       </div>
-    </button>
+    </div>
   );
 }
