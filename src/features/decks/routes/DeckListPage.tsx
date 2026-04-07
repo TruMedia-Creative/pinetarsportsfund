@@ -129,6 +129,12 @@ export function DeckListPage() {
                     >
                       Edit
                     </Link>
+                    <Link
+                      to={`/decks/${deck.id}/preview`}
+                      className="rounded bg-teal-600 px-2 py-1 text-xs font-medium text-white hover:bg-teal-700"
+                    >
+                      Preview
+                    </Link>
                     <button
                       onClick={() => handleDelete(deck.id)}
                       className="rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700"
