@@ -23,6 +23,10 @@ export const sectionTypeSchema = z.enum([
   "closing_cta",
 ]);
 
+export type AudienceTypeInput = z.infer<typeof audienceTypeSchema>;
+
+export type SectionTypeInput = z.infer<typeof sectionTypeSchema>;
+
 export const sectionTemplateSchema = z.object({
   id: z.string(),
   type: sectionTypeSchema,
@@ -54,6 +58,8 @@ export const themeOverridesSchema = z.object({
   accentColor: z.string().optional(),
   fontFamily: z.string().optional(),
 });
+
+export type ThemeOverridesInput = z.infer<typeof themeOverridesSchema>;
 
 export const slideTemplateSchema = z.object({
   id: z.string(),
