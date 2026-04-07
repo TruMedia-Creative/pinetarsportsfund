@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import { defaultTemplates, AUDIENCE_LABELS, AUDIENCE_TYPES } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
 import type { DeckStatus } from "../model";
+import type { DeckSection } from "../model/types";
+import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
+import { DeckSectionEditor } from "./DeckSectionEditor";
 
 /** Map each audience type to the first matching template's ID, if one exists. */
 const AUDIENCE_TEMPLATE_MAP: Partial<Record<AudienceType, string>> = Object.fromEntries(
@@ -43,6 +46,7 @@ export default function DeckFormPage() {
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [savedDeckId, setSavedDeckId] = useState<string | null>(deckId ?? null);
 
   const [title, setTitle] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -51,6 +55,7 @@ export default function DeckFormPage() {
   const [subtitle, setSubtitle] = useState("");
   const [summary, setSummary] = useState("");
   const [existingSlug, setExistingSlug] = useState("");
+  const [sections, setSections] = useState<DeckSection[]>([]);
 
   useEffect(() => {
     if (!deckId) return;
@@ -68,6 +73,7 @@ export default function DeckFormPage() {
         setSubtitle(deck.subtitle ?? "");
         setSummary(deck.summary ?? "");
         setExistingSlug(deck.slug);
+        setSections(deck.sections);
         setLoading(false);
       })
       .catch(() => {
@@ -75,6 +81,16 @@ export default function DeckFormPage() {
         setLoading(false);
       });
   }, [deckId]);
+
+  /** Re-seed sections when audience type changes on a NEW deck. */
+  useEffect(() => {
+    if (isEdit) return;
+    const templateId = AUDIENCE_TEMPLATE_MAP[audienceType];
+    if (!templateId) return;
+    const template = defaultTemplates.find((t) => t.id === templateId);
+    if (!template) return;
+    setSections(createDeckSectionsFromTemplate(template));
+  }, [audienceType, isEdit]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -108,17 +124,22 @@ export default function DeckFormPage() {
       subtitle: subtitle || undefined,
       summary: summary || undefined,
       templateId,
-      sections: [],
+      sections,
       assetIds: [],
     };
 
     try {
       if (isEdit && deckId) {
         await updateDeck(deckId, payload);
+        setSavedDeckId(deckId);
       } else {
-        await createDeck(payload);
+        const created = await createDeck(payload);
+        setSavedDeckId(created.id);
+        navigate(`/decks/${created.id}/edit`, { replace: true });
+        setSaving(false);
+        return;
       }
-      navigate("/decks");
+      setSaving(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save deck.");
       setSaving(false);
@@ -127,15 +148,40 @@ export default function DeckFormPage() {
 
   if (loading) return <LoadingSpinner />;
 
+  const previewUrl = savedDeckId ? `/decks/${savedDeckId}/preview` : null;
+  const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const shareUrl = existingSlug
+    ? `${window.location.origin}${baseUrl}/view/${existingSlug}`
+    : null;
+
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">
-        {isEdit ? "Edit Deck" : "New Deck"}
-      </h1>
+    <div className="mx-auto max-w-3xl space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">
+          {isEdit ? "Edit Deck" : "New Deck"}
+        </h1>
+        {previewUrl && (
+          <Link
+            to={previewUrl}
+            className="inline-flex items-center rounded-lg border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
+          >
+            Preview →
+          </Link>
+        )}
+      </div>
 
       {error && (
         <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
           {error}
+        </div>
+      )}
+
+      {shareUrl && (
+        <div className="rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-800">
+          <strong>Shareable link:</strong>{" "}
+          <a href={shareUrl} target="_blank" rel="noreferrer" className="underline break-all">
+            {shareUrl}
+          </a>
         </div>
       )}
 
@@ -253,6 +299,55 @@ export default function DeckFormPage() {
           </button>
         </div>
       </form>
+
+      {/* Section editor — shown once the deck exists (edit mode or after creation) */}
+      {sections.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Deck Sections</h2>
+            <p className="text-xs text-gray-500">Toggle, reorder, and edit each section.</p>
+          </div>
+          <DeckSectionEditor sections={sections} onChange={setSections} />
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              disabled={saving}
+              onClick={async () => {
+                setSaving(true);
+                setError(null);
+                const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
+                const slug = existingSlug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || `deck-${Date.now()}`;
+                const payload = {
+                  title, projectName, audienceType, status, slug,
+                  subtitle: subtitle || undefined,
+                  summary: summary || undefined,
+                  templateId, sections, assetIds: [],
+                };
+                try {
+                  if (savedDeckId) {
+                    await updateDeck(savedDeckId, payload);
+                  }
+                } catch (err) {
+                  setError(err instanceof Error ? err.message : "Failed to save sections.");
+                } finally {
+                  setSaving(false);
+                }
+              }}
+              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+            >
+              {saving ? "Saving…" : "Save Sections"}
+            </button>
+            {previewUrl && (
+              <Link
+                to={previewUrl}
+                className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                View Preview
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

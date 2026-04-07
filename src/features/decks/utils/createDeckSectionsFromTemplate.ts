@@ -4,13 +4,14 @@ import type { SlideTemplate, TemplateSectionDefinition } from "../../templates/m
 /**
  * Converts a SlideTemplate into an array of default DeckSection objects.
  *
- * Only sections where `defaultEnabled` is true are included.
+ * Sections where `defaultEnabled` is explicitly set to `false` are excluded;
+ * all others (including those with `defaultEnabled` unset) are included.
  * Sections are returned in ascending `sortOrder`.
  * Client-side ids are generated with `crypto.randomUUID()`.
  */
 export function createDeckSectionsFromTemplate(template: SlideTemplate): DeckSection[] {
   return template.sectionDefinitions
-    .filter((def: TemplateSectionDefinition) => def.defaultEnabled)
+    .filter((def: TemplateSectionDefinition) => def.defaultEnabled !== false)
     .sort((a: TemplateSectionDefinition, b: TemplateSectionDefinition) => a.sortOrder - b.sortOrder)
     .map((def: TemplateSectionDefinition): DeckSection => ({
       id: crypto.randomUUID(),
@@ -18,6 +19,6 @@ export function createDeckSectionsFromTemplate(template: SlideTemplate): DeckSec
       title: def.defaultTitle,
       isEnabled: true,
       sortOrder: def.sortOrder,
-      content: {},
+      content: { body: def.defaultContent },
     }));
 }

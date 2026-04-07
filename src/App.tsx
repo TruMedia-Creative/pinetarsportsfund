@@ -2,9 +2,10 @@ import { BrowserRouter, Routes, Route, useParams, Navigate, useLocation } from "
 import type { ReactNode } from "react";
 import { TenantProvider, useTenant } from "./features/tenants";
 import { AppShell } from "./components/layout";
+import { PublicLayout } from "./components/layout";
 import { LoadingSpinner } from "./components/ui";
 import { DashboardPage } from "./features/dashboard/routes";
-import { DeckListPage, DeckFormPage } from "./features/decks/routes";
+import { DeckListPage, DeckFormPage, DeckPreviewPage } from "./features/decks/routes";
 import { AdminDashboardPage } from "./features/admin/routes";
 import { SettingsPage } from "./features/settings/routes";
 import { AuthProvider, useAuth, LoginPage } from "./features/auth";
@@ -54,8 +55,13 @@ function TenantRoutes() {
           <Route path="decks" element={<DeckListPage />} />
           <Route path="decks/new" element={<DeckFormPage />} />
           <Route path="decks/:deckId/edit" element={<DeckFormPage />} />
+          <Route path="decks/:deckId/preview" element={<DeckPreviewPage />} />
           <Route path="admin" element={<AdminDashboardPage />} />
           <Route path="settings" element={<SettingsPage />} />
+        </Route>
+        {/* Public shareable deck view — no auth required */}
+        <Route element={<PublicLayout />}>
+          <Route path="view/:slug" element={<DeckPreviewPage isPublic />} />
         </Route>
       </Routes>
     </TenantGate>
