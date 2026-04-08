@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
 import { getFinancialModels } from "../../../lib/api/mock/financials";
+import { getAssets } from "../../../lib/api/mock/assets";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import { defaultTemplates, AUDIENCE_LABELS, AUDIENCE_TYPES } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
 import type { DeckStatus, DeckTheme, SlideSpacing } from "../model";
 import type { FinancialModel } from "../../financials/model";
+import type { CreateFinancialModelInput } from "../../financials/model";
+import { createFinancialModel, updateFinancialModel } from "../../../lib/api/mock/financials";
+import { ForecastTable, ReturnsForm } from "../../financials";
+import type { Asset } from "../../assets/model";
 import { DECK_THEME_DEFAULTS } from "../model";
 import type { DeckSection } from "../model/types";
 import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
@@ -82,8 +87,10 @@ export default function DeckFormPage() {
   const [existingSlug, setExistingSlug] = useState("");
   const [sections, setSections] = useState<DeckSection[]>([]);
   const [assetIds, setAssetIds] = useState<string[]>([]);
+  const [assets, setAssets] = useState<Asset[]>([]);
   const [financialModels, setFinancialModels] = useState<FinancialModel[]>([]);
   const [financialModelId, setFinancialModelId] = useState("");
+  const [financialDraft, setFinancialDraft] = useState<FinancialModel | null>(null);
   const [theme, setTheme] = useState<DeckTheme>({ ...DECK_THEME_DEFAULTS });
 
   useEffect(() => {
@@ -92,7 +99,18 @@ export default function DeckFormPage() {
       .catch(() => {
         // non-blocking; form remains usable without linked models
       });
+
+    getAssets()
+      .then((all) => setAssets(all))
+      .catch(() => {
+        // non-blocking; deck editing still works
+      });
   }, []);
+
+  useEffect(() => {
+    const model = financialModels.find((m) => m.id === financialModelId) ?? null;
+    setFinancialDraft(model);
+  }, [financialModelId, financialModels]);
 
   useEffect(() => {
     if (!deckId) return;
@@ -201,6 +219,59 @@ export default function DeckFormPage() {
   const selectedFinancialModel = financialModels.find(
     (model) => model.id === financialModelId,
   );
+  const selectedAssets = assets.filter((asset) => assetIds.includes(asset.id));
+
+  async function handleSaveFinancialModel() {
+    if (!financialDraft) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const payload: Partial<CreateFinancialModelInput> = {
+        projectName: financialDraft.projectName,
+        minimumInvestment: financialDraft.minimumInvestment,
+        targetRaise: financialDraft.targetRaise,
+        preferredReturn: financialDraft.preferredReturn,
+        equityStructure: financialDraft.equityStructure,
+        useOfFunds: financialDraft.useOfFunds,
+        forecastRows: financialDraft.forecastRows,
+        assumptions: financialDraft.assumptions,
+        notes: financialDraft.notes,
+      };
+      const saved = await updateFinancialModel(financialDraft.id, payload);
+      setFinancialModels((prev) =>
+        prev.map((item) => (item.id === saved.id ? saved : item)),
+      );
+      setFinancialDraft(saved);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save financial model.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleCreateFinancialModel() {
+    setSaving(true);
+    setError(null);
+    try {
+      const created = await createFinancialModel({
+        projectName,
+        minimumInvestment: "$50,000",
+        targetRaise: "$0",
+        preferredReturn: "",
+        equityStructure: "",
+        useOfFunds: [],
+        forecastRows: [],
+        assumptions: "",
+        notes: "",
+      });
+      setFinancialModels((prev) => [created, ...prev]);
+      setFinancialModelId(created.id);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create financial model.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   function applyFinancialModelToSections() {
     if (!selectedFinancialModel) return;
@@ -419,6 +490,15 @@ export default function DeckFormPage() {
           <p className="text-xs text-gray-500">
             Link a model to reuse structured use-of-funds and projection data.
           </p>
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={handleCreateFinancialModel}
+              className="rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Create new model from this deck
+            </button>
+          </div>
           {selectedFinancialModel && (
             <div className="pt-2">
               <button
@@ -431,6 +511,24 @@ export default function DeckFormPage() {
             </div>
           )}
         </div>
+
+        {financialDraft && (
+          <div className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <h3 className="text-sm font-semibold text-gray-800">Financial Model Editor</h3>
+            <ReturnsForm model={financialDraft} onChange={setFinancialDraft} />
+            <ForecastTable model={financialDraft} onChange={setFinancialDraft} />
+            <div>
+              <button
+                type="button"
+                disabled={saving}
+                onClick={handleSaveFinancialModel}
+                className="rounded bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+              >
+                Save Financial Model
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* ── Appearance ─────────────────────────────────────────────────── */}
         <div className="border-t border-gray-100 pt-5">
@@ -584,6 +682,37 @@ export default function DeckFormPage() {
             assetIds={assetIds}
             onAssetIdsChange={setAssetIds}
           />
+
+          {assetIds.length > 0 && (
+            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <h3 className="mb-2 text-sm font-semibold text-gray-800">Assets Used by This Deck</h3>
+              <div className="space-y-2">
+                {assetIds.map((id) => {
+                  const asset = selectedAssets.find((item) => item.id === id);
+                  return (
+                    <div key={id} className="flex items-center justify-between rounded border border-gray-200 bg-white px-2 py-1.5">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-gray-800">
+                          {asset?.name ?? `Asset ${id}`}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {asset?.type ?? "unknown"}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setAssetIds((prev) => prev.filter((item) => item !== id))}
+                        className="text-xs text-red-500 hover:text-red-700"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <div className="flex gap-3 pt-2">
             <button
               type="button"

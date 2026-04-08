@@ -1,4 +1,11 @@
 import type { Asset, CreateAssetInput } from "../../../features/assets/model";
+import {
+  deleteRowById,
+  getRowById,
+  listRows,
+  seedTableFromLegacyOrDefaults,
+  upsertRow,
+} from "./sqlite";
 
 const STORAGE_KEY = "mock.assets";
 
@@ -25,25 +32,13 @@ const mockAssets: Asset[] = [
   },
 ];
 
-function loadAssets(): Asset[] {
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored) as Asset[];
-  } catch {
-    // ignore storage errors
-  }
-  return [...mockAssets];
-}
+let seeded = false;
 
-function saveAssets(data: Asset[]): void {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // ignore storage errors
-  }
+async function ensureSeeded(): Promise<void> {
+  if (seeded) return;
+  await seedTableFromLegacyOrDefaults("assets", STORAGE_KEY, mockAssets);
+  seeded = true;
 }
-
-const assets = loadAssets();
 
 function delay(ms = 100): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -51,16 +46,20 @@ function delay(ms = 100): Promise<void> {
 
 export async function getAssets(): Promise<Asset[]> {
   await delay();
+  await ensureSeeded();
+  const assets = await listRows<Asset>("assets");
   return [...assets];
 }
 
 export async function getAssetById(id: string): Promise<Asset | undefined> {
   await delay();
-  return assets.find((a) => a.id === id);
+  await ensureSeeded();
+  return getRowById<Asset>("assets", id);
 }
 
 export async function createAsset(data: CreateAssetInput): Promise<Asset> {
   await delay();
+  await ensureSeeded();
   const now = new Date().toISOString();
   const asset: Asset = {
     ...data,
@@ -68,17 +67,16 @@ export async function createAsset(data: CreateAssetInput): Promise<Asset> {
     createdAt: now,
     updatedAt: now,
   };
-  assets.unshift(asset);
-  saveAssets(assets);
+  await upsertRow("assets", asset);
   return asset;
 }
 
 export async function deleteAsset(id: string): Promise<void> {
   await delay();
-  const idx = assets.findIndex((a) => a.id === id);
-  if (idx === -1) {
+  await ensureSeeded();
+  const existing = await getRowById<Asset>("assets", id);
+  if (!existing) {
     throw new Error(`Asset not found: ${id}`);
   }
-  assets.splice(idx, 1);
-  saveAssets(assets);
+  await deleteRowById("assets", id);
 }

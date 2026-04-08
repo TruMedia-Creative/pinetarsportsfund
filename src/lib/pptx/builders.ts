@@ -9,6 +9,7 @@
 import PptxGenJS from "pptxgenjs";
 import type { Deck, DeckSection, DeckTheme } from "../../features/decks/model/types";
 import { DECK_THEME_DEFAULTS } from "../../features/decks/model/themeDefaults";
+import type { FinancialModel } from "../../features/financials/model";
 import type {
   CoverContent,
   ExecutiveSummaryContent,
@@ -39,6 +40,10 @@ interface PptxTheme {
   primary: string; // 6-char uppercase hex, no "#"
   accent:  string;
   header:  string;
+}
+
+interface BuildPptxOptions {
+  financialModel?: FinancialModel;
 }
 
 function toHex(color: string | undefined, fallback: string): string {
@@ -211,13 +216,20 @@ function renderUseOfFunds(
   _deck: Deck,
   section: DeckSection,
   t: PptxTheme,
+  financialModel?: FinancialModel,
 ): void {
   const sl = prs.addSlide();
   sl.background = { color: "F4F7FA" };
   addHeader(sl, section.title, t);
 
   const c = section.content as UseOfFundsContent;
-  const rows = c.allocationRows ?? [];
+  const rows =
+    c.allocationRows && c.allocationRows.length > 0
+      ? c.allocationRows
+      : financialModel?.useOfFunds?.map((row) => ({
+          category: row.category,
+          amount: row.amount,
+        })) ?? [];
   const highlights = c.highlights ?? [];
 
   if (c.body) {
@@ -277,6 +289,7 @@ function renderReturns(
   _deck: Deck,
   section: DeckSection,
   t: PptxTheme,
+  financialModel?: FinancialModel,
 ): void {
   const sl = prs.addSlide();
   sl.background = { color: "F4F7FA" };
@@ -285,8 +298,9 @@ function renderReturns(
   const c = section.content as ReturnsContent;
   let yCur = CY;
 
-  if (c.body) {
-    bodyText(sl, c.body, MX, yCur, CW, 0.55, { fontSize: 11 });
+  const body = c.body || financialModel?.notes || financialModel?.assumptions;
+  if (body) {
+    bodyText(sl, body, MX, yCur, CW, 0.55, { fontSize: 11 });
     yCur += 0.62;
   }
 
@@ -316,7 +330,23 @@ function renderReturns(
   }
 
   // Key metrics
-  const metrics = c.keyMetrics ?? [];
+  const metrics =
+    c.keyMetrics && c.keyMetrics.length > 0
+      ? c.keyMetrics
+      : [
+          {
+            value: financialModel?.preferredReturn ?? "",
+            label: "Preferred Return",
+          },
+          {
+            value: financialModel?.targetRaise ?? "",
+            label: "Target Raise",
+          },
+          {
+            value: financialModel?.minimumInvestment ?? "",
+            label: "Minimum Investment",
+          },
+        ].filter((metric) => metric.value);
   if (metrics.length > 0) {
     const count = Math.min(metrics.length, 4);
     const mW = Math.min(2.8, CW / count);
@@ -408,6 +438,7 @@ function renderProjections(
   _deck: Deck,
   section: DeckSection,
   t: PptxTheme,
+  financialModel?: FinancialModel,
 ): void {
   const sl = prs.addSlide();
   sl.background = { color: "F4F7FA" };
@@ -416,12 +447,19 @@ function renderProjections(
   const c = section.content as ProjectionsContent;
   let yCur = CY;
 
-  if (c.body) {
-    bodyText(sl, c.body, MX, yCur, CW, 0.55, { fontSize: 11 });
+  const body = c.body || financialModel?.assumptions;
+  if (body) {
+    bodyText(sl, body, MX, yCur, CW, 0.55, { fontSize: 11 });
     yCur += 0.62;
   }
 
-  const rows = c.rows ?? [];
+  const rows =
+    c.rows && c.rows.length > 0
+      ? c.rows
+      : financialModel?.forecastRows?.map((row) => ({
+          label: row.label,
+          value: row.value,
+        })) ?? [];
   const metrics = c.metrics ?? [];
 
   const tableW = metrics.length > 0 ? CW * 0.6 : CW * 0.75;
@@ -493,20 +531,26 @@ function renderGeneric(
 
 // ─── Section dispatcher ───────────────────────────────────────────────────────
 
-function renderSection(prs: PptxGenJS, deck: Deck, section: DeckSection, t: PptxTheme): void {
+function renderSection(
+  prs: PptxGenJS,
+  deck: Deck,
+  section: DeckSection,
+  t: PptxTheme,
+  financialModel?: FinancialModel,
+): void {
   switch (section.type) {
     case "cover":
       return renderCover(prs, deck, section, t);
     case "executive_summary":
       return renderExecutiveSummary(prs, deck, section, t);
     case "use_of_funds":
-      return renderUseOfFunds(prs, deck, section, t);
+      return renderUseOfFunds(prs, deck, section, t, financialModel);
     case "returns":
-      return renderReturns(prs, deck, section, t);
+      return renderReturns(prs, deck, section, t, financialModel);
     case "team":
       return renderTeam(prs, deck, section, t);
     case "projections":
-      return renderProjections(prs, deck, section, t);
+      return renderProjections(prs, deck, section, t, financialModel);
     default:
       return renderGeneric(prs, deck, section, t);
   }
@@ -518,7 +562,7 @@ function renderSection(prs: PptxGenJS, deck: Deck, section: DeckSection, t: Pptx
  * Builds a PPTX presentation from a Deck and triggers a browser download.
  * Skips disabled sections and respects sortOrder.
  */
-export async function buildPptx(deck: Deck): Promise<void> {
+export async function buildPptx(deck: Deck, options: BuildPptxOptions = {}): Promise<void> {
   const prs = new PptxGenJS();
   prs.layout  = "LAYOUT_WIDE";
   prs.author  = "Pine Tar Sports Fund";
@@ -547,7 +591,7 @@ export async function buildPptx(deck: Deck): Promise<void> {
     });
   } else {
     for (const section of sections) {
-      renderSection(prs, deck, section, t);
+      renderSection(prs, deck, section, t, options.financialModel);
     }
   }
 

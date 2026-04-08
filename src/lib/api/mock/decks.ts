@@ -1,4 +1,11 @@
 import type { Deck, CreateDeckInput } from "../../../features/decks/model";
+import {
+  deleteRowById,
+  getRowById,
+  listRows,
+  seedTableFromLegacyOrDefaults,
+  upsertRow,
+} from "./sqlite";
 
 const STORAGE_KEY = "mock.decks";
 
@@ -451,25 +458,13 @@ export const mockDecks: Deck[] = [
   },
 ];
 
-function loadDecks(): Deck[] {
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored) as Deck[];
-  } catch {
-    // ignore storage errors
-  }
-  return [...mockDecks];
-}
+let seeded = false;
 
-function saveDecks(data: Deck[]): void {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // ignore storage errors
-  }
+async function ensureSeeded(): Promise<void> {
+  if (seeded) return;
+  await seedTableFromLegacyOrDefaults("decks", STORAGE_KEY, mockDecks);
+  seeded = true;
 }
-
-const decks: Deck[] = loadDecks();
 
 function delay(ms = 100): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -477,16 +472,20 @@ function delay(ms = 100): Promise<void> {
 
 export async function getDecks(): Promise<Deck[]> {
   await delay();
+  await ensureSeeded();
+  const decks = await listRows<Deck>("decks");
   return [...decks];
 }
 
 export async function getDeckById(id: string): Promise<Deck | undefined> {
   await delay();
-  return decks.find((d) => d.id === id);
+  await ensureSeeded();
+  return getRowById<Deck>("decks", id);
 }
 
 export async function createDeck(data: CreateDeckInput): Promise<Deck> {
   await delay();
+  await ensureSeeded();
   const now = new Date().toISOString();
   const deck: Deck = {
     ...data,
@@ -494,8 +493,7 @@ export async function createDeck(data: CreateDeckInput): Promise<Deck> {
     createdAt: now,
     updatedAt: now,
   };
-  decks.push(deck);
-  saveDecks(decks);
+  await upsertRow("decks", deck);
   return deck;
 }
 
@@ -504,21 +502,26 @@ export async function updateDeck(
   data: Partial<CreateDeckInput>,
 ): Promise<Deck> {
   await delay();
-  const index = decks.findIndex((d) => d.id === id);
-  if (index === -1) {
+  await ensureSeeded();
+  const existing = await getRowById<Deck>("decks", id);
+  if (!existing) {
     throw new Error(`Deck not found: ${id}`);
   }
-  decks[index] = { ...decks[index], ...data, updatedAt: new Date().toISOString() };
-  saveDecks(decks);
-  return decks[index];
+  const updated: Deck = {
+    ...existing,
+    ...data,
+    updatedAt: new Date().toISOString(),
+  };
+  await upsertRow("decks", updated);
+  return updated;
 }
 
 export async function deleteDeck(id: string): Promise<void> {
   await delay();
-  const index = decks.findIndex((d) => d.id === id);
-  if (index === -1) {
+  await ensureSeeded();
+  const existing = await getRowById<Deck>("decks", id);
+  if (!existing) {
     throw new Error(`Deck not found: ${id}`);
   }
-  decks.splice(index, 1);
-  saveDecks(decks);
+  await deleteRowById("decks", id);
 }

@@ -2,6 +2,13 @@ import type {
   CreateFinancialModelInput,
   FinancialModel,
 } from "../../../features/financials/model";
+import {
+  deleteRowById,
+  getRowById,
+  listRows,
+  seedTableFromLegacyOrDefaults,
+  upsertRow,
+} from "./sqlite";
 
 const STORAGE_KEY = "mock.financial-models";
 
@@ -34,25 +41,17 @@ const mockFinancialModels: FinancialModel[] = [
   },
 ];
 
-function loadFinancialModels(): FinancialModel[] {
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored) as FinancialModel[];
-  } catch {
-    // ignore storage errors
-  }
-  return [...mockFinancialModels];
-}
+let seeded = false;
 
-function saveFinancialModels(data: FinancialModel[]): void {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // ignore storage errors
-  }
+async function ensureSeeded(): Promise<void> {
+  if (seeded) return;
+  await seedTableFromLegacyOrDefaults(
+    "financial_models",
+    STORAGE_KEY,
+    mockFinancialModels,
+  );
+  seeded = true;
 }
-
-const financialModels = loadFinancialModels();
 
 function delay(ms = 100): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -60,6 +59,8 @@ function delay(ms = 100): Promise<void> {
 
 export async function getFinancialModels(): Promise<FinancialModel[]> {
   await delay();
+  await ensureSeeded();
+  const financialModels = await listRows<FinancialModel>("financial_models");
   return [...financialModels];
 }
 
@@ -67,13 +68,15 @@ export async function getFinancialModelById(
   id: string,
 ): Promise<FinancialModel | undefined> {
   await delay();
-  return financialModels.find((model) => model.id === id);
+  await ensureSeeded();
+  return getRowById<FinancialModel>("financial_models", id);
 }
 
 export async function createFinancialModel(
   data: CreateFinancialModelInput,
 ): Promise<FinancialModel> {
   await delay();
+  await ensureSeeded();
   const now = new Date().toISOString();
   const model: FinancialModel = {
     ...data,
@@ -81,8 +84,7 @@ export async function createFinancialModel(
     createdAt: now,
     updatedAt: now,
   };
-  financialModels.unshift(model);
-  saveFinancialModels(financialModels);
+  await upsertRow("financial_models", model);
   return model;
 }
 
@@ -91,25 +93,26 @@ export async function updateFinancialModel(
   data: Partial<CreateFinancialModelInput>,
 ): Promise<FinancialModel> {
   await delay();
-  const idx = financialModels.findIndex((model) => model.id === id);
-  if (idx === -1) {
+  await ensureSeeded();
+  const existing = await getRowById<FinancialModel>("financial_models", id);
+  if (!existing) {
     throw new Error(`Financial model not found: ${id}`);
   }
-  financialModels[idx] = {
-    ...financialModels[idx],
+  const updated: FinancialModel = {
+    ...existing,
     ...data,
     updatedAt: new Date().toISOString(),
   };
-  saveFinancialModels(financialModels);
-  return financialModels[idx];
+  await upsertRow("financial_models", updated);
+  return updated;
 }
 
 export async function deleteFinancialModel(id: string): Promise<void> {
   await delay();
-  const idx = financialModels.findIndex((model) => model.id === id);
-  if (idx === -1) {
+  await ensureSeeded();
+  const existing = await getRowById<FinancialModel>("financial_models", id);
+  if (!existing) {
     throw new Error(`Financial model not found: ${id}`);
   }
-  financialModels.splice(idx, 1);
-  saveFinancialModels(financialModels);
+  await deleteRowById("financial_models", id);
 }

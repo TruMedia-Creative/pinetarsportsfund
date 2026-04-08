@@ -1,4 +1,5 @@
 import { buildPptx } from "../../../lib/pptx";
+import { getFinancialModelById } from "../../../lib/api/mock/financials";
 import type { Deck } from "../../decks/model";
 
 /**
@@ -7,5 +8,8 @@ import type { Deck } from "../../decks/model";
  * the PPTX builder or the export UI.
  */
 export async function exportDeckAsPptx(deck: Deck): Promise<void> {
-  return buildPptx(deck);
+  const financialModel = deck.financialModelId
+    ? await getFinancialModelById(deck.financialModelId)
+    : undefined;
+  return buildPptx(deck, { financialModel });
 }
