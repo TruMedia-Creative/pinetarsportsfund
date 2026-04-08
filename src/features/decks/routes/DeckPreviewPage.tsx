@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getDeckById, getDecks } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
-import type { Deck, DeckSection } from "../model/types";
+import type { Deck, DeckSection, DeckTheme } from "../model/types";
+import { DECK_THEME_DEFAULTS } from "../model";
 import type {
   CoverContent,
   ExecutiveSummaryContent,
@@ -14,40 +15,65 @@ import type {
   ImageGalleryItem,
 } from "../model/contentTypes";
 
-/* ─────────────────────── Brand colours ─────────────────────────────────── */
-const NAVY = "#0d2b6b";
-const RED = "#c0262d";
+/* ─────────────────────── Brand colours (defaults) ──────────────────────── */
 const TEAL_HEADER = "#3d6b7c";
+
+/* ─────────────────────── Theme helpers ─────────────────────────────────── */
+
+interface ResolvedTheme {
+  backgroundColor: string;
+  primaryColor: string;
+  accentColor: string;
+  headerColor: string;
+  slideSpacingPx: number;
+}
+
+function resolveTheme(theme: DeckTheme | undefined): ResolvedTheme {
+  return {
+    backgroundColor: theme?.backgroundColor ?? DECK_THEME_DEFAULTS.backgroundColor,
+    primaryColor: theme?.primaryColor ?? DECK_THEME_DEFAULTS.primaryColor,
+    accentColor: theme?.accentColor ?? DECK_THEME_DEFAULTS.accentColor,
+    headerColor: TEAL_HEADER,
+    slideSpacingPx:
+      (theme?.slideSpacing ?? DECK_THEME_DEFAULTS.slideSpacing) === "compact"
+        ? 12
+        : (theme?.slideSpacing ?? DECK_THEME_DEFAULTS.slideSpacing) === "relaxed"
+          ? 48
+          : 32,
+  };
+}
 
 /* ─────────────────────── Utility components ────────────────────────────── */
 
 function SectionWrapper({
   children,
   className = "",
+  marginBottom,
 }: {
   children: React.ReactNode;
   className?: string;
+  marginBottom?: number;
 }) {
   return (
     <section
       className={`mx-auto max-w-5xl rounded-xl bg-white shadow-md ${className}`}
-      style={{ marginBottom: "2rem" }}
+      style={{ marginBottom: marginBottom !== undefined ? `${marginBottom}px` : "2rem" }}
     >
       {children}
     </section>
   );
 }
 
-function SectionTitle({ title }: { title: string }) {
+function SectionTitle({ title, primaryColor, accentColor }: { title: string; primaryColor: string; accentColor: string }) {
   return (
     <div>
       <h2
         className="mb-2 text-2xl font-black uppercase tracking-tight"
-        style={{ color: NAVY }}
+        style={{ color: primaryColor }}
       >
         {title}
       </h2>
-      <div className="mb-6 h-1 w-full" style={{ backgroundColor: RED }} />
+      <div className="mb-6 h-1 w-full" style={{ backgroundColor: accentColor }} />
     </div>
   );
 }
@@ -81,12 +107,12 @@ function PhotoGallery({ images }: { images: ImageGalleryItem[] }) {
 
 /* ─────────────────────── Section renderers ─────────────────────────────── */
 
-function CoverSection({ section, deck }: { section: DeckSection; deck: Deck }) {
+function CoverSection({ section, deck, theme }: { section: DeckSection; deck: Deck; theme: ResolvedTheme }) {
   const c = section.content as CoverContent;
   return (
     <div
-      className="overflow-hidden rounded-xl shadow-lg"
-      style={{ minHeight: 360 }}
+      className="mx-auto max-w-5xl overflow-hidden rounded-xl shadow-lg"
+      style={{ minHeight: 360, marginBottom: theme.slideSpacingPx }}
     >
       <div className="flex" style={{ minHeight: 360 }}>
         {/* Left panel */}
@@ -97,29 +123,29 @@ function CoverSection({ section, deck }: { section: DeckSection; deck: Deck }) {
           <div>
             <h1
               className="mb-2 text-4xl font-black uppercase leading-tight"
-              style={{ color: NAVY }}
+              style={{ color: theme.primaryColor }}
             >
               {deck.projectName}
             </h1>
             {c.tagline && (
-              <p className="mb-4 text-xl font-bold" style={{ color: RED }}>
+              <p className="mb-4 text-xl font-bold" style={{ color: theme.accentColor }}>
                 {c.tagline}
               </p>
             )}
             {c.body && (
-              <div className="mb-6 border-l-4 pl-4" style={{ borderColor: "#3d6b7c" }}>
+              <div className="mb-6 border-l-4 pl-4" style={{ borderColor: theme.headerColor }}>
                 <p className="text-sm leading-relaxed text-gray-600">{c.body}</p>
               </div>
             )}
           </div>
           <div>
             {c.contactName && (
-              <p className="font-bold" style={{ color: NAVY }}>
+              <p className="font-bold" style={{ color: theme.primaryColor }}>
                 {c.contactName}
               </p>
             )}
             {c.company && (
-              <p className="font-semibold" style={{ color: RED }}>
+              <p className="font-semibold" style={{ color: theme.accentColor }}>
                 {c.company}
               </p>
             )}
@@ -154,17 +180,17 @@ function CoverSection({ section, deck }: { section: DeckSection; deck: Deck }) {
   );
 }
 
-function ExecutiveSummarySection({ section }: { section: DeckSection }) {
+function ExecutiveSummarySection({ section, theme }: { section: DeckSection; theme: ResolvedTheme }) {
   const c = section.content as ExecutiveSummaryContent;
   const toc = c.tableOfContents ?? [];
   const returnRows = c.returnsTableRows ?? [];
 
   return (
-    <SectionWrapper className="p-10">
+    <SectionWrapper className="p-10" marginBottom={theme.slideSpacingPx}>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Left */}
         <div>
-          <SectionTitle title={section.title} />
+          <SectionTitle title={section.title} primaryColor={theme.primaryColor} accentColor={theme.accentColor} />
           {c.body && <p className="mb-6 text-sm leading-relaxed text-gray-600">{c.body}</p>}
           {toc.length > 0 && (
             <div>
@@ -193,10 +219,10 @@ function ExecutiveSummarySection({ section }: { section: DeckSection }) {
           {returnRows.length > 0 && (
             <div
               className="rounded-lg border p-5"
-              style={{ borderColor: NAVY }}
+              style={{ borderColor: theme.primaryColor }}
             >
               {c.returnsTableTitle && (
-                <h3 className="mb-4 text-sm font-black uppercase tracking-wide" style={{ color: NAVY }}>
+                <h3 className="mb-4 text-sm font-black uppercase tracking-wide" style={{ color: theme.primaryColor }}>
                   {c.returnsTableTitle}
                 </h3>
               )}
@@ -205,7 +231,7 @@ function ExecutiveSummarySection({ section }: { section: DeckSection }) {
                   {returnRows.map((row, idx) => (
                     <tr key={idx} className={row.highlight ? "font-semibold" : ""} style={row.highlight ? { backgroundColor: "#fef2f2" } : {}}>
                       <td className="py-1.5 text-sm text-gray-700">{row.label}</td>
-                      <td className="py-1.5 text-right text-sm font-bold" style={{ color: row.highlight ? RED : NAVY }}>
+                      <td className="py-1.5 text-right text-sm font-bold" style={{ color: row.highlight ? theme.accentColor : theme.primaryColor }}>
                         {row.value}
                       </td>
                     </tr>
@@ -220,14 +246,14 @@ function ExecutiveSummarySection({ section }: { section: DeckSection }) {
   );
 }
 
-function UseOfFundsSection({ section }: { section: DeckSection }) {
+function UseOfFundsSection({ section, theme }: { section: DeckSection; theme: ResolvedTheme }) {
   const c = section.content as UseOfFundsContent;
   const rows = c.allocationRows ?? [];
   const highlights = c.highlights ?? [];
 
   return (
-    <SectionWrapper className="p-10">
-      <SectionTitle title={section.title} />
+    <SectionWrapper className="p-10" marginBottom={theme.slideSpacingPx}>
+      <SectionTitle title={section.title} primaryColor={theme.primaryColor} accentColor={theme.accentColor} />
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Allocation table */}
         <div>
@@ -235,11 +261,11 @@ function UseOfFundsSection({ section }: { section: DeckSection }) {
           {rows.length > 0 && (
             <table className="w-full">
               <thead>
-                <tr className="border-b-2" style={{ borderColor: NAVY }}>
-                  <th className="pb-2 text-left text-xs font-black uppercase tracking-wide" style={{ color: NAVY }}>
+                <tr className="border-b-2" style={{ borderColor: theme.primaryColor }}>
+                  <th className="pb-2 text-left text-xs font-black uppercase tracking-wide" style={{ color: theme.primaryColor }}>
                     Allocation Category
                   </th>
-                  <th className="pb-2 text-right text-xs font-black uppercase tracking-wide" style={{ color: RED }}>
+                  <th className="pb-2 text-right text-xs font-black uppercase tracking-wide" style={{ color: theme.accentColor }}>
                     Amount (USD)
                   </th>
                 </tr>
@@ -248,7 +274,7 @@ function UseOfFundsSection({ section }: { section: DeckSection }) {
                 {rows.map((row, idx) => (
                   <tr key={idx} className="border-b border-gray-100">
                     <td className="py-2 text-sm text-gray-700">{row.category}</td>
-                    <td className="py-2 text-right text-sm font-semibold" style={{ color: RED }}>
+                    <td className="py-2 text-right text-sm font-semibold" style={{ color: theme.accentColor }}>
                       {row.amount}
                     </td>
                   </tr>
@@ -257,8 +283,8 @@ function UseOfFundsSection({ section }: { section: DeckSection }) {
               {(c.totalLabel || c.totalAmount) && (
                 <tfoot>
                   <tr>
-                    <td className="pt-3 text-sm font-black" style={{ color: NAVY }}>{c.totalLabel}</td>
-                    <td className="pt-3 text-right text-sm font-black" style={{ color: NAVY }}>{c.totalAmount}</td>
+                    <td className="pt-3 text-sm font-black" style={{ color: theme.primaryColor }}>{c.totalLabel}</td>
+                    <td className="pt-3 text-right text-sm font-black" style={{ color: theme.primaryColor }}>{c.totalAmount}</td>
                   </tr>
                 </tfoot>
               )}
@@ -271,8 +297,8 @@ function UseOfFundsSection({ section }: { section: DeckSection }) {
           <div className="space-y-6">
             {highlights.map((h, idx) => (
               <div key={idx}>
-                <div className="mb-2 border-b-2 pb-1" style={{ borderColor: TEAL_HEADER }}>
-                  <h3 className="text-sm font-black uppercase tracking-wide" style={{ color: NAVY }}>
+                <div className="mb-2 border-b-2 pb-1" style={{ borderColor: theme.headerColor }}>
+                  <h3 className="text-sm font-black uppercase tracking-wide" style={{ color: theme.primaryColor }}>
                     {h.title}
                   </h3>
                 </div>
@@ -286,14 +312,14 @@ function UseOfFundsSection({ section }: { section: DeckSection }) {
   );
 }
 
-function ReturnsSection({ section }: { section: DeckSection }) {
+function ReturnsSection({ section, theme }: { section: DeckSection; theme: ResolvedTheme }) {
   const c = section.content as ReturnsContent;
   const timeline = c.timelineItems ?? [];
   const metrics = c.keyMetrics ?? [];
 
   return (
-    <SectionWrapper className="p-10">
-      <SectionTitle title={section.title} />
+    <SectionWrapper className="p-10" marginBottom={theme.slideSpacingPx}>
+      <SectionTitle title={section.title} primaryColor={theme.primaryColor} accentColor={theme.accentColor} />
       {c.body && <p className="mb-6 text-sm text-gray-600">{c.body}</p>}
 
       {/* Timeline grid */}
@@ -309,10 +335,10 @@ function ReturnsSection({ section }: { section: DeckSection }) {
         >
           {timeline.map((item, idx) => (
             <div key={idx}>
-              <p className="mb-1 text-lg font-black" style={{ color: RED }}>
+              <p className="mb-1 text-lg font-black" style={{ color: theme.accentColor }}>
                 {item.period}
               </p>
-              <p className="mb-3 text-xs font-black uppercase tracking-wide" style={{ color: NAVY }}>
+              <p className="mb-3 text-xs font-black uppercase tracking-wide" style={{ color: theme.primaryColor }}>
                 {item.phase}
               </p>
               <p className="text-sm leading-relaxed text-gray-600">{item.description}</p>
@@ -332,7 +358,7 @@ function ReturnsSection({ section }: { section: DeckSection }) {
         >
           {metrics.map((m, idx) => (
             <div key={idx} className="text-center">
-              <p className="text-4xl font-black" style={{ color: NAVY }}>
+              <p className="text-4xl font-black" style={{ color: theme.primaryColor }}>
                 {m.value}
               </p>
               <p className="mt-1 text-xs font-bold uppercase tracking-widest text-gray-500">
@@ -341,8 +367,8 @@ function ReturnsSection({ section }: { section: DeckSection }) {
             </div>
           ))}
           {c.exitStrategyTitle && (
-            <div className="border-l-4 pl-4" style={{ borderColor: TEAL_HEADER }}>
-              <p className="mb-2 font-bold" style={{ color: RED }}>
+            <div className="border-l-4 pl-4" style={{ borderColor: theme.headerColor }}>
+              <p className="mb-2 font-bold" style={{ color: theme.accentColor }}>
                 {c.exitStrategyTitle}
               </p>
               <p className="text-sm leading-relaxed text-gray-600">{c.exitStrategyBody}</p>
@@ -354,13 +380,13 @@ function ReturnsSection({ section }: { section: DeckSection }) {
   );
 }
 
-function TeamSection({ section }: { section: DeckSection }) {
+function TeamSection({ section, theme }: { section: DeckSection; theme: ResolvedTheme }) {
   const c = section.content as TeamContent;
   const members = c.members ?? [];
 
   return (
-    <SectionWrapper className="p-10">
-      <SectionTitle title={section.title} />
+    <SectionWrapper className="p-10" marginBottom={theme.slideSpacingPx}>
+      <SectionTitle title={section.title} primaryColor={theme.primaryColor} accentColor={theme.accentColor} />
       {c.body && <p className="mb-6 text-sm leading-relaxed text-gray-600">{c.body}</p>}
       {members.length > 0 && (
         <div className={`grid gap-6 ${members.length === 1 ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-3"}`}>
@@ -376,14 +402,14 @@ function TeamSection({ section }: { section: DeckSection }) {
               ) : (
                 <div
                   className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-white font-bold text-xl"
-                  style={{ backgroundColor: NAVY }}
+                  style={{ backgroundColor: theme.primaryColor }}
                 >
                   {member.name.charAt(0)}
                 </div>
               )}
               <div>
                 <p className="font-bold text-gray-900">{member.name}</p>
-                <p className="text-sm" style={{ color: RED }}>{member.title}</p>
+                <p className="text-sm" style={{ color: theme.accentColor }}>{member.title}</p>
                 {member.bio && <p className="mt-1 text-sm text-gray-600">{member.bio}</p>}
               </div>
             </div>
@@ -394,14 +420,14 @@ function TeamSection({ section }: { section: DeckSection }) {
   );
 }
 
-function ProjectionsSection({ section }: { section: DeckSection }) {
+function ProjectionsSection({ section, theme }: { section: DeckSection; theme: ResolvedTheme }) {
   const c = section.content as ProjectionsContent;
   const rows = c.rows ?? [];
   const metrics = c.metrics ?? [];
 
   return (
-    <SectionWrapper className="p-10">
-      <SectionTitle title={section.title} />
+    <SectionWrapper className="p-10" marginBottom={theme.slideSpacingPx}>
+      <SectionTitle title={section.title} primaryColor={theme.primaryColor} accentColor={theme.accentColor} />
       {c.body && <p className="mb-6 text-sm text-gray-600">{c.body}</p>}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {rows.length > 0 && (
@@ -410,7 +436,7 @@ function ProjectionsSection({ section }: { section: DeckSection }) {
               {rows.map((row, idx) => (
                 <tr key={idx} className="border-b border-gray-100">
                   <td className="py-2 text-sm text-gray-700">{row.label}</td>
-                  <td className="py-2 text-right text-sm font-semibold" style={{ color: NAVY }}>{row.value}</td>
+                  <td className="py-2 text-right text-sm font-semibold" style={{ color: theme.primaryColor }}>{row.value}</td>
                 </tr>
               ))}
             </tbody>
@@ -420,7 +446,7 @@ function ProjectionsSection({ section }: { section: DeckSection }) {
           <div className={`grid gap-4 ${metrics.length > 2 ? "grid-cols-2" : "grid-cols-1"}`}>
             {metrics.map((m, idx) => (
               <div key={idx} className="rounded-lg p-4 text-center" style={{ backgroundColor: "#f0f4ff" }}>
-                <p className="text-3xl font-black" style={{ color: NAVY }}>{m.value}</p>
+                <p className="text-3xl font-black" style={{ color: theme.primaryColor }}>{m.value}</p>
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-500">{m.label}</p>
               </div>
             ))}
@@ -431,14 +457,14 @@ function ProjectionsSection({ section }: { section: DeckSection }) {
   );
 }
 
-function GenericSection({ section }: { section: DeckSection }) {
+function GenericSection({ section, theme }: { section: DeckSection; theme: ResolvedTheme }) {
   const c = section.content as GenericSectionContent;
   const bullets = c.bullets ?? [];
   const images = c.images ?? [];
 
   return (
-    <SectionWrapper className="p-10">
-      <SectionTitle title={section.title} />
+    <SectionWrapper className="p-10" marginBottom={theme.slideSpacingPx}>
+      <SectionTitle title={section.title} primaryColor={theme.primaryColor} accentColor={theme.accentColor} />
       {c.body && (
         <p className="mb-6 whitespace-pre-line text-sm leading-relaxed text-gray-600">{c.body}</p>
       )}
@@ -446,7 +472,7 @@ function GenericSection({ section }: { section: DeckSection }) {
         <ul className="mb-6 space-y-2">
           {bullets.map((b, idx) => (
             <li key={idx} className="flex items-start gap-2">
-              <span style={{ color: RED }}>•</span>
+              <span style={{ color: theme.accentColor }}>•</span>
               <span className="text-sm text-gray-700">{b}</span>
             </li>
           ))}
@@ -459,24 +485,24 @@ function GenericSection({ section }: { section: DeckSection }) {
 
 /* ─────────────────────── Section dispatcher ────────────────────────────── */
 
-function RenderSection({ section, deck }: { section: DeckSection; deck: Deck }) {
+function RenderSection({ section, deck, theme }: { section: DeckSection; deck: Deck; theme: ResolvedTheme }) {
   if (!section.isEnabled) return null;
 
   switch (section.type) {
     case "cover":
-      return <CoverSection section={section} deck={deck} />;
+      return <CoverSection section={section} deck={deck} theme={theme} />;
     case "executive_summary":
-      return <ExecutiveSummarySection section={section} />;
+      return <ExecutiveSummarySection section={section} theme={theme} />;
     case "use_of_funds":
-      return <UseOfFundsSection section={section} />;
+      return <UseOfFundsSection section={section} theme={theme} />;
     case "returns":
-      return <ReturnsSection section={section} />;
+      return <ReturnsSection section={section} theme={theme} />;
     case "team":
-      return <TeamSection section={section} />;
+      return <TeamSection section={section} theme={theme} />;
     case "projections":
-      return <ProjectionsSection section={section} />;
+      return <ProjectionsSection section={section} theme={theme} />;
     default:
-      return <GenericSection section={section} />;
+      return <GenericSection section={section} theme={theme} />;
   }
 }
 
@@ -532,15 +558,17 @@ export function DeckPreviewPage({ isPublic = false }: DeckPreviewPageProps) {
     .filter((s) => s.isEnabled)
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
+  const theme = resolveTheme(deck.theme);
+
   return (
     <div
       className="min-h-screen"
-      style={{ backgroundColor: "#4a6b7c" }}
+      style={{ backgroundColor: theme.backgroundColor }}
     >
-      {/* Teal top bar */}
+      {/* Top bar */}
       <div
         className="flex items-center justify-between px-8 py-3"
-        style={{ backgroundColor: TEAL_HEADER }}
+        style={{ backgroundColor: theme.headerColor }}
       >
         <span className="text-sm font-semibold text-white opacity-80">
           Pine Tar Sports Fund
@@ -574,7 +602,7 @@ export function DeckPreviewPage({ isPublic = false }: DeckPreviewPageProps) {
           </div>
         ) : (
           enabledSections.map((section) => (
-            <RenderSection key={section.id} section={section} deck={deck} />
+            <RenderSection key={section.id} section={section} deck={deck} theme={theme} />
           ))
         )}
       </div>
@@ -582,7 +610,7 @@ export function DeckPreviewPage({ isPublic = false }: DeckPreviewPageProps) {
       {/* Footer */}
       <div
         className="py-4 px-8 text-center text-xs text-white/60"
-        style={{ backgroundColor: NAVY }}
+        style={{ backgroundColor: theme.primaryColor }}
       >
         © Pine Tar Sports Fund — This presentation is for informational purposes only.
       </div>

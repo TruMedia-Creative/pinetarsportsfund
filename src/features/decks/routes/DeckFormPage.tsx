@@ -4,7 +4,8 @@ import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import { defaultTemplates, AUDIENCE_LABELS, AUDIENCE_TYPES } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
-import type { DeckStatus } from "../model";
+import type { DeckStatus, DeckTheme, SlideSpacing } from "../model";
+import { DECK_THEME_DEFAULTS } from "../model";
 import type { DeckSection } from "../model/types";
 import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
 import { DeckSectionEditor } from "./DeckSectionEditor";
@@ -38,6 +39,17 @@ const STATUS_OPTIONS: { value: DeckStatus; label: string }[] = [
   { value: "archived", label: "Archived" },
 ];
 
+const SPACING_OPTIONS: { value: SlideSpacing; label: string }[] = [
+  { value: "compact", label: "Compact" },
+  { value: "normal", label: "Normal" },
+  { value: "relaxed", label: "Relaxed" },
+];
+
+/** Default brand colours shown as placeholders. */
+const DEFAULT_BG_COLOR = DECK_THEME_DEFAULTS.backgroundColor;
+const DEFAULT_PRIMARY_COLOR = DECK_THEME_DEFAULTS.primaryColor;
+const DEFAULT_ACCENT_COLOR = DECK_THEME_DEFAULTS.accentColor;
+
 /** Derive a URL-safe slug from a title string. */
 function deriveSlug(title: string): string {
   const raw = title
@@ -67,6 +79,7 @@ export default function DeckFormPage() {
   const [summary, setSummary] = useState("");
   const [existingSlug, setExistingSlug] = useState("");
   const [sections, setSections] = useState<DeckSection[]>([]);
+  const [theme, setTheme] = useState<DeckTheme>({ ...DECK_THEME_DEFAULTS });
 
   useEffect(() => {
     if (!deckId) return;
@@ -84,6 +97,7 @@ export default function DeckFormPage() {
         setSubtitle(deck.subtitle ?? "");
         setSummary(deck.summary ?? "");
         setExistingSlug(deck.slug);
+        if (deck.theme) setTheme(deck.theme);
         // If the deck was saved before section editing existed, seed from template.
         if (deck.sections.length > 0) {
           setSections(deck.sections);
@@ -136,6 +150,7 @@ export default function DeckFormPage() {
       templateId,
       sections,
       assetIds: [],
+      theme,
     };
 
     try {
@@ -294,6 +309,127 @@ export default function DeckFormPage() {
           />
         </div>
 
+        {/* ── Appearance ─────────────────────────────────────────────────── */}
+        <div className="border-t border-gray-100 pt-5">
+          <h3 className="mb-3 text-sm font-semibold text-gray-700">Appearance</h3>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="themeBackgroundColor" className="text-sm font-medium text-gray-700">
+                Background Color
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  id="themeBackgroundColor"
+                  type="color"
+                  value={theme.backgroundColor ?? DEFAULT_BG_COLOR}
+                  onChange={(e) => setTheme((t) => ({ ...t, backgroundColor: e.target.value }))}
+                  className="h-9 w-14 cursor-pointer rounded border border-gray-300 p-0.5"
+                />
+                <input
+                  type="text"
+                  value={theme.backgroundColor ?? DEFAULT_BG_COLOR}
+                  onChange={(e) => setTheme((t) => ({ ...t, backgroundColor: e.target.value }))}
+                  className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="#4a6b7c"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="themeSlideSpacing" className="text-sm font-medium text-gray-700">
+                Slide Spacing
+              </label>
+              <select
+                id="themeSlideSpacing"
+                value={theme.slideSpacing ?? "normal"}
+                onChange={(e) =>
+                  setTheme((t) => ({ ...t, slideSpacing: e.target.value as SlideSpacing }))
+                }
+                className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                {SPACING_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="themePrimaryColor" className="text-sm font-medium text-gray-700">
+                Primary Color
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  id="themePrimaryColor"
+                  type="color"
+                  value={theme.primaryColor ?? DEFAULT_PRIMARY_COLOR}
+                  onChange={(e) => setTheme((t) => ({ ...t, primaryColor: e.target.value }))}
+                  className="h-9 w-14 cursor-pointer rounded border border-gray-300 p-0.5"
+                />
+                <input
+                  type="text"
+                  value={theme.primaryColor ?? DEFAULT_PRIMARY_COLOR}
+                  onChange={(e) => setTheme((t) => ({ ...t, primaryColor: e.target.value }))}
+                  className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="#0d2b6b"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="themeAccentColor" className="text-sm font-medium text-gray-700">
+                Accent Color
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  id="themeAccentColor"
+                  type="color"
+                  value={theme.accentColor ?? DEFAULT_ACCENT_COLOR}
+                  onChange={(e) => setTheme((t) => ({ ...t, accentColor: e.target.value }))}
+                  className="h-9 w-14 cursor-pointer rounded border border-gray-300 p-0.5"
+                />
+                <input
+                  type="text"
+                  value={theme.accentColor ?? DEFAULT_ACCENT_COLOR}
+                  onChange={(e) => setTheme((t) => ({ ...t, accentColor: e.target.value }))}
+                  className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="#c0262d"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Live colour preview strip */}
+          <div
+            className="mt-3 flex h-8 overflow-hidden rounded-md border border-gray-200"
+            role="img"
+            aria-label="Colour preview: background, primary, and accent"
+          >
+            <div
+              className="flex-1"
+              style={{ backgroundColor: theme.backgroundColor ?? DEFAULT_BG_COLOR }}
+              title="Background"
+              aria-label="Background colour preview"
+            />
+            <div
+              className="w-16"
+              style={{ backgroundColor: theme.primaryColor ?? DEFAULT_PRIMARY_COLOR }}
+              title="Primary"
+              aria-label="Primary colour preview"
+            />
+            <div
+              className="w-16"
+              style={{ backgroundColor: theme.accentColor ?? DEFAULT_ACCENT_COLOR }}
+              title="Accent"
+              aria-label="Accent colour preview"
+            />
+          </div>
+          <p className="mt-1 text-xs text-gray-400">
+            Preview strip: background · primary · accent
+          </p>
+        </div>
+
         <div className="flex gap-3 pt-2">
           <button
             type="submit"
@@ -333,7 +469,7 @@ export default function DeckFormPage() {
                   title, projectName, audienceType, status, slug,
                   subtitle: subtitle || undefined,
                   summary: summary || undefined,
-                  templateId, sections, assetIds: [],
+                  templateId, sections, assetIds: [], theme,
                 };
                 try {
                   if (resolvedDeckId) {
