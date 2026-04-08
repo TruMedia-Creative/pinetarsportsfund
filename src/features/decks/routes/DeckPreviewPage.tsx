@@ -574,12 +574,21 @@ export function DeckPreviewPage({ isPublic = false }: DeckPreviewPageProps) {
           Pine Tar Sports Fund
         </span>
         {!isPublic && (
-          <Link
-            to={`/decks/${deck.id}/edit`}
-            className="rounded bg-white/20 px-3 py-1 text-xs font-medium text-white hover:bg-white/30"
-          >
-            ← Edit Deck
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to={`/decks/${deck.id}/edit`}
+              className="rounded bg-white/20 px-3 py-1 text-xs font-medium text-white hover:bg-white/30"
+            >
+              ← Edit
+            </Link>
+            <Link
+              to={`/exports/${deck.id}`}
+              className="rounded bg-white px-3 py-1 text-xs font-semibold hover:bg-gray-100"
+              style={{ color: theme.headerColor }}
+            >
+              Export →
+            </Link>
+          </div>
         )}
       </div>
 

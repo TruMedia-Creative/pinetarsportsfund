@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
+import { getFinancialModels } from "../../../lib/api/mock/financials";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import { defaultTemplates, AUDIENCE_LABELS, AUDIENCE_TYPES } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
 import type { DeckStatus, DeckTheme, SlideSpacing } from "../model";
+import type { FinancialModel } from "../../financials/model";
 import { DECK_THEME_DEFAULTS } from "../model";
 import type { DeckSection } from "../model/types";
 import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
@@ -79,7 +81,18 @@ export default function DeckFormPage() {
   const [summary, setSummary] = useState("");
   const [existingSlug, setExistingSlug] = useState("");
   const [sections, setSections] = useState<DeckSection[]>([]);
+  const [assetIds, setAssetIds] = useState<string[]>([]);
+  const [financialModels, setFinancialModels] = useState<FinancialModel[]>([]);
+  const [financialModelId, setFinancialModelId] = useState("");
   const [theme, setTheme] = useState<DeckTheme>({ ...DECK_THEME_DEFAULTS });
+
+  useEffect(() => {
+    getFinancialModels()
+      .then((models) => setFinancialModels(models))
+      .catch(() => {
+        // non-blocking; form remains usable without linked models
+      });
+  }, []);
 
   useEffect(() => {
     if (!deckId) return;
@@ -97,6 +110,8 @@ export default function DeckFormPage() {
         setSubtitle(deck.subtitle ?? "");
         setSummary(deck.summary ?? "");
         setExistingSlug(deck.slug);
+        setAssetIds(deck.assetIds ?? []);
+        setFinancialModelId(deck.financialModelId ?? "");
         if (deck.theme) setTheme(deck.theme);
         // If the deck was saved before section editing existed, seed from template.
         if (deck.sections.length > 0) {
@@ -149,7 +164,8 @@ export default function DeckFormPage() {
       summary: summary || undefined,
       templateId,
       sections,
-      assetIds: [],
+      assetIds,
+      financialModelId: financialModelId || undefined,
       theme,
     };
 
@@ -176,10 +192,72 @@ export default function DeckFormPage() {
   // newly-created deck id (only available after the first successful save).
   const resolvedDeckId = deckId ?? createdDeckId;
   const previewUrl = resolvedDeckId ? `/decks/${resolvedDeckId}/preview` : null;
+  const exportUrl = resolvedDeckId ? `/exports/${resolvedDeckId}` : null;
   const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
   const shareUrl = existingSlug
     ? `${window.location.origin}${baseUrl}/view/${existingSlug}`
     : null;
+
+  const selectedFinancialModel = financialModels.find(
+    (model) => model.id === financialModelId,
+  );
+
+  function applyFinancialModelToSections() {
+    if (!selectedFinancialModel) return;
+    setSections((prev) =>
+      prev.map((section) => {
+        if (section.type === "use_of_funds") {
+          return {
+            ...section,
+            content: {
+              ...section.content,
+              body: selectedFinancialModel.assumptions,
+              allocationRows: selectedFinancialModel.useOfFunds,
+              totalLabel: "Total Project Cost",
+              totalAmount: selectedFinancialModel.targetRaise,
+            },
+          };
+        }
+
+        if (section.type === "projections") {
+          return {
+            ...section,
+            content: {
+              ...section.content,
+              body: selectedFinancialModel.assumptions,
+              rows: selectedFinancialModel.forecastRows,
+            },
+          };
+        }
+
+        if (section.type === "returns") {
+          return {
+            ...section,
+            content: {
+              ...section.content,
+              body: selectedFinancialModel.notes ?? selectedFinancialModel.assumptions,
+              keyMetrics: [
+                {
+                  value: selectedFinancialModel.preferredReturn ?? "",
+                  label: "Preferred Return",
+                },
+                {
+                  value: selectedFinancialModel.targetRaise ?? "",
+                  label: "Target Raise",
+                },
+                {
+                  value: selectedFinancialModel.minimumInvestment ?? "",
+                  label: "Minimum Investment",
+                },
+              ].filter((metric) => metric.value),
+            },
+          };
+        }
+
+        return section;
+      }),
+    );
+  }
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -187,13 +265,25 @@ export default function DeckFormPage() {
         <h1 className="text-2xl font-bold text-gray-900">
           {isEdit ? "Edit Deck" : "New Deck"}
         </h1>
-        {previewUrl && (
-          <Link
-            to={previewUrl}
-            className="inline-flex items-center rounded-lg border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
-          >
-            Preview →
-          </Link>
+        {(previewUrl || exportUrl) && (
+          <div className="flex items-center gap-2">
+            {previewUrl && (
+              <Link
+                to={previewUrl}
+                className="inline-flex items-center rounded-lg border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
+              >
+                Preview →
+              </Link>
+            )}
+            {exportUrl && (
+              <Link
+                to={exportUrl}
+                className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Export →
+              </Link>
+            )}
+          </div>
         )}
       </div>
 
@@ -307,6 +397,39 @@ export default function DeckFormPage() {
             className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
             placeholder="Brief description of this deck"
           />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="financialModel" className="text-sm font-medium text-gray-700">
+            Linked Financial Model
+          </label>
+          <select
+            id="financialModel"
+            value={financialModelId}
+            onChange={(e) => setFinancialModelId(e.target.value)}
+            className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">None</option>
+            {financialModels.map((model) => (
+              <option key={model.id} value={model.id}>
+                {model.projectName}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-gray-500">
+            Link a model to reuse structured use-of-funds and projection data.
+          </p>
+          {selectedFinancialModel && (
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={applyFinancialModelToSections}
+                className="rounded border border-indigo-300 bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-100"
+              >
+                Apply model data to financial sections
+              </button>
+            </div>
+          )}
         </div>
 
         {/* ── Appearance ─────────────────────────────────────────────────── */}
@@ -455,7 +578,12 @@ export default function DeckFormPage() {
             <h2 className="text-lg font-semibold text-gray-900">Deck Sections</h2>
             <p className="text-xs text-gray-500">Toggle, reorder, and edit each section.</p>
           </div>
-          <DeckSectionEditor sections={sections} onChange={setSections} />
+          <DeckSectionEditor
+            sections={sections}
+            onChange={setSections}
+            assetIds={assetIds}
+            onAssetIdsChange={setAssetIds}
+          />
           <div className="flex gap-3 pt-2">
             <button
               type="button"
@@ -469,7 +597,11 @@ export default function DeckFormPage() {
                   title, projectName, audienceType, status, slug,
                   subtitle: subtitle || undefined,
                   summary: summary || undefined,
-                  templateId, sections, assetIds: [], theme,
+                  templateId,
+                  sections,
+                  assetIds,
+                  financialModelId: financialModelId || undefined,
+                  theme,
                 };
                 try {
                   if (resolvedDeckId) {

@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import type { DeckSection } from "../model/types";
+import { AssetPicker } from "../../assets/components";
+import type { Asset } from "../../assets/model";
 import type {
   CoverContent,
   ExecutiveSummaryContent,
@@ -22,6 +24,8 @@ import type {
 interface DeckSectionEditorProps {
   sections: DeckSection[];
   onChange: (sections: DeckSection[]) => void;
+  assetIds?: string[];
+  onAssetIdsChange?: (assetIds: string[]) => void;
 }
 
 function readFileAsDataUrl(file: File): Promise<string> {
@@ -86,10 +90,12 @@ function TextArea({
 function ImageGalleryEditor({
   images,
   onChange,
+  onAssetSelected,
   maxImages = 5,
 }: {
   images: ImageGalleryItem[];
   onChange: (imgs: ImageGalleryItem[]) => void;
+  onAssetSelected?: (assetId: string) => void;
   maxImages?: number;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -137,6 +143,15 @@ function ImageGalleryEditor({
           <div className="flex-1 space-y-1">
             <TextInput value={img.url} onChange={(v) => updateUrl(idx, v)} placeholder="Image URL" />
             <TextInput value={img.alt ?? ""} onChange={(v) => updateAlt(idx, v)} placeholder="Alt text (optional)" />
+            <AssetPicker
+              allowedTypes={["image", "chart", "logo", "headshot", "rendering"]}
+              previewUrl={img.url}
+              onSelect={(asset) => {
+                updateUrl(idx, asset.url);
+                if (asset.alt) updateAlt(idx, asset.alt);
+                onAssetSelected?.(asset.id);
+              }}
+            />
           </div>
           <button
             type="button"
@@ -183,9 +198,11 @@ function ImageGalleryEditor({
 
 function CoverEditor({
   content,
+  onAssetSelected,
   onChange,
 }: {
   content: CoverContent;
+  onAssetSelected?: (assetId: string) => void;
   onChange: (c: CoverContent) => void;
 }) {
   function set<K extends keyof CoverContent>(key: K, value: CoverContent[K]) {
@@ -211,6 +228,7 @@ function CoverEditor({
         <ImageGalleryEditor
           images={heroImages}
           maxImages={1}
+          onAssetSelected={onAssetSelected}
           onChange={(imgs) => set("heroImageUrl", imgs[0]?.url ?? "")}
         />
       </div>
@@ -240,9 +258,11 @@ function CoverEditor({
 
 function ExecutiveSummaryEditor({
   content,
+  onAssetSelected,
   onChange,
 }: {
   content: ExecutiveSummaryContent;
+  onAssetSelected?: (assetId: string) => void;
   onChange: (c: ExecutiveSummaryContent) => void;
 }) {
   function set<K extends keyof ExecutiveSummaryContent>(key: K, value: ExecutiveSummaryContent[K]) {
@@ -288,6 +308,7 @@ function ExecutiveSummaryEditor({
         <ImageGalleryEditor
           images={content.images ?? []}
           maxImages={3}
+          onAssetSelected={onAssetSelected}
           onChange={(imgs) => set("images", imgs)}
         />
       </div>
@@ -536,9 +557,11 @@ function ReturnsEditor({
 
 function TeamEditor({
   content,
+  onAssetSelected,
   onChange,
 }: {
   content: TeamContent;
+  onAssetSelected?: (assetId: string) => void;
   onChange: (c: TeamContent) => void;
 }) {
   function set<K extends keyof TeamContent>(key: K, value: TeamContent[K]) {
@@ -557,18 +580,6 @@ function TeamEditor({
 
   function removeMember(idx: number) {
     set("members", members.filter((_, i) => i !== idx));
-  }
-
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [pendingMemberIdx, setPendingMemberIdx] = useState<number | null>(null);
-
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file || pendingMemberIdx === null) return;
-    const url = await readFileAsDataUrl(file);
-    updateMember(pendingMemberIdx, "imageUrl", url);
-    setPendingMemberIdx(null);
-    if (fileRef.current) fileRef.current.value = "";
   }
 
   return (
@@ -604,13 +615,19 @@ function TeamEditor({
                 <img src={member.imageUrl} alt={member.name} className="h-12 w-12 rounded-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
               )}
               <TextInput value={member.imageUrl ?? ""} onChange={(v) => updateMember(idx, "imageUrl", v)} placeholder="Photo URL" />
-              <button type="button" onClick={() => { setPendingMemberIdx(idx); fileRef.current?.click(); }} className="shrink-0 text-xs text-indigo-600 hover:underline">Upload</button>
+              <AssetPicker
+                allowedTypes={["headshot", "image"]}
+                previewUrl={member.imageUrl}
+                onSelect={(asset: Asset) => {
+                  updateMember(idx, "imageUrl", asset.url);
+                  onAssetSelected?.(asset.id);
+                }}
+              />
             </div>
           </div>
         </div>
       ))}
       <button type="button" onClick={addMember} className="text-xs text-indigo-600 hover:underline">+ Add team member</button>
-      <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
     </div>
   );
 }
@@ -697,9 +714,11 @@ function ProjectionsEditor({
 
 function GenericEditor({
   content,
+  onAssetSelected,
   onChange,
 }: {
   content: GenericSectionContent;
+  onAssetSelected?: (assetId: string) => void;
   onChange: (c: GenericSectionContent) => void;
 }) {
   function set<K extends keyof GenericSectionContent>(key: K, value: GenericSectionContent[K]) {
@@ -745,6 +764,7 @@ function GenericEditor({
         <ImageGalleryEditor
           images={content.images ?? []}
           maxImages={5}
+          onAssetSelected={onAssetSelected}
           onChange={(imgs) => set("images", imgs)}
         />
       </div>
@@ -773,6 +793,7 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
 
 function SectionCard({
   section,
+  onAssetSelected,
   onUpdate,
   onMoveUp,
   onMoveDown,
@@ -780,6 +801,7 @@ function SectionCard({
   isLast,
 }: {
   section: DeckSection;
+  onAssetSelected: (assetId: string) => void;
   onUpdate: (updated: DeckSection) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
@@ -795,19 +817,19 @@ function SectionCard({
   function renderEditor() {
     switch (section.type) {
       case "cover":
-        return <CoverEditor content={section.content as CoverContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
+        return <CoverEditor content={section.content as CoverContent} onAssetSelected={onAssetSelected} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
       case "executive_summary":
-        return <ExecutiveSummaryEditor content={section.content as ExecutiveSummaryContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
+        return <ExecutiveSummaryEditor content={section.content as ExecutiveSummaryContent} onAssetSelected={onAssetSelected} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
       case "use_of_funds":
         return <UseOfFundsEditor content={section.content as UseOfFundsContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
       case "returns":
         return <ReturnsEditor content={section.content as ReturnsContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
       case "team":
-        return <TeamEditor content={section.content as TeamContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
+        return <TeamEditor content={section.content as TeamContent} onAssetSelected={onAssetSelected} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
       case "projections":
         return <ProjectionsEditor content={section.content as ProjectionsContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
       default:
-        return <GenericEditor content={section.content as GenericSectionContent} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
+        return <GenericEditor content={section.content as GenericSectionContent} onAssetSelected={onAssetSelected} onChange={(c) => updateContent(c as Record<string, unknown>)} />;
     }
   }
 
@@ -892,7 +914,18 @@ function SectionCard({
 
 /* ─────────────────────── Main export ──────────────────────────────────── */
 
-export function DeckSectionEditor({ sections, onChange }: DeckSectionEditorProps) {
+export function DeckSectionEditor({
+  sections,
+  onChange,
+  assetIds = [],
+  onAssetIdsChange,
+}: DeckSectionEditorProps) {
+  function addAssetReference(assetId: string) {
+    if (!onAssetIdsChange) return;
+    if (assetIds.includes(assetId)) return;
+    onAssetIdsChange([...assetIds, assetId]);
+  }
+
   function updateSection(idx: number, updated: DeckSection) {
     const next = sections.map((s, i) => (i === idx ? updated : s));
     onChange(next);
@@ -913,6 +946,7 @@ export function DeckSectionEditor({ sections, onChange }: DeckSectionEditorProps
         <SectionCard
           key={section.id}
           section={section}
+          onAssetSelected={addAssetReference}
           onUpdate={(updated) => updateSection(idx, updated)}
           onMoveUp={() => moveSection(idx, -1)}
           onMoveDown={() => moveSection(idx, 1)}

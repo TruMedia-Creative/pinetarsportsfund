@@ -9,6 +9,7 @@ import { DeckListPage, DeckFormPage, DeckPreviewPage } from "./features/decks/ro
 import { AdminDashboardPage } from "./features/admin/routes";
 import { SettingsPage } from "./features/settings/routes";
 import { AuthProvider, useAuth, LoginPage } from "./features/auth";
+import { ExportPage } from "./features/exports";
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -58,6 +59,7 @@ function TenantRoutes() {
           <Route path="decks/:deckId/preview" element={<DeckPreviewPage />} />
           <Route path="admin" element={<AdminDashboardPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="exports/:deckId" element={<ExportPage />} />
         </Route>
         {/* Public shareable deck view — no auth required */}
         <Route element={<PublicLayout />}>
