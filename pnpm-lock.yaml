@@ -21,17 +21,17 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       react:
-        specifier: ^19.2.0
-        version: 19.2.4
+        specifier: ^19.2.5
+        version: 19.2.5
       react-dom:
         specifier: ^19.2.0
-        version: 19.2.4(react@19.2.4)
+        version: 19.2.4(react@19.2.5)
       react-hook-form:
         specifier: ^7.72.1
-        version: 7.72.1(react@19.2.4)
+        version: 7.72.1(react@19.2.5)
       react-router-dom:
         specifier: ^7.14.0
-        version: 7.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 7.14.0(react-dom@19.2.4(react@19.2.5))(react@19.2.5)
       sql.js:
         specifier: ^1.14.1
         version: 1.14.1
@@ -1531,8 +1531,8 @@ packages:
       react-dom:
         optional: true
 
-  react@19.2.4:
-    resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
+  react@19.2.5:
+    resolution: {integrity: sha512-llUJLzz1zTUBrskt2pwZgLq59AemifIftw4aB7JxOqf1HY2FDaGDxgwpAPVzHU1kdWabH7FauP4i1oEeer2WCA==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@2.3.8:
@@ -3103,30 +3103,30 @@ snapshots:
       iconv-lite: 0.7.2
       unpipe: 1.0.0
 
-  react-dom@19.2.4(react@19.2.4):
+  react-dom@19.2.4(react@19.2.5):
     dependencies:
-      react: 19.2.4
+      react: 19.2.5
       scheduler: 0.27.0
 
-  react-hook-form@7.72.1(react@19.2.4):
+  react-hook-form@7.72.1(react@19.2.5):
     dependencies:
-      react: 19.2.4
+      react: 19.2.5
 
-  react-router-dom@7.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  react-router-dom@7.14.0(react-dom@19.2.4(react@19.2.5))(react@19.2.5):
     dependencies:
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-      react-router: 7.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.5
+      react-dom: 19.2.4(react@19.2.5)
+      react-router: 7.14.0(react-dom@19.2.4(react@19.2.5))(react@19.2.5)
 
-  react-router@7.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  react-router@7.14.0(react-dom@19.2.4(react@19.2.5))(react@19.2.5):
     dependencies:
       cookie: 1.1.1
-      react: 19.2.4
+      react: 19.2.5
       set-cookie-parser: 2.7.2
     optionalDependencies:
-      react-dom: 19.2.4(react@19.2.4)
+      react-dom: 19.2.4(react@19.2.5)
 
-  react@19.2.4: {}
+  react@19.2.5: {}
 
   readable-stream@2.3.8:
     dependencies:
