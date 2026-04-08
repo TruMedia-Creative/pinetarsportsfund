@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
@@ -9,10 +9,11 @@ import type { DeckSection } from "../model/types";
 import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
 import { DeckSectionEditor } from "./DeckSectionEditor";
 
-type SaveStatus = "idle" | "saving" | "saved" | "error";
+type SaveStatus = "idle" | "pending" | "saving" | "saved" | "error";
 
 const SAVE_STATUS_LABEL: Record<SaveStatus, string> = {
   idle: "",
+  pending: "Saving…",
   saving: "Saving…",
   saved: "✓ Saved",
   error: "Save failed",
@@ -20,6 +21,7 @@ const SAVE_STATUS_LABEL: Record<SaveStatus, string> = {
 
 const SAVE_STATUS_CLASS: Record<SaveStatus, string> = {
   idle: "text-gray-400",
+  pending: "text-gray-400",
   saving: "text-gray-500",
   saved: "text-green-600",
   error: "text-red-600",
@@ -136,7 +138,8 @@ export default function DeckFormPage() {
   }, [audienceType, isEdit]);
 
   /** Shared save helper used by both auto-save and manual submit. */
-  async function performSave(id: string, templateId: string, slug: string) {
+  const performSave = useCallback(async (id: string, templateId: string, slug: string) => {
+    setError(null);
     setSaving(true);
     setSaveStatus("saving");
     try {
@@ -153,12 +156,14 @@ export default function DeckFormPage() {
         assetIds: [],
       });
       setSaveStatus("saved");
-    } catch {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to save deck.";
+      setError(message);
       setSaveStatus("error");
     } finally {
       setSaving(false);
     }
-  }
+  }, [title, projectName, audienceType, status, subtitle, summary, sections]);
 
   /** Debounced auto-save — fires whenever any form field or sections change
    *  while we have a real deck id (i.e. in edit mode). */
@@ -176,7 +181,8 @@ export default function DeckFormPage() {
       clearTimeout(autosaveTimerRef.current);
     }
 
-    setSaveStatus("idle");
+    // Show immediately that a save is queued during the debounce window.
+    setSaveStatus("pending");
 
     const slug = existingSlug || deriveSlug(title);
     autosaveTimerRef.current = setTimeout(() => {
@@ -186,8 +192,7 @@ export default function DeckFormPage() {
     return () => {
       if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, projectName, audienceType, status, subtitle, summary, existingSlug, sections, deckId]);
+  }, [title, projectName, audienceType, status, subtitle, summary, existingSlug, sections, deckId, performSave]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -223,7 +228,9 @@ export default function DeckFormPage() {
           assetIds: [],
         });
         setCreatedDeckId(created.id);
-        initializedRef.current = true;
+        // Reset the guard so the new route's load effect re-initializes before
+        // the auto-save effect can fire on the new deckId.
+        initializedRef.current = false;
         navigate(`/decks/${created.id}/edit`, { replace: true });
         setSaveStatus("saved");
       } catch (err) {
