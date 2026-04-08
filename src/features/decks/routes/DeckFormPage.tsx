@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getDeckById, createDeck, updateDeck } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
@@ -8,6 +8,8 @@ import type { DeckStatus } from "../model";
 import type { DeckSection } from "../model/types";
 import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
 import { DeckSectionEditor } from "./DeckSectionEditor";
+
+type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 /** Map each audience type to the first matching template's ID, if one exists. */
 const AUDIENCE_TEMPLATE_MAP: Partial<Record<AudienceType, string>> = Object.fromEntries(
@@ -47,6 +49,8 @@ function deriveSlug(title: string): string {
   return raw || `deck-${Date.now()}`;
 }
 
+const AUTOSAVE_DELAY_MS = 1500;
+
 export default function DeckFormPage() {
   const { deckId } = useParams();
   const navigate = useNavigate();
@@ -54,6 +58,7 @@ export default function DeckFormPage() {
 
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   // `createdDeckId` tracks the id of a deck just created in this session.
   // In edit mode we always use the `deckId` route param directly.
@@ -67,6 +72,11 @@ export default function DeckFormPage() {
   const [summary, setSummary] = useState("");
   const [existingSlug, setExistingSlug] = useState("");
   const [sections, setSections] = useState<DeckSection[]>([]);
+
+  // Track whether the deck fields have been loaded so the auto-save
+  // effect doesn't fire on the initial population from the server.
+  const initializedRef = useRef(false);
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!deckId) return;
@@ -93,6 +103,7 @@ export default function DeckFormPage() {
           setSections(template ? createDeckSectionsFromTemplate(template) : []);
         }
         setLoading(false);
+        initializedRef.current = true;
       })
       .catch(() => {
         setError("Failed to load deck.");
@@ -110,15 +121,64 @@ export default function DeckFormPage() {
     setSections(createDeckSectionsFromTemplate(template));
   }, [audienceType, isEdit]);
 
+  /** Debounced auto-save — fires whenever any form field or sections change
+   *  while we have a real deck id (i.e. in edit mode). */
+  useEffect(() => {
+    const currentDeckId = deckId;
+    if (!currentDeckId) return;
+    if (!initializedRef.current) return;
+
+    const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
+    if (!templateId) return;
+
+    if (autosaveTimerRef.current) {
+      clearTimeout(autosaveTimerRef.current);
+    }
+
+    setSaveStatus("idle");
+
+    autosaveTimerRef.current = setTimeout(async () => {
+      setSaving(true);
+      setSaveStatus("saving");
+      try {
+        await updateDeck(currentDeckId, {
+          title,
+          projectName,
+          audienceType,
+          status,
+          slug: existingSlug || deriveSlug(title),
+          subtitle: subtitle || undefined,
+          summary: summary || undefined,
+          templateId,
+          sections,
+          assetIds: [],
+        });
+        setSaveStatus("saved");
+      } catch {
+        setSaveStatus("error");
+      } finally {
+        setSaving(false);
+      }
+    }, AUTOSAVE_DELAY_MS);
+
+    return () => {
+      if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, projectName, audienceType, status, subtitle, summary, sections, deckId]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
     setSaving(true);
+    setSaveStatus("saving");
     setError(null);
 
     const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
     if (!templateId) {
       setError("No template is available for the selected audience type.");
       setSaving(false);
+      setSaveStatus("error");
       return;
     }
 
@@ -141,17 +201,21 @@ export default function DeckFormPage() {
     try {
       if (isEdit && deckId) {
         await updateDeck(deckId, payload);
+        setSaveStatus("saved");
       } else {
         const created = await createDeck(payload);
         setCreatedDeckId(created.id);
+        initializedRef.current = true;
         navigate(`/decks/${created.id}/edit`, { replace: true });
         setSaving(false);
+        setSaveStatus("saved");
         return;
       }
       setSaving(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save deck.");
       setSaving(false);
+      setSaveStatus("error");
     }
   }
 
@@ -172,14 +236,37 @@ export default function DeckFormPage() {
         <h1 className="text-2xl font-bold text-gray-900">
           {isEdit ? "Edit Deck" : "New Deck"}
         </h1>
-        {previewUrl && (
-          <Link
-            to={previewUrl}
-            className="inline-flex items-center rounded-lg border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
-          >
-            Preview →
-          </Link>
-        )}
+        <div className="flex items-center gap-3">
+          {isEdit && (
+            <span
+              className={`text-xs font-medium ${
+                saveStatus === "saving"
+                  ? "text-gray-500"
+                  : saveStatus === "saved"
+                    ? "text-green-600"
+                    : saveStatus === "error"
+                      ? "text-red-600"
+                      : "text-gray-400"
+              }`}
+            >
+              {saveStatus === "saving"
+                ? "Saving…"
+                : saveStatus === "saved"
+                  ? "✓ Saved"
+                  : saveStatus === "error"
+                    ? "Save failed"
+                    : ""}
+            </span>
+          )}
+          {previewUrl && (
+            <Link
+              to={previewUrl}
+              className="inline-flex items-center rounded-lg border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
+            >
+              Preview →
+            </Link>
+          )}
+        </div>
       </div>
 
       {error && (
@@ -317,47 +404,23 @@ export default function DeckFormPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">Deck Sections</h2>
-            <p className="text-xs text-gray-500">Toggle, reorder, and edit each section.</p>
+            <p className="text-xs text-gray-500">
+              {resolvedDeckId
+                ? "Changes auto-save automatically."
+                : "Toggle, reorder, and edit each section."}
+            </p>
           </div>
           <DeckSectionEditor sections={sections} onChange={setSections} />
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              disabled={saving}
-              onClick={async () => {
-                setSaving(true);
-                setError(null);
-                const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
-                const slug = existingSlug || deriveSlug(title);
-                const payload = {
-                  title, projectName, audienceType, status, slug,
-                  subtitle: subtitle || undefined,
-                  summary: summary || undefined,
-                  templateId, sections, assetIds: [],
-                };
-                try {
-                  if (resolvedDeckId) {
-                    await updateDeck(resolvedDeckId, payload);
-                  }
-                } catch (err) {
-                  setError(err instanceof Error ? err.message : "Failed to save sections.");
-                } finally {
-                  setSaving(false);
-                }
-              }}
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
-            >
-              {saving ? "Saving…" : "Save Sections"}
-            </button>
-            {previewUrl && (
+          {previewUrl && (
+            <div className="flex gap-3 pt-2">
               <Link
                 to={previewUrl}
                 className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 View Preview
               </Link>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
     </div>
