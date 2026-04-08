@@ -20,11 +20,7 @@ let sqlJsPromise: Promise<SqlJsStatic> | null = null;
 let dbPromise: Promise<Database> | null = null;
 
 function getSqlJs(): Promise<SqlJsStatic> {
-  if (!sqlJsPromise) {
-    sqlJsPromise = initSqlJs({
-      locateFile: () => wasmUrl,
-    });
-  }
+  sqlJsPromise ??= initSqlJs({ locateFile: () => wasmUrl });
   return sqlJsPromise;
 }
 
