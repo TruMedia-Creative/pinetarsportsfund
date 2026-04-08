@@ -11,6 +11,20 @@ import { DeckSectionEditor } from "./DeckSectionEditor";
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
+const SAVE_STATUS_LABEL: Record<SaveStatus, string> = {
+  idle: "",
+  saving: "Saving…",
+  saved: "✓ Saved",
+  error: "Save failed",
+};
+
+const SAVE_STATUS_CLASS: Record<SaveStatus, string> = {
+  idle: "text-gray-400",
+  saving: "text-gray-500",
+  saved: "text-green-600",
+  error: "text-red-600",
+};
+
 /** Map each audience type to the first matching template's ID, if one exists. */
 const AUDIENCE_TEMPLATE_MAP: Partial<Record<AudienceType, string>> = Object.fromEntries(
   (["investor", "lender", "sponsor", "municipality", "internal"] as AudienceType[]).map(
@@ -129,7 +143,10 @@ export default function DeckFormPage() {
     if (!initializedRef.current) return;
 
     const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
-    if (!templateId) return;
+    if (!templateId) {
+      setSaveStatus("error");
+      return;
+    }
 
     if (autosaveTimerRef.current) {
       clearTimeout(autosaveTimerRef.current);
@@ -164,8 +181,7 @@ export default function DeckFormPage() {
     return () => {
       if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, projectName, audienceType, status, subtitle, summary, sections, deckId]);
+  }, [title, projectName, audienceType, status, subtitle, summary, existingSlug, sections, deckId]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -238,24 +254,8 @@ export default function DeckFormPage() {
         </h1>
         <div className="flex items-center gap-3">
           {isEdit && (
-            <span
-              className={`text-xs font-medium ${
-                saveStatus === "saving"
-                  ? "text-gray-500"
-                  : saveStatus === "saved"
-                    ? "text-green-600"
-                    : saveStatus === "error"
-                      ? "text-red-600"
-                      : "text-gray-400"
-              }`}
-            >
-              {saveStatus === "saving"
-                ? "Saving…"
-                : saveStatus === "saved"
-                  ? "✓ Saved"
-                  : saveStatus === "error"
-                    ? "Save failed"
-                    : ""}
+            <span className={`text-xs font-medium ${SAVE_STATUS_CLASS[saveStatus]}`}>
+              {SAVE_STATUS_LABEL[saveStatus]}
             </span>
           )}
           {previewUrl && (
