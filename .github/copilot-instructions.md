@@ -7,7 +7,7 @@ Core flow:
 2) User creates or edits a deck via structured forms
 3) App assembles branded slide content from reusable sections and templates
 4) User previews the deck in-browser and exports deliverables such as PPTX and PDF
-5) Admin dashboard manages brand settings, templates, default content blocks, and deck records
+5) Admin dashboard manages tenant settings, templates, default content blocks, and deck records
 
 Primary use cases:
 - Investor pitch decks
@@ -25,8 +25,11 @@ Primary use cases:
 
 ## Tech constraints
 - Vite + React + TypeScript
-- React Router for routing
-- Zod for validation
+- React Router v7 for routing
+- React Hook Form + Zod for form handling and validation
+- pptxgenjs for PPTX generation
+- sql.js + localforage for the in-browser SQLite mock API layer
+- Express for the optional local API server (`server/`)
 - Prefer composition over inheritance
 - Keep modules local-first: clean boundaries so backend can be swapped later
 - Keep export logic isolated from form/editor logic
@@ -42,23 +45,24 @@ Primary use cases:
   - `model/` (types + zod schemas)
   - `routes/` (route-level pages)
   - `utils/`
+  - `lib/`
   - `index.ts` exports
 
 ## Domain model assumptions
 
-### Brand model
-Branding is app-scoped for Pine Tar Sports Fund, but should be structured so additional brands or sub-brands can be supported later.
+### Tenant model
+Brand settings are per-tenant. Tenant is resolved from URL path (`/t/:tenantSlug`) or hostname subdomain, with a `pinetarsportsfund` fallback.
 
 Typical fields:
 - `id`
+- `slug`
 - `name`
-- `logoUrl`
-- `primaryColor`
-- `accentColor`
-- `fontFamily`
-- `contactInfo`
-- `legalDisclaimer`
-- `defaultDeckTheme`
+- `domain?`
+- `branding.logoUrl?`
+- `branding.primaryColor`
+- `branding.fontFamily?`
+
+There is no standalone `brand` feature — brand lives inside `src/features/tenants/`.
 
 ### Deck model
 - `DeckStatus`: `draft | ready | exported | archived`
@@ -103,8 +107,10 @@ Each section should generally include:
 - `sortOrder`
 - `content`
 
+Content types are defined in `src/features/decks/model/contentTypes.ts`.
+
 ### Template model
-Templates define the layout and content expectations for deck sections.
+Templates define the layout and content expectations for deck sections. Registered in `src/features/templates/lib/templateRegistry.ts`.
 
 Typical fields:
 - `id`
@@ -141,7 +147,8 @@ Typical fields:
 - `notes?`
 
 ## Routing assumptions
-Expected route patterns:
+Routes live under a resolved `TenantProvider` context. All authenticated routes can also be prefixed with `/t/:tenantSlug/`.
+
 - `/login`
 - `/`
 - `/decks`
@@ -151,8 +158,7 @@ Expected route patterns:
 - `/exports/:deckId`
 - `/admin`
 - `/settings`
-
-Public share routes can be added later, but should not drive the architecture.
+- `/view/:slug` (public, no auth)
 
 ## Coding style
 - Prefer small, testable functions and explicit types
@@ -171,6 +177,7 @@ When generating code:
 - Keep deck editing logic separate from deck export logic
 - Prefer reusable section/template abstractions over hardcoding one-off slides
 - Keep financial calculations explicit and inspectable
+- Do NOT introduce a `brand` feature — branding is part of the `tenants` feature
 
 ## Export guidance
 This project is fundamentally a document/deck generation app, not just a CRUD dashboard.
@@ -183,11 +190,16 @@ When implementing export features:
 - Preserve ordering and enable/disable behavior for sections
 
 ## Mock data and local-first behavior
-Until a real backend exists:
-- Use localStorage-backed mock APIs under `src/lib/api/mock/*`
-- Seed realistic Pine Tar Sports Fund example data
-- Keep CRUD interfaces stable so the mock layer can later be replaced
+The default data layer is an in-browser SQLite database via `sql.js` + `localforage`:
+- Mock modules are under `src/lib/api/mock/`
+- `sqlite.ts` initializes the DB and exposes table-level CRUD
+- `db.ts` re-exports low-level helpers
+- Feature-specific mock files (`decks.ts`, `assets.ts`, `financials.ts`, `tenants.ts`) wrap sqlite.ts
+- Keep CRUD interfaces stable so the mock layer can later be swapped for real API calls via `src/lib/api/http.ts`
 - Do not assume network persistence unless explicitly requested
+
+An optional Express API server lives in `server/`. Run with `pnpm api` or `pnpm dev:full`.
+`VITE_API_BASE_URL` points the HTTP client at the server.
 
 ## Security + privacy
 - Do not log sensitive investment or user data unnecessarily
@@ -217,6 +229,12 @@ pnpm bootstrap   # runs: corepack enable && pnpm install --frozen-lockfile
 
 # 2. Validate (lint + typecheck + build)
 pnpm check       # runs: pnpm lint && pnpm typecheck && pnpm build
+```
+
+### Run development
+```sh
+pnpm dev          # UI only (in-browser SQLite mock)
+pnpm dev:full     # UI + Express API server (port 8787)
 ```
 
 ### Performance tips

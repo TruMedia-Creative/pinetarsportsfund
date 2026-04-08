@@ -1,4 +1,5 @@
 import type { Asset, CreateAssetInput } from "../../../features/assets/model";
+import { apiRequest } from "../http";
 import {
   deleteRowById,
   getRowById,
@@ -46,6 +47,11 @@ function delay(ms = 100): Promise<void> {
 
 export async function getAssets(): Promise<Asset[]> {
   await delay();
+  try {
+    return await apiRequest<Asset[]>("/assets");
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const assets = await listRows<Asset>("assets");
   return [...assets];
@@ -53,12 +59,25 @@ export async function getAssets(): Promise<Asset[]> {
 
 export async function getAssetById(id: string): Promise<Asset | undefined> {
   await delay();
+  try {
+    return await apiRequest<Asset>(`/assets/${id}`);
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   return getRowById<Asset>("assets", id);
 }
 
 export async function createAsset(data: CreateAssetInput): Promise<Asset> {
   await delay();
+  try {
+    return await apiRequest<Asset>("/assets", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const now = new Date().toISOString();
   const asset: Asset = {
@@ -73,6 +92,12 @@ export async function createAsset(data: CreateAssetInput): Promise<Asset> {
 
 export async function deleteAsset(id: string): Promise<void> {
   await delay();
+  try {
+    await apiRequest<void>(`/assets/${id}`, { method: "DELETE" });
+    return;
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const existing = await getRowById<Asset>("assets", id);
   if (!existing) {

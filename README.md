@@ -1,13 +1,12 @@
-# pinetarsportsfund
 # Pine Tar Sports Fund Deck Builder
 
 A structured deck-building app for Pine Tar Sports Fund and related investment offerings.
 
-This project is designed to help create, manage, preview, and export branded presentation decks without rebuilding each pitch from scratch. Instead of manually editing every slide deck in PowerPoint, the app treats each deck as structured data powered by reusable templates, financial sections, assets, and brand settings.
+This project is designed to help create, manage, preview, and export branded presentation decks without rebuilding each pitch from scratch. Instead of manually editing every slide deck in PowerPoint, the app treats each deck as structured data powered by reusable templates, financial sections, assets, and per-tenant brand settings.
 
 ## What this app is for
 
-The app is intended to support deck creation for use cases such as:
+The app supports deck creation for use cases such as:
 
 - Investor pitch decks
 - Sponsorship decks
@@ -28,23 +27,26 @@ The app is intended to support deck creation for use cases such as:
 
 This is **not** an event platform and it is **not** meant to be a freeform slide editor like Canva or PowerPoint.
 
-The app is being built around a more controlled system:
+The app is built around a controlled system:
 
 - reusable deck templates
 - structured, typed content blocks
 - separate financial models
-- brand-aware presentation rules
+- tenant-scoped brand settings (logo, colors, typography)
 - export pipelines that stay independent from the editor UI
 
 That makes the system easier to maintain, faster to reuse, and much harder to break with one rogue text box move.
 
-## Planned feature areas
+## Feature areas
+
+### Tenants
+Multi-tenant aware from the start. Each tenant has its own brand settings (logo, primary color, font). Tenant is resolved from a URL path prefix (`/t/:tenantSlug`) or hostname subdomain, with a fallback to `pinetarsportsfund`.
 
 ### Decks
 Manage deck records, edit metadata, control section order, and maintain audience-specific versions.
 
 ### Templates
-Define reusable layouts and section expectations for different deck types.
+Define reusable layouts and section expectations for different deck types. Default templates are registered in `src/features/templates/lib/templateRegistry.ts`.
 
 ### Financials
 Store and manage raise targets, use-of-funds breakdowns, returns, assumptions, and forecast rows separately from general deck content.
@@ -52,21 +54,18 @@ Store and manage raise targets, use-of-funds breakdowns, returns, assumptions, a
 ### Assets
 Upload and reference logos, charts, renderings, headshots, and supporting visuals.
 
-### Brand
-Control Pine Tar Sports Fund branding such as logo, colors, disclaimer text, and presentation defaults.
-
 ### Exports
 Generate deliverables such as PowerPoint and PDF from structured deck data.
 
 ## Tech stack
 
-- Vite
-- React
-- TypeScript
-- React Router
-- Zod
-- Tailwind CSS
-- localStorage-backed mock API layer for early development
+- Vite + React + TypeScript
+- React Router v7
+- React Hook Form + Zod
+- Tailwind CSS v4
+- pptxgenjs — PPTX generation
+- sql.js + localforage — in-browser SQLite for the mock API layer
+- Express — optional local API server (`server/`)
 
 ## Project structure
 
@@ -74,18 +73,26 @@ See [ProjectLayout.md](./ProjectLayout.md) for the current architectural layout 
 
 At a high level, the app is organized around:
 
+- `src/features/tenants` for multi-tenancy, brand resolution, and tenant context
 - `src/features/decks` for deck creation and editing
 - `src/features/templates` for reusable deck structures
 - `src/features/financials` for investment assumptions and projections
 - `src/features/assets` for uploaded media
-- `src/features/brand` for brand settings
 - `src/features/exports` for deck generation logic
-- `src/lib/api/mock` for local-first development data
-- `src/lib/pptx` for export helpers and builders
+- `src/lib/api/mock` for in-browser SQLite-backed development data
+- `src/lib/api/http.ts` for the HTTP client used when the Express server is running
+- `src/lib/pptx` for PPTX export helpers and builders
+- `server/` for the optional Express + SQLite API server
 
-## Deployment (GitHub Pages)
+## CI / Deployment
 
-The app is configured to deploy automatically to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml`.
+### CI
+
+Every push and pull request runs `.github/workflows/ci.yml`, which runs `pnpm check` (lint + typecheck + build) on Node from `.nvmrc`.
+
+### Deployment (GitHub Pages)
+
+The app deploys automatically to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml`.
 
 ### One-time repository setup
 
@@ -102,8 +109,8 @@ That's it. The next push to `main`, or a manual trigger (see [Manually triggerin
 
 | Part | Detail |
 |---|---|
-| Workflow file | `.github/workflows/deploy.yml` |
-| Trigger | Push to `main` or manual `workflow_dispatch` |
+| CI workflow | `.github/workflows/ci.yml` — runs on all pushes and PRs |
+| Deploy workflow | `.github/workflows/deploy.yml` — runs on push to `main` or manual trigger |
 | Build command | `pnpm check` (lint + typecheck + build) |
 | Output directory | `dist/` |
 | Base URL | `/pinetarsportsfund/` (set in `vite.config.ts`) |
@@ -123,24 +130,37 @@ The `base` path in `vite.config.ts` must match the repository name for all asset
 
 ### Requirements
 
-- Node version from `.nvmrc`
-- pnpm
+- Node version from `.nvmrc` (currently `22`)
+- pnpm (activated via Corepack — do **not** install globally with npm)
 
 ### Setup
 
 ```sh
 nvm use
-corepack enable
-pnpm install
+pnpm bootstrap   # corepack enable && pnpm install --frozen-lockfile
 ```
 
-### Run development server
+### Run development server (UI only)
 
 ```sh
 pnpm dev
 ```
 
+### Run with local SQLite API server
+
+```sh
+pnpm dev:full   # starts both Express API (port 8787) and Vite dev server
+```
+
+When the API server is not running, the app falls back to the in-browser SQLite mock layer automatically.
+
 ### Validate the project
+
+```sh
+pnpm check   # pnpm lint && pnpm typecheck && pnpm build
+```
+
+Or individually:
 
 ```sh
 pnpm lint
@@ -148,52 +168,41 @@ pnpm typecheck
 pnpm build
 ```
 
-Or, if available in `package.json`:
+## Data persistence modes
 
-```sh
-pnpm check
-```
+The app supports two data layers, selectable by environment:
 
-## Current development approach
+| Mode | How it works | When to use |
+|------|-------------|-------------|
+| **In-browser SQLite** | `sql.js` + `localforage` backing an in-memory SQLite DB persisted to IndexedDB | Default — no server needed |
+| **Express API** | `server/index.mjs` — Express + `better-sqlite3` on port `8787` | When you need shareable/persistent data across browsers |
 
-The app is currently intended to be built in a **local-first** way before wiring up a full backend.
+The `VITE_API_BASE_URL` env var controls which layer `src/lib/api/http.ts` points at.
 
-That means:
-
-- mock CRUD lives under `src/lib/api/mock/*`
-- sample Pine Tar Sports Fund data can be seeded locally
-- UI and data modeling come first
-- real persistence can be added later behind stable interfaces
-
-## Data model direction
+## Data model
 
 The app is centered around a few main entities:
 
-- **BrandProfile**
-- **Deck**
-- **DeckSection**
-- **Template**
-- **Asset**
-- **FinancialModel**
+- **Tenant** — brand, slug, theming
+- **Deck** — metadata, audience type, status, section list
+- **DeckSection** — typed, ordered, enable/disable-able
+- **Template** — defines section structure for a deck type
+- **Asset** — uploaded media references
+- **FinancialModel** — raise targets, returns, use-of-funds, projections
 
-These models should remain explicit, typed, and validated before export logic is layered on top.
+Models are strongly typed and Zod-validated before export logic runs.
 
 ## Export philosophy
 
-Export logic should remain separate from React page components.
+Export logic stays separate from React page components.
 
-The goal is to keep a clean flow like this:
-
-`app state / stored deck data -> normalized section data -> export builder -> PPTX / PDF output`
-
-This keeps the deck engine inspectable and easier to maintain when layouts or export requirements change.
+`app state / stored deck data → normalized section data → export builder → PPTX / PDF output`
 
 ## Non-goals for now
 
 - public event landing pages
 - ticketing or livestream features
 - freeform drag-anything slide editing
-- highly opinionated backend architecture before core workflows are proven
 - AI-generated investment assumptions by default
 
 ## Status

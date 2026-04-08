@@ -2,6 +2,7 @@ import type {
   CreateFinancialModelInput,
   FinancialModel,
 } from "../../../features/financials/model";
+import { apiRequest } from "../http";
 import {
   deleteRowById,
   getRowById,
@@ -59,6 +60,11 @@ function delay(ms = 100): Promise<void> {
 
 export async function getFinancialModels(): Promise<FinancialModel[]> {
   await delay();
+  try {
+    return await apiRequest<FinancialModel[]>("/financial-models");
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const financialModels = await listRows<FinancialModel>("financial_models");
   return [...financialModels];
@@ -68,6 +74,11 @@ export async function getFinancialModelById(
   id: string,
 ): Promise<FinancialModel | undefined> {
   await delay();
+  try {
+    return await apiRequest<FinancialModel>(`/financial-models/${id}`);
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   return getRowById<FinancialModel>("financial_models", id);
 }
@@ -76,6 +87,14 @@ export async function createFinancialModel(
   data: CreateFinancialModelInput,
 ): Promise<FinancialModel> {
   await delay();
+  try {
+    return await apiRequest<FinancialModel>("/financial-models", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const now = new Date().toISOString();
   const model: FinancialModel = {
@@ -93,6 +112,14 @@ export async function updateFinancialModel(
   data: Partial<CreateFinancialModelInput>,
 ): Promise<FinancialModel> {
   await delay();
+  try {
+    return await apiRequest<FinancialModel>(`/financial-models/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const existing = await getRowById<FinancialModel>("financial_models", id);
   if (!existing) {
@@ -109,6 +136,12 @@ export async function updateFinancialModel(
 
 export async function deleteFinancialModel(id: string): Promise<void> {
   await delay();
+  try {
+    await apiRequest<void>(`/financial-models/${id}`, { method: "DELETE" });
+    return;
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const existing = await getRowById<FinancialModel>("financial_models", id);
   if (!existing) {

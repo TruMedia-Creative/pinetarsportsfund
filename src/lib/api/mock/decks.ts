@@ -1,4 +1,5 @@
 import type { Deck, CreateDeckInput } from "../../../features/decks/model";
+import { apiRequest } from "../http";
 import {
   deleteRowById,
   getRowById,
@@ -472,6 +473,11 @@ function delay(ms = 100): Promise<void> {
 
 export async function getDecks(): Promise<Deck[]> {
   await delay();
+  try {
+    return await apiRequest<Deck[]>("/decks");
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const decks = await listRows<Deck>("decks");
   return [...decks];
@@ -479,12 +485,25 @@ export async function getDecks(): Promise<Deck[]> {
 
 export async function getDeckById(id: string): Promise<Deck | undefined> {
   await delay();
+  try {
+    return await apiRequest<Deck>(`/decks/${id}`);
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   return getRowById<Deck>("decks", id);
 }
 
 export async function createDeck(data: CreateDeckInput): Promise<Deck> {
   await delay();
+  try {
+    return await apiRequest<Deck>("/decks", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const now = new Date().toISOString();
   const deck: Deck = {
@@ -502,6 +521,14 @@ export async function updateDeck(
   data: Partial<CreateDeckInput>,
 ): Promise<Deck> {
   await delay();
+  try {
+    return await apiRequest<Deck>(`/decks/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const existing = await getRowById<Deck>("decks", id);
   if (!existing) {
@@ -518,6 +545,12 @@ export async function updateDeck(
 
 export async function deleteDeck(id: string): Promise<void> {
   await delay();
+  try {
+    await apiRequest<void>(`/decks/${id}`, { method: "DELETE" });
+    return;
+  } catch {
+    // fall back to client storage when API is unavailable
+  }
   await ensureSeeded();
   const existing = await getRowById<Deck>("decks", id);
   if (!existing) {
