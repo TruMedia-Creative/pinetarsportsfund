@@ -7,7 +7,7 @@
   "scripts": {
     "api": "node server/index.mjs",
     "dev": "vite",
-    "dev:full": "concurrently -k \"pnpm api\" \"pnpm dev\"",
+    "dev:full": "VITE_API_BASE_URL=http://localhost:8787/api concurrently -k \"pnpm api\" \"pnpm dev\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
