@@ -135,6 +135,31 @@ export default function DeckFormPage() {
     setSections(createDeckSectionsFromTemplate(template));
   }, [audienceType, isEdit]);
 
+  /** Shared save helper used by both auto-save and manual submit. */
+  async function performSave(id: string, templateId: string, slug: string) {
+    setSaving(true);
+    setSaveStatus("saving");
+    try {
+      await updateDeck(id, {
+        title,
+        projectName,
+        audienceType,
+        status,
+        slug,
+        subtitle: subtitle || undefined,
+        summary: summary || undefined,
+        templateId,
+        sections,
+        assetIds: [],
+      });
+      setSaveStatus("saved");
+    } catch {
+      setSaveStatus("error");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   /** Debounced auto-save — fires whenever any form field or sections change
    *  while we have a real deck id (i.e. in edit mode). */
   useEffect(() => {
@@ -143,10 +168,9 @@ export default function DeckFormPage() {
     if (!initializedRef.current) return;
 
     const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
-    if (!templateId) {
-      setSaveStatus("error");
-      return;
-    }
+    // AUDIENCE_OPTIONS already filters out audience types without a template,
+    // so this guard is a safety net only.
+    if (!templateId) return;
 
     if (autosaveTimerRef.current) {
       clearTimeout(autosaveTimerRef.current);
@@ -154,46 +178,25 @@ export default function DeckFormPage() {
 
     setSaveStatus("idle");
 
-    autosaveTimerRef.current = setTimeout(async () => {
-      setSaving(true);
-      setSaveStatus("saving");
-      try {
-        await updateDeck(currentDeckId, {
-          title,
-          projectName,
-          audienceType,
-          status,
-          slug: existingSlug || deriveSlug(title),
-          subtitle: subtitle || undefined,
-          summary: summary || undefined,
-          templateId,
-          sections,
-          assetIds: [],
-        });
-        setSaveStatus("saved");
-      } catch {
-        setSaveStatus("error");
-      } finally {
-        setSaving(false);
-      }
+    const slug = existingSlug || deriveSlug(title);
+    autosaveTimerRef.current = setTimeout(() => {
+      void performSave(currentDeckId, templateId, slug);
     }, AUTOSAVE_DELAY_MS);
 
     return () => {
       if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, projectName, audienceType, status, subtitle, summary, existingSlug, sections, deckId]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
-    setSaving(true);
-    setSaveStatus("saving");
     setError(null);
 
     const templateId = AUDIENCE_TEMPLATE_MAP[audienceType] ?? "";
     if (!templateId) {
       setError("No template is available for the selected audience type.");
-      setSaving(false);
       setSaveStatus("error");
       return;
     }
@@ -201,37 +204,34 @@ export default function DeckFormPage() {
     // On create: derive slug from title. On edit: preserve the existing slug.
     const slug = isEdit ? existingSlug : deriveSlug(title);
 
-    const payload = {
-      title,
-      projectName,
-      audienceType,
-      status,
-      slug,
-      subtitle: subtitle || undefined,
-      summary: summary || undefined,
-      templateId,
-      sections,
-      assetIds: [],
-    };
-
-    try {
-      if (isEdit && deckId) {
-        await updateDeck(deckId, payload);
-        setSaveStatus("saved");
-      } else {
-        const created = await createDeck(payload);
+    if (isEdit && deckId) {
+      await performSave(deckId, templateId, slug);
+    } else {
+      setSaving(true);
+      setSaveStatus("saving");
+      try {
+        const created = await createDeck({
+          title,
+          projectName,
+          audienceType,
+          status,
+          slug,
+          subtitle: subtitle || undefined,
+          summary: summary || undefined,
+          templateId,
+          sections,
+          assetIds: [],
+        });
         setCreatedDeckId(created.id);
         initializedRef.current = true;
         navigate(`/decks/${created.id}/edit`, { replace: true });
-        setSaving(false);
         setSaveStatus("saved");
-        return;
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to create deck.");
+        setSaveStatus("error");
+      } finally {
+        setSaving(false);
       }
-      setSaving(false);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to save deck.");
-      setSaving(false);
-      setSaveStatus("error");
     }
   }
 
@@ -406,7 +406,7 @@ export default function DeckFormPage() {
             <h2 className="text-lg font-semibold text-gray-900">Deck Sections</h2>
             <p className="text-xs text-gray-500">
               {resolvedDeckId
-                ? "Changes auto-save automatically."
+                ? "Changes save automatically."
                 : "Toggle, reorder, and edit each section."}
             </p>
           </div>
