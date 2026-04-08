@@ -5,6 +5,17 @@ export const deckStatusSchema = z.enum(["draft", "ready", "exported", "archived"
 
 export type DeckStatusInput = z.infer<typeof deckStatusSchema>;
 
+export const slideSpacingSchema = z.enum(["compact", "normal", "relaxed"]);
+
+export const deckThemeSchema = z.object({
+  backgroundColor: z.string().optional(),
+  primaryColor: z.string().optional(),
+  accentColor: z.string().optional(),
+  slideSpacing: slideSpacingSchema.optional(),
+});
+
+export type DeckThemeInput = z.infer<typeof deckThemeSchema>;
+
 export const deckSectionSchema = z.object({
   id: z.string(),
   type: sectionTypeSchema,
@@ -29,6 +40,7 @@ export const deckSchema = z.object({
   sections: z.array(deckSectionSchema),
   assetIds: z.array(z.string()),
   financialModelId: z.string().optional(),
+  theme: deckThemeSchema.optional(),
   updatedAt: z.string(),
   createdAt: z.string(),
 });
