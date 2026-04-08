@@ -5,6 +5,7 @@ import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import { defaultTemplates, AUDIENCE_LABELS, AUDIENCE_TYPES } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
 import type { DeckStatus, DeckTheme, SlideSpacing } from "../model";
+import { DECK_THEME_DEFAULTS } from "../model";
 import type { DeckSection } from "../model/types";
 import { createDeckSectionsFromTemplate } from "../utils/createDeckSectionsFromTemplate";
 import { DeckSectionEditor } from "./DeckSectionEditor";
@@ -45,9 +46,9 @@ const SPACING_OPTIONS: { value: SlideSpacing; label: string }[] = [
 ];
 
 /** Default brand colours shown as placeholders. */
-const DEFAULT_BG_COLOR = "#4a6b7c";
-const DEFAULT_PRIMARY_COLOR = "#0d2b6b";
-const DEFAULT_ACCENT_COLOR = "#c0262d";
+const DEFAULT_BG_COLOR = DECK_THEME_DEFAULTS.backgroundColor;
+const DEFAULT_PRIMARY_COLOR = DECK_THEME_DEFAULTS.primaryColor;
+const DEFAULT_ACCENT_COLOR = DECK_THEME_DEFAULTS.accentColor;
 
 /** Derive a URL-safe slug from a title string. */
 function deriveSlug(title: string): string {
@@ -78,7 +79,7 @@ export default function DeckFormPage() {
   const [summary, setSummary] = useState("");
   const [existingSlug, setExistingSlug] = useState("");
   const [sections, setSections] = useState<DeckSection[]>([]);
-  const [theme, setTheme] = useState<DeckTheme>({});
+  const [theme, setTheme] = useState<DeckTheme>({ ...DECK_THEME_DEFAULTS });
 
   useEffect(() => {
     if (!deckId) return;
@@ -400,21 +401,28 @@ export default function DeckFormPage() {
           </div>
 
           {/* Live colour preview strip */}
-          <div className="mt-3 flex h-8 overflow-hidden rounded-md border border-gray-200">
+          <div
+            className="mt-3 flex h-8 overflow-hidden rounded-md border border-gray-200"
+            role="img"
+            aria-label="Colour preview: background, primary, and accent"
+          >
             <div
               className="flex-1"
               style={{ backgroundColor: theme.backgroundColor ?? DEFAULT_BG_COLOR }}
               title="Background"
+              aria-label="Background colour preview"
             />
             <div
               className="w-16"
               style={{ backgroundColor: theme.primaryColor ?? DEFAULT_PRIMARY_COLOR }}
               title="Primary"
+              aria-label="Primary colour preview"
             />
             <div
               className="w-16"
               style={{ backgroundColor: theme.accentColor ?? DEFAULT_ACCENT_COLOR }}
               title="Accent"
+              aria-label="Accent colour preview"
             />
           </div>
           <p className="mt-1 text-xs text-gray-400">

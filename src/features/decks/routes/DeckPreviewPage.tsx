@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { getDeckById, getDecks } from "../../../lib/api/mock/decks";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import type { Deck, DeckSection, DeckTheme } from "../model/types";
+import { DECK_THEME_DEFAULTS } from "../model";
 import type {
   CoverContent,
   ExecutiveSummaryContent,
@@ -15,8 +16,6 @@ import type {
 } from "../model/contentTypes";
 
 /* ─────────────────────── Brand colours (defaults) ──────────────────────── */
-const NAVY = "#0d2b6b";
-const RED = "#c0262d";
 const TEAL_HEADER = "#3d6b7c";
 
 /* ─────────────────────── Theme helpers ─────────────────────────────────── */
@@ -31,14 +30,14 @@ interface ResolvedTheme {
 
 function resolveTheme(theme: DeckTheme | undefined): ResolvedTheme {
   return {
-    backgroundColor: theme?.backgroundColor ?? "#4a6b7c",
-    primaryColor: theme?.primaryColor ?? NAVY,
-    accentColor: theme?.accentColor ?? RED,
+    backgroundColor: theme?.backgroundColor ?? DECK_THEME_DEFAULTS.backgroundColor,
+    primaryColor: theme?.primaryColor ?? DECK_THEME_DEFAULTS.primaryColor,
+    accentColor: theme?.accentColor ?? DECK_THEME_DEFAULTS.accentColor,
     headerColor: TEAL_HEADER,
     slideSpacingPx:
-      theme?.slideSpacing === "compact"
+      (theme?.slideSpacing ?? DECK_THEME_DEFAULTS.slideSpacing) === "compact"
         ? 12
-        : theme?.slideSpacing === "relaxed"
+        : (theme?.slideSpacing ?? DECK_THEME_DEFAULTS.slideSpacing) === "relaxed"
           ? 48
           : 32,
   };
