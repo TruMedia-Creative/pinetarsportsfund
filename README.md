@@ -83,6 +83,42 @@ At a high level, the app is organized around:
 - `src/lib/api/mock` for local-first development data
 - `src/lib/pptx` for export helpers and builders
 
+## Deployment (GitHub Pages)
+
+The app is configured to deploy automatically to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml`.
+
+### One-time repository setup
+
+Before the workflow can deploy, you need to enable GitHub Pages in the repository settings **once**:
+
+1. Go to the repository on GitHub.
+2. Click **Settings** → **Pages** (in the left sidebar under *Code and automation*).
+3. Under **Build and deployment → Source**, select **GitHub Actions** (not *Deploy from a branch*).
+4. Click **Save**.
+
+That's it. The next push to `main`, or a manual trigger (see [Manually triggering a deployment](#manually-triggering-a-deployment) below), will build and publish the site.
+
+### How it works
+
+| Part | Detail |
+|---|---|
+| Workflow file | `.github/workflows/deploy.yml` |
+| Trigger | Push to `main` or manual `workflow_dispatch` |
+| Build command | `pnpm check` (lint + typecheck + build) |
+| Output directory | `dist/` |
+| Base URL | `/pinetarsportsfund/` (set in `vite.config.ts`) |
+| Published URL | `https://<org>.github.io/pinetarsportsfund/` |
+
+The `base` path in `vite.config.ts` must match the repository name for all asset paths to resolve correctly on GitHub Pages.
+
+### Manually triggering a deployment
+
+1. Open the **Actions** tab of the repository.
+2. Select **Deploy to GitHub Pages** from the workflow list on the left.
+3. Click **Run workflow** → **Run workflow**.
+
+---
+
 ## Local development
 
 ### Requirements
