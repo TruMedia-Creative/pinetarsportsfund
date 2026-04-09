@@ -28,18 +28,26 @@ server/
 ├── index.mjs                 # Express API server (decks, assets, financial-models)
 └── sqlite.mjs                # SQLite helpers (initDb, listRows, getRowById, upsertRow, deleteRowById)
 
+public/
+└── 404.html                  # SPA fallback redirect for static hosting (GitHub Pages)
+
+docs/
+└── architecture.md           # High-level architecture notes
+
 src/
 ├── main.tsx                  # React entry point (createRoot)
-├── App.tsx                   # Router setup, auth gates, tenant routing
-├── index.css                 # Global styles (Tailwind imports)
+├── App.tsx                   # Router setup, auth gates, tenant routing (React Router v7)
+├── index.css                 # Global styles (Tailwind CSS v4 imports)
 │
 ├── components/               # Shared, reusable UI components
 │   ├── layout/
-│   │   ├── AppShell.tsx      # Authenticated app chrome (header, nav, dark mode)
+│   │   ├── AppShell.tsx      # Authenticated app chrome (header, nav, dark mode toggle)
 │   │   ├── PublicLayout.tsx  # Unauthenticated layout for public deck views
 │   │   └── index.ts          # Barrel exports
 │   └── ui/
 │       ├── BannerUpload.tsx  # Drag-and-drop image upload (base64 or file object)
+│       ├── Button.tsx        # Shared button component
+│       ├── SurfacePanel.tsx  # Reusable card/panel component
 │       ├── LoadingSpinner.tsx # Loading indicator
 │       └── index.ts          # Barrel exports
 │
@@ -48,8 +56,9 @@ src/
 │   │   ├── context/
 │   │   │   └── AuthContext.tsx  # AuthProvider + useAuth hook
 │   │   ├── routes/
-│   │   │   └── LoginPage.tsx    # Login form page
-│   │   └── index.ts             # Public exports
+│   │   │   ├── LoginPage.tsx    # Login form page
+│   │   │   └── index.ts
+│   │   └── index.ts             # Public exports (LoginPage, AuthProvider, useAuth)
 │   │
 │   ├── tenants/              # Multi-tenancy: brand resolution, context, routing
 │   │   ├── context/
@@ -60,85 +69,96 @@ src/
 │   │   ├── model/
 │   │   │   ├── types.ts       # Tenant type (id, slug, name, domain, branding)
 │   │   │   └── index.ts
-│   │   └── index.ts
+│   │   └── index.ts             # Public exports
 │   │
 │   ├── decks/                # Deck management (core feature)
 │   │   ├── model/
-│   │   │   ├── types.ts          # Deck, DeckSection, AudienceVariant, AssetRef types
+│   │   │   ├── types.ts          # Deck, DeckSection, DeckStatus, AudienceType types
 │   │   │   ├── schemas.ts        # Zod validation schemas
 │   │   │   ├── contentTypes.ts   # Typed content block definitions per section type
 │   │   │   ├── themeDefaults.ts  # Default theme values per audience type
 │   │   │   └── index.ts
+│   │   ├── lib/
+│   │   │   ├── slideBlueprints.ts  # Deck section templates and blueprints
+│   │   │   └── viewerAnalytics.ts  # Analytics helpers for deck viewing
 │   │   ├── routes/
 │   │   │   ├── DeckListPage.tsx       # List all decks
 │   │   │   ├── DeckFormPage.tsx       # Create / edit deck form
-│   │   │   ├── DeckPreviewPage.tsx    # Browser preview of a deck (also handles isPublic)
+│   │   │   ├── DeckPreviewPage.tsx    # Browser preview of a deck (handles authenticated and public isPublic param)
 │   │   │   ├── DeckSectionEditor.tsx  # Section-level inline editor
+│   │   │   ├── DeckSectionEditor.test.tsx
+│   │   │   ├── DeckPreviewPage.test.tsx
 │   │   │   └── index.ts
 │   │   ├── utils/
-│   │   │   └── createDeckSectionsFromTemplate.ts  # Builds initial section list from a template
-│   │   └── index.ts
+│   │   │   ├── createDeckSectionsFromTemplate.ts  # Builds initial section list from a template
+│   │   │   └── createDeckSectionsFromTemplate.test.ts
+│   │   └── index.ts             # Public exports
 │   │
 │   ├── templates/            # Reusable slide and section templates
 │   │   ├── model/
-│   │   │   ├── types.ts            # SlideTemplate, SectionDefinition types
-│   │   │   ├── schemas.ts          # Template validation schemas
-│   │   │   ├── defaultTemplates.ts # Built-in template definitions
+│   │   │   ├── types.ts            # Template, SectionDefinition types
 │   │   │   └── index.ts
 │   │   ├── components/
-│   │   │   ├── TemplateCard.tsx
-│   │   │   ├── TemplateSelector.tsx
-│   │   │   └── index.ts (missing — components not yet barrel-exported)
+│   │   │   └── (placeholder for template UI components)
 │   │   ├── lib/
 │   │   │   └── templateRegistry.ts # Runtime registry of available templates
-│   │   └── index.ts
+│   │   └── index.ts             # Public exports
 │   │
 │   ├── financials/           # Investment assumptions and projections
 │   │   ├── model/
-│   │   │   ├── types.ts       # Returns, use-of-funds, forecast types
+│   │   │   ├── types.ts       # Returns, use-of-funds, forecast, assumptions types
 │   │   │   ├── schemas.ts     # Financial input validation schemas
+│   │   │   ├── schemas.test.ts
 │   │   │   └── index.ts
 │   │   ├── components/
-│   │   │   ├── ReturnsForm.tsx
-│   │   │   ├── ForecastTable.tsx
+│   │   │   ├── ReturnsForm.tsx     # Form for return assumptions
+│   │   │   ├── ForecastTable.tsx   # Editable forecast data table
 │   │   │   └── index.ts
-│   │   └── index.ts
+│   │   └── index.ts             # Public exports
 │   │
 │   ├── assets/               # Uploaded images, logos, renderings, charts
 │   │   ├── model/
-│   │   │   ├── types.ts       # Asset metadata types
+│   │   │   ├── types.ts       # Asset metadata types (id, name, type, url, alt, tags)
 │   │   │   ├── schemas.ts     # Asset validation schemas
+│   │   │   ├── schemas.test.ts
 │   │   │   └── index.ts
 │   │   ├── components/
-│   │   │   ├── AssetLibrary.tsx
-│   │   │   ├── AssetPicker.tsx
+│   │   │   ├── AssetLibrary.tsx  # Browse and manage assets
+│   │   │   ├── AssetPicker.tsx   # Modal for selecting assets
 │   │   │   └── index.ts
-│   │   └── index.ts
+│   │   └── index.ts             # Public exports
 │   │
 │   ├── exports/              # Deck export pipeline
 │   │   ├── routes/
-│   │   │   └── ExportPage.tsx   # Generate PPTX / PDF / other outputs
+│   │   │   ├── ExportPage.tsx   # Generate PPTX / PDF / other outputs
+│   │   │   ├── ExportPage.test.tsx
+│   │   │   └── index.ts
 │   │   ├── utils/
-│   │   │   └── buildDeck.ts     # Maps structured content to export output
-│   │   └── index.ts
+│   │   │   └── buildDeck.ts     # Maps structured content to PPTX/PDF export output
+│   │   └── index.ts             # Public exports
 │   │
 │   ├── dashboard/            # Main dashboard
 │   │   ├── routes/
 │   │   │   ├── DashboardPage.tsx  # Overview / home page
 │   │   │   └── index.ts
-│   │   └── (no model — uses decks + tenants data)
+│   │   └── (no models — uses decks + tenants context)
 │   │
 │   ├── admin/                # Admin dashboard
 │   │   ├── routes/
 │   │   │   ├── AdminDashboardPage.tsx  # Brand, deck, and template management
 │   │   │   └── index.ts
-│   │   └── (no model — uses tenants + decks + templates data)
+│   │   └── (no models — uses tenants + decks + templates)
 │   │
-│   └── settings/             # User settings
-│       ├── routes/
-│       │   ├── SettingsPage.tsx  # Theme + accent color settings
-│       │   └── index.ts
-│       └── (no model)
+│   ├── settings/             # User and application settings
+│   │   ├── routes/
+│   │   │   └── index.ts       # Settings routes
+│   │   └── (no models)
+│   │
+│   ├── analytics/            # Analytics and tracking (placeholder)
+│   │   └── (reserved for future use)
+│   │
+│   └── media/                # Media handling (placeholder)
+│       └── (reserved for future use)
 │
 ├── lib/                      # Shared utilities and services
 │   ├── api/
@@ -146,22 +166,25 @@ src/
 │   │   └── mock/
 │   │       ├── data.ts        # Seed data (decks, templates, financial defaults)
 │   │       ├── db.ts          # Low-level SQLite table helpers (re-exported from sqlite.ts)
-│   │       ├── sqlite.ts      # In-browser SQLite via sql.js + localforage (IndexedDB-backed)
-│   │       ├── decks.ts       # Mock deck CRUD
-│   │       ├── assets.ts      # Mock asset CRUD
-│   │       ├── financials.ts  # Mock financial model CRUD
+│   │       ├── sqlite.ts      # In-browser SQLite via sql.js + localforage (persists to IndexedDB)
+│   │       ├── decks.ts       # Mock deck CRUD operations
+│   │       ├── assets.ts      # Mock asset CRUD operations
+│   │       ├── financials.ts  # Mock financial model CRUD operations
 │   │       ├── tenants.ts     # Mock tenant lookup
 │   │       └── index.ts       # Barrel exports
 │   ├── pptx/
-│   │   ├── builders.ts        # PPTX export builders/helpers (pptxgenjs)
+│   │   ├── builders.ts        # PPTX export builders/helpers (uses pptxgenjs)
 │   │   └── index.ts
-│   └── colorContrast.ts       # WCAG contrast ratio helper
-
-public/
-└── 404.html                  # SPA fallback redirect for static hosting (GitHub Pages)
-
-docs/
-└── architecture.md           # High-level architecture notes
+│   ├── config/               # Configuration helpers
+│   ├── date/                 # Date utilities
+│   ├── validation/           # Validation helpers
+│   ├── utils/                # General utility functions
+│   └── colorContrast.ts      # WCAG contrast ratio helper for accessibility
+│
+├── styles/                   # Additional style modules
+│
+└── test/
+    └── setup.ts              # Vitest configuration and test utilities
 ```
 
 ## Feature Module Convention
@@ -180,9 +203,9 @@ Each feature under `src/features/` follows this structure where applicable:
 
 Not every feature needs all folders — only add what is actually used.
 
-## Routing
+## Routing & Authentication
 
-Routes are defined in `src/App.tsx`. The app uses tenant-aware routing: every authenticated route lives under a resolved `TenantProvider` context.
+Routes are defined in [src/App.tsx](src/App.tsx) using React Router v7. The app uses tenant-aware routing: every authenticated route lives under a resolved `TenantProvider` context.
 
 ### Tenant resolution
 
@@ -194,22 +217,24 @@ Routes are defined in `src/App.tsx`. The app uses tenant-aware routing: every au
 
 ### Route table
 
+All authenticated routes are protected by `RequireAuth` guard and wrapped in `TenantGate` which loads the tenant context.
+
 | Path | Component | Auth | Description |
 |------|-----------|------|-------------|
-| `/login` | `LoginPage` | No | Login form |
-| `/` | `DashboardPage` | Yes | Main dashboard |
-| `/decks` | `DeckListPage` | Yes | List all decks |
+| `/login` | `LoginPage` | No | Sign in form |
+| `/` | `DashboardPage` | Yes | Main dashboard / home |
+| `/decks` | `DeckListPage` | Yes | List all user decks |
 | `/decks/new` | `DeckFormPage` | Yes | Create a new deck |
 | `/decks/:deckId/edit` | `DeckFormPage` | Yes | Edit an existing deck |
-| `/decks/:deckId/preview` | `DeckPreviewPage` | Yes | Preview deck in browser |
-| `/exports/:deckId` | `ExportPage` | Yes | Generate export outputs |
-| `/admin` | `AdminDashboardPage` | Yes | Admin panel |
-| `/settings` | `SettingsPage` | Yes | Theme and preferences |
-| `/view/:slug` | `DeckPreviewPage` (isPublic) | No | Public shareable deck view |
+| `/decks/:deckId/preview` | `DeckPreviewPage` | Yes | Preview authenticated deck in browser |
+| `/exports/:deckId` | `ExportPage` | Yes | Generate PPTX / PDF exports |
+| `/admin` | `AdminDashboardPage` | Yes | Admin panel for template and brand management |
+| `/settings` | `SettingsPage` | Yes | User settings (theme, preferences) |
+| `/view/:slug` | `DeckPreviewPage` (isPublic=true) | No | Public shareable deck view |
 
-All authenticated routes also work under `/t/:tenantSlug/*` for explicit tenant scoping.
+All authenticated routes can also be accessed under `/t/:tenantSlug/*` for explicit tenant scoping.
 
-## Data Layer
+## Data Layer & Persistence
 
 The app supports two data modes:
 

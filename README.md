@@ -137,7 +137,7 @@ The `base` path in `vite.config.ts` must match the repository name for all asset
 
 ```sh
 nvm use
-pnpm bootstrap   # corepack enable && pnpm install --frozen-lockfile
+pnpm bootstrap   # runs: corepack enable && pnpm install --frozen-lockfile
 ```
 
 ### Run development server (UI only)
@@ -146,26 +146,28 @@ pnpm bootstrap   # corepack enable && pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-### Run with local SQLite API server
+Runs Vite dev server. The app uses the in-browser SQLite mock layer by default.
+
+### Run with local Express API server
 
 ```sh
-pnpm dev:full   # starts both Express API (port 8787) and Vite dev server
+pnpm dev:full   # runs both Express API (port 8787) and Vite dev server
 ```
 
-When the API server is not running, the app falls back to the in-browser SQLite mock layer automatically.
+When the API server is running, set `VITE_API_BASE_URL=http://localhost:8787/api` to point the frontend at it. This is already configured in the `dev:full` script.
 
 ### Validate the project
 
 ```sh
-pnpm check   # pnpm lint && pnpm typecheck && pnpm build
+pnpm check   # runs: pnpm lint && pnpm typecheck && pnpm build
 ```
 
-Or individually:
+Run individual checks:
 
 ```sh
-pnpm lint
-pnpm typecheck
-pnpm build
+pnpm lint          # ESLint validation
+pnpm typecheck     # TypeScript type checking
+pnpm build         # Vite production build
 ```
 
 ## Data persistence modes
