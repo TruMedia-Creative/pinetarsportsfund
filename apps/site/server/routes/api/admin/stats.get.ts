@@ -1,6 +1,6 @@
 import { getDashboardStats } from '~/server/utils/mockStore'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   try {
     return getDashboardStats()
   } catch (error) {

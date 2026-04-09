@@ -1,6 +1,6 @@
 import { listAssets } from '~/server/utils/mockStore'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   try {
     return listAssets()
   } catch (error) {

@@ -5,7 +5,7 @@ export type Deck = {
   slugForPublic?: string
   status: 'draft' | 'ready' | 'exported' | 'archived'
   published: boolean
-  content?: Record<string, any>
+  content?: Record<string, unknown>
   marketingMetadata?: {
     summary?: string
     heroImageUrl?: string
@@ -33,7 +33,7 @@ export type FinancialModel = {
   projectName: string
   minimumInvestment?: number
   targetRaise?: number
-  data?: Record<string, any>
+  data?: Record<string, unknown>
   createdAt: string
 }
 

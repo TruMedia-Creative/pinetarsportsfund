@@ -73,5 +73,10 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('@tailwindcss/typography'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('@tailwindcss/forms'),
+  ],
 } satisfies Config

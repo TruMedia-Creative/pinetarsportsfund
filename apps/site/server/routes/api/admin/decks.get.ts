@@ -1,6 +1,6 @@
 import { listDecks } from '~/server/utils/mockStore'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   try {
     return listDecks()
   } catch (error) {

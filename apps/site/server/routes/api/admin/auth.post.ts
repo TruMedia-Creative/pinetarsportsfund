@@ -34,16 +34,16 @@ export default defineEventHandler(async (event) => {
         email: adminEmail,
       },
     }
-  } catch (error: any) {
-    if (error.name === 'ZodError') {
+  } catch (error: unknown) {
+    if ((error as { name?: string }).name === 'ZodError') {
       throw createError({
         statusCode: 400,
         statusMessage: 'Invalid login payload',
-        data: error.flatten(),
+        data: (error as { flatten: () => unknown }).flatten(),
       })
     }
 
-    if (error.statusCode === 401) throw error
+    if ((error as { statusCode?: number }).statusCode === 401) throw error
 
     console.error('Auth error:', error)
     throw createError({

@@ -20,12 +20,12 @@ export default defineEventHandler(async (event) => {
     })
 
     return { success: true, message: 'Message received' }
-  } catch (error: any) {
-    if (error.name === 'ZodError') {
+  } catch (error: unknown) {
+    if ((error as { name?: string }).name === 'ZodError') {
       throw createError({
         statusCode: 400,
         statusMessage: 'Invalid contact payload',
-        data: error.flatten(),
+        data: (error as { flatten: () => unknown }).flatten(),
       })
     }
 

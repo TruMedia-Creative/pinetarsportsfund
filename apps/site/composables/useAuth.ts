@@ -46,7 +46,7 @@ export const useAuth = () => {
     try {
       const response = await $fetch<{ user: User }>('/api/admin/auth/me')
       user.value = response.user
-    } catch (error) {
+    } catch {
       user.value = null
     }
   }

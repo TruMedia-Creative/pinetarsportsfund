@@ -18,8 +18,8 @@ export default defineEventHandler(async (event) => {
       deckId: id,
       title: deck.title,
     }
-  } catch (error: any) {
-    if (error.statusCode === 404) throw error
+  } catch (error: unknown) {
+    if ((error as { statusCode?: number }).statusCode === 404) throw error
 
     console.error('Error exporting deck:', error)
     throw createError({

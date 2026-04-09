@@ -14,12 +14,12 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const input = createAssetSchema.parse(body)
     return createAsset(input)
-  } catch (error: any) {
-    if (error.name === 'ZodError') {
+  } catch (error: unknown) {
+    if ((error as { name?: string }).name === 'ZodError') {
       throw createError({
         statusCode: 400,
         statusMessage: 'Invalid asset payload',
-        data: error.flatten(),
+        data: (error as { flatten: () => unknown }).flatten(),
       })
     }
 

@@ -28,12 +28,12 @@ export default defineEventHandler(async (event) => {
     }
 
     return deck
-  } catch (error: any) {
-    if (error.name === 'ZodError') {
+  } catch (error: unknown) {
+    if ((error as { name?: string }).name === 'ZodError') {
       throw createError({
         statusCode: 400,
         statusMessage: 'Invalid deck payload',
-        data: error.flatten(),
+        data: (error as { flatten: () => unknown }).flatten(),
       })
     }
 
