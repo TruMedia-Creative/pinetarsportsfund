@@ -1,5 +1,5 @@
 import { buildPptx } from "../../../lib/pptx";
-import { getFinancialModelById } from "../../../lib/api/mock/financials";
+import { getFinancialModelById } from "../../../lib/api/supabase/financials";
 import type { Deck } from "../../decks/model";
 
 /**

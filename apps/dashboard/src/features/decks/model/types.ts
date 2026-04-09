@@ -34,6 +34,13 @@ export interface DeckSection {
   content: Record<string, unknown>;
 }
 
+export interface DeckMarketingMetadata {
+  summary?: string;
+  heroImageUrl?: string;
+  tags?: string[];
+  expiresAt?: string;
+}
+
 export interface Deck {
   id: string;
   title: string;
@@ -50,6 +57,9 @@ export interface Deck {
   assetIds: string[];
   financialModelId?: string;
   theme?: DeckTheme;
+  published?: boolean;
+  marketingMetadata?: DeckMarketingMetadata;
+  publishedAt?: string;
   updatedAt: string;
   createdAt: string;
 }

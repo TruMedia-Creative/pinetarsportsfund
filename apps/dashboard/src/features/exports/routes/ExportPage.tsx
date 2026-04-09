@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getDeckById } from "../../../lib/api/mock/decks";
+import { getDeckById } from "../../../lib/api/supabase/decks";
 import { exportDeckAsPptx } from "../utils/buildDeck";
 import { Button, LoadingSpinner, SurfacePanel, buttonClassName } from "../../../components/ui";
 import type { Deck } from "../../decks/model";

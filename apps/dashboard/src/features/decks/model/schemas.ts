@@ -58,6 +58,14 @@ export const deckSchema = z.object({
   assetIds: z.array(z.string()),
   financialModelId: z.string().optional(),
   theme: deckThemeSchema.optional(),
+  published: z.boolean().optional().default(false),
+  marketingMetadata: z.object({
+    summary: z.string().optional(),
+    heroImageUrl: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    expiresAt: z.string().optional(),
+  }).optional(),
+  publishedAt: z.string().optional(),
   updatedAt: z.string(),
   createdAt: z.string(),
 });

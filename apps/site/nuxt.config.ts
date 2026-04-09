@@ -18,7 +18,22 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/image',
     '@nuxt/icon',
+    '@nuxtjs/supabase',
   ],
+
+  // Supabase — credentials are env vars; redirect config makes all pages public by default
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_ANON_KEY,
+    serviceKey: process.env.SUPABASE_SERVICE_KEY,
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      // Exclude all public pages from automatic auth redirect.
+      // Admin pages can add their own middleware if needed.
+      exclude: ['*'],
+    },
+  },
 
   // Content Configuration
   content: {
@@ -69,37 +84,27 @@ export default defineNuxtConfig({
   // Runtime Config
   runtimeConfig: {
     // Private keys only accessible server-side
-    database: {
-      path: process.env.DATABASE_PATH || './data/app.sqlite.bin',
-    },
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY || '',
     jwt: {
       secret: process.env.JWT_SECRET,
       expires: '7d',
-    },
-    adminAuth: {
-      username: process.env.ADMIN_USERNAME || 'admin',
-      password: process.env.ADMIN_PASSWORD || 'admin',
-      email: process.env.ADMIN_EMAIL || 'admin@pinetarsportsfund.com',
     },
     // Public keys (exposed to client)
     public: {
       apiBase: '/api',
       siteUrl: process.env.SITE_URL || 'http://localhost:3000',
+      supabaseUrl: process.env.SUPABASE_URL || '',
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
     },
   },
 
   // Nitro Configuration
   nitro: {
+    preset: 'vercel',
     prerender: {
       crawlLinks: true,
       routes: ['/investments', '/sitemap.xml'],
       ignore: ['/admin'],
-    },
-    storage: {
-      data: {
-        driver: 'fs',
-        base: './data',
-      },
     },
   },
 

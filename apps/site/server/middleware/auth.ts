@@ -1,13 +1,12 @@
-import { getVerifiedAdminUser } from '~/server/utils/auth'
+import { serverSupabaseUser } from '#supabase/server'
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   const path = getRequestURL(event).pathname
   const isAdminPage = path.startsWith('/admin')
-  const isAdminApi = path.startsWith('/api/admin')
-  const isAuthLoginApi = path === '/api/admin/auth'
+  const isAdminApi = path.startsWith('/api/admin') && path !== '/api/admin/auth'
 
-  if (isAdminPage || (isAdminApi && !isAuthLoginApi)) {
-    const user = getVerifiedAdminUser(event)
+  if (isAdminPage || isAdminApi) {
+    const user = await serverSupabaseUser(event)
     if (!user) {
       if (isAdminApi) {
         throw createError({

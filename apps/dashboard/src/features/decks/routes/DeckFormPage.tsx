@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, Link, useSearchParams } from "react-router-dom";
-import { getDeckById, createDeck, updateDeck, getDecks } from "../../../lib/api/mock/decks";
-import { getFinancialModels } from "../../../lib/api/mock/financials";
-import { getAssets } from "../../../lib/api/mock/assets";
+import { getDeckById, createDeck, updateDeck, getDecks } from "../../../lib/api/supabase/decks";
+import { getFinancialModels } from "../../../lib/api/supabase/financials";
+import { getAssets } from "../../../lib/api/supabase/assets";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner";
 import { defaultTemplates, AUDIENCE_LABELS, AUDIENCE_TYPES } from "../../templates/model";
 import type { AudienceType } from "../../templates/model";
-import type { DeckDepth, DeckGoal, DeckStatus, DeckTheme, SlideSpacing } from "../model";
+import type { DeckDepth, DeckGoal, DeckStatus, DeckTheme, SlideSpacing, DeckMarketingMetadata } from "../model";
 import type { FinancialModel } from "../../financials/model";
 import type { CreateFinancialModelInput } from "../../financials/model";
-import { createFinancialModel, updateFinancialModel } from "../../../lib/api/mock/financials";
+import { createFinancialModel, updateFinancialModel } from "../../../lib/api/supabase/financials";
 import { ForecastTable, ReturnsForm } from "../../financials";
 import type { Asset } from "../../assets/model";
 import { DECK_THEME_DEFAULTS } from "../model";
@@ -150,6 +150,8 @@ export default function DeckFormPage() {
   const [financialDraft, setFinancialDraft] = useState<FinancialModel | null>(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [theme, setTheme] = useState<DeckTheme>({ ...DECK_THEME_DEFAULTS });
+  const [published, setPublished] = useState(false);
+  const [marketingMetadata, setMarketingMetadata] = useState<DeckMarketingMetadata>({});
   const sectionFocusId = searchParams.get("section") ?? undefined;
 
   const filteredTemplates = useMemo(() => {
@@ -251,6 +253,8 @@ export default function DeckFormPage() {
         setAssetIds(deck.assetIds ?? []);
         setFinancialModelId(deck.financialModelId ?? "");
         if (deck.theme) setTheme(deck.theme);
+        setPublished(deck.published ?? false);
+        if (deck.marketingMetadata) setMarketingMetadata(deck.marketingMetadata);
         setSelectedTemplateId(deck.templateId);
         // If the deck was saved before section editing existed, seed from template.
         if (deck.sections.length > 0) {
@@ -353,6 +357,12 @@ export default function DeckFormPage() {
       assetIds,
       financialModelId: financialModelId || undefined,
       theme,
+      published,
+      marketingMetadata: Object.keys(marketingMetadata).some(
+        (k) => marketingMetadata[k as keyof DeckMarketingMetadata],
+      )
+        ? marketingMetadata
+        : undefined,
     };
 
     try {
@@ -990,6 +1000,102 @@ export default function DeckFormPage() {
           <p className="mt-1 text-xs text-gray-400">
             Preview strip: background · primary · accent
           </p>
+        </div>
+
+        {/* ── Publish to website ─────────────────────────────────────────── */}
+        <div className="border-t border-gray-100 pt-5">
+          <h3 className="mb-3 text-sm font-semibold text-gray-700">Publish to Website</h3>
+          <p className="mb-3 text-xs text-gray-500">
+            When published, this deck appears publicly on pinetarsportsfund.com/investments.
+          </p>
+          <label className="flex cursor-pointer items-center gap-2">
+            <input
+              type="checkbox"
+              checked={published}
+              onChange={(e) => setPublished(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 accent-indigo-600"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              {published ? "Published — visible on marketing site" : "Not published — private / admin only"}
+            </span>
+          </label>
+
+          {published && (
+            <div className="mt-4 space-y-3">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="mktSummary" className="text-sm font-medium text-gray-700">
+                  Public summary
+                </label>
+                <textarea
+                  id="mktSummary"
+                  rows={2}
+                  value={marketingMetadata.summary ?? ""}
+                  onChange={(e) =>
+                    setMarketingMetadata((m) => ({ ...m, summary: e.target.value }))
+                  }
+                  placeholder="1–2 sentences shown on the investments listing page"
+                  className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="mktHeroUrl" className="text-sm font-medium text-gray-700">
+                  Hero image URL
+                </label>
+                <input
+                  id="mktHeroUrl"
+                  type="url"
+                  value={marketingMetadata.heroImageUrl ?? ""}
+                  onChange={(e) =>
+                    setMarketingMetadata((m) => ({ ...m, heroImageUrl: e.target.value }))
+                  }
+                  placeholder="https://…"
+                  className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="mktTags" className="text-sm font-medium text-gray-700">
+                  Tags <span className="font-normal text-gray-400">(comma-separated)</span>
+                </label>
+                <input
+                  id="mktTags"
+                  type="text"
+                  value={(marketingMetadata.tags ?? []).join(", ")}
+                  onChange={(e) =>
+                    setMarketingMetadata((m) => ({
+                      ...m,
+                      tags: e.target.value
+                        .split(",")
+                        .map((t) => t.trim())
+                        .filter(Boolean),
+                    }))
+                  }
+                  placeholder="Investor Deck, Baseball, Mixed Use"
+                  className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="mktExpiry" className="text-sm font-medium text-gray-700">
+                  Opportunity window expires
+                </label>
+                <input
+                  id="mktExpiry"
+                  type="date"
+                  value={
+                    marketingMetadata.expiresAt
+                      ? new Date(marketingMetadata.expiresAt).toISOString().slice(0, 10)
+                      : ""
+                  }
+                  onChange={(e) =>
+                    setMarketingMetadata((m) => ({
+                      ...m,
+                      expiresAt: e.target.value ? new Date(e.target.value).toISOString() : undefined,
+                    }))
+                  }
+                  className="w-40 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-wrap gap-3 pt-2">

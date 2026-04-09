@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button, LoadingSpinner, SurfacePanel, buttonClassName } from "../../../components/ui";
-import { getDeckById, getDecks } from "../../../lib/api/mock/decks";
+import { getDeckById, getDecks } from "../../../lib/api/supabase/decks";
 import type { Deck, DeckSection, DeckTheme } from "../model/types";
 import { DECK_THEME_DEFAULTS } from "../model";
 import type {

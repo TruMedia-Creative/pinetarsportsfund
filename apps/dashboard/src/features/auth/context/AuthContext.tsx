@@ -1,51 +1,40 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { supabase } from "../../../lib/supabase";
 
 interface AuthContextValue {
   isAuthenticated: boolean;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const SESSION_KEY = "auth.session";
-
-function readSession(): boolean {
-  try {
-    return window.localStorage.getItem(SESSION_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
-function writeSession(value: boolean) {
-  try {
-    if (value) {
-      window.localStorage.setItem(SESSION_KEY, "1");
-    } else {
-      window.localStorage.removeItem(SESSION_KEY);
-    }
-  } catch {
-    return;
-  }
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(readSession);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  function login(username: string, password: string): boolean {
-    if (username === "admin" && password === "admin") {
-      setIsAuthenticated(true);
-      writeSession(true);
-      return true;
-    }
-    return false;
+  useEffect(() => {
+    // Restore session from Supabase on mount
+    supabase.auth.getSession().then(({ data }) => {
+      setIsAuthenticated(!!data.session);
+    });
+
+    // Listen for auth state changes (login/logout from any tab)
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  async function login(email: string, password: string): Promise<boolean> {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return false;
+    return true;
   }
 
-  function logout() {
-    setIsAuthenticated(false);
-    writeSession(false);
+  async function logout(): Promise<void> {
+    await supabase.auth.signOut();
   }
 
   return (

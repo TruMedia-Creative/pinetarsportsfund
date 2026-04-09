@@ -9,18 +9,21 @@ export default function LoginPage() {
   const location = useLocation();
   const from = (location.state as { from?: string } | null)?.from ?? "/";
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
-    const ok = login(username, password);
+    setLoading(true);
+    const ok = await login(email, password);
+    setLoading(false);
     if (ok) {
       navigate(from, { replace: true });
     } else {
-      setError("Invalid username or password.");
+      setError("Invalid email or password.");
     }
   }
 
@@ -33,15 +36,15 @@ export default function LoginPage() {
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <label htmlFor="username" className="text-sm font-medium text-gray-700">
-              Username
+            <label htmlFor="email" className="text-sm font-medium text-gray-700">
+              Email
             </label>
             <input
-              id="username"
-              type="text"
-              autoComplete="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               aria-describedby="login-help"
               className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
               required
@@ -67,8 +70,8 @@ export default function LoginPage() {
               {error}
             </p>
           )}
-          <Button type="submit" className="mt-2">
-            Sign in
+          <Button type="submit" disabled={loading} className="mt-2">
+            {loading ? "Signing in…" : "Sign in"}
           </Button>
         </form>
       </SurfacePanel>

@@ -16,6 +16,7 @@
     "@nuxt/icon": "^2.2.0",
     "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^3.0.0",
+    "@nuxtjs/supabase": "^2.0.5",
     "localforage": "^1.10.0",
     "nuxt": "^4.0.0",
     "vee-validate": "^4.14.0",
