@@ -12,12 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const partners = [
-  'Sunbelt Capital',
-  'Apex Venue Partners',
-  'Gulf Coast Ventures',
-  'Stadium District Fund',
-  'Civic Sports Alliance',
-  'Meridian Sports Capital',
-]
+defineProps<{
+  partners: string[]
+}>()
 </script>

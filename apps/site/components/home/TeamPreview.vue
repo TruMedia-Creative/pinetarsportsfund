@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-const team = [
-  { name: 'James Hartwell', role: 'Managing Partner' },
-  { name: 'Camille Rhodes', role: 'Director, Investor Relations' },
-  { name: 'Derek Nguyen', role: 'Head of Project Finance' },
-]
+const { data: teamMembers } = await useAsyncData('site-team', () =>
+  queryCollection('team').all(),
+)
+
+const team = computed(() => teamMembers.value ?? [])
 
 function initials(name: string): string {
   return name

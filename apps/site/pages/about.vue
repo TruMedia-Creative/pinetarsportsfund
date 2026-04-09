@@ -1,50 +1,98 @@
 <template>
-  <div class="site-container py-16 md:py-20">
-    <p class="section-kicker">About</p>
-    <h1 class="section-title mt-3 max-w-3xl">A disciplined platform for packaging sports opportunities into fundable stories.</h1>
-
-    <p class="mt-6 max-w-3xl text-lg text-slate-600">
-      Pine Tar Sports Fund helps turn sports projects and investment theses into clear public-facing and investor-facing
-      narratives across equity raises, sponsorship strategies, lender materials, and partnership conversations.
-    </p>
-
-    <div class="mt-12 grid gap-5 md:grid-cols-3">
-      <article class="feature-card" v-for="pillar in pillars" :key="pillar.title">
-        <h2 class="text-lg font-bold text-slate-900">{{ pillar.title }}</h2>
-        <p class="mt-2 text-sm text-slate-600">{{ pillar.copy }}</p>
-      </article>
+  <div>
+    <!-- ===== DARK HERO ===== -->
+    <div class="page-hero-dark">
+      <div class="relative z-10 site-container text-center">
+        <div class="section-badge mb-6">
+          <span>{{ about?.intro.kicker }}</span>
+        </div>
+        <h1
+          class="mx-auto max-w-4xl text-4xl font-bold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]"
+        >
+          {{ about?.intro.headline }}
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-neutral-400 sm:text-lg">
+          {{ about?.intro.body }}
+        </p>
+      </div>
     </div>
 
-    <section class="mt-14 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-      <div class="rounded-2xl border border-slate-200 bg-white p-7">
-        <h2 class="text-2xl font-extrabold text-slate-900">How Pine Tar works</h2>
-        <ol class="mt-6 space-y-5 text-slate-700">
-          <li>
-            <strong>1. Define the audience:</strong> We start with who needs to say yes, whether that is capital, sponsors, lenders, or public partners.
-          </li>
-          <li>
-            <strong>2. Structure the story:</strong> We organize thesis, opportunity, team, projections, and use of funds into a sequence that reads cleanly.
-          </li>
-          <li>
-            <strong>3. Support diligence:</strong> Financial assumptions and supporting assets stay explicit so the story can withstand review.
-          </li>
-          <li>
-            <strong>4. Export and reuse:</strong> Once a deck works, it becomes a repeatable template for the next raise, partner meeting, or campaign.
-          </li>
-        </ol>
-      </div>
-
-      <aside class="rounded-2xl border border-slate-200 bg-slate-50 p-7">
-        <h3 class="text-xl font-extrabold text-slate-900">Work with us</h3>
-        <p class="mt-3 text-sm text-slate-600">
-          Reviewing allocation options or evaluating your first sports investment mandate?
-        </p>
-        <div class="mt-6 flex flex-col gap-3">
-          <NuxtLink to="/investments" class="btn btn-primary text-center">See live investments</NuxtLink>
-          <NuxtLink to="/contact" class="btn btn-ghost text-center">Contact investment team</NuxtLink>
+    <!-- ===== PILLARS ===== -->
+    <div class="bg-white py-20 sm:py-24">
+      <div class="site-container">
+        <div class="mb-14 text-center">
+          <p class="section-kicker">Foundation</p>
+          <h2 class="section-title mt-3">Three principles behind every deal narrative</h2>
         </div>
-      </aside>
-    </section>
+        <div class="grid gap-6 md:grid-cols-3">
+          <article
+            v-for="(pillar, idx) in pillars"
+            :key="pillar.title"
+            class="pillar-card"
+          >
+            <span class="pillar-num">{{ String(idx + 1).padStart(2, '0') }}</span>
+            <h3 class="mt-4 text-lg font-bold text-slate-900">{{ pillar.title }}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">{{ pillar.copy }}</p>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROCESS ===== -->
+    <div class="py-20 sm:py-24" style="background: var(--color-bg)">
+      <div class="site-container">
+        <div class="mb-14 text-center">
+          <p class="section-kicker">Our approach</p>
+          <h2 class="section-title mt-3">How Pine Tar works</h2>
+        </div>
+        <div class="process-track">
+          <div
+            v-for="step in process"
+            :key="step.step"
+            class="process-step"
+          >
+            <div class="process-step__num">{{ step.step }}</div>
+            <div class="mt-5">
+              <h3 class="font-bold text-slate-900">{{ step.label }}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ step.body }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CTA ===== -->
+    <div class="bg-white py-16 sm:py-20">
+      <div class="site-container">
+        <div class="about-cta-card">
+          <div class="about-cta-card__inner">
+            <p class="section-kicker" style="color: var(--color-accent)">Ready to start?</p>
+            <h2 class="mt-3 max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Work with Pine Tar Sports Fund
+            </h2>
+            <p class="mt-4 max-w-lg text-base leading-relaxed text-neutral-300">
+              Reviewing allocation options or evaluating your first sports investment mandate? Our team
+              frames the story from day one.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <NuxtLink to="/investments" class="btn btn-primary">See live investments</NuxtLink>
+              <NuxtLink to="/contact" class="btn btn-outline-white">Contact investment team</NuxtLink>
+            </div>
+          </div>
+          <!-- Decorative radial glows -->
+          <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]">
+            <div
+              class="absolute -right-16 -top-16 h-64 w-64 rounded-full"
+              style="background: radial-gradient(circle, rgba(215,164,65,0.22), transparent 70%)"
+            />
+            <div
+              class="absolute -bottom-20 left-8 h-52 w-52 rounded-full"
+              style="background: radial-gradient(circle, rgba(143,60,47,0.35), transparent 70%)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,18 +108,10 @@ usePageSeo({
   path: '/about',
 })
 
-const pillars = [
-  {
-    title: 'Audience-First Messaging',
-    copy: 'Every deck is shaped around the decision-maker on the other side, not around generic presentation filler.',
-  },
-  {
-    title: 'Structured Transparency',
-    copy: 'Assumptions, project context, and use of funds stay visible so every conversation starts from the same factual base.',
-  },
-  {
-    title: 'Reusable Deal Infrastructure',
-    copy: 'Templates, assets, and export flows are built to be reused across multiple offerings instead of recreated each cycle.',
-  },
-]
+const { data: about } = await useAsyncData('about-page', () =>
+  queryCollection('aboutPage').first(),
+)
+
+const pillars = computed(() => about.value?.pillars ?? [])
+const process = computed(() => about.value?.process ?? [])
 </script>

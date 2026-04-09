@@ -1,83 +1,128 @@
 <template>
-  <div class="site-container py-16 md:py-20">
-    <p class="section-kicker">Contact</p>
-    <h1 class="section-title mt-3">Talk with our investment team</h1>
-    <p class="mt-4 max-w-2xl text-slate-600">
-      Share your project type, capital objective, or deck need. We will route your request to the right Pine Tar workflow.
-    </p>
-
-    <div class="mt-12 grid gap-7 lg:grid-cols-[1.25fr_1fr]">
-      <section class="rounded-2xl border border-slate-200 bg-white p-7 md:p-8">
-        <h2 class="text-2xl font-extrabold text-slate-900">Get in touch</h2>
-        <form @submit.prevent="submitForm" class="mt-7 space-y-5">
-          <div>
-            <label class="label" for="name">Name</label>
-            <input
-              id="name"
-              v-model="form.name"
-              type="text"
-              class="input"
-              required
-            />
-          </div>
-
-          <div>
-            <label class="label" for="email">Email</label>
-            <input
-              id="email"
-              v-model="form.email"
-              type="email"
-              class="input"
-              required
-            />
-          </div>
-
-          <div>
-            <label class="label" for="message">Message</label>
-            <textarea
-              id="message"
-              v-model="form.message"
-              rows="6"
-              class="input"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            :disabled="loading"
-            class="btn btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {{ loading ? 'Sending message...' : 'Send message' }}
-          </button>
-        </form>
-
-        <div v-if="success" class="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-800">
-          Thank you. Your request has been received and our team will follow up shortly.
+  <div>
+    <!-- ===== DARK HERO ===== -->
+    <div class="page-hero-dark">
+      <div class="relative z-10 site-container text-center">
+        <div class="section-badge mb-6">
+          <span>Contact</span>
         </div>
-      </section>
+        <h1
+          class="mx-auto max-w-3xl text-4xl font-bold leading-[1.06] tracking-tight text-white sm:text-5xl"
+        >
+          Talk with our investment team
+        </h1>
+        <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-neutral-400">
+          Share your project type, capital objective, or deck need. We will route your request
+          to the right Pine Tar workflow.
+        </p>
+      </div>
+    </div>
 
-      <aside class="rounded-2xl border border-slate-200 bg-slate-50 p-7 md:p-8">
-        <h2 class="text-xl font-extrabold text-slate-900">Direct channels</h2>
-        <ul class="mt-6 space-y-5 text-sm text-slate-600">
-          <li>
-            <p class="font-semibold text-slate-900">General inquiries</p>
-            <a href="mailto:contact@pinetarsportsfund.com" class="hover:text-sky-700">contact@pinetarsportsfund.com</a>
-          </li>
-          <li>
-            <p class="font-semibold text-slate-900">Deck requests</p>
-            <p>Investor pitch decks, sponsorship decks, lender / financing decks, and municipality partnership materials.</p>
-          </li>
-          <li>
-            <p class="font-semibold text-slate-900">Coverage</p>
-            <p>Sports, venue, and partnership narratives for private and strategic capital discussions.</p>
-          </li>
-          <li>
-            <p class="font-semibold text-slate-900">Response window</p>
-            <p>We typically reply within one business day for active deal and deck inquiries.</p>
-          </li>
-        </ul>
-      </aside>
+    <!-- ===== FORM + CHANNELS ===== -->
+    <div class="py-16 sm:py-20" style="background: var(--color-bg)">
+      <div class="site-container">
+        <div class="grid gap-8 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+          <!-- Form card -->
+          <section class="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm md:p-9">
+            <h2 class="text-2xl font-bold text-slate-900">Get in touch</h2>
+            <p class="mt-1.5 text-sm text-slate-500">We respond to all inquiries within one business day.</p>
+
+            <form @submit.prevent="submitForm" class="mt-7 space-y-5">
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label class="label" for="name">Full name</label>
+                  <input
+                    id="name"
+                    v-model="form.name"
+                    type="text"
+                    class="input"
+                    placeholder="Jamie Hartwell"
+                    required
+                  />
+                </div>
+                <div>
+                  <label class="label" for="email">Email address</label>
+                  <input
+                    id="email"
+                    v-model="form.email"
+                    type="email"
+                    class="input"
+                    placeholder="you@company.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="label" for="message">Tell us about your project</label>
+                <textarea
+                  id="message"
+                  v-model="form.message"
+                  rows="6"
+                  class="input resize-none"
+                  placeholder="Describe the opportunity, asset type, or capital objective…"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                :disabled="loading"
+                class="btn btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                <span v-if="loading">Sending message…</span>
+                <span v-else>Send message</span>
+              </button>
+            </form>
+
+            <div
+              v-if="success"
+              class="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-800"
+            >
+              Thank you. Your request has been received and our team will follow up shortly.
+            </div>
+          </section>
+
+          <!-- Channels sidebar -->
+          <aside class="space-y-4">
+            <div class="mb-6">
+              <p class="section-kicker">Direct channels</p>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                Prefer to reach us directly? Use any of the channels below.
+              </p>
+            </div>
+
+            <div
+              v-for="channel in channels"
+              :key="channel.heading"
+              class="channel-card"
+            >
+              <p class="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
+                {{ channel.heading }}
+              </p>
+              <a
+                v-if="channel.isEmail"
+                :href="`mailto:${channel.content}`"
+                class="mt-1 block text-base font-semibold text-slate-900 transition-colors hover:text-amber-700"
+              >
+                {{ channel.content }}
+              </a>
+              <p v-else class="mt-1 text-base font-semibold text-slate-900">
+                {{ channel.content }}
+              </p>
+            </div>
+
+            <!-- Schedule note -->
+            <div class="mt-2 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-5">
+              <p class="text-sm font-semibold text-slate-700">Scheduling a review?</p>
+              <p class="mt-1.5 text-xs leading-relaxed text-slate-500">
+                For due-diligence calls and formal introductions, our team prefers a brief written
+                summary first. Include it in your message above.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -93,6 +138,12 @@ usePageSeo({
     'Contact Pine Tar Sports Fund about investor decks, sponsorship decks, lender packages, and municipality partnership materials.',
   path: '/contact',
 })
+
+const { data: contactData } = await useAsyncData('contact-page', () =>
+  queryCollection('contactPage').first(),
+)
+
+const channels = computed(() => contactData.value?.channels ?? [])
 
 const form = ref({
   name: '',

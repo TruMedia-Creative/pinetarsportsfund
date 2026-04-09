@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   supabase: {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_ANON_KEY,
-    serviceKey: process.env.SUPABASE_SERVICE_KEY,
+    secretKey: process.env.NUXT_SUPABASE_SECRET_KEY,
     redirectOptions: {
       login: '/login',
       callback: '/confirm',
@@ -35,17 +35,14 @@ export default defineNuxtConfig({
     },
   },
 
-  // Content Configuration
+  // Content Configuration — Nuxt Content v3
+  // Collections are defined in content.config.ts
   content: {
-    documentDriven: false,
-    sources: {
-      content: {
-        driver: 'fs',
-        base: './content',
-      },
-    },
-    markdown: {
+    renderer: {
       anchorLinks: false,
+    },
+    experimental: {
+      sqliteConnector: 'native',
     },
   },
 
@@ -84,7 +81,7 @@ export default defineNuxtConfig({
   // Runtime Config
   runtimeConfig: {
     // Private keys only accessible server-side
-    supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY || '',
+    supabaseServiceKey: process.env.NUXT_SUPABASE_SECRET_KEY || '',
     jwt: {
       secret: process.env.JWT_SECRET,
       expires: '7d',

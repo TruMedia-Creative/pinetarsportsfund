@@ -1,0 +1,29 @@
+intro:
+  kicker: About
+  headline: A disciplined platform for packaging sports opportunities into fundable stories.
+  body: >-
+    Pine Tar Sports Fund helps turn sports projects and investment theses into clear public-facing
+    and investor-facing narratives across equity raises, sponsorship strategies, lender materials,
+    and partnership conversations.
+
+pillars:
+  - title: Audience-First Messaging
+    copy: Every deck is shaped around the decision-maker on the other side, not around generic presentation filler.
+  - title: Structured Transparency
+    copy: Assumptions, project context, and use of funds stay visible so every conversation starts from the same factual base.
+  - title: Reusable Deal Infrastructure
+    copy: Templates, assets, and export flows are built to be reused across multiple offerings instead of recreated each cycle.
+
+process:
+  - step: 1
+    label: Define the audience
+    body: We start with who needs to say yes, whether that is capital, sponsors, lenders, or public partners.
+  - step: 2
+    label: Structure the story
+    body: We organize thesis, opportunity, team, projections, and use of funds into a sequence that reads cleanly.
+  - step: 3
+    label: Support diligence
+    body: Financial assumptions and supporting assets stay explicit so the story can withstand review.
+  - step: 4
+    label: Export and reuse
+    body: Once a deck works, it becomes a repeatable template for the next raise, partner meeting, or campaign.

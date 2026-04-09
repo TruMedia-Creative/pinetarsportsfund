@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint'
 
 export default [
   {
-    ignores: ['**/dist/**', '**/.nuxt/**', '**/.output/**', '**/coverage/**', '--port/**'],
+    ignores: ['**/dist/**', '**/.nuxt/**', '**/.output/**', '**/.vercel/**', '**/coverage/**', '--port/**'],
   },
   {
     ...js.configs.recommended,

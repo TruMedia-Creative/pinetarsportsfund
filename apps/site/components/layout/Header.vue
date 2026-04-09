@@ -6,12 +6,12 @@
         Pine Tar Sports Fund
       </NuxtLink>
 
-      <div class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+      <div class="hidden md:flex items-center gap-7">
         <NuxtLink
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="hover:text-slate-900 transition-colors"
+          class="nav-link"
         >
           {{ link.label }}
         </NuxtLink>
@@ -53,12 +53,11 @@
 <script setup lang="ts">
 const mobileMenuOpen = ref(false)
 
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Investments', to: '/investments' },
-  { label: 'About', to: '/about' },
-  { label: 'Contact', to: '/contact' },
-]
+const { data: navigation } = await useAsyncData('site-navigation', () =>
+  queryCollection('navigation').first(),
+)
+
+const navLinks = computed(() => navigation.value?.links ?? [])
 
 const route = useRoute()
 

@@ -378,6 +378,331 @@ h6,
   box-shadow: 0 8px 24px rgba(95, 73, 47, 0.06);
 }
 
+/* ===== TYPOGRAPHY — RESPONSIVE SECTION TITLE ===== */
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-title {
+    font-size: 2.875rem;
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 5s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.55s ease both;
+}
+
+/* ===== SKELETON LOADING ===== */
+.skeleton {
+  border-radius: 0.5rem;
+  background: #e8e2d6;
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+/* ===== SECTION BADGE (dark hero badge pill) ===== */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 0.35rem 1rem;
+  backdrop-filter: blur(8px);
+}
+
+.section-badge span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ===== PAGE HERO — DARK (interior pages) ===== */
+.page-hero-dark {
+  position: relative;
+  overflow: hidden;
+  background-color: #140e0c;
+  padding-top: 5rem;
+  padding-bottom: 5.5rem;
+}
+
+.page-hero-dark::before {
+  content: '';
+  position: absolute;
+  inset-x: 0;
+  top: 0;
+  height: 480px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 55% at 50% -8%, rgba(143, 60, 47, 0.6), transparent),
+    radial-gradient(ellipse 40% 35% at 88% 0%, rgba(215, 164, 65, 0.17), transparent);
+}
+
+/* ===== NAV LINKS (header active state) ===== */
+.nav-link {
+  position: relative;
+  padding-bottom: 0.2rem;
+  color: #5b6470;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 0.18s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-brand), var(--color-accent));
+  border-radius: 9999px;
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #18212b;
+}
+
+.nav-link.router-link-active,
+.nav-link.router-link-exact-active {
+  color: #18212b;
+}
+
+.nav-link.router-link-active::after,
+.nav-link.router-link-exact-active::after {
+  transform: scaleX(1);
+}
+
+/* ===== PILLAR CARDS (about page) ===== */
+.pillar-card {
+  position: relative;
+  border-radius: 1.25rem;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  padding: 2rem 1.75rem;
+  overflow: hidden;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-brand), var(--color-accent));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.25s ease;
+}
+
+.pillar-card:hover::before {
+  transform: scaleY(1);
+}
+
+.pillar-card:hover {
+  border-color: rgba(215, 164, 65, 0.55);
+  box-shadow: 0 20px 50px rgba(143, 60, 47, 0.11);
+  transform: translateY(-3px);
+}
+
+.pillar-num {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #f0e8d7;
+  user-select: none;
+}
+
+/* ===== PROCESS TRACK (about page) ===== */
+.process-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* Horizontal connector track line between all numbered circles */
+.process-track::before {
+  content: '';
+  position: absolute;
+  top: 1.5rem; /* center of the 3rem circle */
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(143, 60, 47, 0.12),
+    rgba(143, 60, 47, 0.3) 30%,
+    rgba(215, 164, 65, 0.3) 70%,
+    rgba(215, 164, 65, 0.12)
+  );
+}
+
+@media (max-width: 1023px) {
+  .process-track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process-track::before {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .process-track {
+    grid-template-columns: 1fr;
+  }
+}
+
+.process-step {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.process-step__num {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--color-brand), #bf4d3d);
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow:
+    0 6px 20px rgba(143, 60, 47, 0.32),
+    0 0 0 4px rgba(143, 60, 47, 0.1);
+}
+
+/* ===== ABOUT CTA CARD ===== */
+.about-cta-card {
+  position: relative;
+  border-radius: 1.75rem;
+  background: linear-gradient(135deg, #18212b 0%, #2c1a16 55%, #18212b 100%);
+  border: 1px solid rgba(215, 164, 65, 0.2);
+  padding: 3rem;
+  overflow: hidden;
+  box-shadow: 0 32px 70px rgba(20, 10, 8, 0.16);
+}
+
+.about-cta-card__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== BUTTON — WHITE OUTLINE VARIANT (for dark BGs) ===== */
+.btn-outline-white {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.btn-outline-white:hover {
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.13);
+}
+
+/* ===== CHANNEL CARDS (contact page) ===== */
+.channel-card {
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  padding: 1.25rem 1.5rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.channel-card:hover {
+  border-color: rgba(215, 164, 65, 0.5);
+  box-shadow: 0 8px 24px rgba(143, 60, 47, 0.08);
+}
+
+/* ===== INVESTMENT HERO (detail page full-width hero image) ===== */
+.investment-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  background: #18212b;
+  min-height: 380px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.investment-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.18) 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.investment-hero__content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 2.5rem;
+  width: 100%;
+}
+
+/* ===== MINI PANEL (investment detail callout boxes) ===== */
+.mini-panel {
+  border-radius: 0.875rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: 1.25rem;
+}
+
 .mini-panel {
   border-radius: 0.875rem;
   border: 1px solid #eadfcb;
