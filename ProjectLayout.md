@@ -7,14 +7,12 @@ This document describes the full directory structure of the Pine Tar Sports Fund
 | File / Dir | Purpose |
 |-----------|---------|
 | `package.json` | Root scripts — `dev`, `dev:dashboard`, `dev:site`, `build`, `check`, etc. |
-| `pnpm-workspace.yaml` | Declares `apps/*` and `packages/*` as workspace members |
+| `pnpm-workspace.yaml` | Declares `apps/*` as workspace members |
 | `pnpm-lock.yaml` | Authoritative lockfile |
 | `tsconfig.json` | Root TypeScript config |
 | `.nvmrc` | Node version pin (currently `22`) |
 | `.env.example` | Environment variable template |
-| `data/` | SQLite seed binary (`app.sqlite.bin`) used by the Express API server |
 | `docs/` | Architecture notes |
-| `packages/` | Shared packages (currently empty — reserved for future shared code) |
 | `apps/` | Application workspaces |
 
 ## Apps Overview
@@ -24,8 +22,6 @@ apps/
 ├── dashboard/    # @pinetarsf/dashboard — React + Vite deck builder
 └── site/         # @pinetarsf/site — Nuxt 4 marketing site + investment gallery
 ```
-
----
 
 ## `apps/dashboard/` — React Dashboard (`@pinetarsf/dashboard`)
 
@@ -62,11 +58,6 @@ src/
 ├── App.tsx                   # Router setup, auth gates, tenant routing (React Router v7)
 ├── index.css                 # Global styles (Tailwind CSS v4)
 │
-├── app/
-│   ├── layouts/              # App-level layout wrappers
-│   ├── providers/            # Top-level context providers
-│   └── routes/               # App-level route config (currently empty — routes live in features)
-│
 ├── components/               # Shared, reusable UI
 │   ├── layout/
 │   │   ├── AppShell.tsx      # Authenticated app chrome (header, nav, dark mode toggle)
@@ -80,15 +71,7 @@ src/
 │       └── index.ts
 │
 ├── features/                 # Feature-first modules
-│   ├── auth/                 # Authentication
-│   │   ├── context/
-│   │   │   └── AuthContext.tsx      # AuthProvider + useAuth hook
-│   │   ├── routes/
-│   │   │   ├── LoginPage.tsx
-│   │   │   └── index.ts
-│   │   └── index.ts
-│   │
-│   ├── tenants/              # Multi-tenancy — brand resolution and context
+│   ├── auth/                 # Authentication              # Multi-tenancy — brand resolution and context
 │   │   ├── context/
 │   │   │   ├── TenantContext.tsx     # TenantProvider — resolves slug from URL or hostname
 │   │   │   ├── tenantContextValue.ts
@@ -175,11 +158,8 @@ src/
 │   │       └── index.ts
 │   │
 │   ├── settings/             # User and app settings
-│   │   └── routes/
-│   │       └── index.ts
 │   │
-│   ├── analytics/            # Analytics / tracking (reserved)
-│   └── media/                # Media handling (reserved)
+│   └── exports/              # Deck export pipeline
 │
 ├── lib/                      # Shared utilities and services
 │   ├── api/
@@ -196,13 +176,8 @@ src/
 │   ├── pptx/
 │   │   ├── builders.ts        # PPTX export builders (pptxgenjs)
 │   │   └── index.ts
-│   ├── config/
-│   ├── date/
-│   ├── validation/
-│   ├── utils/
 │   └── colorContrast.ts       # WCAG contrast ratio helper
 │
-├── styles/                   # Additional style modules
 └── test/
     └── setup.ts              # Vitest setup
 ```
@@ -265,9 +240,6 @@ apps/site/
 │   ├── layout/
 │   │   ├── Header.vue        # Site header with navigation
 │   │   └── Footer.vue        # Site footer
-│   ├── deck/                 # Deck display components (reserved)
-│   ├── forms/                # Form components
-│   ├── investment/           # Investment gallery components (reserved)
 │   └── ui/                   # Shared UI primitives
 │
 ├── composables/              # Vue composables (replaces React hooks)
@@ -276,23 +248,16 @@ apps/site/
 │   ├── usePageSeo.ts         # Per-page SEO metadata
 │   └── usePublishedDecks.ts  # Published deck gallery data
 │
-├── content/                  # Nuxt Content markdown/JSON files
-│
-├── data/                     # Static data files
-│
 ├── layouts/
 │   ├── default.vue           # Public site layout
 │   ├── admin.vue             # Admin area layout
 │   └── blank.vue             # Bare layout (login, etc.)
 │
 ├── lib/
-│   ├── api/                  # API client helpers (reserved)
-│   ├── pptx/                 # PPTX export helpers (reserved)
 │   ├── schemas/
 │   │   └── index.ts          # Shared Zod schemas
-│   ├── types/
-│   │   └── models.ts         # Shared TypeScript types (Deck, Asset, etc.)
-│   └── utils/                # General utilities
+│   └── types/
+│       └── models.ts         # Shared TypeScript types (Deck, Asset, etc.)
 │
 ├── pages/                    # Auto-routed pages (Nuxt file-based routing)
 │   ├── index.vue             # Home — marketing / hero
@@ -317,7 +282,6 @@ apps/site/
 └── server/
     ├── middleware/
     │   └── auth.ts           # Auth middleware (protects /admin routes)
-    ├── plugins/              # Nuxt server plugins
     ├── utils/
     │   └── mockStore.ts      # In-memory mock data store
     └── routes/

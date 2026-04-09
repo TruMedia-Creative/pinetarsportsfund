@@ -48,9 +48,6 @@ components/
 ├── layout/
 │   ├── Header.vue       # Site navigation header
 │   └── Footer.vue       # Site footer
-├── deck/                # Deck display components (reserved)
-├── forms/               # Form components
-├── investment/          # Investment gallery components (reserved)
 └── ui/                  # Shared UI primitives
 
 composables/
@@ -66,9 +63,7 @@ layouts/
 
 lib/
 ├── schemas/index.ts     # Shared Zod validation schemas
-├── types/models.ts      # Shared TypeScript types (Deck, Asset, etc.)
-├── pptx/                # PPTX helpers (reserved)
-└── utils/               # General utilities
+└── types/models.ts      # Shared TypeScript types (Deck, Asset, etc.)
 
 pages/                   # File-based routing
 ├── index.vue            # /           — Home
@@ -89,7 +84,6 @@ pages/                   # File-based routing
 
 server/
 ├── middleware/auth.ts   # Protects /admin routes
-├── plugins/             # Server startup plugins
 ├── utils/mockStore.ts   # In-memory mock data store
 └── routes/api/
     ├── decks.get.ts               # GET  /api/decks
@@ -105,7 +99,9 @@ server/
         ├── assets.get.ts          # GET    /api/admin/assets
         ├── assets.post.ts         # POST   /api/admin/assets
         ├── assets/                # DELETE /api/admin/assets/:id
-        └── auth/auth.post.ts      # POST   /api/admin/auth
+        └── auth/
+            ├── logout.post.ts     # POST /api/admin/auth/logout
+            └── me.get.ts          # GET  /api/admin/auth/me
 ```
 
 ## Authentication

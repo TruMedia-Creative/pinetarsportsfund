@@ -1,8 +1,6 @@
-# Implementation Notes (Historical)
+# Implementation Notes
 
-This file was generated when the original React app was converted to a Nuxt 4 application. It is kept here as a historical reference only.
-
-The current project is a **pnpm monorepo** with two separate apps:
+This project is a **pnpm monorepo** with two apps:
 
 - `apps/dashboard/` — React + Vite deck builder (`@pinetarsf/dashboard`)
 - `apps/site/` — Nuxt 4 marketing site and investment gallery (`@pinetarsf/site`)
