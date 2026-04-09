@@ -25,7 +25,7 @@ Use cases:
 The deck builder. React + Vite + TypeScript with a feature-first module structure.
 
 Core flow:
-1. Sign in
+1. Sign in 
 2. Create or edit a deck via structured forms
 3. Fill in sections (summary, opportunity, use of funds, returns, projections, team, etc.)
 4. Attach assets (logos, renderings, charts, headshots)
