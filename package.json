@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "packageManager": "pnpm@10.0.0",
   "scripts": {
+<<<<<<< HEAD
     "dev": "pnpm --filter @pinetarsf/site dev",
     "dev:site": "pnpm --filter @pinetarsf/site dev",
     "dev:dashboard": "pnpm --filter @pinetarsf/dashboard dev",
@@ -14,6 +15,16 @@
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "setup": "corepack enable && pnpm install --frozen-lockfile",
+=======
+    "api": "node server/index.mjs",
+    "dev": "vite",
+    "dev:full": "VITE_API_BASE_URL=http://localhost:8787/api concurrently -k \"pnpm api\" \"pnpm dev\"",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.src.json --noEmit",
+    "bootstrap": "corepack enable && pnpm install --frozen-lockfile",
+>>>>>>> a34fbe056dbd77f91f0d96ce82e13b8fd98de97d
     "check": "pnpm lint && pnpm typecheck && pnpm build"
   }
 }
