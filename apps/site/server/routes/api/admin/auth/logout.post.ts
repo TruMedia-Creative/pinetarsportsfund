@@ -1,4 +1,6 @@
+import { clearAuthCookie } from '~/server/utils/auth'
+
 export default defineEventHandler(async (event) => {
-  deleteCookie(event, 'auth_token')
+  clearAuthCookie(event)
   return { success: true }
 })

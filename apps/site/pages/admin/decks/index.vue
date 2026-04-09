@@ -96,7 +96,9 @@ const getStatusClass = (status: string) => {
   return classes[status] || 'bg-gray-100 text-gray-800'
 }
 
-const deleteDeck = async (id: string) => {
+const deleteDeck = async (id?: string) => {
+  if (!id) return
+
   if (!confirm('Are you sure you want to delete this deck?')) return
 
   try {

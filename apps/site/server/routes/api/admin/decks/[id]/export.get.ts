@@ -1,16 +1,10 @@
-import { runQueryOne } from '~/server/utils/db'
-
-interface Deck {
-  id: string
-  title: string
-  slug: string
-}
+import { getDeckById } from '~/server/utils/mockStore'
 
 export default defineEventHandler(async (event) => {
   try {
     const id = getRouterParam(event, 'id')
 
-    const deck = runQueryOne<Deck>('SELECT * FROM decks WHERE id = ?', [id])
+    const deck = id ? getDeckById(id) : null
 
     if (!deck) {
       throw createError({
@@ -19,10 +13,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Here you would generate the PPTX file
-    // For now, returning a placeholder response
     return {
-      message: 'PPTX export would be generated here',
+      message: 'PPTX export placeholder',
       deckId: id,
       title: deck.title,
     }

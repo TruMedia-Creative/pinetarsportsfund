@@ -1,20 +1,14 @@
-import { runQuery, getDatabase } from '~/server/utils/db'
+import { listDecks, listPublishedDecks } from '~/server/utils/mockStore'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  
+
   try {
-    let sql = 'SELECT * FROM decks'
-    const params: any[] = []
-    
     if (query.published === 'true') {
-      sql += ' WHERE published = 1'
+      return listPublishedDecks()
     }
-    
-    sql += ' ORDER BY createdAt DESC'
-    
-    const decks = runQuery(sql, params)
-    return decks
+
+    return listDecks()
   } catch (error) {
     console.error('Error fetching decks:', error)
     throw createError({

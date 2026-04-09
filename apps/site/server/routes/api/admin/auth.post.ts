@@ -1,37 +1,48 @@
 import { randomUUID } from 'crypto'
-import { executeInsert, runQueryOne } from '~/server/utils/db'
+import { z } from 'zod'
+import { createAuthToken, getServerAuthConfig, isValidAdminCredentials, setAuthCookie } from '~/server/utils/auth'
 
-// TODO: Use proper password hashing (bcrypt)
+const loginSchema = z.object({
+  username: z.string().trim().min(1),
+  password: z.string().min(1),
+})
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
-    const { username, password } = body
+    const { username, password } = loginSchema.parse(body)
 
-    // Simple authentication (in production, query database and hash password)
-    if (username === 'admin' && password === 'password') {
-      // Set auth cookie
-      setCookie(event, 'auth_token', randomUUID(), {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+    if (!isValidAdminCredentials(username, password, event)) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Invalid credentials',
       })
-
-      return {
-        success: true,
-        user: {
-          id: randomUUID(),
-          username: 'admin',
-          email: 'admin@pinetarsportsfund.com',
-        },
-      }
     }
 
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Invalid credentials',
+    const { adminEmail } = getServerAuthConfig(event)
+    const { token, maxAge } = createAuthToken(event, {
+      username,
+      email: adminEmail,
     })
+    setAuthCookie(event, token, maxAge)
+
+    return {
+      success: true,
+      user: {
+        id: randomUUID(),
+        username,
+        email: adminEmail,
+      },
+    }
   } catch (error: any) {
+    if (error.name === 'ZodError') {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid login payload',
+        data: error.flatten(),
+      })
+    }
+
     if (error.statusCode === 401) throw error
 
     console.error('Auth error:', error)

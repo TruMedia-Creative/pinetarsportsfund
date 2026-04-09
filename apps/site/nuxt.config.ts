@@ -20,15 +20,9 @@ export default defineNuxtConfig({
     '@nuxt/icon',
   ],
 
-  // Nuxt UI
-  ui: {
-    icons: ['heroicons'],
-    safelistColors: ['primary', 'red', 'green', 'blue'],
-  },
-
   // Content Configuration
   content: {
-    documentDriven: true,
+    documentDriven: false,
     sources: {
       content: {
         driver: 'fs',
@@ -38,14 +32,6 @@ export default defineNuxtConfig({
     markdown: {
       anchorLinks: false,
     },
-  },
-
-  // SEO Configuration
-  site: {
-    name: 'Pine Tar Sports Fund',
-    url: 'https://pinetarsportsfund.com',
-    description: 'Investment opportunities in sports and entertainment',
-    defaultLocale: 'en',
   },
 
   // Image Configuration
@@ -87,8 +73,13 @@ export default defineNuxtConfig({
       path: process.env.DATABASE_PATH || './data/app.sqlite.bin',
     },
     jwt: {
-      secret: process.env.JWT_SECRET || 'dev-secret-change-in-production',
+      secret: process.env.JWT_SECRET,
       expires: '7d',
+    },
+    adminAuth: {
+      username: process.env.ADMIN_USERNAME || 'admin',
+      password: process.env.ADMIN_PASSWORD || 'admin',
+      email: process.env.ADMIN_EMAIL || 'admin@pinetarsportsfund.com',
     },
     // Public keys (exposed to client)
     public: {
@@ -101,7 +92,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/sitemap.xml', '/investments'],
+      routes: ['/investments', '/sitemap.xml'],
       ignore: ['/admin'],
     },
     storage: {

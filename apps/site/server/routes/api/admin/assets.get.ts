@@ -1,9 +1,8 @@
-import { runQuery } from '~/server/utils/db'
+import { listAssets } from '~/server/utils/mockStore'
 
 export default defineEventHandler(async (event) => {
   try {
-    const assets = runQuery('SELECT * FROM assets ORDER BY createdAt DESC')
-    return assets
+    return listAssets()
   } catch (error) {
     console.error('Error fetching assets:', error)
     throw createError({

@@ -1,220 +1,169 @@
-# Pine Tar Sports Fund Deck Builder
+# Pine Tar Sports Fund
 
-A structured deck-building app for Pine Tar Sports Fund and related investment offerings.
+A pnpm monorepo containing two applications for Pine Tar Sports Fund:
 
-This project is designed to help create, manage, preview, and export branded presentation decks without rebuilding each pitch from scratch. Instead of manually editing every slide deck in PowerPoint, the app treats each deck as structured data powered by reusable templates, financial sections, assets, and per-tenant brand settings.
+| App | Path | Stack | Purpose |
+|-----|------|-------|---------|
+| **Dashboard** | `apps/dashboard/` | React + Vite + TypeScript | Deck builder, editor, and export tool |
+| **Site** | `apps/site/` | Nuxt 4 + Vue 3 | Public marketing site and investment gallery |
 
-## What this app is for
+## What this project is for
 
-The app supports deck creation for use cases such as:
+The system lets the Pine Tar team create, manage, preview, and export branded investor presentation decks — without rebuilding every pitch from scratch. Decks are structured data driven by reusable templates, typed content blocks, financial models, and per-tenant brand settings.
 
+Use cases:
 - Investor pitch decks
 - Sponsorship decks
 - Lender / financing decks
 - Municipality / partnership decks
 - Project-specific investment summaries
 
-## Core workflow
+## Apps
 
+### Dashboard (`apps/dashboard/` — `@pinetarsf/dashboard`)
+
+The deck builder. React + Vite + TypeScript with a feature-first module structure.
+
+Core flow:
 1. Sign in
-2. Create a new deck or edit an existing one
-3. Fill out structured sections such as summary, opportunity, use of funds, returns, projections, and team
-4. Attach assets like logos, renderings, charts, and photos
+2. Create or edit a deck via structured forms
+3. Fill in sections (summary, opportunity, use of funds, returns, projections, team, etc.)
+4. Attach assets (logos, renderings, charts, headshots)
 5. Preview the deck in-browser
-6. Export final deliverables such as PPTX and PDF
+6. Export PPTX and PDF deliverables
 
-## Product direction
+Key features:
+- Multi-tenant branding (logo, primary color, font) via `TenantContext`
+- Tenant resolution from URL prefix (`/t/:tenantSlug`) or hostname subdomain
+- In-browser SQLite mock data layer (`sql.js` + `localforage`)
+- Optional Express API server on port 8787
+- PPTX export via `pptxgenjs`
+- React Router v7, React Hook Form, Zod
 
-This is **not** an event platform and it is **not** meant to be a freeform slide editor like Canva or PowerPoint.
+### Site (`apps/site/` — `@pinetarsf/site`)
 
-The app is built around a controlled system:
+The public-facing marketing site and investment gallery. Nuxt 4 + Vue 3 + TypeScript with SSR.
 
-- reusable deck templates
-- structured, typed content blocks
-- separate financial models
-- tenant-scoped brand settings (logo, colors, typography)
-- export pipelines that stay independent from the editor UI
+Pages:
+- Home, About, Contact (marketing)
+- Investment Gallery — browse published decks
+- Investment Detail — view individual deck at `/investments/[slug]`
+- Admin area — deck management, asset library, settings
+- Login
 
-That makes the system easier to maintain, faster to reuse, and much harder to break with one rogue text box move.
+Nuxt server routes handle data access. An in-memory mock store (`server/utils/mockStore.ts`) powers the site without an external database.
 
-## Feature areas
+## Monorepo scripts
 
-### Tenants
-Multi-tenant aware from the start. Each tenant has its own brand settings (logo, primary color, font). Tenant is resolved from a URL path prefix (`/t/:tenantSlug`) or hostname subdomain, with a fallback to `pinetarsportsfund`.
+All commands run from the **repo root**.
 
-### Decks
-Manage deck records, edit metadata, control section order, and maintain audience-specific versions.
+```sh
+# Install (only needed once or after lockfile changes)
+pnpm setup          # corepack enable && pnpm install --frozen-lockfile
 
-### Templates
-Define reusable layouts and section expectations for different deck types. Default templates are registered in `src/features/templates/lib/templateRegistry.ts`.
+# Development
+pnpm dev            # Start the Nuxt site (apps/site)
+pnpm dev:site       # Same as above
+pnpm dev:dashboard  # Start the React dashboard (apps/dashboard)
 
-### Financials
-Store and manage raise targets, use-of-funds breakdowns, returns, assumptions, and forecast rows separately from general deck content.
+# Build all apps
+pnpm build
 
-### Assets
-Upload and reference logos, charts, renderings, headshots, and supporting visuals.
+# Per-app builds
+pnpm build:site
+pnpm build:dashboard
 
-### Exports
-Generate deliverables such as PowerPoint and PDF from structured deck data.
+# Validation (lint + typecheck + build across all workspaces)
+pnpm check
+pnpm lint
+pnpm typecheck
+```
 
-## Tech stack
+### Dashboard-specific scripts (run from `apps/dashboard/`)
 
-- Vite + React + TypeScript
-- React Router v7
-- React Hook Form + Zod
-- Tailwind CSS v4
-- pptxgenjs — PPTX generation
-- sql.js + localforage — in-browser SQLite for the mock API layer
-- Express — optional local API server (`server/`)
+```sh
+pnpm dev            # Vite dev server with in-browser SQLite mock
+pnpm dev:full       # Vite + Express API server (port 8787)
+pnpm api            # Express API server only
+pnpm test           # Vitest
+```
 
-## Project structure
+## Requirements
 
-See [ProjectLayout.md](./ProjectLayout.md) for the current architectural layout and module conventions.
-
-At a high level, the app is organized around:
-
-- `src/features/tenants` for multi-tenancy, brand resolution, and tenant context
-- `src/features/decks` for deck creation and editing
-- `src/features/templates` for reusable deck structures
-- `src/features/financials` for investment assumptions and projections
-- `src/features/assets` for uploaded media
-- `src/features/exports` for deck generation logic
-- `src/lib/api/mock` for in-browser SQLite-backed development data
-- `src/lib/api/http.ts` for the HTTP client used when the Express server is running
-- `src/lib/pptx` for PPTX export helpers and builders
-- `server/` for the optional Express + SQLite API server
+- Node version from `.nvmrc` (currently `22`) — use `nvm use`
+- pnpm managed via Corepack — do **not** install globally with npm
 
 ## CI / Deployment
 
 ### CI
 
-Every push and pull request runs `.github/workflows/ci.yml`, which runs `pnpm check` (lint + typecheck + build) on Node from `.nvmrc`.
+`.github/workflows/ci.yml` runs on every push and PR:
+- Sets up Node from `.nvmrc`
+- Activates pnpm via Corepack
+- Runs `pnpm check` (lint + typecheck + build) across all workspaces
 
 ### Deployment (GitHub Pages)
 
-The app deploys automatically to GitHub Pages on every push to `main` via `.github/workflows/deploy.yml`.
+`.github/workflows/deploy.yml` deploys automatically on push to `main`.
 
-### One-time repository setup
-
-Before the workflow can deploy, you need to enable GitHub Pages in the repository settings **once**:
-
-1. Go to the repository on GitHub.
-2. Click **Settings** → **Pages** (in the left sidebar under *Code and automation*).
-3. Under **Build and deployment → Source**, select **GitHub Actions** (not *Deploy from a branch*).
-4. Click **Save**.
-
-That's it. The next push to `main`, or a manual trigger (see [Manually triggering a deployment](#manually-triggering-a-deployment) below), will build and publish the site.
-
-### How it works
+One-time setup required in repository Settings → Pages → Build and deployment → Source: select **GitHub Actions**.
 
 | Part | Detail |
-|---|---|
-| CI workflow | `.github/workflows/ci.yml` — runs on all pushes and PRs |
-| Deploy workflow | `.github/workflows/deploy.yml` — runs on push to `main` or manual trigger |
-| Build command | `pnpm check` (lint + typecheck + build) |
-| Output directory | `dist/` |
-| Base URL | `/pinetarsportsfund/` (set in `vite.config.ts`) |
-| Published URL | `https://<org>.github.io/pinetarsportsfund/` |
+|------|--------|
+| CI workflow | `.github/workflows/ci.yml` — all pushes and PRs |
+| Deploy workflow | `.github/workflows/deploy.yml` — push to `main` or manual trigger |
+| Build command | `pnpm check` |
 
-The `base` path in `vite.config.ts` must match the repository name for all asset paths to resolve correctly on GitHub Pages.
+## Data layers
 
-### Manually triggering a deployment
-
-1. Open the **Actions** tab of the repository.
-2. Select **Deploy to GitHub Pages** from the workflow list on the left.
-3. Click **Run workflow** → **Run workflow**.
-
----
-
-## Local development
-
-### Requirements
-
-- Node version from `.nvmrc` (currently `22`)
-- pnpm (activated via Corepack — do **not** install globally with npm)
-
-### Setup
-
-```sh
-nvm use
-pnpm bootstrap   # runs: corepack enable && pnpm install --frozen-lockfile
-```
-
-### Run development server (UI only)
-
-```sh
-pnpm dev
-```
-
-Runs Vite dev server. The app uses the in-browser SQLite mock layer by default.
-
-### Run with local Express API server
-
-```sh
-pnpm dev:full   # runs both Express API (port 8787) and Vite dev server
-```
-
-When the API server is running, set `VITE_API_BASE_URL=http://localhost:8787/api` to point the frontend at it. This is already configured in the `dev:full` script.
-
-### Validate the project
-
-```sh
-pnpm check   # runs: pnpm lint && pnpm typecheck && pnpm build
-```
-
-Run individual checks:
-
-```sh
-pnpm lint          # ESLint validation
-pnpm typecheck     # TypeScript type checking
-pnpm build         # Vite production build
-```
-
-## Data persistence modes
-
-The app supports two data layers, selectable by environment:
+### Dashboard
 
 | Mode | How it works | When to use |
 |------|-------------|-------------|
-| **In-browser SQLite** | `sql.js` + `localforage` backing an in-memory SQLite DB persisted to IndexedDB | Default — no server needed |
-| **Express API** | `server/index.mjs` — Express + `better-sqlite3` on port `8787` | When you need shareable/persistent data across browsers |
+| **In-browser SQLite** | `sql.js` + `localforage` — in-memory SQLite persisted to IndexedDB | Default — no server needed |
+| **Express API** | `apps/dashboard/server/index.mjs` on port 8787 | When persistent/shared data is needed |
 
-The `VITE_API_BASE_URL` env var controls which layer `src/lib/api/http.ts` points at.
+Set `VITE_API_BASE_URL=http://localhost:8787/api` to point the dashboard at the Express server. The `dev:full` script handles this automatically.
+
+### Site
+
+The Nuxt site uses an in-memory mock store at `apps/site/server/utils/mockStore.ts`. All data mutations go through Nuxt server routes under `apps/site/server/routes/api/`.
 
 ## Data model
 
-The app is centered around a few main entities:
+Core entities shared across both apps:
 
 - **Tenant** — brand, slug, theming
-- **Deck** — metadata, audience type, status, section list
-- **DeckSection** — typed, ordered, enable/disable-able
-- **Template** — defines section structure for a deck type
-- **Asset** — uploaded media references
-- **FinancialModel** — raise targets, returns, use-of-funds, projections
+- **Deck** — metadata, audience type, status (`draft | ready | exported | archived`), ordered section list
+- **DeckSection** — typed, ordered, enable/disable-able content blocks
+- **Template** — reusable section structure definitions
+- **Asset** — logos, renderings, charts, headshots
+- **FinancialModel** — raise targets, returns, use-of-funds, projections, assumptions
 
-Models are strongly typed and Zod-validated before export logic runs.
+Types for the site live in `apps/site/lib/types/models.ts`. Dashboard types live in `apps/dashboard/src/features/*/model/types.ts`.
 
 ## Export philosophy
 
-Export logic stays separate from React page components.
+Export logic is isolated from React components.
 
-`app state / stored deck data → normalized section data → export builder → PPTX / PDF output`
+```
+stored deck data
+  → normalized section list (ordered, filtered by isEnabled)
+    → export builder (apps/dashboard/src/lib/pptx/builders.ts)
+      → PPTX / PDF output
+```
 
-## Non-goals for now
+See `apps/dashboard/src/features/exports/utils/buildDeck.ts`.
 
-- public event landing pages
-- ticketing or livestream features
-- freeform drag-anything slide editing
+## Non-goals
+
+- Public event landing pages
+- Ticketing or livestream features
+- Freeform drag-anything slide editing (not a Canva clone)
 - AI-generated investment assumptions by default
 
-## Status
+## Further reading
 
-This project is in active setup and architecture definition.
-
-The immediate goal is to establish:
-
-- a clean feature-first structure
-- strong domain models
-- reusable templates
-- reliable preview and export flows
-- a foundation that Pine Tar can use repeatedly across multiple deck types
+- [ProjectLayout.md](./ProjectLayout.md) — full directory structure reference
+- [docs/architecture.md](./docs/architecture.md) — architecture decisions and patterns
+- [ADMIN_GUIDE.md](./ADMIN_GUIDE.md) — admin dashboard quick-start guide

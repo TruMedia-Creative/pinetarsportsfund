@@ -1,27 +1,46 @@
-import { runQueryOne, executeInsert } from '~/server/utils/db'
+import { z } from 'zod'
+import { DeckSchema } from '~/lib/schemas'
+import { updateDeck } from '~/server/utils/mockStore'
+
+const updateDeckSchema = DeckSchema.partial().extend({
+  title: z.string().trim().min(1).max(140).optional(),
+})
 
 export default defineEventHandler(async (event) => {
   try {
     const id = getRouterParam(event, 'id')
     const body = await readBody(event)
 
-    const sql = `
-      UPDATE decks 
-      SET status = ?, published = ?, marketingMetadata = ?, updatedAt = datetime('now')
-      WHERE id = ?
-    `
+    if (!id) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Deck id is required',
+      })
+    }
 
-    const params = [
-      body.status || 'draft',
-      body.published ? 1 : 0,
-      JSON.stringify(body.marketingMetadata || {}),
-      id,
-    ]
+    const input = updateDeckSchema.parse(body)
+    const deck = updateDeck(id, input)
+    if (!deck) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Deck not found',
+      })
+    }
 
-    executeInsert(sql, params)
+    return deck
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid deck payload',
+        data: error.flatten(),
+      })
+    }
 
-    return { success: true, id }
-  } catch (error) {
+    if ((error as { statusCode?: number }).statusCode) {
+      throw error
+    }
+
     console.error('Error updating deck:', error)
     throw createError({
       statusCode: 500,

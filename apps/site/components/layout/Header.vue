@@ -1,37 +1,71 @@
 <template>
-  <header class="bg-white shadow">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <NuxtLink to="/" class="text-2xl font-bold text-blue-600">
-          Pine Tar
-        </NuxtLink>
-      </div>
-      <div class="hidden md:flex space-x-8">
-        <NuxtLink to="/" class="text-gray-700 hover:text-gray-900">
-          Home
-        </NuxtLink>
-        <NuxtLink to="/investments" class="text-gray-700 hover:text-gray-900">
-          Investments
-        </NuxtLink>
-        <NuxtLink to="/about" class="text-gray-700 hover:text-gray-900">
-          About
-        </NuxtLink>
-        <NuxtLink to="/contact" class="text-gray-700 hover:text-gray-900">
-          Contact
-        </NuxtLink>
-      </div>
-      <div class="flex space-x-4">
+  <header class="site-header">
+    <nav class="site-container py-5 flex items-center justify-between gap-4">
+      <NuxtLink to="/" class="brand-mark">
+        <span class="brand-mark__dot" />
+        Pine Tar Sports Fund
+      </NuxtLink>
+
+      <div class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
         <NuxtLink
-          to="/admin"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          v-for="link in navLinks"
+          :key="link.to"
+          :to="link.to"
+          class="hover:text-slate-900 transition-colors"
         >
-          Admin
+          {{ link.label }}
         </NuxtLink>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <NuxtLink to="/admin" class="btn btn-primary hidden sm:inline-flex">Admin</NuxtLink>
+        <button
+          type="button"
+          class="mobile-nav-toggle md:hidden"
+          :aria-expanded="mobileMenuOpen"
+          aria-label="Toggle navigation"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
     </nav>
+
+    <div v-if="mobileMenuOpen" class="mobile-nav-panel md:hidden">
+      <div class="site-container py-4 flex flex-col gap-3">
+        <NuxtLink
+          v-for="link in navLinks"
+          :key="link.to"
+          :to="link.to"
+          class="mobile-nav-link"
+          @click="mobileMenuOpen = false"
+        >
+          {{ link.label }}
+        </NuxtLink>
+        <NuxtLink to="/admin" class="btn btn-primary justify-center" @click="mobileMenuOpen = false">Admin</NuxtLink>
+      </div>
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
-// Header component
+const mobileMenuOpen = ref(false)
+
+const navLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'Investments', to: '/investments' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: '/contact' },
+]
+
+const route = useRoute()
+
+watch(
+  () => route.fullPath,
+  () => {
+    mobileMenuOpen.value = false
+  },
+)
 </script>

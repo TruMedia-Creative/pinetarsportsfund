@@ -1,46 +1,46 @@
 <template>
-  <footer class="bg-gray-900 text-white mt-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+  <footer class="site-footer mt-20">
+    <div class="site-container py-14">
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <h3 class="text-lg font-bold mb-4">Pine Tar Sports Fund</h3>
-          <p class="text-gray-400">
-            Investment opportunities in sports and entertainment
+          <h3 class="text-xl font-extrabold text-slate-50">Pine Tar Sports Fund</h3>
+          <p class="mt-3 text-sm text-slate-400">
+            Structured deck workflows for investor raises, sponsorship campaigns, lender packages, and municipality partnerships.
           </p>
         </div>
+
         <div>
-          <h4 class="text-lg font-semibold mb-4">Navigation</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><NuxtLink to="/" class="hover:text-white">Home</NuxtLink></li>
-            <li><NuxtLink to="/investments" class="hover:text-white">Investments</NuxtLink></li>
-            <li><NuxtLink to="/about" class="hover:text-white">About</NuxtLink></li>
-            <li><NuxtLink to="/contact" class="hover:text-white">Contact</NuxtLink></li>
+          <h4 class="footer-title">Explore</h4>
+          <ul class="footer-links">
+            <li><NuxtLink to="/">Home</NuxtLink></li>
+            <li><NuxtLink to="/investments">Investments</NuxtLink></li>
+            <li><NuxtLink to="/about">About</NuxtLink></li>
+            <li><NuxtLink to="/contact">Contact</NuxtLink></li>
           </ul>
         </div>
+
         <div>
-          <h4 class="text-lg font-semibold mb-4">Legal</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><a href="#" class="hover:text-white">Privacy</a></li>
-            <li><a href="#" class="hover:text-white">Terms</a></li>
-            <li><a href="#" class="hover:text-white">Disclaimer</a></li>
+          <h4 class="footer-title">Investor Relations</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:contact@pinetarsportsfund.com">contact@pinetarsportsfund.com</a></li>
+            <li>Investor, sponsor, lender, and municipality requests</li>
+            <li>Typical response within one business day</li>
           </ul>
         </div>
+
         <div>
-          <h4 class="text-lg font-semibold mb-4">Contact</h4>
-          <p class="text-gray-400">
-            <a href="mailto:contact@pinetarsportsfund.com" class="hover:text-white">
-              contact@pinetarsportsfund.com
-            </a>
-          </p>
+          <h4 class="footer-title">Legal</h4>
+          <ul class="footer-links">
+            <li>Private offering materials available after qualification</li>
+            <li>Past results do not guarantee future returns</li>
+          </ul>
         </div>
       </div>
-      <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
-        <p>&copy; 2024 Pine Tar Sports Fund. All rights reserved.</p>
+
+      <div class="mt-12 border-t border-white/10 pt-6 text-sm text-slate-500 flex flex-col sm:flex-row sm:justify-between gap-2">
+        <p>&copy; 2026 Pine Tar Sports Fund. All rights reserved.</p>
+        <p>Built for structured sports fundraising and partner storytelling.</p>
       </div>
     </div>
   </footer>
 </template>
-
-<script setup lang="ts">
-// Footer component
-</script>

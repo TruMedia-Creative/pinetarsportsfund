@@ -1,10 +1,8 @@
-import { runQuery, executeInsert } from '~/server/utils/db'
-import { randomUUID } from 'crypto'
+import { listDecks } from '~/server/utils/mockStore'
 
 export default defineEventHandler(async (event) => {
   try {
-    const decks = runQuery('SELECT * FROM decks ORDER BY createdAt DESC')
-    return decks
+    return listDecks()
   } catch (error) {
     console.error('Error fetching decks:', error)
     throw createError({

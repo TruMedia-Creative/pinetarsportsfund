@@ -1,19 +1,13 @@
+import { requireVerifiedAdminUser } from '~/server/utils/auth'
+
 export default defineEventHandler(async (event) => {
-  const token = getCookie(event, 'auth_token')
+  const user = requireVerifiedAdminUser(event)
 
-  if (!token) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Not authenticated',
-    })
-  }
-
-  // Return user info (in production, validate token and fetch user)
   return {
     user: {
-      id: 'admin-id',
-      username: 'admin',
-      email: 'admin@pinetarsportsfund.com',
+      id: user.sub,
+      username: user.username,
+      email: user.email,
     },
   }
 })

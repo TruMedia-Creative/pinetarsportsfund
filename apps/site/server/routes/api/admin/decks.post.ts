@@ -1,34 +1,32 @@
-import { executeInsert } from '~/server/utils/db'
-import { randomUUID } from 'crypto'
+import { z } from 'zod'
+import { createDeck } from '~/server/utils/mockStore'
+
+const createDeckSchema = z.object({
+  title: z.string().trim().min(1).max(140).optional(),
+  description: z.string().trim().max(2000).optional(),
+})
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
+    const input = createDeckSchema.parse(body)
+    const deck = createDeck(input)
 
-    const id = randomUUID()
-    const slug = body.title.toLowerCase().replace(/\s+/g, '-').slice(0, 50)
+    return {
+      id: deck.id,
+      title: deck.title,
+      slug: deck.slug,
+      status: deck.status,
+    }
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid deck payload',
+        data: error.flatten(),
+      })
+    }
 
-    const sql = `
-      INSERT INTO decks (
-        id, title, slug, status, published, 
-        content, marketingMetadata, createdAt, updatedAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-    `
-
-    const params = [
-      id,
-      body.title,
-      slug,
-      'draft',
-      0,
-      JSON.stringify({}),
-      JSON.stringify({}),
-    ]
-
-    executeInsert(sql, params)
-
-    return { id, title: body.title, slug, status: 'draft' }
-  } catch (error) {
     console.error('Error creating deck:', error)
     throw createError({
       statusCode: 500,

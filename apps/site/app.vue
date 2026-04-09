@@ -6,5 +6,15 @@
 </template>
 
 <script setup lang="ts">
-// Global setup if needed
+useHead({
+  htmlAttrs: {
+    lang: 'en',
+  },
+  meta: [
+    {
+      name: 'theme-color',
+      content: '#8f3c2f',
+    },
+  ],
+})
 </script>

@@ -1,83 +1,83 @@
 <template>
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h1 class="text-4xl font-bold mb-8">Contact Us</h1>
+  <div class="site-container py-16 md:py-20">
+    <p class="section-kicker">Contact</p>
+    <h1 class="section-title mt-3">Talk with our investment team</h1>
+    <p class="mt-4 max-w-2xl text-slate-600">
+      Share your project type, capital objective, or deck need. We will route your request to the right Pine Tar workflow.
+    </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <div>
-        <h2 class="text-2xl font-bold mb-6">Get In Touch</h2>
-        <form @submit.prevent="submitForm" class="space-y-6">
+    <div class="mt-12 grid gap-7 lg:grid-cols-[1.25fr_1fr]">
+      <section class="rounded-2xl border border-slate-200 bg-white p-7 md:p-8">
+        <h2 class="text-2xl font-extrabold text-slate-900">Get in touch</h2>
+        <form @submit.prevent="submitForm" class="mt-7 space-y-5">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+            <label class="label" for="name">Name</label>
             <input
+              id="name"
               v-model="form.name"
               type="text"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              class="input"
               required
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <label class="label" for="email">Email</label>
             <input
+              id="email"
               v-model="form.email"
               type="email"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              class="input"
               required
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+            <label class="label" for="message">Message</label>
             <textarea
+              id="message"
               v-model="form.message"
               rows="6"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              class="input"
               required
-            ></textarea>
+            />
           </div>
 
           <button
             type="submit"
             :disabled="loading"
-            class="w-full px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+            class="btn btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {{ loading ? 'Sending...' : 'Send Message' }}
+            {{ loading ? 'Sending message...' : 'Send message' }}
           </button>
         </form>
 
-        <div v-if="success" class="mt-4 p-4 bg-green-50 text-green-800 rounded-lg">
-          Thank you for your message. We'll be in touch soon!
+        <div v-if="success" class="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-800">
+          Thank you. Your request has been received and our team will follow up shortly.
         </div>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-bold mb-6">Contact Information</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="font-semibold text-gray-900 mb-2">Email</h3>
-            <a href="mailto:contact@pinetarsportsfund.com" class="text-blue-600 hover:text-blue-800">
-              contact@pinetarsportsfund.com
-            </a>
-          </div>
-
-          <div>
-            <h3 class="font-semibold text-gray-900 mb-2">Office</h3>
-            <p class="text-gray-600">
-              Pine Tar Sports Fund<br />
-              Investment & Sports Management<br />
-              United States
-            </p>
-          </div>
-
-          <div>
-            <h3 class="font-semibold text-gray-900 mb-2">Hours</h3>
-            <p class="text-gray-600">
-              Monday - Friday: 9:00 AM - 6:00 PM EST<br />
-              Saturday & Sunday: Closed
-            </p>
-          </div>
-        </div>
-      </div>
+      <aside class="rounded-2xl border border-slate-200 bg-slate-50 p-7 md:p-8">
+        <h2 class="text-xl font-extrabold text-slate-900">Direct channels</h2>
+        <ul class="mt-6 space-y-5 text-sm text-slate-600">
+          <li>
+            <p class="font-semibold text-slate-900">General inquiries</p>
+            <a href="mailto:contact@pinetarsportsfund.com" class="hover:text-sky-700">contact@pinetarsportsfund.com</a>
+          </li>
+          <li>
+            <p class="font-semibold text-slate-900">Deck requests</p>
+            <p>Investor pitch decks, sponsorship decks, lender / financing decks, and municipality partnership materials.</p>
+          </li>
+          <li>
+            <p class="font-semibold text-slate-900">Coverage</p>
+            <p>Sports, venue, and partnership narratives for private and strategic capital discussions.</p>
+          </li>
+          <li>
+            <p class="font-semibold text-slate-900">Response window</p>
+            <p>We typically reply within one business day for active deal and deck inquiries.</p>
+          </li>
+        </ul>
+      </aside>
     </div>
   </div>
 </template>
@@ -85,6 +85,13 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'default',
+})
+
+usePageSeo({
+  title: 'Contact',
+  description:
+    'Contact Pine Tar Sports Fund about investor decks, sponsorship decks, lender packages, and municipality partnership materials.',
+  path: '/contact',
 })
 
 const form = ref({

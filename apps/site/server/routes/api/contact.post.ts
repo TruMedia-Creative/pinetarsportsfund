@@ -1,21 +1,34 @@
+import { z } from 'zod'
+
+const contactSubmissionSchema = z.object({
+  email: z.string().trim().email().max(320),
+  name: z.string().trim().min(1).max(120),
+  message: z.string().trim().min(10).max(5000),
+})
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
+    const submission = contactSubmissionSchema.parse(body)
+    const emailDomain = submission.email.split('@')[1] || 'unknown'
 
-    // Basic validation
-    if (!body.email || !body.name || !body.message) {
+    // TODO: Send email using email service (SMTP)
+    console.info('Contact form submission received', {
+      emailDomain,
+      nameLength: submission.name.length,
+      messageLength: submission.message.length,
+    })
+
+    return { success: true, message: 'Message received' }
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Missing required fields',
+        statusMessage: 'Invalid contact payload',
+        data: error.flatten(),
       })
     }
 
-    // TODO: Send email using email service (SMTP)
-    // For now, just log it
-    console.log('Contact form submission:', body)
-
-    return { success: true, message: 'Message received' }
-  } catch (error) {
     console.error('Error processing contact form:', error)
     throw createError({
       statusCode: 500,

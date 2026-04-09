@@ -43,8 +43,8 @@
         </button>
       </form>
 
-      <p class="text-center mt-6 text-gray-600">
-        Demo credentials: admin / password
+      <p class="text-center mt-6 text-gray-600 text-sm">
+        Default credentials: admin / admin
       </p>
     </div>
   </div>
@@ -53,6 +53,13 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'blank',
+})
+
+usePageSeo({
+  title: 'Admin Login',
+  description: 'Secure sign-in for Pine Tar Sports Fund administration.',
+  path: '/login',
+  noindex: true,
 })
 
 const username = ref('')

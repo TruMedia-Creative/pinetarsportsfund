@@ -1,31 +1,28 @@
-import { executeInsert } from '~/server/utils/db'
-import { randomUUID } from 'crypto'
+import { AssetSchema } from '~/lib/schemas'
+import { createAsset } from '~/server/utils/mockStore'
+
+const createAssetSchema = AssetSchema.pick({
+  name: true,
+  type: true,
+  url: true,
+  alt: true,
+  tags: true,
+})
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
+    const input = createAssetSchema.parse(body)
+    return createAsset(input)
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid asset payload',
+        data: error.flatten(),
+      })
+    }
 
-    const id = randomUUID()
-
-    const sql = `
-      INSERT INTO assets (
-        id, name, type, url, alt, tags, createdAt
-      ) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
-    `
-
-    const params = [
-      id,
-      body.name,
-      body.type,
-      body.url,
-      body.alt || null,
-      JSON.stringify(body.tags || []),
-    ]
-
-    executeInsert(sql, params)
-
-    return { id, ...body }
-  } catch (error) {
     console.error('Error creating asset:', error)
     throw createError({
       statusCode: 500,
