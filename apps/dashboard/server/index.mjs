@@ -14,6 +14,15 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "25mb" }));
 
+function writeStdout(message) {
+  process.stdout.write(`${message}\n`);
+}
+
+function writeStderr(message, error) {
+  const details = error instanceof Error ? error.stack ?? error.message : String(error);
+  process.stderr.write(`${message}${details ? `\n${details}` : ""}\n`);
+}
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "pinetar-sqlite-api" });
 });
@@ -141,10 +150,10 @@ app.delete("/api/financial-models/:id", async (req, res) => {
 initDb()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`SQLite API listening on http://localhost:${PORT}`);
+      writeStdout(`SQLite API listening on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("Failed to initialize SQLite API", err);
+    writeStderr("Failed to initialize SQLite API", err);
     process.exit(1);
   });

@@ -20,7 +20,6 @@ let sqlJsPromise: Promise<SqlJsStatic> | null = null;
 let dbPromise: Promise<Database> | null = null;
 
 function getSqlJs(): Promise<SqlJsStatic> {
-<<<<<<< HEAD:apps/dashboard/src/lib/api/mock/sqlite.ts
   if (!sqlJsPromise) {
     sqlJsPromise = initSqlJs({
       locateFile: () => wasmUrl,
@@ -31,10 +30,6 @@ function getSqlJs(): Promise<SqlJsStatic> {
     throw new Error("Failed to initialize sql.js");
   }
   return currentPromise;
-=======
-  sqlJsPromise ??= initSqlJs({ locateFile: () => wasmUrl });
-  return sqlJsPromise;
->>>>>>> a34fbe056dbd77f91f0d96ce82e13b8fd98de97d:src/lib/api/mock/sqlite.ts
 }
 
 async function persistDb(db: Database): Promise<void> {
