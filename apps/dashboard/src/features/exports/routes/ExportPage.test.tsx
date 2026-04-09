@@ -5,7 +5,7 @@ import ExportPage from "./ExportPage";
 const getDeckByIdMock = vi.fn();
 const exportDeckAsPptxMock = vi.fn();
 
-vi.mock("../../../lib/api/mock/decks", () => ({
+vi.mock("../../../lib/api/supabase/decks", () => ({
   getDeckById: (...args: unknown[]) => getDeckByIdMock(...args),
 }));
 

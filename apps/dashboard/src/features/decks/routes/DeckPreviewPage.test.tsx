@@ -5,7 +5,7 @@ import { DeckPreviewPage } from "./DeckPreviewPage";
 const getDeckByIdMock = vi.fn();
 const getDecksMock = vi.fn();
 
-vi.mock("../../../lib/api/mock/decks", () => ({
+vi.mock("../../../lib/api/supabase/decks", () => ({
   getDeckById: (...args: unknown[]) => getDeckByIdMock(...args),
   getDecks: (...args: unknown[]) => getDecksMock(...args),
 }));

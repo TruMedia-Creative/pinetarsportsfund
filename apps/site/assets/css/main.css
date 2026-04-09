@@ -423,20 +423,398 @@ h6,
     padding-left: 2rem;
     padding-right: 2rem;
   }
-
-  .hero-title {
-    font-size: 4.5rem;
-  }
-
-  .section-title {
-    font-size: 3.5rem;
-  }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+}
+
+/* ============================================================
+   DESIGN SYSTEM v2 — high-contrast sports / finance additions
+   ============================================================ */
+
+:root {
+  --color-surface-charcoal: #0c1620;
+  --color-gold-glow: rgba(215, 164, 65, 0.35);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 8s linear infinite;
+}
+
+/* Announcement badge pill */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(215, 164, 65, 0.5);
+  background: linear-gradient(135deg, rgba(143, 60, 47, 0.08), rgba(215, 164, 65, 0.08));
+  padding: 0.35rem 0.875rem 0.35rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #3d1a10;
+  text-decoration: none;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.badge-pill:hover {
+  border-color: rgba(215, 164, 65, 0.8);
+  background: linear-gradient(135deg, rgba(143, 60, 47, 0.12), rgba(215, 164, 65, 0.12));
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  box-shadow: 0 0 0 2px rgba(143, 60, 47, 0.25);
+  flex-shrink: 0;
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(143, 60, 47, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(143, 60, 47, 0.08);
+  }
+}
+
+/* Hero — split two-column layout */
+.hero-title {
+  font-weight: 900;
+  color: #111827;
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  line-height: 1.04;
+}
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-split {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.hero-image-frame {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 2px solid rgba(215, 164, 65, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(215, 164, 65, 0.12),
+    0 32px 80px rgba(10, 14, 22, 0.28),
+    0 8px 24px rgba(143, 60, 47, 0.16);
+}
+
+.hero-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-image-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 55%, rgba(10, 14, 22, 0.55) 100%);
+  pointer-events: none;
+}
+
+.hero-image-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Logo strip — social proof row */
+.logo-strip {
+  border-top: 1px solid rgba(205, 191, 169, 0.5);
+  border-bottom: 1px solid rgba(205, 191, 169, 0.5);
+  padding: 1.25rem 0;
+}
+
+.logo-strip__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #9ea9b5;
+  flex-shrink: 0;
+}
+
+.logo-strip__track {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.logo-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2d6c4;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+/* Feature cards — icon area + number badge */
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.625rem;
+  background: linear-gradient(145deg, rgba(143, 60, 47, 0.1), rgba(215, 164, 65, 0.1));
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+/* Investment spotlight */
+.spotlight-wrapper {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(215, 164, 65, 0.25);
+  background: linear-gradient(145deg, #0f1b28 0%, var(--color-surface-charcoal) 100%);
+  overflow: hidden;
+}
+
+.spotlight-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .spotlight-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.spotlight-image {
+  position: relative;
+  min-height: 280px;
+}
+
+.spotlight-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 280px;
+}
+
+.spotlight-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10, 14, 22, 0.4), transparent 60%);
+}
+
+.spotlight-body {
+  padding: 2rem 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.spotlight-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-accent);
+}
+
+.spotlight-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.12;
+  margin-top: 0.75rem;
+}
+
+.spotlight-summary {
+  font-size: 0.875rem;
+  color: #b0bcc9;
+  line-height: 1.7;
+  margin-top: 0.75rem;
+}
+
+.spotlight-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.spotlight-tag {
+  border-radius: 9999px;
+  border: 1px solid rgba(215, 164, 65, 0.3);
+  padding: 0.2rem 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #d7a441;
+}
+
+.spotlight-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.spotlight-cta:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Team preview */
+.team-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.team-card {
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(95, 73, 47, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(95, 73, 47, 0.1);
+}
+
+.team-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  min-width: 3.25rem;
+  border-radius: 9999px;
+  background: linear-gradient(145deg, var(--color-brand), #bf6b4d);
+  font-weight: 900;
+  font-size: 0.9375rem;
+  color: #fff;
+  letter-spacing: 0.04em;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.team-name {
+  font-weight: 800;
+  font-size: 0.9375rem;
+  color: #18212b;
+  line-height: 1.3;
+}
+
+.team-role {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-brand);
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+/* Metric panel — updated to charcoal */
+.metric-panel {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(215, 164, 65, 0.22);
+  padding: 1.75rem;
+  background: linear-gradient(145deg, #0f1b28 0%, var(--color-surface-charcoal) 100%);
+}
+
+/* CTA strip — brand gradient overlay */
+.cta-strip {
+  border-radius: 1.5rem;
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(135deg, rgba(143, 60, 47, 0.04) 0%, rgba(215, 164, 65, 0.06) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 245, 236, 0.96));
+  padding: 2rem;
+  box-shadow: 0 24px 55px rgba(95, 73, 47, 0.08);
+}
+
+@media (min-width: 768px) {
+  .metric-panel {
+    padding: 2.5rem;
+  }
+
+  .metric-value {
+    font-size: 1.875rem;
+  }
+
+  .cta-strip {
+    padding: 3rem;
+  }
 }
 
 ::-webkit-scrollbar-track {
