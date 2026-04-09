@@ -15,6 +15,9 @@
     "dev:full": "concurrently \"pnpm dev\" \"pnpm api\""
   },
   "dependencies": {
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "localforage": "^1.10.0",
     "pptxgenjs": "^4.0.1",
     "react": "^19.0.0",
