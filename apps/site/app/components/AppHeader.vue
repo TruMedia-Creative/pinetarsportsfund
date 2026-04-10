@@ -7,16 +7,22 @@ const activeSection = ref<string>()
 
 const items = computed(() => [
   {
-    label: 'Features',
-    to: '#features',
+    label: 'Market Demand',
+    to: '#market-demand',
     exactHash: true,
-    active: activeSection.value === 'features'
+    active: activeSection.value === 'market-demand'
   },
   {
-    label: 'Metrics',
-    to: '#metrics',
+    label: 'Team',
+    to: '#team',
     exactHash: true,
-    active: activeSection.value === 'metrics'
+    active: activeSection.value === 'team'
+  },
+  {
+    label: 'FAQ',
+    to: '#faq',
+    exactHash: true,
+    active: activeSection.value === 'faq'
   }
 ])
 
@@ -30,7 +36,7 @@ nuxtApp.hooks.hookOnce('page:loading:end', () => {
     }
   }, { rootMargin: '-50% 0px -50% 0px' })
 
-  document.querySelectorAll('#features, #metrics').forEach(el => observer.observe(el))
+  document.querySelectorAll('#market-demand, #team, #faq').forEach(el => observer.observe(el))
 })
 
 const variants: Record<string, VariantType | ((custom: unknown) => VariantType)> = {
@@ -78,11 +84,10 @@ const variants: Record<string, VariantType | ((custom: unknown) => VariantType)>
         class="hidden lg:flex"
       />
       <UButton
-        label="Get started"
-        color="neutral"
+        label="Get in Touch"
+        color="primary"
         class="hidden lg:flex"
-        to="https://ui.nuxt.com"
-        target="_blank"
+        to="/contact"
       />
     </template>
 
@@ -155,10 +160,10 @@ const variants: Record<string, VariantType | ((custom: unknown) => VariantType)>
           block
         />
         <UButton
-          label="Get started"
+          label="Get in Touch"
+          color="primary"
           block
-          to="https://ui.nuxt.com"
-          target="_blank"
+          to="/contact"
         />
       </div>
     </template>

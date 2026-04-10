@@ -14,51 +14,42 @@ const createLinkSchema = () => z.object({
   variant: createEnum(['solid', 'outline', 'subtle', 'soft', 'ghost', 'link']).optional()
 })
 
+const createCardItemSchema = () => z.object({
+  icon: z.string(),
+  title: z.string().nonempty(),
+  description: z.string().nonempty()
+})
+
 export const collections = {
   content: defineCollection({
     source: 'index.yml',
     type: 'page',
     schema: z.object({
       hero: z.object({
-        headline: z.string().optional(),
+        eyebrow: z.string().optional(),
         links: z.array(createLinkSchema())
       }),
-      terminal: z.object({
-        lines: z.array(z.object({
-          segments: z.array(z.object({
-            text: z.string(),
-            style: z.string()
-          }))
-        }))
-      }),
-      logos: z.object({
-        title: z.string().nonempty(),
-        items: z.array(z.string())
-      }),
-      features: z.object({
-        headline: z.string().optional(),
+      marketDemand: z.object({
         title: z.string().nonempty(),
         description: z.string().nonempty(),
-        items: z.array(z.object({
-          icon: z.string(),
-          title: z.string().nonempty(),
-          description: z.string().nonempty()
-        }))
+        items: z.array(createCardItemSchema())
       }),
-      metrics: z.object({
-        headline: z.string().optional(),
+      team: z.object({
         title: z.string().nonempty(),
         description: z.string().nonempty(),
+        items: z.array(createCardItemSchema())
+      }),
+      faq: z.object({
+        title: z.string().nonempty(),
         items: z.array(z.object({
-          value: z.string().nonempty(),
           label: z.string().nonempty(),
-          class: z.string().nonempty()
+          icon: z.string().optional(),
+          content: z.string().nonempty()
         }))
       }),
       cta: z.object({
         title: z.string().nonempty(),
         description: z.string().nonempty(),
-        command: z.string().nonempty(),
         links: z.array(createLinkSchema())
       })
     })

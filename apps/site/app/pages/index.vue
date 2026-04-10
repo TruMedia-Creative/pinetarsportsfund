@@ -52,8 +52,6 @@ function staggerMotion(index: number = 0) {
     transition: { duration: 0.6, delay: index * 0.08 }
   }
 }
-
-const { copy, copied } = useClipboard()
 </script>
 
 <template>
@@ -70,10 +68,6 @@ const { copy, copied } = useClipboard()
       }"
     >
       <template #top>
-        <Motion v-bind="staggerMotion(0)">
-          <HeroShaders class="absolute top-0 inset-x-0 opacity-15 h-full" />
-        </Motion>
-
         <GradientGlow class="top-0 w-2/3 h-1/2" />
       </template>
 
@@ -82,17 +76,9 @@ const { copy, copied } = useClipboard()
           <UBadge
             color="neutral"
             variant="soft"
-            :label="page.hero.headline"
+            :label="page.hero.eyebrow"
             class="rounded-full px-3 py-1.5 gap-1.5 bg-white/5 backdrop-blur"
-          >
-            <template #leading>
-              <UChip
-                inset
-                standalone
-                :ui="{ base: 'animate-pulse ring-0' }"
-              />
-            </template>
-          </UBadge>
+          />
         </Motion>
       </template>
 
@@ -139,89 +125,36 @@ const { copy, copied } = useClipboard()
           />
         </Motion>
       </template>
-
-      <Motion
-        as-child
-        v-bind="enterMotion(0.85)"
-        class="max-w-2xl mx-auto w-full"
-      >
-        <HeroTerminal :lines="page.terminal.lines" />
-      </Motion>
-
-      <Motion
-        class="max-w-lg mx-auto w-full"
-        v-bind="scrollMotion(0.95)"
-      >
-        <UPageLogos
-          :title="page.logos.title"
-          :items="page.logos.items"
-          :ui="{
-            title: 'font-mono uppercase text-xs tracking-[0.12em] text-dimmed',
-            logos: 'gap-0',
-            logo: 'text-muted size-6'
-          }"
-        />
-      </Motion>
     </UPageHero>
 
-    <!-- Features -->
+    <!-- Market Demand -->
     <UPageSection
-      id="features"
+      id="market-demand"
+      :title="page.marketDemand.title"
+      :description="page.marketDemand.description"
       :ui="{
         root: 'py-24 sm:py-32 scroll-mt-(--ui-header-height)',
         container: 'max-w-5xl',
-        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
         title: 'max-w-lg mx-auto',
         description: 'max-w-md mx-auto text-dimmed'
       }"
     >
-      <template #headline>
-        <Motion
-          as="span"
-          v-bind="scrollMotion()"
-          class="inline-block"
-        >
-          {{ page.features.headline }}
-        </Motion>
-      </template>
-
-      <template #title>
-        <Motion
-          as="span"
-          v-bind="scrollMotion(0.1)"
-          class="inline-block"
-        >
-          {{ page.features.title }}
-        </Motion>
-      </template>
-
-      <template #description>
-        <Motion
-          as="span"
-          v-bind="scrollMotion(0.2)"
-          class="inline-block"
-        >
-          {{ page.features.description }}
-        </Motion>
-      </template>
-
       <div class="rounded-2xl border border-default bg-default overflow-hidden">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px">
           <Motion
-            v-for="(feature, index) in page.features.items"
-            :key="feature.title"
+            v-for="(item, index) in page.marketDemand.items"
+            :key="item.title"
             v-bind="staggerMotion(index)"
           >
             <UPageCard
-              :icon="feature.icon"
-              :title="feature.title"
-              :description="feature.description"
+              :icon="item.icon"
+              :title="item.title"
+              :description="item.description"
               class="rounded-none duration-300"
-              to="#"
               :ui="{
                 leading: 'mb-5 flex size-9 justify-center rounded-lg bg-primary/10',
                 title: 'text-sm tracking-tight',
-                description: 'text-sm leading-relaxed sm:line-clamp-2 lg:line-clamp-3 text-dimmed'
+                description: 'text-sm leading-relaxed sm:line-clamp-3 text-dimmed'
               }"
             />
           </Motion>
@@ -229,69 +162,59 @@ const { copy, copied } = useClipboard()
       </div>
     </UPageSection>
 
-    <!-- Metrics -->
+    <!-- Team -->
     <UPageSection
-      id="metrics"
+      id="team"
+      :title="page.team.title"
+      :description="page.team.description"
       :ui="{
         root: 'py-24 sm:py-32 scroll-mt-(--ui-header-height)',
         container: 'max-w-5xl',
-        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
         title: 'max-w-lg mx-auto',
         description: 'max-w-md mx-auto text-dimmed'
       }"
     >
-      <template #headline>
-        <Motion
-          as="span"
-          v-bind="scrollMotion()"
-          class="inline-block"
-        >
-          {{ page.metrics.headline }}
-        </Motion>
-      </template>
-
-      <template #title>
-        <Motion
-          as="span"
-          v-bind="scrollMotion(0.1)"
-          class="inline-block"
-        >
-          {{ page.metrics.title }}
-        </Motion>
-      </template>
-
-      <template #description>
-        <Motion
-          as="span"
-          v-bind="scrollMotion(0.2)"
-          class="inline-block"
-        >
-          {{ page.metrics.description }}
-        </Motion>
-      </template>
-
       <div class="rounded-2xl border border-default bg-default overflow-hidden">
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px">
           <Motion
-            v-for="(metric, index) in page.metrics.items"
-            :key="metric.label"
+            v-for="(item, index) in page.team.items"
+            :key="item.title"
             v-bind="staggerMotion(index)"
           >
             <UPageCard
-              :title="metric.value"
-              :description="metric.label"
+              :icon="item.icon"
+              :title="item.title"
+              :description="item.description"
               class="rounded-none duration-300"
-              to="#"
               :ui="{
-                root: 'text-center',
-                wrapper: 'items-center',
-                title: ['text-4xl font-bold tracking-tight leading-none', metric.class],
-                description: 'font-mono text-xs uppercase tracking-[0.06em] text-dimmed mt-3'
+                leading: 'mb-5 flex size-9 justify-center rounded-lg bg-primary/10',
+                title: 'text-sm tracking-tight',
+                description: 'text-sm leading-relaxed sm:line-clamp-3 text-dimmed'
               }"
             />
           </Motion>
         </div>
       </div>
+    </UPageSection>
+
+    <!-- FAQ -->
+    <UPageSection
+      id="faq"
+      :title="page.faq.title"
+      :ui="{
+        root: 'py-24 sm:py-32 scroll-mt-(--ui-header-height)',
+        container: 'max-w-3xl',
+        title: 'max-w-lg mx-auto'
+      }"
+    >
+      <Motion v-bind="scrollMotion()">
+        <UAccordion
+          :items="page.faq.items"
+          :ui="{
+            item: 'py-4 border-b border-default last:border-0'
+          }"
+        />
+      </Motion>
     </UPageSection>
 
     <!-- CTA -->
@@ -330,25 +253,13 @@ const { copy, copied } = useClipboard()
 
       <template #links>
         <Motion
-          class="flex flex-col items-center justify-center gap-6"
+          class="flex flex-col sm:flex-row items-center justify-center gap-4"
           v-bind="scrollMotion(0.2)"
         >
           <UButton
             v-for="link in page.cta.links"
             :key="link.label"
             v-bind="link"
-            size="xl"
-          />
-
-          <UButton
-            :label="page.cta.command"
-            :trailing-icon="copied ? 'i-lucide-copy-check' : 'i-lucide-copy'"
-            color="neutral"
-            variant="subtle"
-            class="font-mono font-light text-toned gap-4"
-            size="xl"
-            :ui="{ trailingIcon: 'size-5' }"
-            @click="copy(page.cta.command)"
           />
         </Motion>
       </template>
