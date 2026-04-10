@@ -1,116 +1,87 @@
 seo:
-  title: Nuxt Landing Template
-  description: A beautiful and customizable landing page template built with Nuxt UI. Features hero section, animated terminal, metrics, and CTA — ready to deploy.
-title: "Observe less.\nUnderstand more."
-description: Map your entire system in real-time, surface anomalies before they cascade, and eliminate the dashboards you never needed.
+  title: Pine Tar Sports Fund
+  description: >
+    Pine Tar Sports Fund is focused on building the future of sports destinations through thoughtful development, strong operations, and long-term vision.
+title: "Building the Future\nof Sports Destinations"
+description: >
+  Pine Tar Sports Fund is focused on helping bring high-quality sports facilities and experiences to life through strategic development, operational leadership, and a vision for long-term regional impact.
 hero:
-  headline: "v2.0 — Now with predictive alerting"
+  eyebrow: Sports Development. Built for Long-Term Impact.
   links:
-    - label: Start for free
+    - label: Get in Touch
+      to: /contact
       color: primary
+      variant: solid
       size: xl
-      to: '#'
-    - label: View demo
-      size: xl
+    - label: Learn More
+      to: /about
       color: neutral
-      variant: soft
-      to: '#'
-terminal:
-  lines:
-    - segments:
-        - text: "$ "
-          style: prompt
-        - text: "npx telemetry"
-          style: cmd
-        - text: " init"
-          style: flag
-    - segments:
-        - text: "→ Scanning service topology..."
-          style: dim
-    - segments:
-        - text: "→ Found "
-          style: dim
-        - text: "23 services"
-          style: cmd
-        - text: ", "
-          style: dim
-        - text: "847 endpoints"
-          style: cmd
-        - text: ", "
-          style: dim
-        - text: "12 databases"
-          style: cmd
-    - segments:
-        - text: "→ Deploying collector agents "
-          style: dim
-        - text: "✓"
-          style: success
-    - segments:
-        - text: "→ Baseline established in "
-          style: dim
-        - text: "340ms"
-          style: metric-good
-    - segments:
-        - text: " "
-          style: dim
-    - segments:
-        - text: "✓ Live at "
-          style: success
-        - text: "https://app.example.com/acme-corp"
-          style: url
-logos:
-  title: Trusted by engineering teams at
+      variant: ghost
+      size: xl
+marketDemand:
+  title: Why the Market Demand Is Real
+  description: >
+    Across many regions, demand for quality sports facilities continues to outpace supply. Families, athletes, leagues, and event organizers are all looking for well-run venues that offer more than just playable space.
   items:
-    - i-simple-icons-vercel
-    - i-simple-icons-github
-    - i-simple-icons-linear
-    - i-simple-icons-supabase
-    - i-simple-icons-stripe
-features:
-  headline: Capabilities
-  title: "Every signal, one surface."
-  description: No more tab-switching between metrics, traces, and logs. Correlate everything into a single explorable topology.
+    - title: Growing Sports Participation
+      description: Youth and amateur sports continue to drive demand for facilities that can support leagues, practices, tournaments, and multi-day events.
+      icon: i-lucide-trending-up
+    - title: Limited High-Quality Inventory
+      description: Many markets still lack modern, purpose-built complexes that can reliably serve teams, families, and event operators at a high level.
+      icon: i-lucide-map-pinned
+    - title: Destination-Based Demand
+      description: Well-positioned sports venues can attract recurring traffic through tournaments, camps, travel teams, and community programming.
+      icon: i-lucide-flag
+    - title: Operational Opportunity
+      description: Strong facilities become more valuable when they are supported by clear systems, consistent scheduling, and capable leadership.
+      icon: i-lucide-settings
+team:
+  title: Built by People Who Understand Execution
+  description: >
+    Great sports projects are not built on concept alone. They require operators, planners, and decision-makers who understand how vision translates into real-world execution.
   items:
-    - icon: i-lucide-zap
-      title: Predictive Alerts
-      description: ML models trained on your baselines detect anomalies 4 minutes before they hit your SLOs.
-    - icon: i-lucide-radar
-      title: Topology Mapping
-      description: Auto-discovers service dependencies with zero config. See how a deploy in auth-service ripples through checkout.
-    - icon: i-lucide-layers
-      title: Unified Telemetry
-      description: "Logs, metrics, and traces in one query language. Stop context-switching. Start correlating."
-    - icon: i-lucide-git-commit-horizontal
-      title: Deploy Tracking
-      description: Every deploy is automatically correlated with performance changes. Know which commit caused the regression.
-    - icon: i-lucide-filter
-      title: Smart Sampling
-      description: "AI-driven sampling retains interesting traces and drops noise. Cut storage costs 10× without losing signal."
-    - icon: i-lucide-notebook-pen
-      title: Team Notebooks
-      description: Collaborative investigation notebooks that turn incident debugging into reusable runbooks.
-metrics:
-  headline: By the numbers
-  title: "Built for scale you haven't hit yet."
-  description: Process billions of events per day across thousands of production environments with an architecture designed for the workloads of 2030.
+    - title: Project Leadership
+      description: Guides the overall vision, strategic direction, and long-term development of the initiative.
+      icon: i-lucide-briefcase
+    - title: Operations
+      description: Focuses on how facilities, programming, scheduling, and day-to-day execution come together in a sustainable way.
+      icon: i-lucide-cog
+    - title: Development Partners
+      description: Supports planning, buildout, and implementation across the physical and operational components of the project.
+      icon: i-lucide-hammer
+    - title: Advisors and Stakeholders
+      description: Contributes experience, relationships, and perspective to help shape a durable and credible sports platform.
+      icon: i-lucide-users
+faq:
+  title: Frequently Asked Questions
   items:
-    - value: "99.99%"
-      label: Uptime SLA
-      class: "text-success"
-    - value: "<50ms"
-      label: P99 query
-      class: "text-primary"
-    - value: "14B+"
-      label: Events / day
-      class: "text-info"
-    - value: "4 min"
-      label: Early warning
-      class: "text-warning"
+    - label: What is Pine Tar Sports Fund?
+      icon: i-lucide-circle-help
+      content: Pine Tar Sports Fund is a sports-focused development and operations platform centered on building high-quality athletic destinations with long-term value and regional impact.
+    - label: Is this only about baseball?
+      icon: i-lucide-circle-help
+      content: Baseball may be a major part of the vision, but the broader focus is on sports facilities, programming, and experiences that create sustained value for athletes, families, and communities.
+    - label: What makes this different from a typical sports complex?
+      icon: i-lucide-circle-help
+      content: The goal is not simply to build fields. It is to create a well-operated destination with strong programming, thoughtful planning, and long-term strategic value.
+    - label: Who is this for?
+      icon: i-lucide-circle-help
+      content: Pine Tar Sports Fund is relevant to community stakeholders, families, partners, operators, and others interested in the future of high-quality sports infrastructure.
+    - label: How can I learn more or get involved?
+      icon: i-lucide-circle-help
+      content: The best next step is to reach out directly through the contact page to start the conversation.
 cta:
-  title: "Ready to stop\nfirefighting?"
-  description: Free for up to 5 services. No credit card. Deploys in under a minute.
-  command: npx telemetry init
+  title: "Let's Build Something\nThat Lasts"
+  description: >
+    Pine Tar Sports Fund is about more than fields, facilities, or events alone. It is about creating sports destinations that are built to serve communities, support athletes, and grow in value over time.
   links:
-    - label: Start for free
+    - label: Contact Us
+      to: /contact
       color: primary
-      to: '#'
+      variant: solid
+      size: xl
+    - label: Explore the Vision
+      to: /about
+      color: neutral
+      variant: ghost
+      size: xl
