@@ -1,0 +1,118 @@
+title: "Spring 2026 Sponsorship Opportunities — Riverside Sports Complex"
+subtitle: "Brand activation and naming rights packages for corporate sponsors"
+projectName: "Riverside Sports Complex"
+audienceType: sponsor
+published: false
+
+cover:
+  tagline: "Sponsorship Opportunity"
+  heroImageUrl: ""
+  contactName: "Keisha Monroe"
+  contactTitle: "Director of Partnerships"
+  company: "Pine Tar Sports Fund"
+  address: "2900 W. Stadium Blvd, Suite 400, Kansas City, MO 64108"
+
+executiveSummary:
+  enabled: true
+  body: |
+    Riverside Sports Complex is Kansas City's next premier sports and entertainment destination. Opening Q1 2028, the 8,500-seat indoor arena and multi-use campus will host 120+ events per year — attracting an estimated 800,000+ annual visitors from across the metro and region.
+
+    We are actively partnering with corporate sponsors who want meaningful, measurable brand presence with a sports-passionate, high-income audience.
+  returnsTableTitle: "Partnership Snapshot"
+  returnsTableRows:
+    - label: "Venue Capacity"
+      value: "8,500 seats (indoor arena)"
+      highlight: false
+    - label: "Projected Annual Events"
+      value: "120+"
+    - label: "Estimated Annual Visitors"
+      value: "800,000+"
+    - label: "Metro Reach"
+      value: "2.3M (Kansas City DMA)"
+    - label: "Presenting Sponsor Opportunity"
+      value: "Available — naming rights and title package"
+      highlight: true
+    - label: "Category Exclusivity"
+      value: "Available for anchor partners"
+    - label: "Opening Season"
+      value: "Q1 2028"
+
+investmentThesis:
+  enabled: false
+
+opportunity:
+  enabled: true
+  body: |
+    The Riverside Sports Complex sponsorship opportunity is a rare chance to establish a brand at the ground floor of a new, purpose-built venue before opening day — when naming rights and foundational partnerships carry maximum long-term value.
+
+    Corporate partners who commit during pre-opening receive naming recognition built into the physical and digital infrastructure from day one: signage, broadcast, digital, and programming.
+  bullets:
+    - "Naming rights partnership available — full venue naming opportunity"
+    - "Category exclusivity: lock out competitors in your vertical for 10 years"
+    - "Pre-opening pricing: foundational partners receive preferential naming rates vs. post-opening market"
+    - "Revenue-linked packages available: align sponsorship cost to verified attendance milestones"
+    - "Anchor tenant (regional Hockey franchise) delivers built-in media coverage from Season 1"
+  imageUrl: ""
+
+market:
+  enabled: true
+  body: |
+    Kansas City is one of the most sports-passionate markets in the country — ranked top 15 nationally for sports TV viewership and live event attendance. The metro's sports culture, combined with a growing young professional demographic, creates a high-repeat, high-engagement audience for brand partners.
+  metrics:
+    - value: "800K+"
+      label: "Projected annual visitors"
+    - value: "Top 15"
+      label: "Sports market nationally"
+    - value: "$84K"
+      label: "Median household income"
+    - value: "58%"
+      label: "Audience under age 45"
+
+projectOverview:
+  enabled: true
+  body: |
+    **Indoor Arena (8,500 seats)** — Hockey, basketball, concerts, motorsport previews, trade shows, and community events. Full broadcast infrastructure, 360° LED fascia, and 28 premium suite boxes.
+
+    **Retail and Hospitality District** — 12 food & beverage concepts, 3 private event spaces (capacity 50–500), and street-level retail in a walkable campus environment.
+
+    **Youth Sports Hub** — 6 indoor courts and 8 turf fields serving 40+ youth sports leagues with 15,000+ participants. Tremendous family-audience brand touchpoints.
+  images: []
+
+team:
+  enabled: true
+  body: "Our partnerships team brings deep experience in corporate activation, venue operations, and media rights."
+  members:
+    - name: "Keisha Monroe"
+      title: "Director of Partnerships"
+      bio: "10 years in corporate sponsorship sales at enterprise venues. Former partnership director for a Big 12 university athletic department."
+      imageUrl: ""
+    - name: "Marcus J. Holloway"
+      title: "Managing Partner"
+      bio: "Former VP of Business Development for the Kansas City Royals. Deep relationships across Kansas City and Midwest corporate community."
+      imageUrl: ""
+
+useOfFunds:
+  enabled: false
+
+returns:
+  enabled: false
+
+projections:
+  enabled: false
+
+risksDisclaimer:
+  enabled: true
+  body: "This sponsorship deck is provided for discussion purposes only. All terms, pricing, and packages are subject to negotiation. Venue opening is contingent on construction and financing milestones."
+  bullets:
+    - "Venue opening timeline is subject to construction progress and municipal approvals"
+    - "Projected attendance figures are estimates based on comparable venue benchmarks and are not guaranteed"
+    - "Naming rights and category exclusivity agreements are subject to legal review and final contract execution"
+
+closingCta:
+  enabled: true
+  body: "We are actively discussing founding partner packages with a select number of regional and national brands. Early conversations lead to the best terms."
+  ctaText: "Schedule a Sponsorship Call"
+  ctaUrl: "mailto:partnerships@pinetarsportsfund.com?subject=Riverside%20Sports%20Complex%20-%20Sponsorship%20Inquiry"
+  contactName: "Keisha Monroe"
+  contactTitle: "Director of Partnerships"
+  contactEmail: "partnerships@pinetarsportsfund.com"

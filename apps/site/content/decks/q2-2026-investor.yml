@@ -1,0 +1,230 @@
+title: "Q2 2026 Equity Raise — Riverside Sports Complex"
+subtitle: "Preferred equity offering for institutional and accredited investors"
+projectName: "Riverside Sports Complex"
+audienceType: investor
+published: false
+
+cover:
+  tagline: "Investment Opportunity"
+  heroImageUrl: ""
+  contactName: "Marcus J. Holloway"
+  contactTitle: "Managing Partner"
+  company: "Pine Tar Sports Fund"
+  address: "2900 W. Stadium Blvd, Suite 400, Kansas City, MO 64108"
+
+executiveSummary:
+  enabled: true
+  body: |
+    Pine Tar Sports Fund is raising $18M in preferred equity to complete Phase II of the Riverside Sports Complex — a 42-acre multi-use sports and entertainment campus in Kansas City, Missouri.
+
+    Phase I (youth athletic fields and a 4,000-seat amphitheater) is operational and generating revenue. This raise funds the 8,500-seat indoor arena and expanded retail/hospitality district, unlocking the bulk of long-term enterprise value.
+  tableOfContents:
+    - number: 1
+      label: Investment Thesis
+    - number: 2
+      label: The Opportunity
+    - number: 3
+      label: Market Context
+    - number: 4
+      label: Project Overview
+    - number: 5
+      label: Team
+    - number: 6
+      label: Use of Funds
+    - number: 7
+      label: Returns & Timeline
+    - number: 8
+      label: Financial Projections
+    - number: 9
+      label: Risks & Disclaimer
+  returnsTableTitle: "Summary of Terms"
+  returnsTableRows:
+    - label: Offering Size
+      value: "$18,000,000"
+      highlight: false
+    - label: Structure
+      value: Preferred Equity
+    - label: Preferred Return
+      value: "8% cumulative, non-compounding"
+    - label: Equity Participation
+      value: "30% of distributable cash flow above pref"
+    - label: Target IRR
+      value: "21–24%"
+      highlight: true
+    - label: Investment Horizon
+      value: 5–7 years
+    - label: Minimum Investment
+      value: "$250,000"
+
+investmentThesis:
+  enabled: true
+  body: |
+    Sports and entertainment real estate sits at the intersection of institutional-grade infrastructure and high-demand community assets. Unlike pure commercial real estate, multi-use sports complexes derive income from multiple synergistic streams: events, leases, naming rights, concessions, and youth programming.
+
+    Riverside Sports Complex is positioned to become the dominant year-round sports and entertainment destination in the Kansas City metro — a 2.3M-person market currently underserved in modern indoor arena capacity.
+  bullets:
+    - "Proven Phase I revenue: $3.2M in Year 1 from amphitheater and athletic operations"
+    - "Anchor tenant LOI signed: Regional AAA hockey franchise committed to 10-year lease"
+    - "Municipal support: City of Kansas City has approved $4M in TIF financing for Phase II infrastructure"
+    - "Scarcity value: No comparable multi-use indoor sports facility within 90 miles"
+    - "Experienced operator: Development team has delivered 4 comparable assets since 2015"
+
+opportunity:
+  enabled: true
+  body: |
+    Phase I delivered ahead of schedule and met revenue projections in its first operating year. Phase II construction begins Q3 2026 with a targeted grand opening of Q1 2028.
+
+    The window to participate in preferred equity is limited to this raise cycle. Once construction milestones are met, capital structure will shift to senior debt refinancing.
+  bullets:
+    - "Phase I operational and cash-flow positive as of January 2026"
+    - "$4M TIF commitment from Kansas City reduces effective equity need"
+    - "Anchor tenant (hockey franchise) provides base load revenue certainty"
+    - "10-year naming rights process underway with 2 regional brands in advanced discussions"
+  imageUrl: ""
+
+market:
+  enabled: true
+  body: |
+    The Kansas City metro is the 31st largest DMA in the US, with a sports culture ranked among the most passionate in the country (back-to-back Super Bowl champions, World Series winners). Indoor sports facilities in the market are aging, with the primary arena (capacity 19,000) focused exclusively on top-tier professional events — creating a gap for mid-tier and youth/amateur programming.
+  metrics:
+    - value: "2.3M"
+      label: Metro population
+    - value: "$84K"
+      label: Median HHI
+    - value: "0"
+      label: Competing mid-tier indoor arenas
+    - value: "$1.1B"
+      label: Sports tourism spend (2025)
+
+projectOverview:
+  enabled: true
+  body: |
+    Riverside Sports Complex Phase II consists of:
+
+    **8,500-seat indoor multi-use arena** — Designed for hockey, basketball, concerts, and trade shows. HVAC-equipped for year-round use. Full broadcast infrastructure included.
+
+    **Expanded retail and hospitality district** — 12 food & beverage concepts, 3 private event spaces, and a 220-room adjacent hotel (hotel financed separately, under LOI with regional operator).
+
+    **Youth sports hub expansion** — Additional 6 indoor courts and 2 turf fields increasing programming capacity by 40%.
+  images: []
+
+team:
+  enabled: true
+  body: "Pine Tar Sports Fund is led by operators with direct experience in professional sports facility development, team ownership, and institutional real estate finance."
+  members:
+    - name: "Marcus J. Holloway"
+      title: "Managing Partner"
+      bio: "Former VP of Business Development for the Kansas City Royals. Led $340M stadium renovation financing in 2019. 18 years in sports capital markets."
+      imageUrl: ""
+    - name: "Diane Espinoza"
+      title: "Partner, Real Estate & Development"
+      bio: "PE-backed developer of 4 multi-use sports complexes in the Midwest. Previously with CBRE's sports facility advisory practice."
+      imageUrl: ""
+    - name: "Trevor Banks"
+      title: "Partner, Capital Markets"
+      bio: "Former Director at CrossHarbor Capital, focused on sports and entertainment lending. Structured $600M+ in sports-adjacent real estate debt."
+      imageUrl: ""
+
+useOfFunds:
+  enabled: true
+  body: "The $18M preferred equity raise, combined with $4M in TIF financing and $14M in construction debt, funds the full Phase II build-out."
+  allocationRows:
+    - category: "Arena construction (hard costs)"
+      amount: "$22,400,000"
+    - category: "Retail/hospitality district build-out"
+      amount: "$5,800,000"
+    - category: "Youth hub expansion"
+      amount: "$2,100,000"
+    - category: "FF&E and technology"
+      amount: "$1,800,000"
+    - category: "Soft costs (architecture, engineering, permits)"
+      amount: "$1,400,000"
+    - category: "Contingency reserve (5%)"
+      amount: "$1,700,000"
+    - category: "Financing and closing costs"
+      amount: "$800,000"
+  totalLabel: "Total Project Cost"
+  totalAmount: "$36,000,000"
+  highlights:
+    - title: "Municipal TIF contribution"
+      body: "$4M in Tax Increment Financing approved by Kansas City for public infrastructure components (parking, streetscape, utilities)."
+    - title: "Construction debt"
+      body: "$14M senior construction loan from Heartland Community Bank at SOFR + 225bps, converting to permanent debt at stabilization."
+
+returns:
+  enabled: true
+  body: "Returns are driven by three compounding value creation levers: anchor tenant lease revenue, naming rights monetization, and asset appreciation at stabilization."
+  timelineItems:
+    - period: "Q3 2026"
+      phase: "Construction Start"
+      description: "Groundbreaking, construction debt closes, equity deployed"
+    - period: "Q1 2028"
+      phase: "Grand Opening"
+      description: "Arena opens; anchor tenant begins operations; food & bev activated"
+    - period: "Q4 2028"
+      phase: "Stabilization"
+      description: "Full occupancy schedule achieved; naming rights deal expected to close"
+    - period: "2030–2032"
+      phase: "Refinance / Exit"
+      description: "Refinance to permanent debt structure; preferred equity returned with accrued pref + participation"
+  keyMetrics:
+    - value: "21–24%"
+      label: "Target Net IRR"
+    - value: "1.9–2.3×"
+      label: "Target Equity Multiple"
+    - value: "8%"
+      label: "Preferred Return (cumulative)"
+    - value: "5–7 yr"
+      label: "Investment Horizon"
+  exitStrategyTitle: "Exit Strategy"
+  exitStrategyBody: |
+    Primary exit is refinancing the asset at stabilization (projected 2030–2032), returning preferred equity capital and accrued preferred return, followed by pro-rata participation in residual cash flows.
+
+    Secondary exit paths include strategic sale to a REIT, institutional operator acquisition, or recapitalization with a long-term institutional equity partner.
+
+projections:
+  enabled: true
+  body: "The following projections reflect a base case. Conservative and upside scenarios are available in the full financial model upon execution of NDA."
+  rows:
+    - label: "Year 1 Arena Revenue (partial)"
+      value: "$4,200,000"
+    - label: "Year 2 Stabilized Revenue"
+      value: "$11,800,000"
+    - label: "Year 3 Revenue (naming rights)"
+      value: "$14,500,000"
+    - label: "Stabilized NOI (Year 3)"
+      value: "$6,900,000"
+    - label: "Cap Rate at Exit (base case)"
+      value: "6.25%"
+    - label: "Implied Exit Valuation"
+      value: "$110,400,000"
+  metrics:
+    - value: "$110M+"
+      label: "Projected asset value at exit"
+    - value: "6.25%"
+      label: "Exit cap rate (base)"
+    - value: "$14.5M"
+      label: "Stabilized annual revenue (Year 3)"
+
+risksDisclaimer:
+  enabled: true
+  body: |
+    This document is provided for informational purposes only and does not constitute an offer or solicitation to purchase securities. Investment in real estate and sports facilities involves significant risk.
+  bullets:
+    - "Construction cost overruns or delays could impact projected returns and timeline"
+    - "Anchor tenant commitment is subject to final lease execution; LOI terms may change"
+    - "Naming rights monetization is subject to market conditions and negotiation outcomes"
+    - "Interest rate environment could affect permanent financing terms at refinance"
+    - "Sports programming demand and event scheduling are subject to external factors"
+    - "Past performance of principals is not indicative of future results"
+    - "This offering is available to accredited investors only as defined under Regulation D, Rule 506(c)"
+    - "Prospective investors should consult independent legal, tax, and financial advisors before investing"
+
+closingCta:
+  enabled: true
+  body: "We are accepting commitments from qualified accredited investors for this round. Full data room access is provided upon execution of NDA."
+  ctaText: "Request Data Room Access"
+  ctaUrl: "mailto:invest@pinetarsportsfund.com?subject=Riverside%20Sports%20Complex%20-%20Data%20Room%20Request"
+  contactName: "Marcus J. Holloway"
+  contactTitle: "Managing Partner"
+  contactEmail: "invest@pinetarsportsfund.com"
