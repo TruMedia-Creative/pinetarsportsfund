@@ -1,15 +1,144 @@
 # Pine Tar Sports Fund — Nuxt Site (`apps/site/`)
 
-The public-facing marketing site and investment gallery. Built with Nuxt 4 + Vue 3 + TypeScript, SSR-enabled.
+The active application. Nuxt 4 + Vue 3 + TypeScript with SSR. Serves the public marketing pages and all investor deck pages. Content is edited no-code via Nuxt Studio.
 
 ## Features
 
-- **Home Page** — hero section and marketing content
-- **Investment Gallery** (`/investments`) — browse published decks
-- **Investment Detail** (`/investments/[slug]`) — view a single deck
-- **About & Contact** — informational pages with contact form
-- **Admin Area** (`/admin`) — deck management, asset library, settings
-- **Login** (`/login`) — admin authentication
+- **Home Page** (`/`) — Pine Tar Sports Fund marketing content (hero, features, metrics, CTA)
+- **Deck Listing** (`/decks`) — browse all publicly published offering decks
+- **Deck Detail** (`/decks/[slug]`) — view a single deck rendered as a web page
+- **Nuxt Studio** (`/admin` in production, `/_studio` in dev) — no-code CMS for editing YAML content
+
+## Getting Started
+
+From the **repo root**:
+
+```sh
+nvm use
+pnpm setup        # corepack enable && pnpm install --frozen-lockfile
+pnpm dev          # starts Nuxt dev server at http://localhost:3000
+```
+
+Or from `apps/site/` directly:
+
+```sh
+pnpm dev          # nuxt dev
+pnpm build        # nuxt build
+pnpm preview      # nuxt preview
+pnpm typecheck    # nuxt typecheck
+pnpm lint         # eslint .
+```
+
+## Project Structure
+
+All paths below are relative to `apps/site/`.
+
+```
+nuxt.config.ts           # Nuxt config — modules, Studio, global deck components
+content.config.ts        # @nuxt/content Zod schemas — drives Studio auto-forms
+app.config.ts            # UI theme tokens (primary: red, warning: amber, neutral: zinc)
+
+content/
+├── index.yml            # Marketing home page data
+└── decks/               # One YAML file per offering deck
+    ├── q2-2026-investor.yml
+    └── spring-2026-sponsor.yml
+
+app/
+├── app.vue              # Root component
+├── assets/css/main.css  # Global styles (Tailwind v4)
+├── components/
+│   ├── AppHeader.vue    # Navigation (About, Offerings, Decks | Contact + View Decks CTA)
+│   ├── AppFooter.vue    # Footer with Pine Tar brand copy
+│   ├── AppLogo.vue
+│   ├── GradientGlow.vue
+│   ├── HeroShaders.client.vue
+│   ├── HeroTerminal.vue
+│   └── deck/            # 12 globally registered deck section components
+│       ├── DeckCover.vue
+│       ├── DeckExecutiveSummary.vue
+│       ├── DeckInvestmentThesis.vue
+│       ├── DeckOpportunity.vue
+│       ├── DeckMarket.vue
+│       ├── DeckProjectOverview.vue
+│       ├── DeckTeam.vue
+│       ├── DeckUseOfFunds.vue
+│       ├── DeckReturns.vue
+│       ├── DeckProjections.vue
+│       ├── DeckRisksDisclaimer.vue
+│       └── DeckClosingCta.vue
+└── pages/
+    ├── index.vue        # / — Marketing home
+    └── decks/
+        ├── index.vue    # /decks — Published deck listing
+        └── [slug].vue   # /decks/:slug — Deck detail; 404 if unpublished
+```
+
+## Data Layer
+
+All content lives in YAML files. There is no database, no server routes, and no auth middleware.
+
+- `content/index.yml` — marketing home page content
+- `content/decks/*.yml` — one file per offering deck
+- `content.config.ts` — Zod schemas for both collections; `@nuxt/content` v3 validates on read
+- `queryCollection('decks')` fetches from the YAML files at request time
+
+Setting `published: false` in a deck file causes `[slug].vue` to throw a 404 for public requests.
+
+## Modules
+
+| Module | Version | Purpose |
+|--------|---------|---------|
+| `@nuxt/content` | ^3.12.0 | YAML collection + `queryCollection` composable |
+| `@nuxt/ui` | ^4.6.1 | Component library (UCard, UButton, UBadge, UPageHero, etc.) |
+| `nuxt-studio` | 1.6.0 | No-code CMS — auto-forms from Zod schemas, commits to GitHub |
+| `motion-v` | ^2.2.0 | Animation (home page hero) |
+| `@vueuse/nuxt` | ^14.2.1 | Vue composable utilities |
+| `@nuxt/eslint` | ^1.15.2 | ESLint config with stylistic rules |
+
+## Nuxt Studio Setup
+
+Studio reads schemas from `content.config.ts` and generates form fields automatically.
+
+**Dev**: floating button at `/_studio` (auto-injected when `nuxt-studio` is installed)
+
+**Production**: available at `/admin` (set via `studio.route` in `nuxt.config.ts`)
+
+Studio config in `nuxt.config.ts`:
+
+```ts
+studio: {
+  route: '/admin',
+  repository: {
+    provider: 'github',
+    owner: 'TruMedia-Creative',
+    repo: 'pinetarsportsfund',
+    branch: 'main',
+    rootDir: 'apps/site'   // monorepo: content root inside apps/site/
+  }
+}
+```
+
+**Required env vars for production:**
+
+```
+STUDIO_GITHUB_CLIENT_ID=...
+STUDIO_GITHUB_CLIENT_SECRET=...
+```
+
+## Validation
+
+All deck data is validated automatically by `@nuxt/content` against the Zod schemas in `content.config.ts`. No manual validation step is needed.
+
+TypeScript: `pnpm typecheck` (runs `nuxt typecheck`).
+
+## Further Reading
+
+- [README.md](./README.md) — monorepo overview and scripts
+- [ProjectLayout.md](./ProjectLayout.md) — full directory map
+- [ADMIN_GUIDE.md](./ADMIN_GUIDE.md) — content editing quick-start
+- [docs/architecture.md](./docs/architecture.md) — architecture decisions
+
 
 ## Getting Started
 

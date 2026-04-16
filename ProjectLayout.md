@@ -1,8 +1,162 @@
 # Project Layout
 
-This document describes the full directory structure of the Pine Tar Sports Fund monorepo — where everything lives and how the pieces fit together.
+This document describes the directory structure of the Pine Tar Sports Fund monorepo.
+
+`apps/dashboard/` (the original React deck builder) is archived. The active application is `apps/site/`.
 
 ## Monorepo Root
+
+| File / Dir | Purpose |
+|-----------|---------|
+| `package.json` | Root scripts — `dev`, `build`, `check`, etc. |
+| `pnpm-workspace.yaml` | Declares `apps/*` as workspace members |
+| `pnpm-lock.yaml` | Authoritative lockfile |
+| `tsconfig.json` | Root TypeScript config |
+| `.nvmrc` | Node version pin (currently `22`) |
+| `.env.example` | Environment variable template |
+| `docs/` | Architecture notes |
+| `apps/` | Application workspaces |
+| `supabase/` | Supabase migration files (reserved for future use) |
+
+## Apps Overview
+
+```text
+apps/
+├── dashboard/    # @pinetarsf/dashboard — ARCHIVED React + Vite deck builder
+└── site/         # @pinetarsf/site — Active Nuxt 4 site
+```
+
+---
+
+## `apps/site/` — Nuxt 4 Site (`@pinetarsf/site`)
+
+The active application. Nuxt 4 + Vue 3 + TypeScript with SSR. Serves the public marketing pages, deck listing, deck details, and provides a no-code editing interface via Nuxt Studio.
+
+### Top-Level Files
+
+| File | Purpose |
+|------|---------|
+| `nuxt.config.ts` | Nuxt configuration (modules, Studio, component registration) |
+| `content.config.ts` | @nuxt/content collection schemas (drives Studio auto-forms) |
+| `eslint.config.mjs` | ESLint config with `@nuxt/eslint` stylistic rules |
+| `tsconfig.json` | TypeScript config |
+| `vercel.json` | Vercel deployment config |
+| `package.json` | Site-scoped scripts and dependencies |
+
+### Directory Structure
+
+```text
+apps/site/
+│
+├── content.config.ts         # Collection schemas — marketing page + decks
+│
+├── content/                  # Content files (YAML)
+│   ├── index.yml             # Marketing home page data
+│   └── decks/                # One YAML file per offering deck
+│       ├── q2-2026-investor.yml
+│       └── spring-2026-sponsor.yml
+│
+└── app/                      # Nuxt app directory
+    │
+    ├── app.vue               # Root component
+    ├── app.config.ts         # UI theme tokens (primary: red, warning: amber)
+    │
+    ├── assets/
+    │   └── css/
+    │       └── main.css      # Global styles (Tailwind v4 + custom)
+    │
+    ├── components/           # Vue components
+    │   ├── AppHeader.vue     # Site navigation (About, Offerings, Decks / Contact CTA)
+    │   ├── AppFooter.vue     # Site footer (Pine Tar brand, links)
+    │   ├── AppLogo.vue       # Brand logo component
+    │   ├── GradientGlow.vue  # Background glow effect
+    │   ├── HeroShaders.client.vue  # Client-only 3D hero shader
+    │   ├── HeroTerminal.vue  # Animated terminal hero element
+    │   └── deck/             # Deck section components (globally registered)
+    │       ├── DeckCover.vue
+    │       ├── DeckExecutiveSummary.vue
+    │       ├── DeckInvestmentThesis.vue
+    │       ├── DeckOpportunity.vue
+    │       ├── DeckMarket.vue
+    │       ├── DeckProjectOverview.vue
+    │       ├── DeckTeam.vue
+    │       ├── DeckUseOfFunds.vue
+    │       ├── DeckReturns.vue
+    │       ├── DeckProjections.vue
+    │       ├── DeckRisksDisclaimer.vue
+    │       └── DeckClosingCta.vue
+    │
+    └── pages/                # Auto-routed pages (Nuxt file-based routing)
+        ├── index.vue         # / — Marketing home
+        └── decks/
+            ├── index.vue     # /decks — Published deck listing
+            └── [slug].vue    # /decks/:slug — Deck detail (404 if unpublished)
+```
+
+### Route Table
+
+| Path | Component | Notes |
+|------|-----------|-------|
+| `/` | `pages/index.vue` | Marketing home |
+| `/decks` | `pages/decks/index.vue` | Published decks only |
+| `/decks/[slug]` | `pages/decks/[slug].vue` | 404 if `published: false` |
+| `/admin` | Nuxt Studio | Production Studio route (GitHub OAuth required) |
+
+### Deck Section Components
+
+All 12 deck components live in `app/components/deck/` and are registered globally via `nuxt.config.ts`. They accept typed props matching the section schemas in `content.config.ts`.
+
+| Component | Data fields (key props) |
+|-----------|------------------------|
+| `DeckCover` | `title`, `subtitle`, `projectName`, `audienceType`, `tagline`, `heroImageUrl`, `contactName`, `contactTitle`, `company`, `address` |
+| `DeckExecutiveSummary` | `enabled`, `body`, `tableOfContents[]`, `returnsTableTitle`, `returnsTableRows[]` |
+| `DeckInvestmentThesis` | `enabled`, `body`, `bullets[]` |
+| `DeckOpportunity` | `enabled`, `body`, `bullets[]`, `imageUrl` |
+| `DeckMarket` | `enabled`, `body`, `metrics[]` |
+| `DeckProjectOverview` | `enabled`, `body`, `images[]` |
+| `DeckTeam` | `enabled`, `body`, `members[]` |
+| `DeckUseOfFunds` | `enabled`, `body`, `allocationRows[]`, `totalLabel`, `totalAmount`, `highlights[]` |
+| `DeckReturns` | `enabled`, `body`, `keyMetrics[]`, `timelineItems[]`, `exitStrategyTitle`, `exitStrategyBody` |
+| `DeckProjections` | `enabled`, `body`, `rows[]`, `metrics[]` |
+| `DeckRisksDisclaimer` | `enabled`, `body`, `risks[]` |
+| `DeckClosingCta` | `enabled`, `body`, `ctaLabel`, `ctaUrl`, `contactName`, `contactTitle`, `contactEmail` |
+
+### Deck YAML Fields
+
+Top-level fields for every deck file:
+
+| Field | Type | Purpose |
+|-------|------|---------|
+| `title` | `string` | Deck title |
+| `subtitle` | `string?` | Short subtitle |
+| `projectName` | `string` | Project being pitched |
+| `audienceType` | `investor \| lender \| sponsor \| municipality \| internal` | Audience type |
+| `published` | `boolean` | Public visibility (default: `false`) |
+| `cover` | object | Cover section data (no `enabled` toggle) |
+| `executiveSummary` | object | Section data + `enabled` |
+| … (12 sections) | | |
+
+---
+
+## `apps/dashboard/` — ARCHIVED React Dashboard
+
+This app has been superseded by the Nuxt Studio approach. See [`apps/dashboard/ARCHIVED.md`](../apps/dashboard/ARCHIVED.md) for details.
+
+The PPTX export builders (`src/lib/pptx/builders.ts`) and data models (`src/features/decks/model/`) are retained for reference if PPTX export is ever re-added.
+
+---
+
+## Key Patterns
+
+| Pattern | Implementation |
+|---------|---------------|
+| Content editing | Nuxt Studio — auto-forms from Zod schemas in `content.config.ts` |
+| Data layer | YAML files in `content/decks/*.yml` via `@nuxt/content` v3 |
+| Draft guard | `published: false` → `createError({ statusCode: 404 })` in `[slug].vue` |
+| Section skipping | `v-if="deck.sectionName?.enabled !== false"` in `[slug].vue` |
+| Component registration | `{ path: '~/components/deck', global: true }` in `nuxt.config.ts` |
+| Brand tokens | `app/app.config.ts` → `primary: 'red'`, `warning: 'amber'`, `neutral: 'zinc'` |
+
 
 | File / Dir | Purpose |
 |-----------|---------|

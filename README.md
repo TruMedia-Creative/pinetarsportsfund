@@ -1,15 +1,12 @@
 # Pine Tar Sports Fund
 
-A pnpm monorepo containing two applications for Pine Tar Sports Fund:
+A pnpm monorepo for Pine Tar Sports Fund. The primary application is `apps/site/` — a Nuxt 4 site that serves both the public marketing pages and the investor deck publishing system. Decks are YAML files edited via Nuxt Studio (no-code) or directly in the repo.
 
-| App | Path | Stack | Purpose |
-|-----|------|-------|---------|
-| **Dashboard** | `apps/dashboard/` | React + Vite + TypeScript | Deck builder, editor, and export tool |
-| **Site** | `apps/site/` | Nuxt 4 + Vue 3 | Public marketing site and investment gallery |
+`apps/dashboard/` (the original React deck builder) has been archived. See [`apps/dashboard/ARCHIVED.md`](apps/dashboard/ARCHIVED.md).
 
 ## What this project is for
 
-The system lets the Pine Tar team create, manage, preview, and export branded investor presentation decks — without rebuilding every pitch from scratch. Decks are structured data driven by reusable templates, typed content blocks, financial models, and per-tenant brand settings.
+The Pine Tar team creates, manages, and publishes branded investor presentation decks as structured web pages. Each deck is a YAML file committed to Git — edited no-code via Nuxt Studio, previewed instantly in the browser, and published by toggling `published: true`.
 
 Use cases:
 - Investor pitch decks
@@ -18,40 +15,43 @@ Use cases:
 - Municipality / partnership decks
 - Project-specific investment summaries
 
-## Apps
+## Site (`apps/site/` — `@pinetarsf/site`)
 
-### Dashboard (`apps/dashboard/` — `@pinetarsf/dashboard`)
+The only active application. Nuxt 4 + Vue 3 + TypeScript + SSR.
 
-The deck builder. React + Vite + TypeScript with a feature-first module structure.
+### Core flow
 
-Core flow:
-1. Sign in 
-2. Create or edit a deck via structured forms
-3. Fill in sections (summary, opportunity, use of funds, returns, projections, team, etc.)
-4. Attach assets (logos, renderings, charts, headshots)
-5. Preview the deck in-browser
-6. Export PPTX and PDF deliverables
+1. Create a new file in `content/decks/` (or use Nuxt Studio's form editor)
+2. Fill in deck metadata and section content
+3. Toggle `published: true` to make the deck live at `/decks/[slug]`
+4. The public can browse all published decks at `/decks`
 
-Key features:
-- Multi-tenant branding (logo, primary color, font) via `TenantContext`
-- Tenant resolution from URL prefix (`/t/:tenantSlug`) or hostname subdomain
-- In-browser SQLite mock data layer (`sql.js` + `localforage`)
-- Optional Express API server on port 8787
-- PPTX export via `pptxgenjs`
-- React Router v7, React Hook Form, Zod
+### Key features
 
-### Site (`apps/site/` — `@pinetarsf/site`)
+- **Nuxt Studio** (`nuxt-studio`) — no-code CMS that auto-generates forms from Zod schemas and commits YAML changes to GitHub
+- **@nuxt/content v3** — YAML collection backing the deck data; `content.config.ts` defines schemas
+- **12 deck section components** — globally registered Vue components in `app/components/deck/`
+- **Published/draft toggle** — `published: false` decks return 404 to public visitors; Studio preview bypasses this
+- **@nuxt/ui v4** — component library; brand colors are `primary: red`, `warning: amber`
 
-The public-facing marketing site and investment gallery. Nuxt 4 + Vue 3 + TypeScript with SSR.
+### Deck sections (in fixed narrative order)
 
-Pages:
-- Home, About, Contact (marketing)
-- Investment Gallery — browse published decks
-- Investment Detail — view individual deck at `/investments/[slug]`
-- Admin area — deck management, asset library, settings
-- Login
+| Section | Component |
+|---------|-----------|
+| Cover | `DeckCover` |
+| Executive Summary | `DeckExecutiveSummary` |
+| Investment Thesis | `DeckInvestmentThesis` |
+| Opportunity | `DeckOpportunity` |
+| Market | `DeckMarket` |
+| Project Overview | `DeckProjectOverview` |
+| Team | `DeckTeam` |
+| Use of Funds | `DeckUseOfFunds` |
+| Returns | `DeckReturns` |
+| Projections | `DeckProjections` |
+| Risks / Disclaimer | `DeckRisksDisclaimer` |
+| Closing / CTA | `DeckClosingCta` |
 
-Nuxt server routes handle data access. An in-memory mock store (`server/utils/mockStore.ts`) powers the site without an external database.
+Each section (except Cover) has an `enabled` boolean. Set `enabled: false` to skip a section for a given deck.
 
 ## Monorepo scripts
 
@@ -62,30 +62,26 @@ All commands run from the **repo root**.
 pnpm setup          # corepack enable && pnpm install --frozen-lockfile
 
 # Development
-pnpm dev            # Start the Nuxt site (apps/site)
-pnpm dev:site       # Same as above
-pnpm dev:dashboard  # Start the React dashboard (apps/dashboard)
+pnpm dev            # Start the Nuxt site (apps/site) at http://localhost:3000
 
-# Build all apps
-pnpm build
+# Build
+pnpm build          # Build all workspaces
+pnpm build:site     # Build apps/site only
 
-# Per-app builds
-pnpm build:site
-pnpm build:dashboard
-
-# Validation (lint + typecheck + build across all workspaces)
+# Validation (lint + typecheck + build)
 pnpm check
 pnpm lint
 pnpm typecheck
 ```
 
-### Dashboard-specific scripts (run from `apps/dashboard/`)
+Site-specific scripts (run from `apps/site/`):
 
 ```sh
-pnpm dev            # Vite dev server with in-browser SQLite mock
-pnpm dev:full       # Vite + Express API server (port 8787)
-pnpm api            # Express API server only
-pnpm test           # Vitest
+pnpm dev            # nuxt dev
+pnpm build          # nuxt build
+pnpm preview        # nuxt preview
+pnpm typecheck      # nuxt typecheck
+pnpm lint           # eslint .
 ```
 
 ## Requirements
