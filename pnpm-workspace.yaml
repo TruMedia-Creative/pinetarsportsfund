@@ -1,6 +1,10 @@
-packages:
-  - 'apps/*'
+ignoredBuiltDependencies:
+  - '@parcel/watcher'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - unrs-resolver
+  - vue-demi
 
 onlyBuiltDependencies:
-  - '@swc/core'
-  - esbuild
+  - better-sqlite3
+  - sharp
