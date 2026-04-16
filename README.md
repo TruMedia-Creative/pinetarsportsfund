@@ -1,62 +1,64 @@
-# Nuxt Landing Template
+# Pine Tar Sports Fund
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
-
-Use this template to build your own landing page with [Nuxt UI](https://ui.nuxt.com) quickly.
-
-- [Live demo](https://landing-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
-
-<a href="https://landing-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/landing-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/landing-light.png">
-    <img alt="Nuxt Landing Template" src="https://ui.nuxt.com/assets/templates/nuxt/landing-light.png">
-  </picture>
-</a>
-
-## Quick Start
-
-```bash [Terminal]
-npm create nuxt@latest -- -t ui/landing
-```
-
-## Deploy your own
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=landing&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Flanding&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Flanding-dark.png&demo-url=https%3A%2F%2Flanding-template.nuxt.dev%2F&demo-title=Nuxt%20Landing%20Template&demo-description=A%20modern%20landing%20page%20template%20powered%20by%20Nuxt%20Content.)
+Marketing site and investor deck platform for Pine Tar Sports Fund. Built with [Nuxt 4](https://nuxt.com), [Nuxt UI](https://ui.nuxt.com), and [Nuxt Studio](https://nuxt.studio) for no-code content editing.
 
 ## Setup
-
-Make sure to install the dependencies:
 
 ```bash
 pnpm install
 ```
 
-## Development Server
+Copy `.env.example` to `.env` and fill in the values (see [Environment Variables](#environment-variables) below).
 
-Start the development server on `http://localhost:3000`:
+## Development
 
 ```bash
-pnpm dev
+pnpm dev          # http://localhost:3000
 ```
+
+In development the Studio editor appears as a floating button — no login required.
 
 ## Production
 
-Build the application for production:
-
 ```bash
 pnpm build
+pnpm preview      # local preview of the production build
 ```
 
-Locally preview production build:
+Deployed on **Vercel**. Push to `main` to trigger a deploy.
 
-```bash
-pnpm preview
-```
+## Content Editing (Nuxt Studio)
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+All content lives in YAML files under `content/`. Nuxt Studio provides a visual editor that commits changes directly to GitHub.
 
-## Renovate integration
+### Admin Login
 
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+Visit **`/admin`** to sign in with the credentials set via `ADMIN_USERNAME` and `ADMIN_PASSWORD` environment variables. After login, the Studio editor overlay appears on every page — click any editable section to modify it.
+
+### How it works
+
+1. `/admin` shows a simple username/password form (no OAuth setup needed).
+2. On successful login a signed session cookie is set that the Studio client-side plugin recognises.
+3. Studio uses `STUDIO_GITHUB_TOKEN` (a GitHub PAT) to push content changes to the repository.
+
+### Keyboard shortcut
+
+Press **⌘.** (Cmd + period) on any page to jump to the login screen.
+
+## Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `STUDIO_GITHUB_TOKEN` | **Yes** (prod) | GitHub Personal Access Token with `repo` scope. Studio uses this to push content commits. |
+| `NUXT_ADMIN_USERNAME` | **Yes** (prod) | Username for the `/admin` login page. |
+| `NUXT_ADMIN_PASSWORD` | **Yes** (prod) | Password for the `/admin` login page. Use a strong, unique value. |
+| `SUPABASE_URL` | No | Supabase project URL (reserved for future use). |
+| `SUPABASE_ANON_KEY` | No | Supabase anon key. |
+| `NUXT_SUPABASE_SECRET_KEY` | No | Supabase service-role key. |
+| `SITE_URL` | No | Canonical site URL. |
+
+On Vercel, set these under **Settings → Environment Variables**. The repository connection (`VERCEL_GIT_*`) is handled automatically by Vercel.
+
+## Renovate
+
+Install the [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository for automated dependency updates.

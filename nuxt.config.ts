@@ -27,6 +27,13 @@ export default defineNuxtConfig({
     }
   },
 
+  // Server-only runtime config.  Nuxt automatically maps NUXT_ADMIN_USERNAME
+  // and NUXT_ADMIN_PASSWORD env vars into these keys at runtime.
+  runtimeConfig: {
+    adminUsername: '',
+    adminPassword: ''
+  },
+
   compatibilityDate: '2025-01-15',
 
   nitro: {
@@ -46,16 +53,15 @@ export default defineNuxtConfig({
   },
 
   studio: {
-    // Accessible at /admin in production (dev shows floating button automatically)
-    route: '/admin',
-    repository: {
-      provider: 'github',
-      owner: 'TruMedia-Creative',
-      repo: 'pinetarsportsfund',
-      branch: 'main',
-      // Monorepo: content root is inside apps/site/
-      rootDir: 'apps/site'
-    },
+    // Internal login page used by Studio's built-in OAuth providers (kept as
+    // fallback / keyboard-shortcut target).  The user-facing login lives at
+    // /admin via app/pages/admin.vue which uses simple username/password auth.
+    route: '/_studio-auth',
+
+    // Repository block removed — Vercel auto-detects from VERCEL_GIT_* env
+    // vars at build time.  Set STUDIO_GITHUB_TOKEN on Vercel so Studio can
+    // push content changes to the repo.
+
     meta: {
       components: {
         groups: [
