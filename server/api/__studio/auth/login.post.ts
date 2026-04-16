@@ -6,9 +6,9 @@ import { createError, readBody } from 'h3'
  * Validates admin credentials from the request body against env vars and sets
  * the Nuxt Studio session so the editor overlay activates on the next page load.
  *
- * Required env vars:
- *   ADMIN_USERNAME      — e.g. "admin"
- *   ADMIN_PASSWORD      — plain-text password (use a strong, unique value)
+ * Required env vars (set on Vercel):
+ *   NUXT_ADMIN_USERNAME — e.g. "admin"
+ *   NUXT_ADMIN_PASSWORD — plain-text password (use a strong, unique value)
  *   STUDIO_GITHUB_TOKEN — GitHub PAT with repo write access (used by Studio to push commits)
  */
 export default defineEventHandler(async (event) => {
@@ -60,12 +60,13 @@ export default defineEventHandler(async (event) => {
 /**
  * Constant-time string comparison (prevents basic timing side-channels).
  * Works without Node.js-specific APIs so Nitro can run this on any platform.
+ * Always iterates over the longer string to avoid leaking length information.
  */
 function constantTimeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false
-  let result = 0
-  for (let i = 0; i < a.length; i++) {
-    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  const len = Math.max(a.length, b.length)
+  let result = a.length ^ b.length // non-zero if lengths differ
+  for (let i = 0; i < len; i++) {
+    result |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0)
   }
   return result === 0
 }
