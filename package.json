@@ -1,7 +1,7 @@
 {
   "name": "pinetarsportsfund",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "packageManager": "pnpm@10.0.0",
   "scripts": {
     "dev": "pnpm --filter @pinetarsf/site dev",
