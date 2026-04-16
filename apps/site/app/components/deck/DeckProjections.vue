@@ -1,8 +1,8 @@
 <script setup lang="ts">
 defineProps<{
   body?: string
-  rows?: Array<{ label: string; value: string }>
-  metrics?: Array<{ value: string; label: string }>
+  rows?: Array<{ label: string, value: string }>
+  metrics?: Array<{ value: string, label: string }>
 }>()
 </script>
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps<{
   body?: string
-  tableOfContents?: Array<{ number: number; label: string }>
+  tableOfContents?: Array<{ number: number, label: string }>
   returnsTableTitle?: string
-  returnsTableRows?: Array<{ label: string; value: string; highlight?: boolean }>
+  returnsTableRows?: Array<{ label: string, value: string, highlight?: boolean }>
 }>()
 </script>
 

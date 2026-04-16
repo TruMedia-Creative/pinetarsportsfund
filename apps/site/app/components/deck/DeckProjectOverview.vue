@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   body?: string
-  images?: Array<{ url: string; alt?: string }>
+  images?: Array<{ url: string, alt?: string }>
 }>()
 </script>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   body?: string
-  metrics?: Array<{ value: string; label: string }>
+  metrics?: Array<{ value: string, label: string }>
 }>()
 </script>
 

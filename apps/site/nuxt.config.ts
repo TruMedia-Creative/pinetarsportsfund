@@ -9,17 +9,17 @@ export default defineNuxtConfig({
     'nuxt-studio'
   ],
 
-  devtools: {
-    enabled: true
-  },
-
-  css: ['~/assets/css/main.css'],
-
   // Register deck section components globally so Studio component picker can list them
   components: [
     { path: '~/components/deck', global: true },
     '~/components'
   ],
+
+  devtools: {
+    enabled: true
+  },
+
+  css: ['~/assets/css/main.css'],
 
   mdc: {
     highlight: {
@@ -33,6 +33,15 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/'],
       crawlLinks: true
+    }
+  },
+
+  eslint: {
+    config: {
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
     }
   },
 
@@ -54,15 +63,6 @@ export default defineNuxtConfig({
           { label: 'Layout', include: ['App*'] },
           { label: 'UI', include: ['Gradient*', 'Hero*'] }
         ]
-      }
-    }
-  },
-
-  eslint: {
-    config: {
-      stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
       }
     }
   }

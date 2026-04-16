@@ -1,8 +1,8 @@
 <script setup lang="ts">
 defineProps<{
   body?: string
-  timelineItems?: Array<{ period: string; phase: string; description: string }>
-  keyMetrics?: Array<{ value: string; label: string }>
+  timelineItems?: Array<{ period: string, phase: string, description: string }>
+  keyMetrics?: Array<{ value: string, label: string }>
   exitStrategyTitle?: string
   exitStrategyBody?: string
 }>()

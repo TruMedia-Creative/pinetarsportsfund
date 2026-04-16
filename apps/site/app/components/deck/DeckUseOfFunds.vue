@@ -1,10 +1,10 @@
 <script setup lang="ts">
 defineProps<{
   body?: string
-  allocationRows?: Array<{ category: string; amount: string }>
+  allocationRows?: Array<{ category: string, amount: string }>
   totalLabel?: string
   totalAmount?: string
-  highlights?: Array<{ title: string; body: string }>
+  highlights?: Array<{ title: string, body: string }>
 }>()
 </script>
 
