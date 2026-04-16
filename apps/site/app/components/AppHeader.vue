@@ -23,8 +23,8 @@ const items = computed(() => [
 <template>
   <UHeader>
     <template #left>
-      <NuxtLink to="/">
-        <AppLogo class="h-6 w-auto shrink-0" />
+      <NuxtLink to="/" class="h-6 w-auto shrink-0 font-bold">
+        Pinetar Sports Fund 
       </NuxtLink>
     </template>
 
