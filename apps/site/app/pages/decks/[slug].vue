@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  colorMode: 'dark'
-})
-
 const route = useRoute()
 const slug = route.params.slug as string
 

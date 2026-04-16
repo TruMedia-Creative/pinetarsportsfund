@@ -34,6 +34,7 @@ const items = computed(() => [
     />
 
     <template #right>
+      <UColorModeButton class="hidden lg:flex" />
       <UButton
         label="Contact Us"
         color="neutral"
@@ -69,6 +70,7 @@ const items = computed(() => [
           block
           to="/decks"
         />
+        <UColorModeButton block />
       </div>
     </template>
   </UHeader>

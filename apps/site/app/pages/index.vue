@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  colorMode: 'dark'
-})
-
 const { data: page } = await useAsyncData('index', () => queryCollection('content').first())
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
@@ -83,7 +79,7 @@ const { copy, copied } = useClipboard()
             color="neutral"
             variant="soft"
             :label="page.hero.headline"
-            class="rounded-full px-3 py-1.5 gap-1.5 bg-white/5 backdrop-blur"
+            class="rounded-full px-3 py-1.5 gap-1.5 dark:bg-white/5 bg-black/5 backdrop-blur"
           >
             <template #leading>
               <UChip

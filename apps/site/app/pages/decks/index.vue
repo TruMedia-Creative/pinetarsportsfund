@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  colorMode: 'dark'
-})
-
 const { data: decks } = await useAsyncData('decks-list', () =>
   queryCollection('decks').all()
 )
