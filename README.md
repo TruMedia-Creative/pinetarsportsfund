@@ -1,165 +1,62 @@
-# Pine Tar Sports Fund
+# Nuxt Landing Template
 
-A pnpm monorepo for Pine Tar Sports Fund. The primary application is `apps/site/` — a Nuxt 4 site that serves both the public marketing pages and the investor deck publishing system. Decks are YAML files edited via Nuxt Studio (no-code) or directly in the repo.
+[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
 
-`apps/dashboard/` (the original React deck builder) has been archived. See [`apps/dashboard/ARCHIVED.md`](apps/dashboard/ARCHIVED.md).
+Use this template to build your own landing page with [Nuxt UI](https://ui.nuxt.com) quickly.
 
-## What this project is for
+- [Live demo](https://landing-template.nuxt.dev/)
+- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
 
-The Pine Tar team creates, manages, and publishes branded investor presentation decks as structured web pages. Each deck is a YAML file committed to Git — edited no-code via Nuxt Studio, previewed instantly in the browser, and published by toggling `published: true`.
+<a href="https://landing-template.nuxt.dev/" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/landing-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/landing-light.png">
+    <img alt="Nuxt Landing Template" src="https://ui.nuxt.com/assets/templates/nuxt/landing-light.png">
+  </picture>
+</a>
 
-Use cases:
-- Investor pitch decks
-- Sponsorship decks
-- Lender / financing decks
-- Municipality / partnership decks
-- Project-specific investment summaries
+## Quick Start
 
-## Site (`apps/site/` — `@pinetarsf/site`)
-
-The only active application. Nuxt 4 + Vue 3 + TypeScript + SSR.
-
-### Core flow
-
-1. Create a new file in `content/decks/` (or use Nuxt Studio's form editor)
-2. Fill in deck metadata and section content
-3. Toggle `published: true` to make the deck live at `/decks/[slug]`
-4. The public can browse all published decks at `/decks`
-
-### Key features
-
-- **Nuxt Studio** (`nuxt-studio`) — no-code CMS that auto-generates forms from Zod schemas and commits YAML changes to GitHub
-- **@nuxt/content v3** — YAML collection backing the deck data; `content.config.ts` defines schemas
-- **12 deck section components** — globally registered Vue components in `app/components/deck/`
-- **Published/draft toggle** — `published: false` decks return 404 to public visitors; Studio preview bypasses this
-- **@nuxt/ui v4** — component library; brand colors are `primary: red`, `warning: amber`
-
-### Deck sections (in fixed narrative order)
-
-| Section | Component |
-|---------|-----------|
-| Cover | `DeckCover` |
-| Executive Summary | `DeckExecutiveSummary` |
-| Investment Thesis | `DeckInvestmentThesis` |
-| Opportunity | `DeckOpportunity` |
-| Market | `DeckMarket` |
-| Project Overview | `DeckProjectOverview` |
-| Team | `DeckTeam` |
-| Use of Funds | `DeckUseOfFunds` |
-| Returns | `DeckReturns` |
-| Projections | `DeckProjections` |
-| Risks / Disclaimer | `DeckRisksDisclaimer` |
-| Closing / CTA | `DeckClosingCta` |
-
-Each section (except Cover) has an `enabled` boolean. Set `enabled: false` to skip a section for a given deck.
-
-## Monorepo scripts
-
-All commands run from the **repo root**.
-
-```sh
-# Install (only needed once or after lockfile changes)
-pnpm setup          # corepack enable && pnpm install --frozen-lockfile
-
-# Development
-pnpm dev            # Start the Nuxt site (apps/site) at http://localhost:3000
-
-# Build
-pnpm build          # Build all workspaces
-pnpm build:site     # Build apps/site only
-
-# Validation (lint + typecheck + build)
-pnpm check
-pnpm lint
-pnpm typecheck
+```bash [Terminal]
+npm create nuxt@latest -- -t ui/landing
 ```
 
-Site-specific scripts (run from `apps/site/`):
+## Deploy your own
 
-```sh
-pnpm dev            # nuxt dev
-pnpm build          # nuxt build
-pnpm preview        # nuxt preview
-pnpm typecheck      # nuxt typecheck
-pnpm lint           # eslint .
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=landing&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Flanding&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Flanding-dark.png&demo-url=https%3A%2F%2Flanding-template.nuxt.dev%2F&demo-title=Nuxt%20Landing%20Template&demo-description=A%20modern%20landing%20page%20template%20powered%20by%20Nuxt%20Content.)
+
+## Setup
+
+Make sure to install the dependencies:
+
+```bash
+pnpm install
 ```
 
-## Requirements
+## Development Server
 
-- Node version from `.nvmrc` (currently `22`) — use `nvm use`
-- pnpm managed via Corepack — do **not** install globally with npm
+Start the development server on `http://localhost:3000`:
 
-## CI / Deployment
-
-### CI
-
-`.github/workflows/ci.yml` runs on every push and PR:
-- Sets up Node from `.nvmrc`
-- Activates pnpm via Corepack
-- Runs `pnpm check` (lint + typecheck + build) across all workspaces
-
-### Deployment (GitHub Pages)
-
-`.github/workflows/deploy.yml` deploys automatically on push to `main`.
-
-One-time setup required in repository Settings → Pages → Build and deployment → Source: select **GitHub Actions**.
-
-| Part | Detail |
-|------|--------|
-| CI workflow | `.github/workflows/ci.yml` — all pushes and PRs |
-| Deploy workflow | `.github/workflows/deploy.yml` — push to `main` or manual trigger |
-| Build command | `pnpm check` |
-
-## Data layers
-
-### Dashboard
-
-| Mode | How it works | When to use |
-|------|-------------|-------------|
-| **In-browser SQLite** | `sql.js` + `localforage` — in-memory SQLite persisted to IndexedDB | Default — no server needed |
-| **Express API** | `apps/dashboard/server/index.mjs` on port 8787 | When persistent/shared data is needed |
-
-Set `VITE_API_BASE_URL=http://localhost:8787/api` to point the dashboard at the Express server. The `dev:full` script handles this automatically.
-
-### Site
-
-The Nuxt site uses an in-memory mock store at `apps/site/server/utils/mockStore.ts`. All data mutations go through Nuxt server routes under `apps/site/server/routes/api/`.
-
-## Data model
-
-Core entities shared across both apps:
-
-- **Tenant** — brand, slug, theming
-- **Deck** — metadata, audience type, status (`draft | ready | exported | archived`), ordered section list
-- **DeckSection** — typed, ordered, enable/disable-able content blocks
-- **Template** — reusable section structure definitions
-- **Asset** — logos, renderings, charts, headshots
-- **FinancialModel** — raise targets, returns, use-of-funds, projections, assumptions
-
-Types for the site live in `apps/site/lib/types/models.ts`. Dashboard types live in `apps/dashboard/src/features/*/model/types.ts`.
-
-## Export philosophy
-
-Export logic is isolated from React components.
-
-```
-stored deck data
-  → normalized section list (ordered, filtered by isEnabled)
-    → export builder (apps/dashboard/src/lib/pptx/builders.ts)
-      → PPTX / PDF output
+```bash
+pnpm dev
 ```
 
-See `apps/dashboard/src/features/exports/utils/buildDeck.ts`.
+## Production
 
-## Non-goals
+Build the application for production:
 
-- Public event landing pages
-- Ticketing or livestream features
-- Freeform drag-anything slide editing (not a Canva clone)
-- AI-generated investment assumptions by default
+```bash
+pnpm build
+```
 
-## Further reading
+Locally preview production build:
 
-- [ProjectLayout.md](./ProjectLayout.md) — full directory structure reference
-- [docs/architecture.md](./docs/architecture.md) — architecture decisions and patterns
-- [ADMIN_GUIDE.md](./ADMIN_GUIDE.md) — admin dashboard quick-start guide
+```bash
+pnpm preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Renovate integration
+
+Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
