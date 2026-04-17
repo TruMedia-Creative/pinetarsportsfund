@@ -28,6 +28,9 @@ function checkRateLimit(ip: string): void {
         message: 'Too many login attempts. Please try again later.'
       })
     }
+  } else if (record) {
+    // Window expired — clean up stale entry
+    attempts.delete(ip)
   }
 }
 
