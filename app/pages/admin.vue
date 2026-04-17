@@ -53,6 +53,7 @@ async function handleLogin() {
       <!-- Error banner -->
       <div
         v-if="error"
+        role="alert"
         class="mb-4 rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400"
       >
         {{ error }}

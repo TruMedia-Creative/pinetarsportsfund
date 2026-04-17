@@ -33,7 +33,7 @@ All content lives in YAML files under `content/`. Nuxt Studio provides a visual 
 
 ### Admin Login
 
-Visit **`/admin`** to sign in with the credentials set via `ADMIN_USERNAME` and `ADMIN_PASSWORD` environment variables. After login, the Studio editor overlay appears on every page — click any editable section to modify it.
+Visit **`/admin`** to sign in with the credentials set via `NUXT_ADMIN_USERNAME` and `NUXT_ADMIN_PASSWORD` environment variables. After login, the Studio editor overlay appears on every page — click any editable section to modify it.
 
 ### How it works
 
