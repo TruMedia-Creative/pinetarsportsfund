@@ -2,6 +2,14 @@ title: Spring 2026 Sponsorship Opportunities — Riverside Sports Complex
 audienceType: sponsor
 closingCta:
   enabled: true
+  sectionTitle: Ready to take the next step?
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: We are actively discussing founding partner packages with a select number of regional and national brands. Early conversations lead to the best terms.
   ctaText: Schedule a Sponsorship Call
   ctaUrl: mailto:partnerships@pinetarsportsfund.com?subject=Riverside%20Sports%20Complex%20-%20Sponsorship%20Inquiry
@@ -9,7 +17,17 @@ closingCta:
   contactTitle: Director of Partnerships
   contactEmail: partnerships@pinetarsportsfund.com
 cover:
+  enabled: true
+  sectionTitle: Sponsorship Opportunity
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   tagline: Sponsorship Opportunity
+  body: ""
   heroImageUrl: ""
   contactName: Keisha Monroe
   contactTitle: Director of Partnerships
@@ -17,6 +35,14 @@ cover:
   address: 2900 W. Stadium Blvd, Suite 400, Kansas City, MO 64108
 executiveSummary:
   enabled: true
+  sectionTitle: Overview
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: |
     Riverside Sports Complex is Kansas City's next premier sports and entertainment destination. Opening Q1 2028, the 8,500-seat indoor arena and multi-use campus will host 120+ events per year — attracting an estimated 800,000+ annual visitors from across the metro and region.
 
@@ -42,9 +68,25 @@ executiveSummary:
   tableOfContents: []
 investmentThesis:
   enabled: false
+  sectionTitle: Why This Deal
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   bullets: []
 market:
   enabled: true
+  sectionTitle: Market Overview
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: |
     Kansas City is one of the most sports-passionate markets in the country — ranked top 15 nationally for sports TV viewership and live event attendance. The metro's sports culture, combined with a growing young professional demographic, creates a high-repeat, high-engagement audience for brand partners.
   metrics:
@@ -58,6 +100,14 @@ market:
       label: Audience under age 45
 opportunity:
   enabled: true
+  sectionTitle: Market Opportunity
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: |
     The Riverside Sports Complex sponsorship opportunity is a rare chance to establish a brand at the ground floor of a new, purpose-built venue before opening day — when naming rights and foundational partnerships carry maximum long-term value.
 
@@ -72,6 +122,14 @@ opportunity:
 projectName: Riverside Sports Complex
 projectOverview:
   enabled: true
+  sectionTitle: The Project
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: |
     **Indoor Arena (8,500 seats)** — Hockey, basketball, concerts, motorsport previews, trade shows, and community events. Full broadcast infrastructure, 360° LED fascia, and 28 premium suite boxes.
 
@@ -81,15 +139,39 @@ projectOverview:
   images: []
 projections:
   enabled: false
+  sectionTitle: Projections
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   metrics: []
   rows: []
 published: true
 returns:
   enabled: false
+  sectionTitle: Investment Returns
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   keyMetrics: []
   timelineItems: []
 risksDisclaimer:
   enabled: true
+  sectionTitle: Risks & Disclaimer
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: This sponsorship deck is provided for discussion purposes only. All terms, pricing, and packages are subject to negotiation. Venue opening is contingent on construction and financing milestones.
   bullets:
     - Venue opening timeline is subject to construction progress and municipal approvals
@@ -98,6 +180,14 @@ risksDisclaimer:
 subtitle: Brand activation and naming rights packages for corporate sponsors
 team:
   enabled: true
+  sectionTitle: Leadership
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   body: Our partnerships team brings deep experience in corporate activation, venue operations, and media rights.
   members:
     - name: Keisha Monroe
@@ -110,5 +200,13 @@ team:
       imageUrl: ""
 useOfFunds:
   enabled: false
+  sectionTitle: Capital Allocation
+  subtitle: ""
+  sectionImage:
+    url: ""
+    alt: ""
+    caption: ""
+    captionStyle: below
+    layout: hidden
   highlights: []
   allocationRows: []

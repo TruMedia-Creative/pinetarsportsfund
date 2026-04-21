@@ -1,10 +1,21 @@
 <script setup lang="ts">
 defineProps<{
   title: string
-  subtitle?: string
+  deckSubtitle?: string
   projectName: string
   audienceType: string
+  sectionTitle?: string
+  subtitle?: string
+  description?: string
+  sectionImage?: {
+    url?: string
+    alt?: string
+    caption?: string
+    captionStyle?: 'below' | 'overlay' | 'both'
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
+  }
   tagline?: string
+  body?: string
   heroImageUrl?: string
   contactName?: string
   contactTitle?: string
@@ -46,61 +57,75 @@ const audienceColors: Record<string, string> = {
 
     <div class="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 lg:py-28">
       <div class="max-w-2xl">
-        <div class="flex items-center gap-3 mb-6">
-          <UBadge
-            :color="(audienceColors[audienceType] as never) || 'neutral'"
-            variant="subtle"
-            size="md"
-          >
-            {{ audienceLabels[audienceType] || audienceType }}
-          </UBadge>
-          <UBadge
-            v-if="tagline"
-            color="neutral"
-            variant="soft"
-            size="md"
-          >
-            {{ tagline }}
-          </UBadge>
-        </div>
-
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-4">
-          {{ title }}
-        </h1>
-
-        <p
-          v-if="subtitle"
-          class="text-xl text-dimmed mb-8"
+        <DeckSectionShell
+          :section-title="sectionTitle"
+          :subtitle="subtitle"
+          :description="description"
+          :section-image="sectionImage"
         >
-          {{ subtitle }}
-        </p>
+          <div class="flex items-center gap-3 mb-6">
+            <UBadge
+              :color="(audienceColors[audienceType] as never) || 'neutral'"
+              variant="subtle"
+              size="md"
+            >
+              {{ audienceLabels[audienceType] || audienceType }}
+            </UBadge>
+            <UBadge
+              v-if="tagline"
+              color="neutral"
+              variant="soft"
+              size="md"
+            >
+              {{ tagline }}
+            </UBadge>
+          </div>
 
-        <div
-          v-if="contactName || company"
-          class="pt-8 border-t border-default"
-        >
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-4">
+            {{ title }}
+          </h1>
+
           <p
-            v-if="company"
-            class="text-sm font-semibold text-dimmed uppercase tracking-widest mb-1"
+            v-if="deckSubtitle"
+            class="text-xl text-dimmed mb-8"
           >
-            {{ company }}
+            {{ deckSubtitle }}
           </p>
+
           <p
-            v-if="contactName"
-            class="font-medium"
+            v-if="body"
+            class="text-base text-muted leading-relaxed whitespace-pre-line mb-8"
           >
-            {{ contactName }}<span
-              v-if="contactTitle"
-              class="text-dimmed"
-            > — {{ contactTitle }}</span>
+            {{ body }}
           </p>
-          <p
-            v-if="address"
-            class="text-sm text-dimmed mt-1"
+
+          <div
+            v-if="contactName || company"
+            class="pt-8 border-t border-default"
           >
-            {{ address }}
-          </p>
-        </div>
+            <p
+              v-if="company"
+              class="text-sm font-semibold text-dimmed uppercase tracking-widest mb-1"
+            >
+              {{ company }}
+            </p>
+            <p
+              v-if="contactName"
+              class="font-medium"
+            >
+              {{ contactName }}<span
+                v-if="contactTitle"
+                class="text-dimmed"
+              > — {{ contactTitle }}</span>
+            </p>
+            <p
+              v-if="address"
+              class="text-sm text-dimmed mt-1"
+            >
+              {{ address }}
+            </p>
+          </div>
+        </DeckSectionShell>
       </div>
     </div>
   </section>

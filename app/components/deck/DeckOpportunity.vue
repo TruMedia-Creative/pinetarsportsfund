@@ -1,5 +1,15 @@
 <script setup lang="ts">
 defineProps<{
+  sectionTitle?: string
+  subtitle?: string
+  description?: string
+  sectionImage?: {
+    url?: string
+    alt?: string
+    caption?: string
+    captionStyle?: 'below' | 'overlay' | 'both'
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
+  }
   body?: string
   bullets?: string[]
   imageUrl?: string
@@ -9,14 +19,12 @@ defineProps<{
 <template>
   <section class="py-20 border-b border-default">
     <div class="max-w-6xl mx-auto px-6">
-      <p class="text-xs uppercase tracking-widest font-mono text-primary mb-4">
-        The Opportunity
-      </p>
-      <h2 class="text-3xl font-bold mb-8">
-        Market Opportunity
-      </h2>
-
-      <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <DeckSectionShell
+        :section-title="sectionTitle"
+        :subtitle="subtitle"
+        :description="description"
+        :section-image="sectionImage || (imageUrl ? { url: imageUrl, layout: 'right' } : undefined)"
+      >
         <div class="space-y-8">
           <p
             v-if="body"
@@ -39,18 +47,7 @@ defineProps<{
             </li>
           </ul>
         </div>
-
-        <div
-          v-if="imageUrl"
-          class="rounded-2xl overflow-hidden border border-default"
-        >
-          <img
-            :src="imageUrl"
-            alt="Opportunity visual"
-            class="w-full h-auto object-cover"
-          >
-        </div>
-      </div>
+      </DeckSectionShell>
     </div>
   </section>
 </template>

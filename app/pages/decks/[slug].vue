@@ -37,7 +37,7 @@ useSeoMeta({
     <!-- Cover (always shown) -->
     <DeckCover
       :title="deck.title"
-      :subtitle="deck.subtitle"
+      :deck-subtitle="deck.subtitle"
       :project-name="deck.projectName"
       :audience-type="deck.audienceType"
       v-bind="deck.cover"

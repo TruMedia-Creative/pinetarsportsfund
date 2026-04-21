@@ -17,7 +17,19 @@ const createLinkSchema = () => z.object({
 // ─── Deck section sub-schemas ────────────────────────────────────────────────
 
 const coverSchema = z.object({
+  enabled: z.boolean().default(true),
+  sectionTitle: z.string().optional(),
+  subtitle: z.string().optional(),
+  description: z.string().optional().editor({ input: 'textarea' }),
+  sectionImage: z.object({
+    url: z.string().optional().editor({ input: 'media' }),
+    alt: z.string().optional(),
+    caption: z.string().optional(),
+    captionStyle: createEnum(['below', 'overlay', 'both']).optional(),
+    layout: createEnum(['hidden', 'right', 'left', 'banner-top']).optional().default('hidden')
+  }).optional(),
   tagline: z.string().optional(),
+  body: z.string().optional().editor({ input: 'textarea' }),
   heroImageUrl: z.string().optional().editor({ input: 'media' }),
   contactName: z.string().optional(),
   contactTitle: z.string().optional(),
@@ -26,7 +38,17 @@ const coverSchema = z.object({
 })
 
 const sectionBase = z.object({
-  enabled: z.boolean().default(true)
+  enabled: z.boolean().default(true),
+  sectionTitle: z.string().optional(),
+  subtitle: z.string().optional(),
+  description: z.string().optional().editor({ input: 'textarea' }),
+  sectionImage: z.object({
+    url: z.string().optional().editor({ input: 'media' }),
+    alt: z.string().optional(),
+    caption: z.string().optional(),
+    captionStyle: createEnum(['below', 'overlay', 'both']).optional(),
+    layout: createEnum(['hidden', 'right', 'left', 'banner-top']).optional().default('hidden')
+  }).optional()
 })
 
 const executiveSummarySchema = sectionBase.extend({
