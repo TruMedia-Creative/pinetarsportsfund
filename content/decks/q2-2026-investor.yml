@@ -193,19 +193,19 @@ useOfFunds:
   enabled: true
   body: PHASE 1 INVESTMENT & BUDGET OVERVIEW
   allocationRows:
-    - category: Land Acquisition (17.71 Acres)
+    - category: "Land Acquisition (17.71 Acres)\t"
       amount: $470,000
-    - category: Field Construction (Fields 1, 2, 3)
+    - category: "Field Construction (Fields 1, 2, 3)\t"
       amount: $935,900
-    - category: Main Building (30x140)
+    - category: "Main Building (30x140)\t"
       amount: $235,000
-    - category: Lighting Systems
+    - category: "Lighting Systems\t"
       amount: $130,800
-    - category: Preferred Return (Construction Phase)
+    - category: "Preferred Return (Construction Phase)\t"
       amount: $193,337
-    - category: Equipment, Infrastructure & Other
+    - category: "Equipment, Infrastructure & Other\t"
       amount: $393,580
-    - category: Contingency Fund
+    - category: "Contingency Fund\t"
       amount: $141,517
   totalLabel: Total Project Cost
   totalAmount: $2,500,133
