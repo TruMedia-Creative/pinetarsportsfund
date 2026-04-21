@@ -1,23 +1,42 @@
 <script setup lang="ts">
 const route = useRoute()
+const requestFetch = useRequestFetch()
 
-const items = computed(() => [
-  {
-    label: 'About',
-    to: '/#about',
-    exactHash: true
-  },
-  {
-    label: 'Offerings',
-    to: '/#offerings',
-    exactHash: true
-  },
-  {
-    label: 'Decks',
-    to: '/decks',
-    active: route.path.startsWith('/decks')
+const { data: authStatus } = await useAsyncData('studio-auth-status', () =>
+  requestFetch('/api/__studio/auth/status')
+)
+
+const isStudioAuthenticated = computed(() => Boolean(authStatus.value?.authenticated))
+
+const items = computed(() => {
+  const baseItems = [
+    {
+      label: 'About',
+      to: '/#about',
+      exactHash: true
+    },
+    {
+      label: 'Offerings',
+      to: '/#offerings',
+      exactHash: true
+    },
+    {
+      label: 'Decks',
+      to: '/decks',
+      active: route.path.startsWith('/decks')
+    }
+  ]
+
+  if (isStudioAuthenticated.value) {
+    baseItems.push({
+      label: 'Studio Guide',
+      to: '/studio-instructions',
+      active: route.path === '/studio-instructions'
+    })
   }
-])
+
+  return baseItems
+})
 </script>
 
 <template>

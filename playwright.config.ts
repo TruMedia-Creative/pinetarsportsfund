@@ -18,7 +18,11 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: {
+        ...devices['Desktop Chrome'],
+        // Use system-installed Chrome so `playwright install` isn't required
+        channel: 'chrome'
+      }
     }
   ]
 })
