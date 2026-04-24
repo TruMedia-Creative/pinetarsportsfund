@@ -21,7 +21,7 @@
   --color-cream-950: #3d3209;
 
   /* ── Deep Teal ──────────────────────────────────────────────── */
-  --color-deep-teal-50: #eef7f4;
+  --color-deep-teal-50:  #eef7f4;
   --color-deep-teal-100: #ddeee9;
   --color-deep-teal-200: #baded3;
   --color-deep-teal-300: #98cdbc;
@@ -33,8 +33,8 @@
   --color-deep-teal-900: #11221d;
   --color-deep-teal-950: #0c1814;
 
-  /* ── Blue Slate ─────────────────────────────────────────────── */
-  --color-blue-slate-50: #edf4f8;
+  /* ── Blue Slate ──────────────────────────────────────────────── */
+  --color-blue-slate-50:  #edf4f8;
   --color-blue-slate-100: #daeaf1;
   --color-blue-slate-200: #b5d4e3;
   --color-blue-slate-300: #90bfd5;
@@ -59,8 +59,8 @@
   --color-charcoal-brown-900: #161d19;
   --color-charcoal-brown-950: #0f1411;
 
-  /* ── Dark Teal ──────────────────────────────────────────────── */
-  --color-dark-teal-50: #eaf8fa;
+  /* ── Dark Teal ───────────────────────────────────────────────── */
+  --color-dark-teal-50:  #eaf8fa;
   --color-dark-teal-100: #d5f0f6;
   --color-dark-teal-200: #ace1ec;
   --color-dark-teal-300: #82d3e3;
@@ -133,6 +133,17 @@
   --color-theme-neutral-800: var(--color-charcoal-brown-800);
   --color-theme-neutral-900: var(--color-charcoal-brown-900);
   --color-theme-neutral-950: var(--color-charcoal-brown-950);
+}
+
+/* ── Light mode overrides ───────────────────────────────────────── */
+/* Nuxt UI defaults neutral-400/500 for dimmed/muted text, which in
+   charcoal-brown are light sage greens (#8ba797, #6e917d). Bump them
+   several shades darker for sufficient contrast on cream/white. */
+:root:not(.dark) {
+  --ui-text-dimmed: var(--color-charcoal-brown-600);   /* 400 → 600 */
+  --ui-text-muted:  var(--color-charcoal-brown-700);   /* 500 → 700 */
+  --ui-text-toned:  var(--color-charcoal-brown-800);   /* 600 → 800 */
+  --ui-text:        var(--color-charcoal-brown-900);   /* 700 → 900 */
 }
 
 .dark {
