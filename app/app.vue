@@ -24,12 +24,18 @@ useSeoMeta({
 
 <template>
   <UApp :toaster="{ expand: false }">
-    <AppHeader />
+    <div class="relative min-h-screen overflow-x-clip">
+      <div class="investor-site-pattern pointer-events-none absolute inset-0 z-0" />
 
-    <UMain>
-      <NuxtPage />
-    </UMain>
+      <div class="relative z-10">
+        <AppHeader />
 
-    <AppFooter />
+        <UMain>
+          <NuxtPage />
+        </UMain>
+
+        <AppFooter />
+      </div>
+    </div>
   </UApp>
 </template>

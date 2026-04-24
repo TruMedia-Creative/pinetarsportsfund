@@ -23,6 +23,15 @@ const heroTitle = computed(() => {
   }
 })
 
+const heroSnapshot = computed(() => page.value?.metrics?.items?.slice(0, 3) ?? [])
+
+const baseballFocus = [
+  'Franchise Equity',
+  'Stadium Districts',
+  'Media Rights',
+  'Sponsorship Revenue'
+]
+
 function enterMotion(delay: number = 0) {
   return {
     initial: { opacity: 0, y: 16 },
@@ -66,11 +75,7 @@ const { copy, copied } = useClipboard()
       }"
     >
       <template #top>
-        <Motion v-bind="staggerMotion(0)">
-          <HeroShaders class="absolute top-0 inset-x-0 opacity-15 h-full" />
-        </Motion>
-
-        <GradientGlow class="top-0 w-2/3 h-1/2" />
+        <GradientGlow class="top-0 h-1/2 w-2/3 opacity-70" />
       </template>
 
       <template #headline>
@@ -79,16 +84,8 @@ const { copy, copied } = useClipboard()
             color="neutral"
             variant="soft"
             :label="page.hero.headline"
-            class="rounded-full px-3 py-1.5 gap-1.5 dark:bg-white/5 bg-black/5 backdrop-blur"
-          >
-            <template #leading>
-              <UChip
-                inset
-                standalone
-                :ui="{ base: 'animate-pulse ring-0' }"
-              />
-            </template>
-          </UBadge>
+            class="rounded-full px-3 py-1.5"
+          />
         </Motion>
       </template>
 
@@ -102,11 +99,7 @@ const { copy, copied } = useClipboard()
           <br v-if="heroTitle.secondary">
           <span
             v-if="heroTitle.secondary"
-            class="animate-shimmer bg-size-[200%_auto] bg-clip-text text-transparent"
-            :style="{
-              backgroundImage: 'linear-gradient(135deg, var(--color-primary-400), var(--color-primary-300), var(--color-primary-200), var(--color-primary-100), var(--color-primary-200), var(--color-primary-300), var(--color-primary-400))',
-              animationDuration: '10s'
-            }"
+            class="text-primary/90"
           >
             {{ heroTitle.secondary }}
           </span>
@@ -137,11 +130,64 @@ const { copy, copied } = useClipboard()
       </template>
 
       <Motion
-        as-child
+        class="mx-auto w-full max-w-3xl"
         v-bind="enterMotion(0.85)"
-        class="max-w-2xl mx-auto w-full"
       >
-        <HeroTerminal :lines="page.terminal.lines" />
+        <UCard
+          :ui="{
+            root: 'border-default bg-elevated/80 backdrop-blur-sm rounded-2xl',
+            body: 'p-5 sm:p-7'
+          }"
+        >
+          <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+            <div class="space-y-5">
+              <div class="flex items-center justify-between gap-4">
+                <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
+                  Investment Snapshot
+                </p>
+                <UBadge
+                  color="primary"
+                  variant="subtle"
+                  label="Baseball + Capital Markets"
+                  class="rounded-full"
+                />
+              </div>
+
+              <div class="baseball-seam h-px w-full" />
+
+              <div class="grid gap-4 sm:grid-cols-3">
+                <div
+                  v-for="metric in heroSnapshot"
+                  :key="metric.label"
+                  class="rounded-xl border border-default bg-default px-4 py-4"
+                >
+                  <p class="text-2xl font-semibold tracking-tight text-highlighted">
+                    {{ metric.value }}
+                  </p>
+                  <p class="mt-2 font-mono text-[11px] uppercase tracking-[0.08em] text-dimmed">
+                    {{ metric.label }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-default bg-default px-4 py-4 sm:px-5 sm:py-5">
+              <p class="font-mono text-xs uppercase tracking-[0.1em] text-dimmed">
+                Playing Field Focus
+              </p>
+              <ul class="mt-4 space-y-2.5 text-sm text-toned">
+                <li
+                  v-for="item in baseballFocus"
+                  :key="item"
+                  class="flex items-center gap-2.5"
+                >
+                  <span class="size-2 rounded-full bg-primary/70" />
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </UCard>
       </Motion>
 
       <Motion

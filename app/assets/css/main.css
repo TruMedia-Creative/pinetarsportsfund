@@ -7,34 +7,147 @@
   --font-sans: 'Instrument Sans', -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
-  --color-lime-50: #fbfde8;
-  --color-lime-100: #f5fbb3;
-  --color-lime-200: #eef87e;
-  --color-lime-300: #ddf34c;
-  --color-lime-400: #c8f031;
-  --color-lime-500: #a9d316;
-  --color-lime-600: #84a70e;
-  --color-lime-700: #647f11;
-  --color-lime-800: #4f6413;
-  --color-lime-900: #435514;
-  --color-lime-950: #232f06;
+  /* ── Creamy white ─────────────────────────────────────────── */
+  --color-cream-50: #fffdf7;
+  --color-cream-100: #fefbee;
+  --color-cream-200: #fdf6dd;
+  --color-cream-300: #fbf0c9;
+  --color-cream-400: #f8e9b0;
+  --color-cream-500: #f3df93;
+  --color-cream-600: #e8cc68;
+  --color-cream-700: #d4ae3e;
+  --color-cream-800: #a8892a;
+  --color-cream-900: #6e5a18;
+  --color-cream-950: #3d3209;
 
-  --animate-shimmer: shimmer 8s ease-in-out infinite alternate;
+  /* ── Deep Teal ──────────────────────────────────────────────── */
+  --color-deep-teal-50: #eef7f4;
+  --color-deep-teal-100: #ddeee9;
+  --color-deep-teal-200: #baded3;
+  --color-deep-teal-300: #98cdbc;
+  --color-deep-teal-400: #75bda6;
+  --color-deep-teal-500: #53ac90;
+  --color-deep-teal-600: #428a73;
+  --color-deep-teal-700: #326756;
+  --color-deep-teal-800: #21453a;
+  --color-deep-teal-900: #11221d;
+  --color-deep-teal-950: #0c1814;
 
-  @keyframes shimmer {
-    0% {
-      background-position: 0% center;
-    }
-    100% {
-      background-position: 200% center;
-    }
-  }
+  /* ── Blue Slate ─────────────────────────────────────────────── */
+  --color-blue-slate-50: #edf4f8;
+  --color-blue-slate-100: #daeaf1;
+  --color-blue-slate-200: #b5d4e3;
+  --color-blue-slate-300: #90bfd5;
+  --color-blue-slate-400: #6baac7;
+  --color-blue-slate-500: #4695b9;
+  --color-blue-slate-600: #387794;
+  --color-blue-slate-700: #2a596f;
+  --color-blue-slate-800: #1c3b4a;
+  --color-blue-slate-900: #0e1e25;
+  --color-blue-slate-950: #0a151a;
+
+  /* ── Charcoal Brown ─────────────────────────────────────────── */
+  --color-charcoal-brown-50: #f0f4f2;
+  --color-charcoal-brown-100: #e2e9e5;
+  --color-charcoal-brown-200: #c5d3cb;
+  --color-charcoal-brown-300: #a8bdb1;
+  --color-charcoal-brown-400: #8ba797;
+  --color-charcoal-brown-500: #6e917d;
+  --color-charcoal-brown-600: #587464;
+  --color-charcoal-brown-700: #42574b;
+  --color-charcoal-brown-800: #2c3a32;
+  --color-charcoal-brown-900: #161d19;
+  --color-charcoal-brown-950: #0f1411;
+
+  /* ── Dark Teal ──────────────────────────────────────────────── */
+  --color-dark-teal-50: #eaf8fa;
+  --color-dark-teal-100: #d5f0f6;
+  --color-dark-teal-200: #ace1ec;
+  --color-dark-teal-300: #82d3e3;
+  --color-dark-teal-400: #59c4d9;
+  --color-dark-teal-500: #2fb5d0;
+  --color-dark-teal-600: #2691a6;
+  --color-dark-teal-700: #1c6d7d;
+  --color-dark-teal-800: #134853;
+  --color-dark-teal-900: #09242a;
+  --color-dark-teal-950: #07191d;
+
+  /* ═══════════════════════════════════════════════════════════
+     SEMANTIC ROLES — swap only these lines to change the palette
+     ═══════════════════════════════════════════════════════════ */
+  --theme-light:     var(--color-cream-50);          /* page bg in light mode  */
+  --theme-dark:      var(--color-blue-slate-950);    /* page bg in dark mode   */
+  --theme-primary:   var(--color-deep-teal-500);     /* main CTAs, links       */
+  --theme-secondary: var(--color-blue-slate-500);    /* supporting tone        */
+  --theme-accent:    var(--color-dark-teal-400);     /* highlights, badges     */
+  --theme-neutral:   var(--color-charcoal-brown-700);/* muted / neutral tone   */
+
+  /* ── Theme-primary scale (maps to --theme-primary family) ── */
+  --color-theme-primary-50:  var(--color-deep-teal-50);
+  --color-theme-primary-100: var(--color-deep-teal-100);
+  --color-theme-primary-200: var(--color-deep-teal-200);
+  --color-theme-primary-300: var(--color-deep-teal-300);
+  --color-theme-primary-400: var(--color-deep-teal-400);
+  --color-theme-primary-500: var(--color-deep-teal-500);
+  --color-theme-primary-600: var(--color-deep-teal-600);
+  --color-theme-primary-700: var(--color-deep-teal-700);
+  --color-theme-primary-800: var(--color-deep-teal-800);
+  --color-theme-primary-900: var(--color-deep-teal-900);
+  --color-theme-primary-950: var(--color-deep-teal-950);
+
+  /* ── Theme-secondary scale (maps to --theme-secondary family) */
+  --color-theme-secondary-50:  var(--color-blue-slate-50);
+  --color-theme-secondary-100: var(--color-blue-slate-100);
+  --color-theme-secondary-200: var(--color-blue-slate-200);
+  --color-theme-secondary-300: var(--color-blue-slate-300);
+  --color-theme-secondary-400: var(--color-blue-slate-400);
+  --color-theme-secondary-500: var(--color-blue-slate-500);
+  --color-theme-secondary-600: var(--color-blue-slate-600);
+  --color-theme-secondary-700: var(--color-blue-slate-700);
+  --color-theme-secondary-800: var(--color-blue-slate-800);
+  --color-theme-secondary-900: var(--color-blue-slate-900);
+  --color-theme-secondary-950: var(--color-blue-slate-950);
+
+  /* ── Theme-accent scale (maps to --theme-accent family) ───── */
+  --color-theme-accent-50:  var(--color-dark-teal-50);
+  --color-theme-accent-100: var(--color-dark-teal-100);
+  --color-theme-accent-200: var(--color-dark-teal-200);
+  --color-theme-accent-300: var(--color-dark-teal-300);
+  --color-theme-accent-400: var(--color-dark-teal-400);
+  --color-theme-accent-500: var(--color-dark-teal-500);
+  --color-theme-accent-600: var(--color-dark-teal-600);
+  --color-theme-accent-700: var(--color-dark-teal-700);
+  --color-theme-accent-800: var(--color-dark-teal-800);
+  --color-theme-accent-900: var(--color-dark-teal-900);
+  --color-theme-accent-950: var(--color-dark-teal-950);
+
+  /* ── Theme-neutral scale (maps to --theme-neutral family) ─── */
+  --color-theme-neutral-50:  var(--color-charcoal-brown-50);
+  --color-theme-neutral-100: var(--color-charcoal-brown-100);
+  --color-theme-neutral-200: var(--color-charcoal-brown-200);
+  --color-theme-neutral-300: var(--color-charcoal-brown-300);
+  --color-theme-neutral-400: var(--color-charcoal-brown-400);
+  --color-theme-neutral-500: var(--color-charcoal-brown-500);
+  --color-theme-neutral-600: var(--color-charcoal-brown-600);
+  --color-theme-neutral-700: var(--color-charcoal-brown-700);
+  --color-theme-neutral-800: var(--color-charcoal-brown-800);
+  --color-theme-neutral-900: var(--color-charcoal-brown-900);
+  --color-theme-neutral-950: var(--color-charcoal-brown-950);
 }
 
 .dark {
-  --ui-bg: var(--ui-color-neutral-950);
-  --ui-bg-muted: var(--ui-color-neutral-900);
-  --ui-bg-elevated: var(--ui-color-neutral-900);
-  --ui-bg-accented: var(--ui-color-neutral-800);
-  --ui-border: var(--ui-color-neutral-900);
+  --ui-bg:          var(--theme-dark);
+  --ui-bg-muted:    color-mix(in oklch, var(--theme-dark) 84%, var(--color-theme-secondary-900));
+  --ui-bg-elevated: color-mix(in oklch, var(--color-blue-slate-900) 90%, var(--color-theme-secondary-800));
+  --ui-bg-accented: color-mix(in oklch, var(--color-blue-slate-800) 86%, var(--color-theme-secondary-700));
+  --ui-border:      color-mix(in oklch, var(--color-theme-secondary-700) 68%, var(--color-theme-accent-700));
+}
+
+.investor-site-pattern {
+  background-image: linear-gradient(to bottom, color-mix(in oklch, var(--ui-primary) 12%, transparent), transparent 45%), repeating-linear-gradient(-14deg, transparent 0, transparent 14px, color-mix(in oklch, var(--ui-text-muted) 24%, transparent) 14px, color-mix(in oklch, var(--ui-text-muted) 24%, transparent) 15px);
+  opacity: 0.28;
+}
+
+.baseball-seam {
+  background-image: repeating-linear-gradient(90deg, transparent 0, transparent 12px, color-mix(in oklch, var(--ui-primary) 42%, transparent) 12px, color-mix(in oklch, var(--ui-primary) 42%, transparent) 14px, transparent 14px, transparent 26px);
 }
