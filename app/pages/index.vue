@@ -437,7 +437,7 @@ const { copy, copied } = useClipboard()
               <div class="mt-8 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
                 <div>
                   <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
-                    Credibility markers
+                    Values
                   </p>
                   <ul class="mt-4 space-y-3">
                     <li
@@ -485,7 +485,7 @@ const { copy, copied } = useClipboard()
         </div>
       </div>
 
-      <Motion
+      <!--<Motion
         v-if="page.about.profiles?.length"
         class="mt-8"
         v-bind="scrollMotion(0.3)"
@@ -562,7 +562,7 @@ const { copy, copied } = useClipboard()
             </div>
           </article>
         </div>
-      </Motion>
+      </Motion> -->
     </UPageSection>
 
     <!-- CTA -->
@@ -610,16 +610,7 @@ const { copy, copied } = useClipboard()
             size="xl"
           />
 
-          <UButton
-            :label="page.cta.command"
-            :trailing-icon="copied ? 'i-lucide-copy-check' : 'i-lucide-copy'"
-            color="neutral"
-            variant="subtle"
-            class="font-mono font-light text-toned gap-4"
-            size="xl"
-            :ui="{ trailingIcon: 'size-5' }"
-            @click="copy(page.cta.command)"
-          />
+         
         </Motion>
       </template>
     </UPageCTA>

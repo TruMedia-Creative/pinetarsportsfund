@@ -39,12 +39,12 @@ terminal:
     - segments:
         - text: "→ Minimum investment from "
           style: dim
-        - text: "$250,000"
+        - text: "$50,000"
           style: metric-good
     - segments:
-        - text: "→ Target IRR "
+        - text: "→ Preferred Return"
           style: dim
-        - text: "18–24%"
+        - text: "8-9%"
           style: metric-good
     - segments:
         - text: " "
@@ -78,20 +78,20 @@ about:
       - Structured capital approach designed for investors, lenders, sponsors, and municipalities.
       - Underwriting discipline centered on downside protection, execution quality, and alignment.
     timelineItems:
-      - period: Foundation
-        label: Pine Tar formation
-        description: Built the firm around disciplined access to sports and entertainment opportunities that rarely reach investors in a structured format.
-      - period: Execution
-        label: Capital structuring focus
-        description: Established a process for aligning project economics, partner interests, and investor expectations before offerings go to market.
+      - period: 2019
+        label: Dugout Baseball in Kilgore, TX
+        description: Started this journey founding Dugout Baseball, a baseball field project in East Texas. The experience revealed a gap in how sports projects are structured and financed — and the opportunity to build a better way.
+      - period: 2023
+        label: Exited Dugout Baseball, Launched Pine Tar Sports
+        description: Pine Tar Sports is born out of the lessons learned building and exiting Dugout Baseball. It is a baseball tournament business that also serves as a proving ground for the sports capital platform we are building.
       - period: Today
-        label: Investor-ready platform
-        description: Continues to expand a curated pipeline of venue, media, and sports-adjacent opportunities backed by transparent materials and operator-grade diligence.
+        label: Launching New Locations & New Deals
+        description: Pine Tar Sports Fund continues to expand its pipeline of sports and entertainment projects, while also launching new Dugout Baseball locations in partnership with local operators.
   profiles:
-    - name: Sarah Connolly
-      title: Investor Relations
-      quote: "Strong investor communication is part of underwriting. If the story cannot hold up under scrutiny, it is not ready for capital."
-      body: Sarah helps translate complex deal structures into materials investors can evaluate quickly and confidently. She focuses on clarity, reporting cadence, and maintaining trust through disciplined communication from first review through closing.
+    - name: Larryon Truman, II
+      title: Business Development & Investor Relations
+      quote: "Play ball. Then keep score. Investors want to know how the game is going, and they want to trust the team keeping score."
+      body: Larryon helps translate complex deal structures into materials investors can evaluate quickly and confidently. He focuses on clarity, reporting cadence, and maintaining trust through disciplined communication from first review through closing.
       credibilityBullets:
         - Investor-facing process built around clarity, responsiveness, and documentation quality.
         - Keeps offering materials aligned with diligence expectations and stakeholder questions.
@@ -150,18 +150,18 @@ features:
 metrics:
   headline: By the numbers
   title: "A track record built on execution."
-  description: Pine Tar Sports Fund has structured over $120M in sports and entertainment capital projects since inception.
+  description: Pine Tar Sports Fund has structured over $20M in sports and entertainment capital projects since inception.
   items:
-    - value: "$120M+"
+    - value: "$20M+"
       label: Capital structured
       class: "text-primary"
-    - value: "18–24%"
-      label: Target IRR range
+    - value: "8-9%"
+      label: Preferred Return
       class: "text-success"
     - value: "7"
       label: Active projects
       class: "text-info"
-    - value: "$250K"
+    - value: "$50K"
       label: Minimum investment
       class: "text-warning"
 cta:
