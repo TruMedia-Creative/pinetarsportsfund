@@ -16,7 +16,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="py-20 border-b border-default bg-neutral-950/50">
+  <section class="py-20 border-b border-default bg-primary/3">
     <div class="max-w-6xl mx-auto px-6">
       <DeckSectionShell
         :section-title="sectionTitle"
