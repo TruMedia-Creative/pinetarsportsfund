@@ -1,12 +1,12 @@
 <script setup lang="ts">
-const { data: decks } = await useAsyncData('decks-list', () =>
-  queryCollection('decks').all()
+const { data: investments } = await useAsyncData('investments-list', () =>
+  queryCollection('investments').all()
 )
 
-// Guard: only show published decks to public viewers.
+// Guard: only show published investments to public viewers.
 // Studio's real-time preview bypasses this since it renders the raw data.
-const visibleDecks = computed(() =>
-  (decks.value ?? []).filter(d => d.published)
+const visibleInvestments = computed(() =>
+  (investments.value ?? []).filter(d => d.published)
 )
 
 const audienceLabels: Record<string, string> = {
@@ -26,8 +26,8 @@ const audienceColors: Record<string, string> = {
 }
 
 useSeoMeta({
-  title: 'Investment Decks — Pine Tar Sports Fund',
-  description: 'Browse active investment, sponsorship, and partnership decks from Pine Tar Sports Fund.'
+  title: 'Investment Opportunities — Pine Tar Sports Fund',
+  description: 'Browse active investment, sponsorship, and partnership opportunities from Pine Tar Sports Fund.'
 })
 </script>
 
@@ -50,13 +50,13 @@ useSeoMeta({
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
       <div
-        v-if="visibleDecks.length"
+        v-if="visibleInvestments.length"
         class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <NuxtLink
-          v-for="deck in visibleDecks"
-          :key="deck.stem"
-          :to="`/decks/${deck.stem?.split('/').pop()}`"
+          v-for="investment in visibleInvestments"
+          :key="investment.stem"
+          :to="`/investments/${investment.stem?.split('/').pop()}`"
           class="block group"
         >
           <UCard
@@ -65,28 +65,28 @@ useSeoMeta({
           >
             <div class="flex items-start justify-between gap-4">
               <h2 class="font-semibold leading-tight group-hover:text-primary transition-colors">
-                {{ deck.title }}
+                {{ investment.title }}
               </h2>
               <UBadge
-                :color="(audienceColors[deck.audienceType] as never) || 'neutral'"
+                :color="(audienceColors[investment.audienceType] as never) || 'neutral'"
                 variant="subtle"
                 size="sm"
                 class="shrink-0"
               >
-                {{ audienceLabels[deck.audienceType] || deck.audienceType }}
+                {{ audienceLabels[investment.audienceType] || investment.audienceType }}
               </UBadge>
             </div>
 
             <p
-              v-if="deck.subtitle"
+              v-if="investment.subtitle"
               class="text-sm text-dimmed leading-relaxed"
             >
-              {{ deck.subtitle }}
+              {{ investment.subtitle }}
             </p>
 
             <div class="flex items-center justify-between pt-2 border-t border-default">
               <p class="text-xs font-mono text-dimmed">
-                {{ deck.projectName }}
+                {{ investment.projectName }}
               </p>
               <UIcon
                 name="i-lucide-arrow-right"
@@ -107,10 +107,10 @@ useSeoMeta({
           class="size-12 text-dimmed mx-auto mb-4"
         />
         <h3 class="text-lg font-semibold mb-2">
-          No active decks
+          No active investments
         </h3>
         <p class="text-dimmed text-sm max-w-sm mx-auto">
-          No publicly available offering decks at this time. Check back soon or contact us directly.
+          No publicly available investment opportunities at this time. Check back soon or contact us directly.
         </p>
         <UButton
           label="Contact Us"

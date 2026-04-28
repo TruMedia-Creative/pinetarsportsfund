@@ -62,6 +62,31 @@ logos:
     - i-lucide-trophy
     - i-lucide-handshake
     - i-lucide-bar-chart-3
+about:
+  headline: Meet the operator
+  title: "Tim Truman brings
+    deal discipline to sports capital."
+  description: Pine Tar Sports Fund is built around operator judgment, structured underwriting, and long-term alignment. Tim Truman leads the platform with a focus on credible execution over promotional noise.
+  primaryProfile:
+    name: Tim Truman
+    title: Founder & Managing Partner
+    quote: We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation.
+    body: Tim Truman brings together operating experience, relationship-driven deal access, and a practical understanding of how capital moves through sports and entertainment markets. His approach centers on sourcing opportunities where underwriting discipline, smart structuring, and long-term partnership matter more than hype. That philosophy shapes how Pine Tar Sports Fund evaluates risk, aligns stakeholders, and builds offerings investors can understand.
+    imageUrl:
+    credibilityBullets:
+      - Operator-led perspective rooted in how sports assets actually perform over time.
+      - Structured capital approach designed for investors, lenders, sponsors, and municipalities.
+      - Underwriting discipline centered on downside protection, execution quality, and alignment.
+    timelineItems:
+      - period: Foundation
+        label: Pine Tar formation
+        description: Built the firm around disciplined access to sports and entertainment opportunities that rarely reach investors in a structured format.
+      - period: Execution
+        label: Capital structuring focus
+        description: Established a process for aligning project economics, partner interests, and investor expectations before offerings go to market.
+      - period: Today
+        label: Investor-ready platform
+        description: Continues to expand a curated pipeline of venue, media, and sports-adjacent opportunities backed by transparent materials and operator-grade diligence.
 features:
   headline: Why Pine Tar
   title: "Structured deals.\nSerious returns."

@@ -102,6 +102,28 @@ const teamSchema = sectionBase.extend({
   })).optional()
 })
 
+const homepageAboutProfileSchema = z.object({
+  name: z.string().nonempty(),
+  title: z.string().nonempty(),
+  quote: z.string().nonempty(),
+  body: z.string().nonempty().editor({ input: 'textarea' }),
+  imageUrl: z.string().optional().editor({ input: 'media' }),
+  credibilityBullets: z.array(z.string().nonempty()).min(1),
+  timelineItems: z.array(z.object({
+    period: z.string().nonempty(),
+    label: z.string().nonempty(),
+    description: z.string().nonempty()
+  })).min(1)
+})
+
+const homepageAboutSchema = z.object({
+  headline: z.string().optional(),
+  title: z.string().nonempty(),
+  description: z.string().nonempty(),
+  primaryProfile: homepageAboutProfileSchema,
+  profiles: z.array(homepageAboutProfileSchema).optional()
+})
+
 const useOfFundsSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
   allocationRows: z.array(z.object({
@@ -180,6 +202,7 @@ export const collections = {
         title: z.string().nonempty(),
         items: z.array(z.string())
       }),
+      about: homepageAboutSchema,
       features: z.object({
         headline: z.string().optional(),
         title: z.string().nonempty(),
@@ -209,8 +232,8 @@ export const collections = {
     })
   }),
 
-  decks: defineCollection({
-    source: 'decks/*.yml',
+  investments: defineCollection({
+    source: 'investments/*.yml',
     type: 'data',
     schema: z.object({
       // ── Top-level metadata ──

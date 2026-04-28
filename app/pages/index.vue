@@ -1,5 +1,71 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData('index', () => queryCollection('content').first())
+type HomepageAboutTimelineItem = {
+  period: string
+  label: string
+  description: string
+}
+
+type HomepageAboutProfile = {
+  name: string
+  title: string
+  quote: string
+  body: string
+  imageUrl?: string
+  credibilityBullets: string[]
+  timelineItems: HomepageAboutTimelineItem[]
+}
+
+type HomepageLink = {
+  label: string
+} & Record<string, unknown>
+
+type HomepageLinkWithLabel = HomepageLink & { label: string }
+
+type HomepageContent = {
+  seo?: {
+    title?: string
+    description?: string
+  }
+  title?: string
+  description?: string
+  hero: {
+    headline?: string
+    links: HomepageLink[]
+  }
+  logos: {
+    title: string
+    items: string[]
+  }
+  about: {
+    headline?: string
+    title: string
+    description: string
+    primaryProfile: HomepageAboutProfile
+    profiles?: HomepageAboutProfile[]
+  }
+  metrics: {
+    headline?: string
+    title: string
+    description: string
+    items: Array<{ value: string, label: string, class: string }>
+  }
+  features: {
+    headline?: string
+    title: string
+    description: string
+    items: Array<{ icon: string, title: string, description: string }>
+  }
+  cta: {
+    title: string
+    description: string
+    command: string
+    links: HomepageLink[]
+  }
+}
+
+const { data: page } = await useAsyncData<HomepageContent | null>('index', () =>
+  queryCollection('content').first() as Promise<HomepageContent | null>
+)
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
@@ -85,7 +151,6 @@ const { copy, copied } = useClipboard()
           v-bind="enterMotion(0.35)"
           class="inline-block"
         >
-        
           {{ heroTitle.primary }}
           <br v-if="heroTitle.secondary">
           <span
@@ -94,8 +159,6 @@ const { copy, copied } = useClipboard()
           >
             {{ heroTitle.secondary }}
           </span>
-
-          
         </Motion>
       </template>
 
@@ -138,7 +201,7 @@ const { copy, copied } = useClipboard()
         </Motion>
       </template>
       <template #bottom>
-         <GradientGlow class="bottom-0 w-2/3 h-1/2" />
+        <GradientGlow class="bottom-0 w-2/3 h-1/2" />
       </template>
 
       <Motion
@@ -157,6 +220,7 @@ const { copy, copied } = useClipboard()
       </Motion>
     </UPageHero>
 
+
     <!-- Metrics -->
     <UPageSection
       id="metrics"
@@ -169,17 +233,29 @@ const { copy, copied } = useClipboard()
       }"
     >
       <template #headline>
-        <Motion as="span" v-bind="scrollMotion()" class="inline-block">
+        <Motion
+          as="span"
+          v-bind="scrollMotion()"
+          class="inline-block"
+        >
           {{ page.metrics.headline }}
         </Motion>
       </template>
       <template #title>
-        <Motion as="span" v-bind="scrollMotion(0.1)" class="inline-block">
+        <Motion
+          as="span"
+          v-bind="scrollMotion(0.1)"
+          class="inline-block"
+        >
           {{ page.metrics.title }}
         </Motion>
       </template>
       <template #description>
-        <Motion as="span" v-bind="scrollMotion(0.2)" class="inline-block">
+        <Motion
+          as="span"
+          v-bind="scrollMotion(0.2)"
+          class="inline-block"
+        >
           {{ page.metrics.description }}
         </Motion>
       </template>
@@ -264,6 +340,147 @@ const { copy, copied } = useClipboard()
                 description: 'text-sm leading-relaxed sm:line-clamp-2 lg:line-clamp-3 text-dimmed'
               }"
             />
+          </Motion>
+        </div>
+      </div>
+    </UPageSection>
+
+    <!-- About -->
+    <UPageSection
+      id="about"
+      :ui="{
+        root: 'scroll-mt-(--ui-header-height)',
+        container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
+        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
+        title: 'max-w-2xl mx-auto',
+        description: 'max-w-2xl mx-auto text-dimmed'
+      }"
+    >
+      <template #headline>
+        <Motion
+          as="span"
+          v-bind="scrollMotion()"
+          class="inline-block"
+        >
+          {{ page.about.headline }}
+        </Motion>
+      </template>
+      <template #title>
+        <Motion
+          as="span"
+          v-bind="scrollMotion(0.1)"
+          class="inline-block whitespace-pre-line"
+        >
+          {{ page.about.title }}
+        </Motion>
+      </template>
+      <template #description>
+        <Motion
+          as="span"
+          v-bind="scrollMotion(0.2)"
+          class="inline-block"
+        >
+          {{ page.about.description }}
+        </Motion>
+      </template>
+
+      <div class="overflow-hidden rounded-2xl border border-default bg-default">
+        <div class="grid gap-px lg:grid-cols-[0.9fr_1.1fr]">
+          <Motion v-bind="scrollMotion(0.1)">
+            <div class="flex h-full flex-col justify-between bg-elevated/70 p-6 sm:p-8">
+              <div class="overflow-hidden rounded-2xl border border-default bg-default/80 shadow-sm ring-1 ring-default/60">
+                <div class="aspect-[4/5] bg-gradient-to-br from-primary/15 via-bg-elevated to-bg-default">
+                  <img
+                    v-if="page.about.primaryProfile.imageUrl"
+                    :src="page.about.primaryProfile.imageUrl"
+                    :alt="`${page.about.primaryProfile.name} portrait`"
+                    class="size-full object-cover"
+                  >
+                  <div
+                    v-else
+                    class="flex size-full items-center justify-center text-center"
+                  >
+                    <div>
+                      <p class="font-mono text-xs uppercase tracking-[0.18em] text-dimmed">
+                        Photo coming soon
+                      </p>
+                      <p class="mt-4 text-4xl font-semibold tracking-tight text-default sm:text-5xl">
+                        {{ page.about.primaryProfile.name }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 rounded-2xl border border-default bg-default/80 p-5">
+                <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
+                  {{ page.about.primaryProfile.title }}
+                </p>
+                <p class="mt-3 text-lg leading-relaxed tracking-tight text-default">
+                  "{{ page.about.primaryProfile.quote }}"
+                </p>
+              </div>
+            </div>
+          </Motion>
+
+          <Motion v-bind="scrollMotion(0.2)">
+            <div class="flex h-full flex-col bg-default p-6 sm:p-8">
+              <div>
+                <p class="text-2xl font-semibold tracking-tight text-default sm:text-3xl">
+                  {{ page.about.primaryProfile.name }}
+                </p>
+                <p class="mt-2 text-sm uppercase tracking-[0.12em] text-dimmed">
+                  {{ page.about.primaryProfile.title }}
+                </p>
+                <p class="mt-6 text-base leading-relaxed text-default">
+                  {{ page.about.primaryProfile.body }}
+                </p>
+              </div>
+
+              <div class="mt-8 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
+                    Credibility markers
+                  </p>
+                  <ul class="mt-4 space-y-3">
+                    <li
+                      v-for="bullet in page.about.primaryProfile.credibilityBullets"
+                      :key="bullet"
+                      class="flex items-start gap-3 text-sm leading-relaxed text-default"
+                    >
+                      <UIcon
+                        name="i-lucide-badge-check"
+                        class="mt-0.5 size-4 shrink-0 text-primary"
+                      />
+                      <span>{{ bullet }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
+                    Milestones
+                  </p>
+                  <div class="mt-4 space-y-4">
+                    <div
+                      v-for="item in page.about.primaryProfile.timelineItems"
+                      :key="`${item.period}-${item.label}`"
+                      class="rounded-xl border border-default bg-elevated/60 p-4"
+                    >
+                      <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
+                        {{ item.period }}
+                      </p>
+                      <p class="mt-2 text-sm font-semibold tracking-tight text-default">
+                        {{ item.label }}
+                      </p>
+                      <p class="mt-2 text-sm leading-relaxed text-dimmed">
+                        {{ item.description }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Motion>
         </div>
       </div>
