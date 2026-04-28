@@ -5,16 +5,22 @@ closingCta:
   body: We are accepting commitments from qualified accredited investors for this round. Full data room access is provided upon execution of NDA.
   ctaText: Request Data Room Access
   ctaUrl: mailto:invest@pinetarsportsfund.com?subject=Riverside%20Sports%20Complex%20-%20Data%20Room%20Request
-  contactName: Marcus J. Holloway
-  contactTitle: Managing Partner
+  contactName: Larryon Truman, II
+  contactTitle: Business Development & Investor Relations
   contactEmail: invest@pinetarsportsfund.com
 cover:
   tagline: Investment Opportunity
-  heroImageUrl: ""
+  heroImageUrl: /slide4.jpg
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
   address: " 491 Morrison Rd, Howe, TX 75459"
+  enabled: true
+  sectionTitle: ""
+  sectionImage:
+    url: /slide3.jpg
+  description: ""
+  subtitle: ""
 executiveSummary:
   enabled: true
   body: |
