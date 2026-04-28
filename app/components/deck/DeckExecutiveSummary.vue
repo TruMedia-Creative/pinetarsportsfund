@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   sectionTitle?: string
   subtitle?: string
   description?: string
@@ -15,6 +15,12 @@ defineProps<{
   returnsTableTitle?: string
   returnsTableRows?: Array<{ label: string, value: string, highlight?: boolean }>
 }>()
+
+const normalizedReturnsTableRows = computed(() =>
+  (props.returnsTableRows ?? []).filter((row): row is { label: string, value: string, highlight?: boolean } =>
+    Boolean(row && typeof row.label === 'string' && typeof row.value === 'string')
+  )
+)
 </script>
 
 <template>
@@ -51,7 +57,7 @@ defineProps<{
               </ol>
             </div>
 
-            <div v-if="returnsTableRows?.length">
+            <div v-if="normalizedReturnsTableRows.length">
               <p class="text-xs uppercase tracking-widest font-mono text-dimmed mb-3">
                 {{ returnsTableTitle || 'Key Terms' }}
               </p>
@@ -59,7 +65,7 @@ defineProps<{
                 <table class="w-full text-sm">
                   <tbody>
                     <tr
-                      v-for="row in returnsTableRows"
+                      v-for="row in normalizedReturnsTableRows"
                       :key="row.label"
                       :class="['border-b border-default last:border-0', row.highlight ? 'bg-primary/5' : '']"
                     >

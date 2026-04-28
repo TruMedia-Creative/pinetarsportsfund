@@ -49,18 +49,18 @@ executiveSummary:
     - label: Funds Raised for 70% Ownership
       value: $2,500,000
       highlight: true
-      - label: Preferred Return
-        value: 9% Paid Monthly During Build-Out
-      - label: Capital Return Target
-        value: 30 Months
+    - label: Preferred Return
+      value: 9% Paid Monthly During Build-Out
+    - label: Capital Return Target
+      value: 30 Months
       highlight: true
     - label: Final Equity Position
-        value: Retained 70% Equity Stake
-      - label: Stabilized Profit
-        value: ~$600,000 annual triple net profit
+      value: Retained 70% Equity Stake
       highlight: true
+    - label: Stabilized Profit
+      value: ~$600,000 annual triple net profit
     - label: Tax Efficiency
-        value: ~$100K Year 1 depreciation (5% owner)
+      value: ~$100K Year 1 depreciation (5% owner)
 investmentThesis:
   enabled: true
   body: |
