@@ -4,7 +4,7 @@ seo:
 title: "Where Capital Meets\nThe Playing Field."
 description: Pine Tar Sports Fund structures and manages investment opportunities across sports venues, teams, media rights, and entertainment projects — giving serious investors direct access to a market others overlook.
 hero:
-  headline: "Now accepting accredited investors"
+  headline: "Now accepting investors"
   links:
     - label: View Investment Opportunities
       color: primary
@@ -65,7 +65,7 @@ logos:
 features:
   headline: Why Pine Tar
   title: "Structured deals.\nSerious returns."
-  description: We identify, underwrite, and manage sports and entertainment capital projects — so investors gain institutional-grade exposure to a high-growth, relationship-driven market.
+  description: We identify, underwrite, and manage sports capital projects — so investors gain institutional-grade exposure to a high-growth, relationship-driven market.
   items:
     - icon: i-lucide-shield-check
       title: Institutional Underwriting
@@ -104,9 +104,9 @@ metrics:
       class: "text-warning"
 cta:
   title: "Ready to review\nan offering?"
-  description: All active investment decks are available to accredited investors. Browse current opportunities or reach out directly to discuss fit.
-  command: pinetarsportsfund.com/decks
+  description: All active investment decks are available to investors. Browse current opportunities or reach out directly to discuss fit.
+  command: pinetarsportsfund.com/investments
   links:
     - label: Browse decks
       color: primary
-      to: /decks
+      to: /investments

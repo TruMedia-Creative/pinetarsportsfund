@@ -23,15 +23,6 @@ const heroTitle = computed(() => {
   }
 })
 
-const heroSnapshot = computed(() => page.value?.metrics?.items?.slice(0, 3) ?? [])
-
-const baseballFocus = [
-  'Franchise Equity',
-  'Stadium Districts',
-  'Media Rights',
-  'Sponsorship Revenue'
-]
-
 function enterMotion(delay: number = 0) {
   return {
     initial: { opacity: 0, y: 16 },
@@ -66,8 +57,7 @@ const { copy, copied } = useClipboard()
     <!-- Hero -->
     <UPageHero
       :ui="{
-        root: 'pb-24 sm:pb-32',
-        container: 'relative z-10 lg:py-32',
+        container: 'relative z-10 py-10 sm:py-14 lg:py-20',
         wrapper: 'flex flex-col items-center',
         title: 'sm:text-6xl lg:text-7xl xl:text-[80px] tracking-tighter leading-[1.05]',
         description: 'mt-5 max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-default',
@@ -95,6 +85,7 @@ const { copy, copied } = useClipboard()
           v-bind="enterMotion(0.35)"
           class="inline-block"
         >
+        
           {{ heroTitle.primary }}
           <br v-if="heroTitle.secondary">
           <span
@@ -103,6 +94,8 @@ const { copy, copied } = useClipboard()
           >
             {{ heroTitle.secondary }}
           </span>
+
+          
         </Motion>
       </template>
 
@@ -128,71 +121,29 @@ const { copy, copied } = useClipboard()
           />
         </Motion>
       </template>
-
-      <Motion
-        class="mx-auto w-full max-w-3xl"
-        v-bind="enterMotion(0.85)"
-      >
-        <UCard
-          :ui="{
-            root: 'border-default bg-elevated/80 backdrop-blur-sm rounded-2xl',
-            body: 'p-5 sm:p-7'
-          }"
+      <template #body>
+        <Motion
+          class="mx-auto w-full max-w-5xl"
+          v-bind="enterMotion(0.75)"
         >
-          <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-            <div class="space-y-5">
-              <div class="flex items-center justify-between gap-4">
-                <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
-                  Investment Snapshot
-                </p>
-                <UBadge
-                  color="primary"
-                  variant="subtle"
-                  label="Baseball + Capital Markets"
-                  class="rounded-full"
-                />
-              </div>
-
-              <div class="baseball-seam h-px w-full" />
-
-              <div class="grid gap-4 sm:grid-cols-3">
-                <div
-                  v-for="metric in heroSnapshot"
-                  :key="metric.label"
-                  class="rounded-xl border border-default bg-default px-4 py-4"
-                >
-                  <p class="text-2xl font-semibold tracking-tight text-highlighted">
-                    {{ metric.value }}
-                  </p>
-                  <p class="mt-2 font-mono text-[11px] uppercase tracking-[0.08em] text-dimmed">
-                    {{ metric.label }}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="rounded-xl border border-default bg-default px-4 py-4 sm:px-5 sm:py-5">
-              <p class="font-mono text-xs uppercase tracking-[0.1em] text-dimmed">
-                Playing Field Focus
-              </p>
-              <ul class="mt-4 space-y-2.5 text-sm text-toned">
-                <li
-                  v-for="item in baseballFocus"
-                  :key="item"
-                  class="flex items-center gap-2.5"
-                >
-                  <span class="size-2 rounded-full bg-primary/70" />
-                  <span>{{ item }}</span>
-                </li>
-              </ul>
+          <div class="overflow-hidden rounded-2xl border border-default bg-elevated/70 shadow-xl ring-1 ring-default/60 backdrop-blur-sm">
+            <div class="aspect-[16/10] sm:aspect-[16/9]">
+              <img
+                src="/index.png"
+                alt="Pinetar Sports Fund dashboard preview"
+                class="size-full object-cover object-top"
+              >
             </div>
           </div>
-        </UCard>
-      </Motion>
+        </Motion>
+      </template>
+      <template #bottom>
+         <GradientGlow class="bottom-0 w-2/3 h-1/2" />
+      </template>
 
       <Motion
         class="max-w-lg mx-auto w-full"
-        v-bind="scrollMotion(0.95)"
+        v-bind="enterMotion(0.85)"
       >
         <UPageLogos
           :title="page.logos.title"
@@ -206,12 +157,59 @@ const { copy, copied } = useClipboard()
       </Motion>
     </UPageHero>
 
+    <!-- Metrics -->
+    <UPageSection
+      id="metrics"
+      :ui="{
+        root: 'scroll-mt-(--ui-header-height)',
+        container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
+        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
+        title: 'max-w-lg mx-auto',
+        description: 'max-w-md mx-auto text-dimmed'
+      }"
+    >
+      <template #headline>
+        <Motion as="span" v-bind="scrollMotion()" class="inline-block">
+          {{ page.metrics.headline }}
+        </Motion>
+      </template>
+      <template #title>
+        <Motion as="span" v-bind="scrollMotion(0.1)" class="inline-block">
+          {{ page.metrics.title }}
+        </Motion>
+      </template>
+      <template #description>
+        <Motion as="span" v-bind="scrollMotion(0.2)" class="inline-block">
+          {{ page.metrics.description }}
+        </Motion>
+      </template>
+
+      <div class="rounded-2xl border border-default bg-default overflow-hidden">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px">
+          <Motion
+            v-for="(metric, index) in page.metrics.items"
+            :key="metric.label"
+            v-bind="staggerMotion(index)"
+          >
+            <div class="flex flex-col items-center justify-center px-6 py-6 text-center">
+              <p :class="['text-4xl font-bold tracking-tight leading-none', metric.class]">
+                {{ metric.value }}
+              </p>
+              <p class="mt-3 font-mono text-xs uppercase tracking-[0.06em] text-dimmed">
+                {{ metric.label }}
+              </p>
+            </div>
+          </Motion>
+        </div>
+      </div>
+    </UPageSection>
+
     <!-- Features -->
     <UPageSection
       id="features"
       :ui="{
-        root: 'py-24 sm:py-32 scroll-mt-(--ui-header-height)',
-        container: 'max-w-5xl',
+        root: 'scroll-mt-(--ui-header-height)',
+        container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
         headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
         title: 'max-w-lg mx-auto',
         description: 'max-w-md mx-auto text-dimmed'
@@ -271,77 +269,11 @@ const { copy, copied } = useClipboard()
       </div>
     </UPageSection>
 
-    <!-- Metrics -->
-    <UPageSection
-      id="metrics"
-      :ui="{
-        root: 'py-24 sm:py-32 scroll-mt-(--ui-header-height)',
-        container: 'max-w-5xl',
-        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
-        title: 'max-w-lg mx-auto',
-        description: 'max-w-md mx-auto text-dimmed'
-      }"
-    >
-      <template #headline>
-        <Motion
-          as="span"
-          v-bind="scrollMotion()"
-          class="inline-block"
-        >
-          {{ page.metrics.headline }}
-        </Motion>
-      </template>
-
-      <template #title>
-        <Motion
-          as="span"
-          v-bind="scrollMotion(0.1)"
-          class="inline-block"
-        >
-          {{ page.metrics.title }}
-        </Motion>
-      </template>
-
-      <template #description>
-        <Motion
-          as="span"
-          v-bind="scrollMotion(0.2)"
-          class="inline-block"
-        >
-          {{ page.metrics.description }}
-        </Motion>
-      </template>
-
-      <div class="rounded-2xl border border-default bg-default overflow-hidden">
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px">
-          <Motion
-            v-for="(metric, index) in page.metrics.items"
-            :key="metric.label"
-            v-bind="staggerMotion(index)"
-          >
-            <UPageCard
-              :title="metric.value"
-              :description="metric.label"
-              class="rounded-none duration-300"
-              to="#"
-              :ui="{
-                root: 'text-center',
-                wrapper: 'items-center',
-                title: ['text-4xl font-bold tracking-tight leading-none', metric.class],
-                description: 'font-mono text-xs uppercase tracking-[0.06em] text-dimmed mt-3'
-              }"
-            />
-          </Motion>
-        </div>
-      </div>
-    </UPageSection>
-
     <!-- CTA -->
     <UPageCTA
       variant="naked"
       :ui="{
-        root: 'py-24 sm:py-32',
-        container: 'max-w-3xl text-center',
+        container: 'max-w-3xl text-center py-8 sm:py-10 lg:py-12',
         title: 'lg:text-5xl tracking-tighter whitespace-pre-line',
         description: 'mx-auto max-w-sm leading-relaxed text-dimmed'
       }"

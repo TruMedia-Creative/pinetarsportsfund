@@ -1,6 +1,6 @@
 ---
 description: 'Next.js + Tailwind development standards and instructions'
-applyTo: '**/*.tsx, **/*.ts, **/*.jsx, **/*.js, **/*.css'
+applyTo: '**/*.tsx, **/*.ts, **/*.jsx, **/*.js, **/*.css, **/*.vue'
 ---
 
 # Next.js + Tailwind Development Instructions
