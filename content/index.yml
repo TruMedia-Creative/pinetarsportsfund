@@ -164,6 +164,44 @@ metrics:
     - value: "$50K"
       label: Minimum investment
       class: "text-warning"
+problem:
+  title: Sports is booming. Access is the problem.
+  paragraphs:
+    - Youth sports, tournaments, training facilities, live events, and venue-based entertainment are growing into a serious asset class.
+    - But most private investors only see these opportunities after the best terms are gone, or they see deals that are long on excitement and short on structure.
+    - Pine Tar exists to bridge that gap.
+guide:
+  title: We turn sports opportunities into investor-ready deals.
+  paragraphs:
+    - Pine Tar Sports Fund works with operators, developers, and sponsors to structure private sports and entertainment opportunities with clear deal materials, defined use of funds, preferred return targets, and transparent investor communication.
+    - We do not just chase exciting projects.
+    - We look for assets with demand, operators, revenue paths, and a real plan.
+mechanism:
+  title: Underwritten like real estate. Operated like sports. Structured for investors.
+  description: "Every opportunity is reviewed through the lens of:"
+  items:
+    - Location demand
+    - Facility economics
+    - Operator experience
+    - Revenue streams
+    - Capital stack
+    - Investor protections
+    - Exit or refinance potential
+process:
+  title: How it works
+  items:
+    - step: "01"
+      title: Review active opportunities
+      description: See current sports facility, sponsorship, and entertainment offerings.
+    - step: "02"
+      title: Request the investor materials
+      description: Get the deck, terms, projections, and supporting documents.
+    - step: "03"
+      title: Evaluate the fit
+      description: Review the risk profile, return target, timeline, and minimum investment.
+    - step: "04"
+      title: Invest with clarity
+      description: Participate in a structured opportunity with defined terms and transparent communication.
 cta:
   title: "Ready to review\nan offering?"
   description: All active investment decks are available to investors. Browse current opportunities or reach out directly to discuss fit.

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
+const route = useRoute()
 
 const color = computed(() => colorMode.value === 'dark' ? '#09090b' : 'white')
+const showGlobalInvestorPattern = computed(() => route.path !== '/')
 
 useHead({
   meta: [
@@ -29,7 +31,10 @@ useSeoMeta({
 <template>
   <UApp :toaster="{ expand: false }">
     <div class="relative min-h-screen overflow-x-clip">
-      <div class="investor-site-pattern pointer-events-none absolute inset-0 z-0" />
+      <div
+        v-if="showGlobalInvestorPattern"
+        class="investor-site-pattern pointer-events-none absolute inset-0 z-0"
+      />
 
       <div class="relative z-10">
         <AppHeader />

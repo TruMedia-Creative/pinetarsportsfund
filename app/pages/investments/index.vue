@@ -1,7 +1,27 @@
 <script setup lang="ts">
-const { data: investments } = await useAsyncData('investments-list', () =>
-  queryCollection('investments').all()
-)
+type InvestmentAudienceType = 'investor' | 'lender' | 'sponsor' | 'municipality' | 'internal'
+
+type InvestmentListItem = {
+  stem: string
+  title: string
+  subtitle?: string
+  projectName?: string
+  published: boolean
+  audienceType?: InvestmentAudienceType | string
+}
+
+const { data: investments } = await useAsyncData<InvestmentListItem[]>('investments-list', async () => {
+  const documents = await queryCollection('investments').all()
+
+  return documents.map(document => ({
+    stem: document.stem ?? '',
+    title: document.title ?? '',
+    subtitle: document.subtitle ?? undefined,
+    projectName: document.projectName ?? undefined,
+    published: Boolean(document.published),
+    audienceType: document.audienceType ?? undefined
+  }))
+})
 
 // Guard: only show published investments to public viewers.
 // Studio's real-time preview bypasses this since it renders the raw data.

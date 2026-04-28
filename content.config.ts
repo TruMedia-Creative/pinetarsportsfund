@@ -124,6 +124,26 @@ const homepageAboutSchema = z.object({
   profiles: z.array(homepageAboutProfileSchema).optional()
 })
 
+const homepageNarrativeSectionSchema = z.object({
+  title: z.string().nonempty(),
+  paragraphs: z.array(z.string().nonempty()).min(1)
+})
+
+const homepageMechanismSchema = z.object({
+  title: z.string().nonempty(),
+  description: z.string().nonempty(),
+  items: z.array(z.string().nonempty()).min(1)
+})
+
+const homepageProcessSchema = z.object({
+  title: z.string().nonempty(),
+  items: z.array(z.object({
+    step: z.string().nonempty(),
+    title: z.string().nonempty(),
+    description: z.string().nonempty()
+  })).min(1)
+})
+
 const useOfFundsSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
   allocationRows: z.array(z.object({
@@ -186,6 +206,12 @@ export const collections = {
     source: 'index.yml',
     type: 'page',
     schema: z.object({
+      seo: z.object({
+        title: z.string().optional(),
+        description: z.string().optional()
+      }).optional(),
+      title: z.string().optional(),
+      description: z.string().optional(),
       hero: z.object({
         headline: z.string().optional(),
         links: z.array(createLinkSchema())
@@ -203,6 +229,10 @@ export const collections = {
         items: z.array(z.string())
       }),
       about: homepageAboutSchema,
+      problem: homepageNarrativeSectionSchema,
+      guide: homepageNarrativeSectionSchema,
+      mechanism: homepageMechanismSchema,
+      process: homepageProcessSchema,
       features: z.object({
         headline: z.string().optional(),
         title: z.string().nonempty(),
