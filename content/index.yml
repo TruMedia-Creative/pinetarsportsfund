@@ -70,9 +70,9 @@ about:
   primaryProfile:
     name: Tim Truman
     title: Founder & Managing Partner
-    quote: We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation.
+    quote: "We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation."
     body: Tim Truman brings together operating experience, relationship-driven deal access, and a practical understanding of how capital moves through sports and entertainment markets. His approach centers on sourcing opportunities where underwriting discipline, smart structuring, and long-term partnership matter more than hype. That philosophy shapes how Pine Tar Sports Fund evaluates risk, aligns stakeholders, and builds offerings investors can understand.
-    imageUrl: /tim-headshot.webp
+    imageUrl: /tim-headshot.jpg
     credibilityBullets:
       - Operator-led perspective rooted in how sports assets actually perform over time.
       - Structured capital approach designed for investors, lenders, sponsors, and municipalities.
@@ -87,6 +87,43 @@ about:
       - period: Today
         label: Investor-ready platform
         description: Continues to expand a curated pipeline of venue, media, and sports-adjacent opportunities backed by transparent materials and operator-grade diligence.
+  profiles:
+    - name: Sarah Connolly
+      title: Investor Relations
+      quote: "Strong investor communication is part of underwriting. If the story cannot hold up under scrutiny, it is not ready for capital."
+      body: Sarah helps translate complex deal structures into materials investors can evaluate quickly and confidently. She focuses on clarity, reporting cadence, and maintaining trust through disciplined communication from first review through closing.
+      credibilityBullets:
+        - Investor-facing process built around clarity, responsiveness, and documentation quality.
+        - Keeps offering materials aligned with diligence expectations and stakeholder questions.
+        - Extends the firm’s emphasis on transparency beyond fundraising into ongoing communication.
+      timelineItems:
+        - period: Positioning
+          label: Materials discipline
+          description: Helped shape a tighter process for turning live opportunities into coherent investor-ready narratives.
+        - period: Execution
+          label: Stakeholder coordination
+          description: Supports communication across investors, lenders, and operating partners as deals advance.
+        - period: Ongoing
+          label: Reporting focus
+          description: Maintains a clear expectation that updates, documentation, and accountability remain part of the investment experience.
+    - name: Marcus Vale
+      title: Strategic Partnerships
+      quote: "The best sports deals work because the capital stack and the operating partners are aligned before the market ever sees the offering."
+      body: Marcus supports partner strategy across sponsors, municipalities, and operating counterparties. His role centers on shaping opportunities so commercial alignment, execution reality, and capital needs fit together before a project is presented to investors.
+      credibilityBullets:
+        - Partnership-first mindset across public, private, and sponsor-backed deal structures.
+        - Focuses on aligning operating incentives before capital formation accelerates.
+        - Reinforces execution quality by surfacing partner-fit issues early in the process.
+      timelineItems:
+        - period: Sourcing
+          label: Relationship mapping
+          description: Built a working network around sports-adjacent projects where partner quality matters as much as headline economics.
+        - period: Structuring
+          label: Alignment review
+          description: Helps pressure-test whether counterparties, sponsors, and project economics support a durable transaction.
+        - period: Pipeline
+          label: Opportunity development
+          description: Continues expanding the fund’s access to projects that benefit from disciplined partnership architecture.
 features:
   headline: Why Pine Tar
   title: "Structured deals.\nSerious returns."
