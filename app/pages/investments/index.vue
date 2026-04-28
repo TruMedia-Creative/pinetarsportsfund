@@ -45,6 +45,18 @@ const audienceColors: Record<string, string> = {
   internal: 'neutral'
 }
 
+function getInvestmentSlug(stem: string) {
+  return stem.split('/').pop() || stem
+}
+
+function getAudienceLabel(audienceType?: string) {
+  return audienceType ? (audienceLabels[audienceType] || audienceType) : 'General'
+}
+
+function getAudienceColor(audienceType?: string) {
+  return (audienceType ? audienceColors[audienceType] : undefined) || 'neutral'
+}
+
 useSeoMeta({
   title: 'Investment Opportunities — Pine Tar Sports Fund',
   description: 'Browse active investment, sponsorship, and partnership opportunities from Pine Tar Sports Fund.'
@@ -76,7 +88,7 @@ useSeoMeta({
         <NuxtLink
           v-for="investment in visibleInvestments"
           :key="investment.stem"
-          :to="`/investments/${investment.stem?.split('/').pop()}`"
+          :to="`/investments/${getInvestmentSlug(investment.stem)}`"
           class="block group"
         >
           <UCard
@@ -88,12 +100,12 @@ useSeoMeta({
                 {{ investment.title }}
               </h2>
               <UBadge
-                :color="(audienceColors[investment.audienceType] as never) || 'neutral'"
+                :color="getAudienceColor(investment.audienceType) as never"
                 variant="subtle"
                 size="sm"
                 class="shrink-0"
               >
-                {{ audienceLabels[investment.audienceType] || investment.audienceType }}
+                {{ getAudienceLabel(investment.audienceType) }}
               </UBadge>
             </div>
 
