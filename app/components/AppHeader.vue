@@ -12,13 +12,11 @@ const items = computed(() => {
   const baseItems = [
     {
       label: 'About',
-      to: '/#about',
-      exactHash: true
+      to: '/#about'
     },
     {
       label: 'Offerings',
-      to: '/#offerings',
-      exactHash: true
+      to: '/#offerings'
     },
     {
       label: 'Investment Opportunities',

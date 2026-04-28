@@ -58,10 +58,12 @@ export default defineNuxtConfig({
     // /admin via app/pages/admin.vue which uses simple username/password auth.
     route: '/_studio-auth',
 
-    // Repository block removed — Vercel auto-detects owner, repo, and branch
-    // from VERCEL_GIT_* env vars at build time.  For non-Vercel deployments,
-    // add `repository: { provider, owner, repo, branch }` here.
-    // Studio still requires STUDIO_GITHUB_TOKEN to push content commits.
+    repository: {
+      provider: 'github',
+      owner: 'TruMedia-Creative',
+      repo: 'pinetarsportsfund',
+      branch: 'main'
+    },
 
     meta: {
       components: {

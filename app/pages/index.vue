@@ -19,8 +19,6 @@ type HomepageLink = {
   label: string
 } & Record<string, unknown>
 
-type HomepageLinkWithLabel = HomepageLink & { label: string }
-
 type HomepageContent = {
   seo?: {
     title?: string
@@ -219,7 +217,6 @@ const { copy, copied } = useClipboard()
         />
       </Motion>
     </UPageHero>
-
 
     <!-- Metrics -->
     <UPageSection
