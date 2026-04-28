@@ -11,7 +11,7 @@ useSeoMeta({
 const workflowSteps = [
   {
     title: 'Sign in to Studio',
-    body: 'Visit /admin, enter your Studio credentials, and return to the site. In development, Studio is available automatically.'
+    body: 'Visit /admin, enter your Studio credentials, and return to the site. When you are finished editing, visit /logout to clear the Studio session. In development, Studio is available automatically.'
   },
   {
     title: 'Create a new deck file',

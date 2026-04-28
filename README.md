@@ -35,11 +35,14 @@ All content lives in YAML files under `content/`. Nuxt Studio provides a visual 
 
 Visit **`/admin`** to sign in with the credentials set via `NUXT_ADMIN_USERNAME` and `NUXT_ADMIN_PASSWORD` environment variables. After login, the Studio editor overlay appears on every page — click any editable section to modify it.
 
+Visit **`/logout`** to clear the Studio session cookie and return to the login flow.
+
 ### How it works
 
 1. `/admin` shows a simple username/password form (no OAuth setup needed).
 2. On successful login a signed session cookie is set that the Studio client-side plugin recognises.
-3. Studio uses `STUDIO_GITHUB_TOKEN` (a GitHub PAT) to push content changes to the repository.
+3. `/logout` clears that same signed session cookie when editing is finished.
+4. Studio uses `STUDIO_GITHUB_TOKEN` (a GitHub PAT) to push content changes to the repository.
 
 ### Keyboard shortcut
 
