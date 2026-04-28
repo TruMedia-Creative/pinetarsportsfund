@@ -34,7 +34,7 @@ defineProps<{
           <div
             v-for="metric in keyMetrics"
             :key="metric.label"
-            class="rounded-xl border border-default p-5 text-center"
+            class="rounded-xl border border-default p-5 text-center hover:border-primary/40 transition-colors"
           >
             <p class="text-2xl font-bold text-primary mb-1">
               {{ metric.value }}
