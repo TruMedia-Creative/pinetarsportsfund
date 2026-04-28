@@ -209,7 +209,7 @@ useOfFunds:
     - category: "Preferred Return (Construction Phase)\t"
       amount: $193,337
     - category: "Equipment, Infrastructure & Other\t"
-      amount: $393,580
+      amount: $393,579
     - category: "Contingency Fund\t"
       amount: $141,517
   totalLabel: Total Project Cost
