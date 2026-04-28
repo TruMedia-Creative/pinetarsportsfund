@@ -17,7 +17,11 @@ useHead({
 })
 
 useSeoMeta({
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/landing-light.png',
+  ogImage: '/og-image.png',
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageAlt: 'Pine Tar Sports Fund',
+  ogSiteName: 'Pine Tar Sports Fund',
   twitterCard: 'summary_large_image'
 })
 </script>

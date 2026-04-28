@@ -58,9 +58,12 @@ Press **⌘.** (Cmd + period) on any page to jump to the login screen.
 | `SUPABASE_URL` | No | Supabase project URL (reserved for future use). |
 | `SUPABASE_ANON_KEY` | No | Supabase anon key. |
 | `NUXT_SUPABASE_SECRET_KEY` | No | Supabase service-role key. |
-| `SITE_URL` | No | Canonical site URL. |
+| `NUXT_SITE_URL` | No | Canonical site URL used for sitemap, robots, canonical tags, and absolute OG image URLs. |
+| `SITE_URL` | No | Legacy fallback for canonical site URL. Prefer `NUXT_SITE_URL`. |
 
 On Vercel, set these under **Settings → Environment Variables**. The repository connection (`VERCEL_GIT_*`) is handled automatically by Vercel.
+
+The production SEO setup exposes `sitemap.xml` and `robots.txt`, and public pages use the shared `/public/og-image.png` asset for Open Graph previews.
 
 ## Renovate
 

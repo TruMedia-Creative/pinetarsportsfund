@@ -8,9 +8,10 @@ closingCta:
   contactName: Larryon Truman, II
   contactTitle: Business Development & Investor Relations
   contactEmail: invest@pinetarsportsfund.com
+  sectionTitle: Next Steps
 cover:
   tagline: Investment Opportunity
-  heroImageUrl: /slide4.jpg
+  heroImageUrl: /index.png
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
@@ -61,6 +62,10 @@ executiveSummary:
       value: ~$600,000 annual triple net profit
     - label: Tax Efficiency
       value: ~$100K Year 1 depreciation (5% owner)
+  sectionImage:
+    url: /howeproperty6.webp
+    captionStyle: below
+    layout: banner-top
 investmentThesis:
   enabled: true
   body: |
@@ -72,6 +77,9 @@ investmentThesis:
     - "Anchor tenant LOI signed: Committed to 10-year lease"
     - "Scarcity value: No comparable sports facility within 90 miles"
     - "Experienced operator: Development team has delivered 6 comparable assets since 2015"
+  sectionImage:
+    url: /howeproperty2.webp
+    layout: banner-top
 market:
   enabled: true
   body: |
@@ -85,6 +93,9 @@ market:
       label: Competing mid-tier baseball/softball facilities within 90 miles
     - value: $15.1B
       label: Youth Baseball/Softball Market (2025)
+  sectionImage:
+    url: /366661485-710874927719888-9209275143502677707-n.jpg
+    layout: banner-top
 opportunity:
   enabled: true
   body: |
@@ -92,9 +103,14 @@ opportunity:
 
     The window to participate in preferred equity is limited to this raise cycle. Once construction milestones are met, capital structure will shift to senior debt refinancing.
   bullets:
-    - Phase I operational and cash-flow positive as of January 2026
+    - Phase I operational and cash-flow positive as of January 2027
     - Anchor tenant provides base load revenue certainty
-  imageUrl: "/slide2.jpg"
+  imageUrl: /slide2.jpg
+  sectionImage:
+    url: /howe-phases.png
+    layout: right
+  sectionTitle: Phases
+  subtitle: ""
 projectName: Dugout Howe Complex
 projectOverview:
   enabled: true
@@ -104,6 +120,9 @@ projectOverview:
     Additional Fields.
     TBD
   images: []
+  sectionImage:
+    url: /howe-phases.png
+    layout: left
 projections:
   enabled: true
   body: The following operating assumptions summarize the core revenue drivers and key utilization targets from the current investor deck.
@@ -135,6 +154,7 @@ projections:
       label: Projected asset value
     - value: $600K
       label: Stabilized annual profit
+  sectionTitle: Projections
 published: true
 returns:
   enabled: true
@@ -164,6 +184,7 @@ returns:
   exitStrategyTitle: Refinance Exit Strategy
   exitStrategyBody: |
     Our model prioritizes early capital return through asset stabilization and bank refinancing, significantly de-risking the investment.
+  sectionTitle: Returns
 risksDisclaimer:
   enabled: true
   body: |
@@ -177,23 +198,30 @@ risksDisclaimer:
     - Past performance of principals is not indicative of future results
     - This offering is available to accredited investors only as defined under Regulation D, Rule 506(c)
     - Prospective investors should consult independent legal, tax, and financial advisors before investing
+  sectionTitle: Disclaimer
 subtitle: The Future of Youth Sports in North Texas
 team:
   enabled: true
   body: Pine Tar Sports Fund is led by operators with direct experience in professional sports facility development, team ownership, and institutional real estate finance.
   members:
-    - name: Marcus J. Holloway
+    - name: Tim Truman
       title: Managing Partner
-      bio: Former VP of Business Development for the Kansas City Royals. Led $340M stadium renovation financing in 2019. 18 years in sports capital markets.
+      bio: ""
       imageUrl: ""
-    - name: Diane Espinoza
-      title: Partner, Real Estate & Development
-      bio: PE-backed developer of 4 multi-use sports complexes in the Midwest. Previously with CBRE's sports facility advisory practice.
+    - name: Larryon Truman, II
+      title: Business Development & Investor Relations
+      bio: Larryon helps translate complex deal structures into materials investors can evaluate quickly and confidently.
       imageUrl: ""
-    - name: Trevor Banks
-      title: Partner, Capital Markets
-      bio: Former Director at CrossHarbor Capital, focused on sports and entertainment lending. Structured $600M+ in sports-adjacent real estate debt.
+    - name: First Name Last Name
+      title: Role Title
+      bio: Short bio highlighting relevant experience and role in the project.
       imageUrl: ""
+  sectionImage:
+    url: /tim-headshot.jpg
+    layout: right
+  sectionTitle: Team
+  subtitle: ""
+  description: ""
 useOfFunds:
   enabled: true
   body: PHASE 1 INVESTMENT & BUDGET OVERVIEW
@@ -221,3 +249,6 @@ useOfFunds:
       body: Budget includes a $141k contingency and pre-funded preferred returns to ensure stability during the 12-month build-out.
     - title: Strategic Value
       body: The investment secures a prime 17.71-acre location in the high-growth North Texas corridor.
+  sectionTitle: Use of Funds
+  subtitle: ""
+  description: ""

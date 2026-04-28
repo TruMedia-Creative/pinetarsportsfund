@@ -11,9 +11,11 @@ if (!deck.value || !deck.value.published) {
   throw createError({ statusCode: 404, statusMessage: 'Deck not found', fatal: true })
 }
 
+const deckDescription = deck.value.subtitle || `${deck.value.projectName} offering deck from Pine Tar Sports Fund.`
+
 useSeoMeta({
   title: `${deck.value.title} — Pine Tar Sports Fund`,
-  description: deck.value.subtitle || `${deck.value.projectName} offering deck from Pine Tar Sports Fund.`
+  description: deckDescription
 })
 </script>
 

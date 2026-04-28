@@ -1,12 +1,20 @@
+import { readdirSync } from 'node:fs'
+
+const investmentDeckRoutes = readdirSync(new URL('./content/investments', import.meta.url), { withFileTypes: true })
+  .filter(entry => entry.isFile() && entry.name.endsWith('.yml'))
+  .map(entry => `/investments/${entry.name.replace(/\.yml$/, '')}`)
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
+    '@nuxtjs/seo',
     '@nuxt/content',
     '@nuxt/ui',
     '@vueuse/nuxt',
     'motion-v/nuxt',
-    'nuxt-studio'
+    'nuxt-studio',
+    '@nuxt/hints'
   ],
 
   // Register deck section components globally so Studio component picker can list them
@@ -20,7 +28,7 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
-
+  debug: true,
   mdc: {
     highlight: {
       noApiRoute: false
@@ -36,9 +44,14 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-01-15',
 
+  site: {
+    url: process.env.NUXT_SITE_URL || process.env.SITE_URL || 'https://pinetarsportsfund.com',
+    name: 'Pine Tar Sports Fund'
+  },
+
   nitro: {
     prerender: {
-      routes: ['/'],
+      routes: ['/', '/investments', ...investmentDeckRoutes],
       crawlLinks: true
     }
   },
