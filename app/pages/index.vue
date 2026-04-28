@@ -112,8 +112,6 @@ function staggerMotion(index: number = 0) {
     transition: { duration: 0.6, delay: index * 0.08 }
   }
 }
-
-const { copy, copied } = useClipboard()
 </script>
 
 <template>
@@ -485,7 +483,7 @@ const { copy, copied } = useClipboard()
         </div>
       </div>
 
-      <!--<Motion
+      <!-- <Motion
         v-if="page.about.profiles?.length"
         class="mt-8"
         v-bind="scrollMotion(0.3)"
@@ -609,8 +607,6 @@ const { copy, copied } = useClipboard()
             v-bind="link"
             size="xl"
           />
-
-         
         </Motion>
       </template>
     </UPageCTA>
