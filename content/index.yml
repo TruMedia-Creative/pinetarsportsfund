@@ -6,10 +6,10 @@ description: Pine Tar Sports Fund structures and manages investment opportunitie
 hero:
   headline: "Now accepting accredited investors"
   links:
-    - label: View offering decks
+    - label: View Investment Opportunities
       color: primary
       size: xl
-      to: /decks
+      to: /investments
     - label: Learn about us
       size: xl
       color: neutral

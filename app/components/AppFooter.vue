@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const links = [
-  { label: 'Decks', to: '/decks' },
+  { label: 'Investment Opportunities', to: '/investments' },
   { label: 'Contact', to: 'mailto:info@pinetarsportsfund.com' },
   { label: 'Privacy', to: '#' },
   { label: 'Terms', to: '#' }

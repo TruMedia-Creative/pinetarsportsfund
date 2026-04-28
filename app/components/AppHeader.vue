@@ -21,9 +21,9 @@ const items = computed(() => {
       exactHash: true
     },
     {
-      label: 'Decks',
-      to: '/decks',
-      active: route.path.startsWith('/decks')
+      label: 'Investment Opportunities',
+      to: '/investments',
+      active: route.path.startsWith('/investments')
     }
   ]
 
@@ -65,10 +65,10 @@ const items = computed(() => {
         to="mailto:info@pinetarsportsfund.com"
       />
       <UButton
-        label="View Decks"
+        label="View Investment Opportunities"
         color="primary"
         class="hidden lg:flex"
-        to="/decks"
+        to="/investments"
       />
     </template>
 
@@ -87,10 +87,10 @@ const items = computed(() => {
           to="mailto:info@pinetarsportsfund.com"
         />
         <UButton
-          label="View Decks"
+          label="View Investment Opportunities"
           color="primary"
           block
-          to="/decks"
+          to="/investments"
         />
         <UColorModeButton block />
       </div>

@@ -25,8 +25,8 @@ useSeoMeta({
     <!-- Back nav -->
     <div class="max-w-6xl mx-auto px-6 pt-8">
       <UButton
-        label="All Decks"
-        to="/decks"
+        label="All Investment Opportunities"
+        to="/investments"
         color="neutral"
         variant="ghost"
         size="sm"

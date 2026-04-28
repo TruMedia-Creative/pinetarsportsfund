@@ -41,7 +41,7 @@ useSeoMeta({
       }"
     >
       <template #title>
-        Active Offering Decks
+        Active Investment Opportunities
       </template>
       <template #description>
         Browse current investment, sponsorship, and partnership opportunities from Pine Tar Sports Fund. All offerings are available to qualified accredited investors.
