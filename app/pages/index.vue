@@ -61,6 +61,34 @@ type HomepageContent = {
   }
 }
 
+const HERO_MOTION_DELAYS = {
+  headline: 0.2,
+  title: 0.35,
+  description: 0.5,
+  links: 0.65,
+  preview: 0.75,
+  logos: 0.85
+} as const
+
+const DEFAULT_SECTION_UI = {
+  root: 'scroll-mt-(--ui-header-height)',
+  container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
+  headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
+  title: 'max-w-lg mx-auto',
+  description: 'max-w-md mx-auto text-dimmed'
+} as const
+
+const ABOUT_SECTION_UI = {
+  ...DEFAULT_SECTION_UI,
+  title: 'max-w-2xl mx-auto',
+  description: 'max-w-2xl mx-auto text-dimmed'
+} as const
+
+const FADE_IN_UP = {
+  initial: { opacity: 0, y: 16 },
+  transition: { duration: 0.6 }
+} as const
+
 const { data: page } = await useAsyncData<HomepageContent | null>('index', () =>
   queryCollection('content').path('/').first() as Promise<HomepageContent | null>
 )
@@ -70,6 +98,7 @@ if (!page.value) {
 
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
+const isPrimaryProfileImageBroken = ref(false)
 
 useSeoMeta({
   title,
@@ -89,18 +118,18 @@ const heroTitle = computed(() => {
 
 function enterMotion(delay: number = 0) {
   return {
-    initial: { opacity: 0, y: 16 },
+    initial: FADE_IN_UP.initial,
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, delay }
+    transition: { ...FADE_IN_UP.transition, delay }
   }
 }
 
 function scrollMotion(delay: number = 0) {
   return {
-    initial: { opacity: 0, y: 16 },
+    initial: FADE_IN_UP.initial,
     whileInView: { opacity: 1, y: 0 },
     inViewOptions: { once: true, amount: 0.2 },
-    transition: { duration: 0.6, delay }
+    transition: { ...FADE_IN_UP.transition, delay }
   }
 }
 
@@ -131,7 +160,7 @@ function staggerMotion(index: number = 0) {
       </template>
 
       <template #headline>
-        <Motion v-bind="enterMotion(0.2)">
+        <Motion v-bind="enterMotion(HERO_MOTION_DELAYS.headline)">
           <UBadge
             color="neutral"
             variant="soft"
@@ -144,7 +173,7 @@ function staggerMotion(index: number = 0) {
       <template #title>
         <Motion
           as="span"
-          v-bind="enterMotion(0.35)"
+          v-bind="enterMotion(HERO_MOTION_DELAYS.title)"
           class="inline-block"
         >
           {{ heroTitle.primary }}
@@ -161,7 +190,7 @@ function staggerMotion(index: number = 0) {
       <template #description>
         <Motion
           as="span"
-          v-bind="enterMotion(0.5)"
+          v-bind="enterMotion(HERO_MOTION_DELAYS.description)"
           class="inline-block"
         >
           {{ page.description }}
@@ -171,7 +200,7 @@ function staggerMotion(index: number = 0) {
       <template #links>
         <Motion
           class="flex flex-wrap justify-center gap-6"
-          v-bind="enterMotion(0.65)"
+          v-bind="enterMotion(HERO_MOTION_DELAYS.links)"
         >
           <UButton
             v-for="link in page.hero.links"
@@ -183,7 +212,7 @@ function staggerMotion(index: number = 0) {
       <template #body>
         <Motion
           class="mx-auto w-full max-w-5xl"
-          v-bind="enterMotion(0.75)"
+          v-bind="enterMotion(HERO_MOTION_DELAYS.preview)"
         >
           <div class="overflow-hidden rounded-2xl border border-default bg-elevated/70 shadow-xl ring-1 ring-default/60 backdrop-blur-sm">
             <div class="aspect-[16/10] sm:aspect-[16/9]">
@@ -202,7 +231,7 @@ function staggerMotion(index: number = 0) {
 
       <Motion
         class="max-w-lg mx-auto w-full"
-        v-bind="enterMotion(0.85)"
+        v-bind="enterMotion(HERO_MOTION_DELAYS.logos)"
       >
         <UPageLogos
           :title="page.logos.title"
@@ -219,13 +248,7 @@ function staggerMotion(index: number = 0) {
     <!-- Metrics -->
     <UPageSection
       id="metrics"
-      :ui="{
-        root: 'scroll-mt-(--ui-header-height)',
-        container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
-        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
-        title: 'max-w-lg mx-auto',
-        description: 'max-w-md mx-auto text-dimmed'
-      }"
+      :ui="DEFAULT_SECTION_UI"
     >
       <template #headline>
         <Motion
@@ -278,13 +301,7 @@ function staggerMotion(index: number = 0) {
     <!-- Features -->
     <UPageSection
       id="features"
-      :ui="{
-        root: 'scroll-mt-(--ui-header-height)',
-        container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
-        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
-        title: 'max-w-lg mx-auto',
-        description: 'max-w-md mx-auto text-dimmed'
-      }"
+      :ui="DEFAULT_SECTION_UI"
     >
       <template #headline>
         <Motion
@@ -343,13 +360,7 @@ function staggerMotion(index: number = 0) {
     <!-- About -->
     <UPageSection
       id="about"
-      :ui="{
-        root: 'scroll-mt-(--ui-header-height)',
-        container: 'max-w-5xl py-8 sm:py-10 lg:py-12',
-        headline: 'font-mono font-medium text-xs text-primary uppercase tracking-[0.12em] text-center',
-        title: 'max-w-2xl mx-auto',
-        description: 'max-w-2xl mx-auto text-dimmed'
-      }"
+      :ui="ABOUT_SECTION_UI"
     >
       <template #headline>
         <Motion
@@ -386,10 +397,11 @@ function staggerMotion(index: number = 0) {
               <div class="overflow-hidden rounded-2xl border border-default bg-default/80 shadow-sm ring-1 ring-default/60">
                 <div class="aspect-[4/5] bg-gradient-to-br from-primary/15 via-bg-elevated to-bg-default">
                   <img
-                    v-if="page.about.primaryProfile.imageUrl"
+                    v-if="page.about.primaryProfile.imageUrl && !isPrimaryProfileImageBroken"
                     :src="page.about.primaryProfile.imageUrl"
                     :alt="`${page.about.primaryProfile.name} portrait`"
                     class="size-full object-cover object-[68%_32%]"
+                    @error="isPrimaryProfileImageBroken = true"
                   >
                   <div
                     v-else
@@ -462,85 +474,6 @@ function staggerMotion(index: number = 0) {
         </div>
       </div>
     </UPageSection>
-
-    <!-- <Motion
-        v-if="page.about.profiles?.length"
-        class="mt-8"
-        v-bind="scrollMotion(0.3)"
-      >
-        <div class="grid gap-4 md:grid-cols-2">
-          <article
-            v-for="profile in page.about.profiles"
-            :key="`${profile.name}-${profile.title}`"
-            class="rounded-2xl border border-default bg-elevated/60 p-6"
-          >
-            <div class="flex items-start gap-4">
-              <div class="size-16 shrink-0 overflow-hidden rounded-2xl border border-default bg-default/80">
-                <img
-                  v-if="profile.imageUrl"
-                  :src="profile.imageUrl"
-                  :alt="`${profile.name} portrait`"
-                  class="size-full object-cover"
-                >
-                <div
-                  v-else
-                  class="flex size-full items-center justify-center font-mono text-[11px] uppercase tracking-[0.14em] text-dimmed"
-                >
-                  Bio
-                </div>
-              </div>
-
-              <div class="min-w-0">
-                <p class="text-lg font-semibold tracking-tight text-default">
-                  {{ profile.name }}
-                </p>
-                <p class="mt-1 text-xs uppercase tracking-[0.12em] text-dimmed">
-                  {{ profile.title }}
-                </p>
-              </div>
-            </div>
-
-            <p class="mt-5 text-sm leading-relaxed text-default">
-              "{{ profile.quote }}"
-            </p>
-
-            <p class="mt-4 text-sm leading-relaxed text-dimmed">
-              {{ profile.body }}
-            </p>
-
-            <ul class="mt-5 space-y-2">
-              <li
-                v-for="bullet in profile.credibilityBullets"
-                :key="bullet"
-                class="flex items-start gap-2 text-sm leading-relaxed text-default"
-              >
-                <UIcon
-                  name="i-lucide-dot"
-                  class="mt-0.5 size-4 shrink-0 text-primary"
-                />
-                <span>{{ bullet }}</span>
-              </li>
-            </ul>
-
-            <div class="mt-5 space-y-3 border-t border-default pt-5">
-              <div
-                v-for="item in profile.timelineItems"
-                :key="`${item.period}-${item.label}`"
-              >
-                <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
-                  {{ item.period }}
-                </p>
-                <p class="mt-1 text-sm font-semibold tracking-tight text-default">
-                  {{ item.label }}
-                </p>
-                <p class="mt-1 text-sm leading-relaxed text-dimmed">
-                  {{ item.description }}
-                </p>
-              </div>
-            </div>
-          </article>
-        </div>
-      </Motion> -->
 
     <!-- CTA -->
     <UPageCTA

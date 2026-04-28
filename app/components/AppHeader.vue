@@ -16,7 +16,8 @@ const items = computed(() => {
     },
     {
       label: 'Offerings',
-      to: '/#offerings'
+      to: '/investments',
+      active: route.path.startsWith('/investments')
     },
     {
       label: 'Investment Opportunities',
