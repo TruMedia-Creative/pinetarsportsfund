@@ -49,44 +49,42 @@ executiveSummary:
     - label: Funds Raised for 70% Ownership
       value: $2,500,000
       highlight: true
-    - label: Returns
-      value: 9% Target Monthly
-    - label: Capital Return Target
-      value: 30-36 Months
+      - label: Preferred Return
+        value: 9% Paid Monthly During Build-Out
+      - label: Capital Return Target
+        value: 30 Months
       highlight: true
     - label: Final Equity Position
-      value: 1.5x Investment
-    - label: Net Profit Multiple
-      value: ~$600,000 annual net operating profit (stabilized)
+        value: Retained 70% Equity Stake
+      - label: Stabilized Profit
+        value: ~$600,000 annual triple net profit
       highlight: true
     - label: Tax Efficiency
-      value: "~$100K Depreciation Year 1 "
+        value: ~$100K Year 1 depreciation (5% owner)
 investmentThesis:
   enabled: true
   body: |
     Sports and entertainment real estate sits at the intersection of institutional-grade infrastructure and high-demand community assets. Unlike pure commercial real estate, multi-use sports complexes derive income from multiple synergistic streams: events, leases, naming rights, concessions, and youth programming.
 
-    Riverside Sports Complex is positioned to become the dominant year-round sports and entertainment destination in the Kansas City metro — a 2.3M-person market currently underserved in modern indoor arena capacity.
+    Dugout Howe Complex is positioned to become the dominant year-round sports and entertainment destination in the North Texas market currently underserved in modern arena capacity.
   bullets:
-    - "Proven Phase I revenue: $3.2M in Year 1 from amphitheater and athletic operations"
-    - "Anchor tenant LOI signed: Regional AAA hockey franchise committed to 10-year lease"
-    - "Municipal support: City of Kansas City has approved $4M in TIF financing for Phase II infrastructure"
-    - "Scarcity value: No comparable multi-use indoor sports facility within 90 miles"
-    - "Experienced operator: Development team has delivered 4 comparable assets since 2015"
-    - ""
+    - "Proven Phase I revenue: $300K in Year 1 from athletic operations"
+    - "Anchor tenant LOI signed: Committed to 10-year lease"
+    - "Scarcity value: No comparable sports facility within 90 miles"
+    - "Experienced operator: Development team has delivered 6 comparable assets since 2015"
 market:
   enabled: true
   body: |
-    The Kansas City metro is the 31st largest DMA in the US, with a sports culture ranked among the most passionate in the country (back-to-back Super Bowl champions, World Series winners). Indoor sports facilities in the market are aging, with the primary arena (capacity 19,000) focused exclusively on top-tier professional events — creating a gap for mid-tier and youth/amateur programming.
+    The North Texas market is experiencing rapid growth, with a strong demand for modern sports and entertainment facilities. Indoor sports facilities in the region are aging, with limited capacity for mid-tier and youth/amateur programming — creating a significant opportunity for new developments like Dugout Howe Complex.
   metrics:
-    - value: 2.3M
-      label: Metro population
+    - value: 9.1M
+      label: Population within 90 miles
     - value: $84K
-      label: Median HHI
+      label: Average Weekend Spend on Sports & Entertainment (2025)
     - value: "0"
-      label: Competing mid-tier indoor arenas
-    - value: $1.1B
-      label: Sports tourism spend (2025)
+      label: Competing mid-tier baseball/softball facilities within 90 miles
+    - value: $15.1B
+      label: Youth Baseball/Softball Market (2025)
 opportunity:
   enabled: true
   body: |
@@ -95,76 +93,77 @@ opportunity:
     The window to participate in preferred equity is limited to this raise cycle. Once construction milestones are met, capital structure will shift to senior debt refinancing.
   bullets:
     - Phase I operational and cash-flow positive as of January 2026
-    - $4M TIF commitment from Kansas City reduces effective equity need
-    - Anchor tenant (hockey franchise) provides base load revenue certainty
-    - 10-year naming rights process underway with 2 regional brands in advanced discussions
-  imageUrl: ""
-projectName: Riverside Sports Complex
+    - Anchor tenant provides base load revenue certainty
+  imageUrl: "/slide2.jpg"
+projectName: Dugout Howe Complex
 projectOverview:
   enabled: true
   body: |
-    Riverside Sports Complex Phase II consists of:
+    Dugout Howe Complex Phase II consists of:
 
-    **8,500-seat indoor multi-use arena** — Designed for hockey, basketball, concerts, and trade shows. HVAC-equipped for year-round use. Full broadcast infrastructure included.
-
-    **Expanded retail and hospitality district** — 12 food & beverage concepts, 3 private event spaces, and a 220-room adjacent hotel (hotel financed separately, under LOI with regional operator).
-
-    **Youth sports hub expansion** — Additional 6 indoor courts and 2 turf fields increasing programming capacity by 40%.
+    Additional Fields.
+    TBD
   images: []
 projections:
   enabled: true
-  body: The following projections reflect a base case. Conservative and upside scenarios are available in the full financial model upon execution of NDA.
+  body: The following operating assumptions summarize the core revenue drivers and key utilization targets from the current investor deck.
   rows:
-    - label: Year 1 Arena Revenue (partial)
-      value: $4,200,000
-    - label: Year 2 Stabilized Revenue
-      value: $11,800,000
-    - label: Year 3 Revenue (naming rights)
-      value: $14,500,000
-    - label: Stabilized NOI (Year 3)
-      value: $6,900,000
-    - label: Cap Rate at Exit (base case)
-      value: 6.25%
-    - label: Implied Exit Valuation
-      value: $110,400,000
+    - label: Tournament Income (per team)
+      value: $125
+    - label: Weekend Tournament Capacity Assumption
+      value: 24 of 32 teams (75% occupancy)
+    - label: Gate & Concessions (net per team)
+      value: $598
+    - label: Weekday Utilization (per slot)
+      value: $100
+    - label: Weekday Utilization Assumption
+      value: 50% occupancy (Mon-Fri)
+    - label: High-Margin Programming (net per camp)
+      value: $2,500
+    - label: Stabilized Annual Triple Net Profit
+      value: $600,000
+    - label: Projected Asset Value
+      value: $6,000,000
   metrics:
-    - value: $110M+
-      label: Projected asset value at exit
-    - value: 6.25%
-      label: Exit cap rate (base)
-    - value: $14.5M
-      label: Stabilized annual revenue (Year 3)
+    - value: 24/32
+      label: Weekend teams at target occupancy
+    - value: 75%
+      label: Tournament occupancy assumption
+    - value: 50%
+      label: Weekday utilization assumption
+    - value: $6.0M
+      label: Projected asset value
+    - value: $600K
+      label: Stabilized annual profit
 published: true
 returns:
   enabled: true
   body: "Returns are driven by three compounding value creation levers: anchor tenant lease revenue, naming rights monetization, and asset appreciation at stabilization."
   timelineItems:
-    - period: Q3 2026
-      phase: Construction Start
-      description: Groundbreaking, construction debt closes, equity deployed
-    - period: Q1 2028
-      phase: Grand Opening
-      description: Arena opens; anchor tenant begins operations; food & bev activated
-    - period: Q4 2028
-      phase: Stabilization
-      description: Full occupancy schedule achieved; naming rights deal expected to close
-    - period: 2030–2032
-      phase: Refinance / Exit
-      description: Refinance to permanent debt structure; preferred equity returned with accrued pref + participation
+    - period: 0-12 Months
+      phase: Construction Phase
+      description: 9% preferred return is paid monthly during build-out. Facility opens for business at Month 12.
+    - period: Month 18
+      phase: Strategic Refinance
+      description: Cash-out refinance returns 50% of initial investment while funding Phase 2 expansion.
+    - period: Month 24
+      phase: Capital Distribution
+      description: $130,000 distribution to investors. 9% preferred return continues on the outstanding balance.
+    - period: 30-36 Months
+      phase: Full Payback
+      description: Investors are paid in full while retaining equity. Asset is projected to produce $600,000 in annual triple net profit.
   keyMetrics:
-    - value: 21–24%
-      label: Target Net IRR
-    - value: 1.9–2.3×
-      label: Target Equity Multiple
-    - value: 8%
-      label: Preferred Return (cumulative)
-    - value: 5–7 yr
-      label: Investment Horizon
-  exitStrategyTitle: Exit Strategy
+    - value: 9%
+      label: Preferred Return
+    - value: 30 Mo.
+      label: Target Payback
+    - value: $130K
+      label: Month 24 Distribution
+    - value: 70%
+      label: Retained Equity Stake
+  exitStrategyTitle: Refinance Exit Strategy
   exitStrategyBody: |
-    Primary exit is refinancing the asset at stabilization (projected 2030–2032), returning preferred equity capital and accrued preferred return, followed by pro-rata participation in residual cash flows.
-
-    Secondary exit paths include strategic sale to a REIT, institutional operator acquisition, or recapitalization with a long-term institutional equity partner.
+    Our model prioritizes early capital return through asset stabilization and bank refinancing, significantly de-risking the investment.
 risksDisclaimer:
   enabled: true
   body: |
