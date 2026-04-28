@@ -432,49 +432,28 @@ function staggerMotion(index: number = 0) {
                 </p>
               </div>
 
-              <div class="mt-8 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-                <div>
-                  <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
-                    Values
-                  </p>
-                  <ul class="mt-4 space-y-3">
-                    <li
-                      v-for="bullet in page.about.primaryProfile.credibilityBullets"
-                      :key="bullet"
-                      class="flex items-start gap-3 text-sm leading-relaxed text-default"
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
+                  Milestones
+                </p>
+                <div class="mt-4 space-y-4">
+                  <div
+                    v-for="item in page.about.primaryProfile.timelineItems"
+                    :key="`${item.period}-${item.label}`"
+                    class="rounded-xl border border-default bg-elevated/60 p-4"
+                  >
+                    <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
+                      {{ item.period }}
+                    </p>
+                    <p class="mt-2 text-sm font-semibold tracking-tight text-default">
+                      {{ item.label }}
+                    </p>
+                    <p
+                      v-if="item.description"
+                      class="mt-2 text-sm leading-relaxed text-dimmed"
                     >
-                      <UIcon
-                        name="i-lucide-badge-check"
-                        class="mt-0.5 size-4 shrink-0 text-primary"
-                      />
-                      <span>{{ bullet }}</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <p class="font-mono text-xs uppercase tracking-[0.12em] text-dimmed">
-                    Milestones
-                  </p>
-                  <div class="mt-4 space-y-4">
-                    <div
-                      v-for="item in page.about.primaryProfile.timelineItems"
-                      :key="`${item.period}-${item.label}`"
-                      class="rounded-xl border border-default bg-elevated/60 p-4"
-                    >
-                      <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
-                        {{ item.period }}
-                      </p>
-                      <p class="mt-2 text-sm font-semibold tracking-tight text-default">
-                        {{ item.label }}
-                      </p>
-                      <p
-                        v-if="item.description"
-                        class="mt-2 text-sm leading-relaxed text-dimmed"
-                      >
-                        {{ item.description }}
-                      </p>
-                    </div>
+                      {{ item.description }}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -482,8 +461,9 @@ function staggerMotion(index: number = 0) {
           </Motion>
         </div>
       </div>
+    </UPageSection>
 
-      <!-- <Motion
+    <!-- <Motion
         v-if="page.about.profiles?.length"
         class="mt-8"
         v-bind="scrollMotion(0.3)"
@@ -561,7 +541,6 @@ function staggerMotion(index: number = 0) {
           </article>
         </div>
       </Motion> -->
-    </UPageSection>
 
     <!-- CTA -->
     <UPageCTA
