@@ -1,16 +1,16 @@
 seo:
-  title: Pine Tar Sports Fund — Investment Opportunities in Sports & Entertainment
-  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium sports and entertainment projects. Review our investment decks and explore partnership opportunities.
-title: "Where Capital Meets\nThe Playing Field."
-description: Pine Tar Sports Fund structures and manages investment opportunities across sports venues, teams, media rights, and entertainment projects — giving serious investors direct access to a market others overlook.
+  title: Pine Tar Sports Fund — Investment Opportunities in Youth Sports
+  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium youth sports projects. Review our investment decks and explore partnership opportunities.
+title: "Invest in Sports Facilities  \nWithout Operating Them."
+description: Pine Tar Sports Fund structures private sports facility investments for qualified investors — combining real estate, operator experience, preferred return targets, and growing youth sports demand.
 hero:
   headline: "Now accepting investors"
   links:
-    - label: View Investment Opportunities
+    - label: View Active Deals
       color: primary
       size: xl
       to: /investments
-    - label: Learn about us
+    - label: Who Are We?
       size: xl
       color: neutral
       variant: soft

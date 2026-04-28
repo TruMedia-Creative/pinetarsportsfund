@@ -89,6 +89,11 @@ const FADE_IN_UP = {
   transition: { duration: 0.6 }
 } as const
 
+const REVEAL_IN_VIEW_OPTIONS = {
+  once: true,
+  amount: 0.2
+} as const
+
 const { data: page } = await useAsyncData<HomepageContent | null>('index', () =>
   queryCollection('content').path('/').first() as Promise<HomepageContent | null>
 )
@@ -99,6 +104,7 @@ if (!page.value) {
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
 const isPrimaryProfileImageBroken = ref(false)
+const prefersReducedMotion = usePreferredReducedMotion()
 
 useSeoMeta({
   title,
@@ -117,6 +123,14 @@ const heroTitle = computed(() => {
 })
 
 function enterMotion(delay: number = 0) {
+  if (prefersReducedMotion.value === 'reduce') {
+    return {
+      initial: { opacity: 1, y: 0 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0, delay: 0 }
+    }
+  }
+
   return {
     initial: FADE_IN_UP.initial,
     animate: { opacity: 1, y: 0 },
@@ -125,28 +139,50 @@ function enterMotion(delay: number = 0) {
 }
 
 function scrollMotion(delay: number = 0) {
+  if (prefersReducedMotion.value === 'reduce') {
+    return {
+      initial: { opacity: 1, y: 0 },
+      whileInView: { opacity: 1, y: 0 },
+      inViewOptions: REVEAL_IN_VIEW_OPTIONS,
+      transition: { duration: 0, delay: 0 }
+    }
+  }
+
   return {
     initial: FADE_IN_UP.initial,
     whileInView: { opacity: 1, y: 0 },
-    inViewOptions: { once: true, amount: 0.2 },
+    inViewOptions: REVEAL_IN_VIEW_OPTIONS,
     transition: { ...FADE_IN_UP.transition, delay }
   }
 }
 
 function staggerMotion(index: number = 0) {
+  if (prefersReducedMotion.value === 'reduce') {
+    return {
+      initial: { opacity: 1, y: 0 },
+      whileInView: { opacity: 1, y: 0 },
+      inViewOptions: REVEAL_IN_VIEW_OPTIONS,
+      transition: { duration: 0, delay: 0 }
+    }
+  }
+
   return {
-    initial: { opacity: 0 },
-    whileInView: { opacity: 1 },
-    inViewOptions: { once: true, amount: 1 },
-    transition: { duration: 0.6, delay: index * 0.08 }
+    initial: FADE_IN_UP.initial,
+    whileInView: { opacity: 1, y: 0 },
+    inViewOptions: REVEAL_IN_VIEW_OPTIONS,
+    transition: { ...FADE_IN_UP.transition, delay: index * 0.08 }
   }
 }
 </script>
 
 <template>
-  <div v-if="page">
-    <!-- Hero -->
-    <UPageHero
+  <MotionConfig
+    v-if="page"
+    reduced-motion="user"
+  >
+    <div class="homepage-motion-root">
+      <!-- Hero -->
+      <UPageHero
       :ui="{
         container: 'relative z-10 py-10 sm:py-14 lg:py-20',
         wrapper: 'flex flex-col items-center',
@@ -521,6 +557,20 @@ function staggerMotion(index: number = 0) {
           />
         </Motion>
       </template>
-    </UPageCTA>
-  </div>
+      </UPageCTA>
+    </div>
+  </MotionConfig>
 </template>
+
+<style scoped>
+@media (prefers-reduced-motion: reduce) {
+  .homepage-motion-root :deep([style*='opacity:0']),
+  .homepage-motion-root :deep([style*='opacity: 0']) {
+    opacity: 1 !important;
+  }
+
+  .homepage-motion-root :deep([style*='translateY']) {
+    transform: none !important;
+  }
+}
+</style>
