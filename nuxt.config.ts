@@ -28,7 +28,11 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
-  debug: true,
+
+  site: {
+    url: process.env.NUXT_SITE_URL || process.env.SITE_URL || 'https://pinetarsportsfund.com',
+    name: 'Pine Tar Sports Fund'
+  },
   mdc: {
     highlight: {
       noApiRoute: false
@@ -44,17 +48,13 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-01-15',
 
-  site: {
-    url: process.env.NUXT_SITE_URL || process.env.SITE_URL || 'https://pinetarsportsfund.com',
-    name: 'Pine Tar Sports Fund'
-  },
-
   nitro: {
     prerender: {
       routes: ['/', '/investments', ...investmentDeckRoutes],
       crawlLinks: true
     }
   },
+  debug: true,
 
   eslint: {
     config: {
