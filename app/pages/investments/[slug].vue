@@ -3,7 +3,7 @@ const route = useRoute()
 const slug = route.params.slug as string
 
 const { data: deck } = await useAsyncData(`deck-${slug}`, () =>
-  queryCollection('investments').where('stem', 'LIKE', `%${slug}`).first()
+  queryCollection('investments').where('stem', '=', `investments/${slug}`).first()
 )
 
 // 404 if not found or not published

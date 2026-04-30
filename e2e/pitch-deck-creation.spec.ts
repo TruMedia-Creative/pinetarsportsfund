@@ -40,7 +40,7 @@ test.afterAll(async () => {
 test('newly created published investments are listed and render correctly', async ({ page }) => {
   await page.goto('/investments')
 
-  await expect(page.getByRole('heading', { name: 'Active Offering Investments' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Active Investment Opportunities' })).toBeVisible()
   await expect(page.getByText(publishedTitle)).toBeVisible()
   await expect(page.getByText(draftTitle)).toHaveCount(0)
 

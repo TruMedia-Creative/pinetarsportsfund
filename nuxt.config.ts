@@ -46,15 +46,39 @@ export default defineNuxtConfig({
     adminPassword: ''
   },
 
+  experimental: {
+    payloadExtraction: false
+  },
+
   compatibilityDate: '2025-01-15',
 
   nitro: {
     prerender: {
       routes: ['/', '/investments', ...investmentDeckRoutes],
-      crawlLinks: true
+      crawlLinks: false
     }
   },
-  debug: true,
+
+  vite: {
+    optimizeDeps: {
+      include: ['gsap', 'gsap/ScrollTrigger']
+    }
+  },
+  debug: process.env.NODE_ENV === 'development',
+
+  hooks: {
+    'vite:extendConfig'(config) {
+      const optimizeDeps = config.optimizeDeps
+
+      if (!optimizeDeps || !Array.isArray(optimizeDeps.include)) {
+        return
+      }
+
+      optimizeDeps.include = optimizeDeps.include.filter((entry) => {
+        return typeof entry !== 'string' || !entry.startsWith('@nuxtjs/mdc >')
+      })
+    }
+  },
 
   eslint: {
     config: {
@@ -63,6 +87,9 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+  ogImage: {
+    zeroRuntime: true
   },
 
   studio: {
