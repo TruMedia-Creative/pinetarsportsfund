@@ -4,8 +4,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Studio Deck Instructions - Pine Tar Sports Fund',
-  description: 'Step-by-step guide for creating and publishing new pitch decks with Nuxt Studio content.'
+  title: 'Studio Investment Instructions - Pine Tar Sports Fund',
+  description: 'Step-by-step guide for creating, updating, and publishing investment opportunity pages with Nuxt Studio content.'
 })
 
 const workflowSteps = [
@@ -14,32 +14,40 @@ const workflowSteps = [
     body: 'Visit /admin, enter your Studio credentials, and return to the site. When you are finished editing, visit /logout to clear the Studio session. In development, Studio is available automatically.'
   },
   {
-    title: 'Create a new deck file',
-    body: 'In Studio content, open the decks collection and create a new entry under content/decks. Use a clean filename slug like summer-2026-investor.yml.'
+    title: 'Create or open an investment entry',
+    body: 'In Studio content, use the investments collection. New entries live under content/investments with filenames like summer-2026-investor.yml. Open an existing entry there when you want to modify a page instead of creating a new one.'
   },
   {
-    title: 'Fill the required metadata first',
-    body: 'Start with title, projectName, audienceType, and published. Keep published set to false while drafting.'
+    title: 'Set top-level metadata first',
+    body: 'Start with title, projectName, audienceType, and published. Add subtitle when you want supporting text on the listing card and detail page. Keep published set to false while drafting.'
   },
   {
-    title: 'Build sections in narrative order',
-    body: 'Complete sections from cover through closingCta. Toggle enabled false for sections you do not want rendered.'
+    title: 'Edit sections in narrative order',
+    body: 'Complete sections from cover through closingCta. The cover section is always rendered on the detail page. The remaining sections are optional and respect enabled: false when you want them hidden.'
   },
   {
-    title: 'Preview and validate',
-    body: 'Preview /decks/[your-slug] to verify the deck rendering and /decks to confirm list behavior before publishing.'
+    title: 'Review draft behavior',
+    body: 'While published is false, the entry stays off the public /investments list and the public /investments/[slug] route returns 404. Use Studio to review the draft content before going live.'
   },
   {
-    title: 'Publish',
-    body: 'Set published to true only when ready for public view. Once published, the deck appears on /decks and the direct slug route.'
+    title: 'Publish and verify routes',
+    body: 'Set published to true only when ready for public view. After publishing, verify the card appears on /investments and the full page renders at /investments/[slug].'
   }
 ]
 
 const requiredFields = [
   'title (string, required)',
+  'subtitle (string, optional)',
   'projectName (string, required)',
   'audienceType (investor | lender | sponsor | municipality | internal)',
   'published (boolean, defaults to false)'
+]
+
+const editNotes = [
+  'The filename under content/investments becomes the slug used at /investments/[slug].',
+  'Open an existing investments entry when you need to change copy, media, or section data without changing the URL.',
+  'Rename the YAML file only when you intentionally want to change the public slug.',
+  'Optional sections may be omitted entirely or left in place with enabled: false.'
 ]
 
 const sectionOrder = [
@@ -58,14 +66,16 @@ const sectionOrder = [
 ]
 
 const publishChecklist = [
-  'Deck loads at /decks/[slug] with no missing content blocks',
-  'Audience badge and title are correct on /decks listing',
+  'File name matches the final slug you want under /investments/[slug]',
+  'Title, subtitle, projectName, and audience badge are correct',
   'Contact emails and CTA links are valid',
-  'Any optional sections are intentionally disabled with enabled: false',
-  'published is set to true only for final/public decks'
+  'Any optional sections are intentionally omitted or disabled with enabled: false',
+  'After publishing, the page loads at /investments/[slug] with no missing content blocks',
+  'After publishing, the listing card appears correctly on /investments'
 ]
 
-const starterTemplate = `title: Summer 2026 Investor Deck
+const starterTemplate = `title: Summer 2026 Investor Opportunity
+subtitle: Preferred equity raise for a new multi-use sports complex
 projectName: Example Sports Complex
 audienceType: investor
 published: false
@@ -81,9 +91,9 @@ executiveSummary:
   enabled: true
   body: Add a concise investment summary.
 
-opportunity:
+market:
   enabled: true
-  body: Explain why this raise window matters now.
+  body: Summarize the local demand, audience, and market timing.
 
 closingCta:
   enabled: true
@@ -102,17 +112,17 @@ closingCta:
       }"
     >
       <template #title>
-        Studio Guide: Create New Pitch Decks
+        Studio Guide: Add or Update Investment Pages
       </template>
       <template #description>
-        This page walks your team through creating, drafting, validating, and publishing new deck content using Nuxt Studio and the decks YAML schema.
+        This page walks your team through creating, editing, validating, and publishing investment opportunity content using Nuxt Studio and the investments YAML schema.
       </template>
     </UPageHero>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
       <UPageSection
         title="Workflow"
-        description="Follow this sequence each time you launch a new deck."
+        description="Use this flow when you add a new investment page or update an existing one."
         :ui="{
           container: 'max-w-none px-0 sm:px-0 lg:px-0',
           title: 'text-2xl',
@@ -139,8 +149,8 @@ closingCta:
       </UPageSection>
 
       <UPageSection
-        title="Required Deck Metadata"
-        description="These fields must be present to satisfy the decks collection schema."
+        title="Top-Level Metadata"
+        description="These fields drive collection validation and the public page summary."
         :ui="{
           container: 'max-w-none px-0 sm:px-0 lg:px-0',
           title: 'text-2xl',
@@ -165,8 +175,34 @@ closingCta:
       </UPageSection>
 
       <UPageSection
+        title="Modify Existing Pages"
+        description="Use these rules when you are editing an entry that already exists."
+        :ui="{
+          container: 'max-w-none px-0 sm:px-0 lg:px-0',
+          title: 'text-2xl',
+          description: 'text-dimmed'
+        }"
+      >
+        <UCard :ui="{ body: 'p-6' }">
+          <ul class="space-y-2 text-sm">
+            <li
+              v-for="note in editNotes"
+              :key="note"
+              class="flex items-start gap-2"
+            >
+              <UIcon
+                name="i-lucide-file-pen-line"
+                class="size-4 mt-0.5 text-primary"
+              />
+              <span>{{ note }}</span>
+            </li>
+          </ul>
+        </UCard>
+      </UPageSection>
+
+      <UPageSection
         title="Section Order"
-        description="Deck pages render in this fixed narrative sequence."
+        description="Investment pages render in this fixed narrative sequence. cover always renders; the remaining sections are optional."
         :ui="{
           container: 'max-w-none px-0 sm:px-0 lg:px-0',
           title: 'text-2xl',
@@ -192,7 +228,7 @@ closingCta:
 
       <UPageSection
         title="Starter Template"
-        description="Use this as a clean baseline when creating a new deck file."
+        description="Use this as a clean baseline when creating a new file under content/investments."
         :ui="{
           container: 'max-w-none px-0 sm:px-0 lg:px-0',
           title: 'text-2xl',
@@ -206,7 +242,7 @@ closingCta:
 
       <UPageSection
         title="Pre-Publish Checklist"
-        description="Run this check before making a deck public."
+        description="Run this check before making an investment page public."
         :ui="{
           container: 'max-w-none px-0 sm:px-0 lg:px-0',
           title: 'text-2xl',

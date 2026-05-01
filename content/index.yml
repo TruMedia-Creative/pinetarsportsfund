@@ -1,6 +1,6 @@
 seo:
   title: Pine Tar Sports Fund — Investment Opportunities in Youth Sports
-  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium youth sports projects. Review our investment decks and explore partnership opportunities.
+  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium youth sports projects. Review current investment opportunities and explore partnership options.
 title: "Invest in Sports Facilities  \nWithout Operating Them."
 description: Pine Tar Sports Fund structures private sports facility investments for qualified investors — combining real estate, operator experience, preferred return targets, and growing youth sports demand.
 hero:
@@ -30,11 +30,11 @@ terminal:
     - segments:
         - text: "→ Found "
           style: dim
-        - text: "3 open decks"
+        - text: "active opportunities"
           style: cmd
         - text: " across "
           style: dim
-        - text: "2 asset classes"
+        - text: "multiple audience types"
           style: cmd
     - segments:
         - text: "→ Minimum investment from "
@@ -52,7 +52,7 @@ terminal:
     - segments:
         - text: "✓ Investor portal at "
           style: success
-        - text: "pinetarsportsfund.com/decks"
+        - text: "pinetarsportsfund.com/investments"
           style: url
 logos:
   title: Structured for institutional and accredited investors
@@ -142,8 +142,8 @@ features:
       title: Multi-Source Capital
       description: We work with equity investors, lenders, sponsors, and municipalities — structuring each deal to match the right capital to the right risk profile.
     - icon: i-lucide-file-text
-      title: Transparent Decks
-      description: Every active offering has a dedicated investor deck published here — terms, projections, use of funds, and team, all in one place.
+      title: Transparent Offerings
+      description: Every active offering has a dedicated page published here with terms, projections, use of funds, team details, and contact information in one place.
     - icon: i-lucide-handshake
       title: Partnership Alignment
       description: Our fee structure is back-end heavy. We win when our investors win. There is no incentive to over-raise or over-promise.
@@ -204,9 +204,9 @@ process:
       description: Participate in a structured opportunity with defined terms and transparent communication.
 cta:
   title: "Ready to review\nan offering?"
-  description: All active investment decks are available to investors. Browse current opportunities or reach out directly to discuss fit.
+  description: All active investment opportunities are available here. Browse current offerings or reach out directly to discuss fit.
   command: pinetarsportsfund.com/investments
   links:
-    - label: Browse decks
+    - label: Browse opportunities
       color: primary
       to: /investments
