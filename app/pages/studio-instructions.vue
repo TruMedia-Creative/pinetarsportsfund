@@ -11,7 +11,7 @@ useSeoMeta({
 const workflowSteps = [
   {
     title: 'Sign in to Studio',
-    body: 'Visit /admin, enter your Studio credentials, and return to the site. When you are finished editing, visit /logout to clear the Studio session. In development, Studio is available automatically.'
+    body: 'Visit /admin and enter your Studio credentials. After login, use the header links for Studio Guide and Logout while the Studio session is active. In development, Studio is available automatically.'
   },
   {
     title: 'Create or open an investment entry',
