@@ -27,6 +27,8 @@ pnpm preview      # local preview of the production build
 
 Deployed on **Vercel**. Push to `main` to trigger a deploy.
 
+Vercel Web Analytics is wired through `@vercel/analytics`. After deployment, enable **Analytics** for the project in the Vercel dashboard to start collecting page views and visitors.
+
 ## Content Editing (Nuxt Studio)
 
 All content lives in YAML files under `content/`. Nuxt Studio provides a visual editor that commits changes directly to GitHub.

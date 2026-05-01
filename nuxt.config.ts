@@ -14,7 +14,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'motion-v/nuxt',
     'nuxt-studio',
-    '@nuxt/hints'
+    '@nuxt/hints',
+    '@vercel/analytics'
   ],
 
   // Register deck section components globally so Studio component picker can list them
