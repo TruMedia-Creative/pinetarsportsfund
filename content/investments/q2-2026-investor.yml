@@ -9,6 +9,9 @@ closingCta:
   contactTitle: Business Development & Investor Relations
   contactEmail: invest@pinetarsportsfund.com
   sectionTitle: Next Steps
+  sectionImage:
+    url: /index.png
+    layout: right
 cover:
   tagline: Investment Opportunity
   heroImageUrl: /index.png
@@ -111,7 +114,8 @@ opportunity:
     layout: right
   sectionTitle: Phases
   subtitle: ""
-projectName: Dugout Howe Complex
+  description: ""
+projectName: "Dugout Howe Complex "
 projectOverview:
   enabled: true
   body: |
