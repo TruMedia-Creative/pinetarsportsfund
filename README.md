@@ -18,6 +18,12 @@ pnpm dev          # http://localhost:3000
 
 In development the Studio editor appears as a floating button — no login required.
 
+## Homepage Media Assets
+
+The homepage hero preview and primary profile portrait now use pre-generated responsive assets from `public/homepage/`.
+
+If you replace `public/index.png` or `public/tim-headshot.jpg`, regenerate the matching JPG and WebP derivatives in `public/homepage/` so the homepage keeps its reduced payload and responsive image behavior.
+
 ## Production
 
 ```bash

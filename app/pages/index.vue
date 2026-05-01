@@ -156,6 +156,18 @@ const heroTitle = computed(() => {
   }
 })
 
+const heroPreviewImage = {
+  webpSrcSet: '/homepage/index-640.webp 640w, /homepage/index-1024.webp 1024w, /homepage/index-1440.webp 1440w',
+  jpegSrcSet: '/homepage/index-640.jpg 640w, /homepage/index-1024.jpg 1024w, /homepage/index-1440.jpg 1440w',
+  sizes: '(min-width: 1280px) 1024px, (min-width: 640px) calc(100vw - 48px), calc(100vw - 32px)'
+} as const
+
+const primaryProfileImage = {
+  webpSrcSet: '/homepage/tim-headshot-320.webp 320w, /homepage/tim-headshot-480.webp 480w, /homepage/tim-headshot-640.webp 640w, /homepage/tim-headshot-800.webp 800w',
+  jpegSrcSet: '/homepage/tim-headshot-320.jpg 320w, /homepage/tim-headshot-480.jpg 480w, /homepage/tim-headshot-640.jpg 640w, /homepage/tim-headshot-800.jpg 800w',
+  sizes: '(min-width: 1280px) 420px, (min-width: 1024px) 36vw, (min-width: 640px) 70vw, calc(100vw - 48px)'
+} as const
+
 function enterMotion(delay: number = 0) {
   if (prefersReducedMotion.value === 'reduce') {
     return {
@@ -286,11 +298,25 @@ function staggerMotion(index: number = 0) {
           >
             <div class="overflow-hidden rounded-2xl border border-default bg-elevated/70 shadow-xl ring-1 ring-default/60 backdrop-blur-sm">
               <div class="aspect-[16/10] sm:aspect-[16/9]">
-                <img
-                  src="/index.png"
-                  alt="Pinetar Sports Fund dashboard preview"
-                  class="size-full object-cover object-top"
-                >
+                <picture>
+                  <source
+                    :srcset="heroPreviewImage.webpSrcSet"
+                    :sizes="heroPreviewImage.sizes"
+                    type="image/webp"
+                  >
+                  <img
+                    src="/homepage/index-1024.jpg"
+                    :srcset="heroPreviewImage.jpegSrcSet"
+                    :sizes="heroPreviewImage.sizes"
+                    alt="Pinetar Sports Fund dashboard preview"
+                    width="1440"
+                    height="811"
+                    fetchpriority="high"
+                    loading="eager"
+                    decoding="async"
+                    class="size-full object-cover object-top"
+                  >
+                </picture>
               </div>
             </div>
           </Motion>
@@ -682,13 +708,25 @@ function staggerMotion(index: number = 0) {
               <div class="flex flex-col gap-6 bg-elevated/70 p-6 sm:p-8">
                 <div class="overflow-hidden rounded-2xl border border-default bg-default/80 shadow-sm ring-1 ring-default/60">
                   <div class="aspect-[4/5] bg-gradient-to-br from-primary/15 via-bg-elevated to-bg-default">
-                    <img
-                      v-if="page.about.primaryProfile.imageUrl && !isPrimaryProfileImageBroken"
-                      :src="page.about.primaryProfile.imageUrl"
-                      :alt="`${page.about.primaryProfile.name} portrait`"
-                      class="size-full object-cover object-[68%_32%]"
-                      @error="isPrimaryProfileImageBroken = true"
-                    >
+                    <picture v-if="page.about.primaryProfile.imageUrl && !isPrimaryProfileImageBroken">
+                      <source
+                        :srcset="primaryProfileImage.webpSrcSet"
+                        :sizes="primaryProfileImage.sizes"
+                        type="image/webp"
+                      >
+                      <img
+                        src="/homepage/tim-headshot-480.jpg"
+                        :srcset="primaryProfileImage.jpegSrcSet"
+                        :sizes="primaryProfileImage.sizes"
+                        :alt="`${page.about.primaryProfile.name} portrait`"
+                        width="800"
+                        height="1200"
+                        loading="lazy"
+                        decoding="async"
+                        class="size-full object-cover object-[68%_32%]"
+                        @error="isPrimaryProfileImageBroken = true"
+                      >
+                    </picture>
                     <div
                       v-else
                       class="flex size-full items-center justify-center text-center"
