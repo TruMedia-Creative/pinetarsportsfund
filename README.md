@@ -63,9 +63,6 @@ Press **⌘.** (Cmd + period) on any page to jump to the login screen.
 | `STUDIO_GITHUB_TOKEN` | **Yes** (prod) | GitHub Personal Access Token with `repo` scope. Studio uses this to push content commits. |
 | `NUXT_ADMIN_USERNAME` | **Yes** (prod) | Username for the `/admin` login page. |
 | `NUXT_ADMIN_PASSWORD` | **Yes** (prod) | Password for the `/admin` login page. Use a strong, unique value. |
-| `SUPABASE_URL` | No | Supabase project URL (reserved for future use). |
-| `SUPABASE_ANON_KEY` | No | Supabase anon key. |
-| `NUXT_SUPABASE_SECRET_KEY` | No | Supabase service-role key. |
 | `NUXT_SITE_URL` | No | Canonical site URL used for sitemap, robots, canonical tags, and absolute OG image URLs. |
 | `SITE_URL` | No | Legacy fallback for canonical site URL. Prefer `NUXT_SITE_URL`. |
 
