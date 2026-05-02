@@ -1,4 +1,4 @@
-title: Dugout Howe Complex
+title: Dugout Grayson County
 audienceType: investor
 closingCta:
   enabled: true
@@ -18,7 +18,7 @@ cover:
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
-  address: " 491 Morrison Rd, Howe, TX 75459"
+  address: ""
   enabled: true
   sectionTitle: ""
   sectionImage:
@@ -51,22 +51,21 @@ executiveSummary:
   returnsTableTitle: Ownership Opportunities & Expected Returns
   returnsTableRows:
     - label: Funds Raised for 70% Ownership
-      value: $2,500,000
+      value: $1,700,000
       highlight: true
-    - label: Preferred Return
-      value: 9% Paid Monthly During Build-Out
     - label: Capital Return Target
-      value: 30 Months
+      value: 38 Months
       highlight: true
     - label: Final Equity Position
       value: Retained 70% Equity Stake
       highlight: true
     - label: Stabilized Profit
-      value: ~$600,000 annual triple net profit
+      value: ~$400,000 annual triple net profit
     - label: Tax Efficiency
-      value: ~$100K Year 1 depreciation (5% owner)
+      value: ~$50K Year 1 depreciation (5% owner)
+      highlight: false
   sectionImage:
-    url: /howeproperty1.webp
+    url: https://www.redfin.com/TX/Denison/TBD-Preston-Rd-75020/home/178522160
     captionStyle: below
     layout: banner-top
 investmentThesis:
@@ -76,12 +75,12 @@ investmentThesis:
 
     Dugout Howe Complex is positioned to become the dominant year-round sports and entertainment destination in the North Texas market currently underserved in modern arena capacity.
   bullets:
-    - "Proven Phase I revenue: $300K in Year 1 from athletic operations"
+    - "Proven Phase I revenue: $300K in Year 2 from athletic operations"
     - "Anchor tenant LOI signed: Committed to 10-year lease"
-    - "Scarcity value: No comparable sports facility within 90 miles"
-    - "Experienced operator: Development team has delivered 6 comparable assets since 2015"
+    - "Scarcity value: Consistent Sell Outs Denison"
+    - "Experienced operator: Development team has delivered 5 comparable assets since 2015"
   sectionImage:
-    url: /howeproperty2.webp
+    url: ""
     layout: banner-top
 market:
   enabled: true
@@ -92,9 +91,9 @@ market:
       label: Population within 90 miles
     - value: $84K
       label: Average Weekend Spend on Sports & Entertainment (2025)
-    - value: "0"
-      label: Competing mid-tier baseball/softball facilities within 90 miles
-    - value: $15.1B
+    - value: "2"
+      label: Competing mid-tier baseball/softball facilities within 30 miles
+    - value: $69.1B
       label: Youth Baseball/Softball Market (2025)
   sectionImage:
     url: /366661485-710874927719888-9209275143502677707-n.jpg
@@ -115,7 +114,7 @@ opportunity:
   sectionTitle: Phases
   subtitle: ""
   description: ""
-projectName: "Dugout Howe Complex "
+projectName: Dugout Grayson County
 projectOverview:
   enabled: true
   body: |
@@ -127,6 +126,8 @@ projectOverview:
   sectionImage:
     url: /howe-phases.png
     layout: left
+  sectionTitle: Phase 1
+  description: Purchase land, build 2 fields, facility infrastructure.
 projections:
   enabled: true
   body: The following operating assumptions summarize the core revenue drivers and key utilization targets from the current investor deck.
