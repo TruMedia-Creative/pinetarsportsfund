@@ -50,6 +50,53 @@ const editNotes = [
   'Optional sections may be omitted entirely or left in place with enabled: false.'
 ]
 
+const editorFaq = [
+  {
+    question: 'How do I add a photo when replacing a URL?',
+    answer: 'Open the image field in Studio and use the media picker. Replace only the value for the image field you want to change.',
+    fields: [
+      'cover.heroImageUrl',
+      'any sectionImage.url (for example investmentThesis.sectionImage.url)',
+      'projectOverview.images[].url',
+      'team.members[].imageUrl'
+    ],
+    appearsIn: 'The matching section where that image field is used on /investments/[slug].'
+  },
+  {
+    question: 'How do I edit bullets like Proven Phase I, Anchor Tenant, Scarcity Value, and Experienced Operator?',
+    answer: 'Edit the bullet list items directly in the investment thesis section.',
+    fields: [
+      'investmentThesis.bullets',
+      'opportunity.bullets (if you need to update phase bullets in the Phases section)'
+    ],
+    appearsIn: 'investmentThesis.bullets renders in the Investment Thesis section; opportunity.bullets renders in the Phases/Opportunity section.'
+  },
+  {
+    question: 'How do I edit content under phases?',
+    answer: 'There are two phase content areas: timeline labels and narrative copy.',
+    fields: [
+      'returns.timelineItems[].phase (phase labels in timeline)',
+      'opportunity.body (phase narrative copy)',
+      'projectOverview.body (long-form phase details)'
+    ],
+    appearsIn: 'Timeline phase chips render in Returns, while body copy renders in the Opportunity and Project Overview sections.'
+  },
+  {
+    question: 'Where do I edit text for Dugout Howe Complex Phase II consists of ... ?',
+    answer: 'That text is not in Phase I budget fields. It is stored in the project overview body content.',
+    fields: [
+      'projectOverview.body'
+    ],
+    appearsIn: 'Project Overview section on the investment detail page.'
+  }
+]
+
+const mediaFieldTips = [
+  'Image fields use Studio media input and usually store a project-relative path such as /howe-phases.png.',
+  'Use sectionImage.layout to control placement: hidden, right, left, or banner-top.',
+  'If an image update does not appear, confirm you edited the correct section for that page and that the section is enabled.'
+]
+
 const sectionOrder = [
   'cover',
   'executiveSummary',
@@ -198,6 +245,76 @@ closingCta:
             </li>
           </ul>
         </UCard>
+      </UPageSection>
+
+      <UPageSection
+        title="Editing FAQ"
+        description="Direct answers for the most common content update questions in Studio."
+        :ui="{
+          container: 'max-w-none px-0 sm:px-0 lg:px-0',
+          title: 'text-2xl',
+          description: 'text-dimmed'
+        }"
+      >
+        <div class="space-y-4">
+          <UCard
+            v-for="item in editorFaq"
+            :key="item.question"
+            :ui="{ body: 'p-6 space-y-4' }"
+          >
+            <div class="space-y-1">
+              <h3 class="text-base font-semibold">
+                {{ item.question }}
+              </h3>
+              <p class="text-sm text-dimmed leading-relaxed">
+                {{ item.answer }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wide text-toned mb-2">
+                Edit These Fields
+              </p>
+              <ul class="space-y-1 text-sm">
+                <li
+                  v-for="field in item.fields"
+                  :key="field"
+                  class="flex items-start gap-2"
+                >
+                  <UIcon
+                    name="i-lucide-arrow-right-circle"
+                    class="size-4 mt-0.5 text-primary"
+                  />
+                  <span class="font-mono text-xs sm:text-sm">{{ field }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <p class="text-sm leading-relaxed">
+              <span class="font-semibold">Where it appears:</span>
+              {{ item.appearsIn }}
+            </p>
+          </UCard>
+
+          <UCard :ui="{ body: 'p-6' }">
+            <p class="text-sm font-semibold mb-2">
+              Media Field Tips
+            </p>
+            <ul class="space-y-2 text-sm">
+              <li
+                v-for="tip in mediaFieldTips"
+                :key="tip"
+                class="flex items-start gap-2"
+              >
+                <UIcon
+                  name="i-lucide-image"
+                  class="size-4 mt-0.5 text-primary"
+                />
+                <span>{{ tip }}</span>
+              </li>
+            </ul>
+          </UCard>
+        </div>
       </UPageSection>
 
       <UPageSection

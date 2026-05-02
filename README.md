@@ -39,6 +39,24 @@ Vercel Web Analytics is wired through `@vercel/analytics`. After deployment, ena
 
 All content lives in YAML files under `content/`. Nuxt Studio provides a visual editor that commits changes directly to GitHub.
 
+### Investment Content Editing FAQ
+
+If you are editing an investment page in Studio and need field-level guidance quickly:
+
+1. How do I add a photo when replacing an image URL?
+	Edit the image field directly in the entry. Common fields are `cover.heroImageUrl`, `sectionImage.url`, `projectOverview.images[].url`, and `team.members[].imageUrl`. These use Studio media input and typically store project-relative paths like `/howe-phases.png`.
+
+2. How do I edit bullets like Proven Phase I, Anchor Tenant, Scarcity Value, and Experienced Operator?
+	Edit `investmentThesis.bullets`. If you are updating bullets in the Phases section, edit `opportunity.bullets`.
+
+3. How do I edit content under phases?
+	Edit `returns.timelineItems[].phase` for timeline phase labels. Edit `opportunity.body` and `projectOverview.body` for phase narrative text.
+
+4. Where is the edit info for Dugout Howe Complex Phase II consists of ...?
+	That text is in `projectOverview.body`, not in Phase I budget fields.
+
+For the full walkthrough, open the in-app Studio Guide at `/studio-instructions` after logging in at `/admin`.
+
 ### Admin Login
 
 Visit **`/admin`** to sign in with the credentials set via `NUXT_ADMIN_USERNAME` and `NUXT_ADMIN_PASSWORD` environment variables. After login, the Studio editor overlay appears on every page and the header switches to Studio actions with links to the Studio guide and logout.
