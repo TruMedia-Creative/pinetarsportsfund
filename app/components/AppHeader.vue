@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data: studioAuth } = await useFetch('/api/__studio/auth/status', {
+const { data: studioAuth } = await useFetch<{ authenticated: boolean }>('/api/__studio/auth/status', {
   key: 'studio-auth-status',
   default: () => ({ authenticated: false })
 })
