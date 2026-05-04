@@ -44,12 +44,19 @@ const isStudioAuthenticated = computed(() => studioAuth.value?.authenticated ?? 
           to="/logout"
         />
       </template>
-      <UButton
-        v-else
-        label="View Investment Opportunities"
-        color="primary"
-        to="/investments"
-      />
+      <template v-else>
+        <UButton
+          label="Projects"
+          color="neutral"
+          variant="ghost"
+          to="/projects"
+        />
+        <UButton
+          label="View Investment Opportunities"
+          color="primary"
+          to="/investments"
+        />
+      </template>
       <UColorModeButton />
     </template>
   </UHeader>
