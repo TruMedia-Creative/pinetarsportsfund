@@ -1,0 +1,38 @@
+---
+alt: system overview
+---
+flowchart TD
+    accTitle: System Overview
+    accDescr: Major system components
+
+    Browser[Browser]
+
+    subgraph Vercel[Vercel]
+        SSG[Pre-rendered HTML]
+        AuthAPI[Auth API Routes]
+    end
+
+    subgraph Content[@nuxt/content]
+        YAML[investments YAML files]
+        Schema[Zod schema]
+    end
+
+    subgraph Studio[Nuxt Studio]
+        StudioUI[Editor Overlay]
+        StudioSession[studio-session cookie]
+    end
+
+    GitHub[GitHub Repo]
+    Fonts[Google Fonts]
+    Analytics[Vercel Analytics]
+
+    Browser --> SSG
+    Browser --> AuthAPI
+    Browser --> Fonts
+    Browser --> Analytics
+    SSG --> Content
+    AuthAPI --> StudioSession
+    StudioUI --> StudioSession
+    Studio -->|git push| GitHub
+    GitHub -->|deploy| Vercel
+    YAML --> Schema

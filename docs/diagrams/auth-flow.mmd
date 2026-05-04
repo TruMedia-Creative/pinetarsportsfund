@@ -1,0 +1,42 @@
+---
+alt: Studio auth flow sequence
+---
+sequenceDiagram
+    accTitle: Studio Authentication Flow
+    accDescr: Sequence of calls for admin login and studio session activation
+
+    actor Admin
+    participant AdminPage as /admin page
+    participant LoginAPI as POST /api/__studio/auth/login
+    participant StatusAPI as GET /api/__studio/auth/status
+    participant RateLimiter as In-Memory Rate Limiter
+    participant Session as studio-session cookie
+    participant StudioMiddleware as studio-auth middleware
+    participant StudioUI as Nuxt Studio Overlay
+
+    Admin->>AdminPage: Navigate to /admin
+    Admin->>LoginAPI: POST {username, password}
+    LoginAPI->>RateLimiter: checkRateLimit(ip)
+    alt Too many attempts
+        RateLimiter-->>LoginAPI: 429 Too Many Requests
+        LoginAPI-->>Admin: Error response
+    else Credentials valid
+        LoginAPI->>Session: Set studio-session cookie
+        LoginAPI-->>AdminPage: 200 OK
+        AdminPage->>Admin: Redirect to /
+    else Credentials invalid
+        LoginAPI->>RateLimiter: recordFailedAttempt(ip)
+        LoginAPI-->>Admin: 401 Unauthorized
+    end
+
+    Note over Admin,StudioUI: On any studio-auth protected page
+    Admin->>StudioMiddleware: Route navigation
+    StudioMiddleware->>StatusAPI: GET /api/__studio/auth/status
+    StatusAPI->>Session: Read session.data.user
+    alt Authenticated
+        StatusAPI-->>StudioMiddleware: {authenticated: true}
+        StudioMiddleware-->>StudioUI: Allow - overlay activates
+    else Not authenticated
+        StatusAPI-->>StudioMiddleware: {authenticated: false}
+        StudioMiddleware-->>Admin: Redirect to /admin
+    end

@@ -4,6 +4,10 @@ const investmentDeckRoutes = readdirSync(new URL('./content/investments', import
   .filter(entry => entry.isFile() && entry.name.endsWith('.yml'))
   .map(entry => `/investments/${entry.name.replace(/\.yml$/, '')}`)
 
+const projectDeckRoutes = readdirSync(new URL('./content/projects', import.meta.url), { withFileTypes: true })
+  .filter(entry => entry.isFile() && entry.name.endsWith('.yml'))
+  .map(entry => `/projects/${entry.name.replace(/\.yml$/, '')}`)
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -55,7 +59,7 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: ['/', '/investments', ...investmentDeckRoutes],
+      routes: ['/', '/investments', ...investmentDeckRoutes, '/projects', ...projectDeckRoutes],
       crawlLinks: false
     }
   },

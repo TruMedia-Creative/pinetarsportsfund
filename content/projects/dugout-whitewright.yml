@@ -1,0 +1,166 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# CHECKLIST — fill in all fields below, then set published: true
+#
+#  [ ] Hero photo → /projects/dugout-whitewright/hero.jpg
+#  [ ] Gallery photos → /projects/dugout-whitewright/photo-1.jpg, photo-2.jpg …
+#  [ ] Google Maps embed URL
+#  [ ] Operational data: since, acreage, fields, capacity %, revenue, event types, anchors
+#  [ ] Team member photos + bios
+#  [ ] Financial projections / returns narrative
+#  [ ] Risks & disclaimer copy
+# ═══════════════════════════════════════════════════════════════════════════════
+
+title: Dugout Whitewright
+subtitle: Operational Youth Sports Complex — Whitewright, TX
+projectName: Dugout Whitewright
+audienceType: investor
+published: false
+
+location:
+  address: ""
+  city: Whitewright
+  state: TX
+  zip: ""
+  mapEmbedUrl: ""
+
+cover:
+  enabled: true
+  tagline: Investment Opportunity
+  heroImageUrl: /projects/dugout-whitewright/hero.jpg
+  contactName: Tim Truman
+  contactTitle: Managing Partner
+  company: PineTar Sports Fund
+  address: ""
+  description: ""
+  sectionImage:
+    url: /projects/dugout-whitewright/hero.jpg
+    layout: hidden
+
+executiveSummary:
+  enabled: true
+  body: |
+    Dugout Whitewright is a fully operational youth sports complex serving Grayson County and surrounding North Texas communities. The facility is generating active revenue through tournament play, league rentals, and community programming. This offering presents an expansion opportunity for accredited investors seeking cash-flowing real estate backed by proven operational performance.
+  tableOfContents:
+    - number: 1
+      label: Executive Summary
+    - number: 2
+      label: Project Overview
+    - number: 3
+      label: Market Context
+    - number: 4
+      label: Operational Performance
+    - number: 5
+      label: Team
+    - number: 6
+      label: Expansion Opportunity
+    - number: 7
+      label: Returns & Timeline
+    - number: 8
+      label: Risks & Disclaimer
+  returnsTableTitle: Key Investment Metrics
+  returnsTableRows:
+    - label: ""
+      value: ""
+      highlight: true
+
+projectOverview:
+  enabled: true
+  sectionTitle: Project Overview
+  body: ""
+  images:
+    - url: /projects/dugout-whitewright/photo-1.jpg
+      alt: Dugout Whitewright aerial view
+    - url: /projects/dugout-whitewright/photo-2.jpg
+      alt: Dugout Whitewright field view
+
+market:
+  enabled: true
+  sectionTitle: Market Context
+  body: ""
+  metrics:
+    - value: ""
+      label: Population within 60 miles
+    - value: ""
+      label: Median household income
+    - value: ""
+      label: Youth sports participation rate
+    - value: ""
+      label: Annual tournament market size
+
+operationalPerformance:
+  enabled: true
+  sectionTitle: Operational Performance
+  body: ""
+  since: ""
+  acreage: ""
+  fields:
+    - type: Baseball
+      count: 0
+    - type: Softball
+      count: 0
+  capacityPercent: 0
+  annualRevenue: ""
+  eventTypes:
+    - Tournaments
+    - League Play
+    - Field Rentals
+  anchorTenants: []
+  metrics:
+    - value: ""
+      label: Fields
+    - value: ""
+      label: Operational Since
+    - value: ""
+      label: Annual Revenue
+    - value: ""
+      label: Avg. Capacity
+
+team:
+  enabled: true
+  sectionTitle: Team
+  body: ""
+  members:
+    - name: Tim Truman
+      title: Managing Partner
+      bio: ""
+      imageUrl: ""
+
+investmentThesis:
+  enabled: true
+  sectionTitle: Expansion Opportunity
+  body: ""
+  bullets: []
+
+returns:
+  enabled: true
+  sectionTitle: Returns & Timeline
+  body: ""
+  timelineItems: []
+  keyMetrics:
+    - value: ""
+      label: Preferred Return
+    - value: ""
+      label: Target Payback
+  exitStrategyTitle: Exit Strategy
+  exitStrategyBody: ""
+
+risksDisclaimer:
+  enabled: true
+  sectionTitle: Risks & Disclaimer
+  body: This presentation is for informational purposes only and does not constitute an offer to sell or a solicitation to buy any security. Investment involves risk, including the possible loss of principal.
+  bullets:
+    - Construction or expansion cost overruns
+    - Weather-related disruptions to operations
+    - Changes in local market demand for youth sports
+    - Anchor tenant or partnership risks
+    - Regulatory or zoning changes
+
+closingCta:
+  enabled: true
+  sectionTitle: Next Steps
+  body: We are accepting commitments from qualified accredited investors for this round. Full data room access is provided upon execution of NDA.
+  ctaText: Request Data Room Access
+  ctaUrl: mailto:invest@pinetarsportsfund.com?subject=Dugout%20Whitewright%20-%20Data%20Room%20Request
+  contactName: Larryon Truman, II
+  contactTitle: Business Development & Investor Relations
+  contactEmail: invest@pinetarsportsfund.com

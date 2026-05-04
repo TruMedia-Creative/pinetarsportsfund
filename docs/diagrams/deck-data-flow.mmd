@@ -1,0 +1,32 @@
+---
+alt: Investment deck data flow from YAML to rendered page
+---
+flowchart LR
+    accTitle: Investment Deck Data Flow
+    accDescr: How YAML content flows through the content layer into rendered deck sections
+
+    YAML[content/investments/slug.yml]
+    Schema[content.config.ts Zod validation]
+    SQLite[SQLite DB at build time]
+    QueryAPI[queryCollection API]
+    SlugPage[pages/investments/slug.vue]
+
+    subgraph DeckComponents[Deck Section Components - global]
+        Cover[DeckCover]
+        ExecSummary[DeckExecutiveSummary]
+        InvestmentThesis[DeckInvestmentThesis]
+        Market[DeckMarket]
+        ProjectOverview[DeckProjectOverview]
+        Team[DeckTeam]
+        UseOfFunds[DeckUseOfFunds]
+        Returns[DeckReturns]
+        Projections[DeckProjections]
+        Risks[DeckRisksDisclaimer]
+        ClosingCta[DeckClosingCta]
+    end
+
+    YAML --> Schema
+    Schema --> SQLite
+    SQLite --> QueryAPI
+    QueryAPI --> SlugPage
+    SlugPage --> DeckComponents

@@ -199,6 +199,32 @@ const closingCtaSchema = sectionBase.extend({
   contactEmail: z.string().optional()
 })
 
+const operationalPerformanceSchema = sectionBase.extend({
+  body: z.string().optional().editor({ input: 'textarea' }),
+  since: z.string().optional(),
+  acreage: z.string().optional(),
+  fields: z.array(z.object({
+    type: z.string(),
+    count: z.number()
+  })).optional(),
+  capacityPercent: z.number().optional(),
+  annualRevenue: z.string().optional(),
+  eventTypes: z.array(z.string()).optional(),
+  anchorTenants: z.array(z.string()).optional(),
+  metrics: z.array(z.object({
+    value: z.string(),
+    label: z.string()
+  })).optional()
+})
+
+const locationSchema = z.object({
+  address: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  zip: z.string().optional(),
+  mapEmbedUrl: z.string().optional()
+})
+
 // ─── Collections ─────────────────────────────────────────────────────────────
 
 export const collections = {
@@ -283,6 +309,31 @@ export const collections = {
       useOfFunds: useOfFundsSchema.optional(),
       returns: returnsSchema.optional(),
       projections: projectionsSchema.optional(),
+      risksDisclaimer: risksDisclaimerSchema.optional(),
+      closingCta: closingCtaSchema.optional()
+    })
+  }),
+
+  projects: defineCollection({
+    source: 'projects/*.yml',
+    type: 'data',
+    schema: z.object({
+      // ── Top-level metadata ──
+      title: z.string().nonempty(),
+      subtitle: z.string().optional(),
+      projectName: z.string().nonempty(),
+      audienceType: createEnum(['investor', 'lender', 'sponsor', 'municipality', 'internal']),
+      published: z.boolean().default(false),
+      location: locationSchema.optional(),
+      // ── Sections (named keys, fixed narrative order) ──
+      cover: coverSchema.optional(),
+      executiveSummary: executiveSummarySchema.optional(),
+      projectOverview: projectOverviewSchema.optional(),
+      market: marketSchema.optional(),
+      operationalPerformance: operationalPerformanceSchema.optional(),
+      team: teamSchema.optional(),
+      investmentThesis: investmentThesisSchema.optional(),
+      returns: returnsSchema.optional(),
       risksDisclaimer: risksDisclaimerSchema.optional(),
       closingCta: closingCtaSchema.optional()
     })
