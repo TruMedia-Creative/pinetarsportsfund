@@ -1,25 +1,25 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  since?: string
-  acreage?: string
-  fields?: Array<{ type: string, count: number }>
-  capacityPercent?: number
-  annualRevenue?: string
-  eventTypes?: string[]
-  anchorTenants?: string[]
-  metrics?: Array<{ value: string, label: string }>
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  since?: string;
+  acreage?: string;
+  fields?: Array<{ type: string; count: number }>;
+  capacityPercent?: number;
+  annualRevenue?: string;
+  eventTypes?: string[];
+  anchorTenants?: string[];
+  metrics?: Array<{ value: string; label: string }>;
+}>();
 </script>
 
 <template>
@@ -31,18 +31,12 @@ defineProps<{
         :description="description"
         :section-image="sectionImage"
       >
-        <div
-          v-if="body"
-          class="max-w-2xl text-muted leading-relaxed whitespace-pre-line mb-12"
-        >
+        <div v-if="body" class="max-w-2xl text-muted leading-relaxed whitespace-pre-line mb-12">
           {{ body }}
         </div>
 
         <!-- Key metric cards -->
-        <div
-          v-if="metrics?.length"
-          class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
-        >
+        <div v-if="metrics?.length" class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div
             v-for="metric in metrics"
             :key="metric.label"
@@ -86,10 +80,7 @@ defineProps<{
                 <span class="text-sm font-medium">Operational Since</span>
                 <span class="text-sm font-bold text-primary">{{ since }}</span>
               </li>
-              <li
-                v-if="capacityPercent"
-                class="flex items-center justify-between py-3"
-              >
+              <li v-if="capacityPercent" class="flex items-center justify-between py-3">
                 <span class="text-sm font-medium">Avg. Capacity</span>
                 <span class="text-sm font-bold text-primary">{{ capacityPercent }}%</span>
               </li>
@@ -103,12 +94,7 @@ defineProps<{
                 Event Types
               </h4>
               <div class="flex flex-wrap gap-2">
-                <UBadge
-                  v-for="event in eventTypes"
-                  :key="event"
-                  color="primary"
-                  variant="subtle"
-                >
+                <UBadge v-for="event in eventTypes" :key="event" color="primary" variant="subtle">
                   {{ event }}
                 </UBadge>
               </div>
@@ -124,10 +110,7 @@ defineProps<{
                   :key="tenant"
                   class="flex items-center gap-2 text-sm"
                 >
-                  <UIcon
-                    name="i-lucide-check-circle"
-                    class="text-primary size-4 shrink-0"
-                  />
+                  <UIcon name="i-lucide-check-circle" class="text-primary size-4 shrink-0" />
                   {{ tenant }}
                 </li>
               </ul>

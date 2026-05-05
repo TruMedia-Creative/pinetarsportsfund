@@ -3,11 +3,11 @@ audienceType: sponsor
 closingCta:
   enabled: true
   sectionTitle: Ready to take the next step?
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: We are actively discussing founding partner packages with a select number of regional and national brands. Early conversations lead to the best terms.
@@ -19,16 +19,16 @@ closingCta:
 cover:
   enabled: true
   sectionTitle: Sponsorship Opportunity
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   tagline: Sponsorship Opportunity
-  body: ""
-  heroImageUrl: ""
+  body: ''
+  heroImageUrl: ''
   contactName: Keisha Monroe
   contactTitle: Director of Partnerships
   company: Pine Tar Sports Fund
@@ -36,11 +36,11 @@ cover:
 executiveSummary:
   enabled: true
   sectionTitle: Overview
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: |
@@ -69,22 +69,22 @@ executiveSummary:
 investmentThesis:
   enabled: false
   sectionTitle: Why This Deal
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   bullets: []
 market:
   enabled: true
   sectionTitle: Market Overview
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: |
@@ -101,11 +101,11 @@ market:
 opportunity:
   enabled: true
   sectionTitle: Market Opportunity
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: |
@@ -114,20 +114,20 @@ opportunity:
     Corporate partners who commit during pre-opening receive naming recognition built into the physical and digital infrastructure from day one: signage, broadcast, digital, and programming.
   bullets:
     - Naming rights partnership available — full venue naming opportunity
-    - "Category exclusivity: lock out competitors in your vertical for 10 years"
-    - "Pre-opening pricing: foundational partners receive preferential naming rates vs. post-opening market"
-    - "Revenue-linked packages available: align sponsorship cost to verified attendance milestones"
+    - 'Category exclusivity: lock out competitors in your vertical for 10 years'
+    - 'Pre-opening pricing: foundational partners receive preferential naming rates vs. post-opening market'
+    - 'Revenue-linked packages available: align sponsorship cost to verified attendance milestones'
     - Anchor tenant (regional Hockey franchise) delivers built-in media coverage from Season 1
-  imageUrl: ""
+  imageUrl: ''
 projectName: Riverside Sports Complex
 projectOverview:
   enabled: true
   sectionTitle: The Project
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: |
@@ -140,11 +140,11 @@ projectOverview:
 projections:
   enabled: false
   sectionTitle: Projections
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   metrics: []
@@ -153,11 +153,11 @@ published: true
 returns:
   enabled: false
   sectionTitle: Investment Returns
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   keyMetrics: []
@@ -165,11 +165,11 @@ returns:
 risksDisclaimer:
   enabled: true
   sectionTitle: Risks & Disclaimer
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: This sponsorship deck is provided for discussion purposes only. All terms, pricing, and packages are subject to negotiation. Venue opening is contingent on construction and financing milestones.
@@ -181,11 +181,11 @@ subtitle: Brand activation and naming rights packages for corporate sponsors
 team:
   enabled: true
   sectionTitle: Leadership
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   body: Our partnerships team brings deep experience in corporate activation, venue operations, and media rights.
@@ -193,19 +193,19 @@ team:
     - name: Keisha Monroe
       title: Director of Partnerships
       bio: 10 years in corporate sponsorship sales at enterprise venues. Former partnership director for a Big 12 university athletic department.
-      imageUrl: ""
+      imageUrl: ''
     - name: Marcus J. Holloway
       title: Managing Partner
       bio: Former VP of Business Development for the Kansas City Royals. Deep relationships across Kansas City and Midwest corporate community.
-      imageUrl: ""
+      imageUrl: ''
 useOfFunds:
   enabled: false
   sectionTitle: Capital Allocation
-  subtitle: ""
+  subtitle: ''
   sectionImage:
-    url: ""
-    alt: ""
-    caption: ""
+    url: ''
+    alt: ''
+    caption: ''
     captionStyle: below
     layout: hidden
   highlights: []

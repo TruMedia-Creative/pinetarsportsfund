@@ -18,13 +18,13 @@ cover:
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
-  address: ""
+  address: ''
   enabled: true
-  sectionTitle: ""
+  sectionTitle: ''
   sectionImage:
     url: /slide3.jpg
-  description: ""
-  subtitle: ""
+  description: ''
+  subtitle: ''
 executiveSummary:
   enabled: true
   body: |
@@ -75,12 +75,12 @@ investmentThesis:
 
     Dugout Howe Complex is positioned to become the dominant year-round sports and entertainment destination in the North Texas market currently underserved in modern arena capacity.
   bullets:
-    - "Proven Phase I revenue: $300K in Year 2 from athletic operations"
-    - "Anchor tenant LOI signed: Committed to 10-year lease"
-    - "Scarcity value: Consistent Sell Outs Denison"
-    - "Experienced operator: Development team has delivered 5 comparable assets since 2015"
+    - 'Proven Phase I revenue: $300K in Year 2 from athletic operations'
+    - 'Anchor tenant LOI signed: Committed to 10-year lease'
+    - 'Scarcity value: Consistent Sell Outs Denison'
+    - 'Experienced operator: Development team has delivered 5 comparable assets since 2015'
   sectionImage:
-    url: ""
+    url: ''
     layout: banner-top
 market:
   enabled: true
@@ -91,7 +91,7 @@ market:
       label: Population within 90 miles
     - value: $84K
       label: Average Weekend Spend on Sports & Entertainment (2025)
-    - value: "2"
+    - value: '2'
       label: Competing mid-tier baseball/softball facilities within 30 miles
     - value: $69.1B
       label: Youth Baseball/Softball Market (2025)
@@ -112,8 +112,8 @@ opportunity:
     url: /howe-phases.png
     layout: right
   sectionTitle: Phases
-  subtitle: ""
-  description: ""
+  subtitle: ''
+  description: ''
 projectName: Dugout Grayson County
 projectOverview:
   enabled: true
@@ -163,7 +163,7 @@ projections:
 published: true
 returns:
   enabled: true
-  body: "Returns are driven by three compounding value creation levers: anchor tenant lease revenue, naming rights monetization, and asset appreciation at stabilization."
+  body: 'Returns are driven by three compounding value creation levers: anchor tenant lease revenue, naming rights monetization, and asset appreciation at stabilization.'
   timelineItems:
     - period: 0-12 Months
       phase: Construction Phase
@@ -211,22 +211,22 @@ team:
   members:
     - name: Tim Truman
       title: Managing Partner
-      bio: ""
-      imageUrl: ""
+      bio: ''
+      imageUrl: ''
     - name: Larryon Truman, II
       title: Business Development & Investor Relations
       bio: Larryon helps translate complex deal structures into materials investors can evaluate quickly and confidently.
-      imageUrl: ""
+      imageUrl: ''
     - name: First Name Last Name
       title: Role Title
       bio: Short bio highlighting relevant experience and role in the project.
-      imageUrl: ""
+      imageUrl: ''
   sectionImage:
     url: /tim-headshot.jpg
     layout: right
   sectionTitle: Team
-  subtitle: ""
-  description: ""
+  subtitle: ''
+  description: ''
 useOfFunds:
   enabled: true
   body: PHASE 1 INVESTMENT & BUDGET OVERVIEW
@@ -255,5 +255,5 @@ useOfFunds:
     - title: Strategic Value
       body: The investment secures a prime 17.71-acre location in the high-growth North Texas corridor.
   sectionTitle: Use of Funds
-  subtitle: ""
-  description: ""
+  subtitle: ''
+  description: ''

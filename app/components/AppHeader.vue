@@ -1,25 +1,23 @@
 <script setup lang="ts">
-const { data: studioAuth } = await useFetch<{ authenticated: boolean }>('/api/__studio/auth/status', {
-  key: 'studio-auth-status',
-  default: () => ({ authenticated: false })
-})
+const { data: studioAuth } = await useFetch<{ authenticated: boolean }>(
+  '/api/__studio/auth/status',
+  {
+    key: 'studio-auth-status',
+    default: () => ({ authenticated: false }),
+  }
+);
 
-const isStudioAuthenticated = computed(() => studioAuth.value?.authenticated ?? false)
+const isStudioAuthenticated = computed(() => studioAuth.value?.authenticated ?? false);
 </script>
 
 <template>
   <UHeader
     :ui="{
-      right: 'flex items-center gap-2 sm:gap-3'
+      right: 'flex items-center gap-2 sm:gap-3',
     }"
   >
     <template #left>
-      <NuxtLink
-        to="/"
-        class="h-6 w-auto shrink-0 font-bold"
-      >
-        Pinetar Sports Fund
-      </NuxtLink>
+      <NuxtLink to="/" class="h-6 w-auto shrink-0 font-bold"> Pinetar Sports Fund </NuxtLink>
     </template>
 
     <template #right>
@@ -31,31 +29,12 @@ const isStudioAuthenticated = computed(() => studioAuth.value?.authenticated ?? 
         >
           Studio Active
         </UBadge>
-        <UButton
-          label="Studio Guide"
-          color="primary"
-          variant="soft"
-          to="/studio-instructions"
-        />
-        <UButton
-          label="Logout"
-          color="neutral"
-          variant="ghost"
-          to="/logout"
-        />
+        <UButton label="Studio Guide" color="primary" variant="soft" to="/studio-instructions" />
+        <UButton label="Logout" color="neutral" variant="ghost" to="/logout" />
       </template>
       <template v-else>
-        <UButton
-          label="Projects"
-          color="neutral"
-          variant="ghost"
-          to="/projects"
-        />
-        <UButton
-          label="View Investment Opportunities"
-          color="primary"
-          to="/investments"
-        />
+        <UButton label="Projects" color="neutral" variant="ghost" to="/projects" />
+        <UButton label="View Investment Opportunities" color="primary" to="/investments" />
       </template>
       <UColorModeButton />
     </template>

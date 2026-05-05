@@ -1,23 +1,23 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
   members?: Array<{
-    name: string
-    title: string
-    bio?: string
-    imageUrl?: string
-  }>
-}>()
+    name: string;
+    title: string;
+    bio?: string;
+    imageUrl?: string;
+  }>;
+}>();
 </script>
 
 <template>
@@ -29,29 +29,21 @@ defineProps<{
         :description="description"
         :section-image="sectionImage"
       >
-        <p
-          v-if="body"
-          class="text-muted max-w-2xl mb-12"
-        >
+        <p v-if="body" class="text-muted max-w-2xl mb-12">
           {{ body }}
         </p>
 
-        <div
-          v-if="members?.length"
-          class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <div
-            v-for="member in members"
-            :key="member.name"
-            class="flex flex-col gap-4"
-          >
-            <div class="w-16 h-16 rounded-full bg-default border border-default overflow-hidden shrink-0">
+        <div v-if="members?.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div v-for="member in members" :key="member.name" class="flex flex-col gap-4">
+            <div
+              class="w-16 h-16 rounded-full bg-default border border-default overflow-hidden shrink-0"
+            >
               <img
                 v-if="member.imageUrl"
                 :src="member.imageUrl"
                 :alt="member.name"
                 class="w-full h-full object-cover"
-              >
+              />
               <div
                 v-else
                 class="w-full h-full flex items-center justify-center text-lg font-bold text-primary"
@@ -67,10 +59,7 @@ defineProps<{
               <p class="text-sm text-primary mb-2">
                 {{ member.title }}
               </p>
-              <p
-                v-if="member.bio"
-                class="text-sm text-dimmed leading-relaxed"
-              >
+              <p v-if="member.bio" class="text-sm text-dimmed leading-relaxed">
                 {{ member.bio }}
               </p>
             </div>

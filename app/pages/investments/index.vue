@@ -1,66 +1,68 @@
 <script setup lang="ts">
-type InvestmentAudienceType = 'investor' | 'lender' | 'sponsor' | 'municipality' | 'internal'
+type InvestmentAudienceType = 'investor' | 'lender' | 'sponsor' | 'municipality' | 'internal';
 
 type InvestmentListItem = {
-  stem: string
-  title: string
-  subtitle?: string
-  projectName?: string
-  published: boolean
-  audienceType?: InvestmentAudienceType | string
-}
+  stem: string;
+  title: string;
+  subtitle?: string;
+  projectName?: string;
+  published: boolean;
+  audienceType?: InvestmentAudienceType | string;
+};
 
-const { data: investments } = await useAsyncData<InvestmentListItem[]>('investments-list', async () => {
-  const documents = await queryCollection('investments').all()
+const { data: investments } = await useAsyncData<InvestmentListItem[]>(
+  'investments-list',
+  async () => {
+    const documents = await queryCollection('investments').all();
 
-  return documents.map(document => ({
-    stem: document.stem ?? '',
-    title: document.title ?? '',
-    subtitle: document.subtitle ?? undefined,
-    projectName: document.projectName ?? undefined,
-    published: Boolean(document.published),
-    audienceType: document.audienceType ?? undefined
-  }))
-})
+    return documents.map((document) => ({
+      stem: document.stem ?? '',
+      title: document.title ?? '',
+      subtitle: document.subtitle ?? undefined,
+      projectName: document.projectName ?? undefined,
+      published: Boolean(document.published),
+      audienceType: document.audienceType ?? undefined,
+    }));
+  }
+);
 
 // Guard: only show published investments to public viewers.
 // Studio's real-time preview bypasses this since it renders the raw data.
-const visibleInvestments = computed(() =>
-  (investments.value ?? []).filter(d => d.published)
-)
+const visibleInvestments = computed(() => (investments.value ?? []).filter((d) => d.published));
 
 const audienceLabels: Record<string, string> = {
   investor: 'Investor',
   lender: 'Lender',
   sponsor: 'Sponsor',
   municipality: 'Municipality',
-  internal: 'Internal'
-}
+  internal: 'Internal',
+};
 
 const audienceColors: Record<string, string> = {
   investor: 'primary',
   lender: 'success',
   sponsor: 'warning',
   municipality: 'info',
-  internal: 'neutral'
-}
+  internal: 'neutral',
+};
 
 function getInvestmentSlug(stem: string) {
-  return stem.split('/').pop() || stem
+  return stem.split('/').pop() || stem;
 }
 
 function getAudienceLabel(audienceType?: string) {
-  return audienceType ? (audienceLabels[audienceType] || audienceType) : 'General'
+  return audienceType ? audienceLabels[audienceType] || audienceType : 'General';
 }
 
 function getAudienceColor(audienceType?: string) {
-  return (audienceType ? audienceColors[audienceType] : undefined) || 'neutral'
+  return (audienceType ? audienceColors[audienceType] : undefined) || 'neutral';
 }
 
 useSeoMeta({
   title: 'Investment Opportunities — Pine Tar Sports Fund',
-  description: 'Browse active investment, sponsorship, and partnership opportunities from Pine Tar Sports Fund.'
-})
+  description:
+    'Browse active investment, sponsorship, and partnership opportunities from Pine Tar Sports Fund.',
+});
 </script>
 
 <template>
@@ -69,22 +71,18 @@ useSeoMeta({
       :ui="{
         root: 'pb-16 pt-24',
         container: 'max-w-5xl',
-        title: 'sm:text-4xl lg:text-5xl'
+        title: 'sm:text-4xl lg:text-5xl',
       }"
     >
-      <template #title>
-        Active Investment Opportunities
-      </template>
+      <template #title> Active Investment Opportunities </template>
       <template #description>
-        Browse current investment, sponsorship, and partnership opportunities from Pine Tar Sports Fund. All offerings are available to qualified accredited investors.
+        Browse current investment, sponsorship, and partnership opportunities from Pine Tar Sports
+        Fund. All offerings are available to qualified accredited investors.
       </template>
     </UPageHero>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-      <div
-        v-if="visibleInvestments.length"
-        class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-      >
+      <div v-if="visibleInvestments.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <NuxtLink
           v-for="investment in visibleInvestments"
           :key="investment.stem"
@@ -109,10 +107,7 @@ useSeoMeta({
               </UBadge>
             </div>
 
-            <p
-              v-if="investment.subtitle"
-              class="text-sm text-dimmed leading-relaxed"
-            >
+            <p v-if="investment.subtitle" class="text-sm text-dimmed leading-relaxed">
               {{ investment.subtitle }}
             </p>
 
@@ -130,19 +125,12 @@ useSeoMeta({
       </div>
 
       <!-- Empty state -->
-      <div
-        v-else
-        class="text-center py-24"
-      >
-        <UIcon
-          name="i-lucide-file-x"
-          class="size-12 text-dimmed mx-auto mb-4"
-        />
-        <h3 class="text-lg font-semibold mb-2">
-          No active investments
-        </h3>
+      <div v-else class="text-center py-24">
+        <UIcon name="i-lucide-file-x" class="size-12 text-dimmed mx-auto mb-4" />
+        <h3 class="text-lg font-semibold mb-2">No active investments</h3>
         <p class="text-dimmed text-sm max-w-sm mx-auto">
-          No publicly available investment opportunities at this time. Check back soon or contact us directly.
+          No publicly available investment opportunities at this time. Check back soon or contact us
+          directly.
         </p>
         <UButton
           label="Contact Us"

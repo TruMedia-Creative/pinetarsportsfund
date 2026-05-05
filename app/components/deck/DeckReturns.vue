@@ -1,21 +1,21 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  timelineItems?: Array<{ period: string, phase: string, description: string }>
-  keyMetrics?: Array<{ value: string, label: string }>
-  exitStrategyTitle?: string
-  exitStrategyBody?: string
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  timelineItems?: Array<{ period: string; phase: string; description: string }>;
+  keyMetrics?: Array<{ value: string; label: string }>;
+  exitStrategyTitle?: string;
+  exitStrategyBody?: string;
+}>();
 </script>
 
 <template>
@@ -27,10 +27,7 @@ defineProps<{
         :description="description"
         :section-image="sectionImage"
       >
-        <div
-          v-if="keyMetrics?.length"
-          class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12"
-        >
+        <div v-if="keyMetrics?.length" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
           <div
             v-for="metric in keyMetrics"
             :key="metric.label"
@@ -51,11 +48,7 @@ defineProps<{
               Project Timeline
             </p>
             <div class="space-y-0">
-              <div
-                v-for="(item, i) in timelineItems"
-                :key="i"
-                class="relative flex gap-5"
-              >
+              <div v-for="(item, i) in timelineItems" :key="i" class="relative flex gap-5">
                 <div class="flex flex-col items-center">
                   <div class="w-3 h-3 rounded-full bg-primary shrink-0 mt-1" />
                   <div
@@ -85,10 +78,7 @@ defineProps<{
               </p>
             </div>
 
-            <div
-              v-if="exitStrategyBody"
-              class="rounded-xl border border-default p-6"
-            >
+            <div v-if="exitStrategyBody" class="rounded-xl border border-default p-6">
               <p class="font-semibold mb-3">
                 {{ exitStrategyTitle || 'Exit Strategy' }}
               </p>

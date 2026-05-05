@@ -1,18 +1,27 @@
-import { defineCollection, z } from '@nuxt/content'
+import { defineCollection, z } from '@nuxt/content';
 
-const createEnum = (options: [string, ...string[]]) => z.enum(options)
+const createEnum = (options: [string, ...string[]]) => z.enum(options);
 
-const createLinkSchema = () => z.object({
-  label: z.string().nonempty(),
-  to: z.string().nonempty(),
-  icon: z.string().optional().editor({ input: 'icon' }),
-  trailingIcon: z.string().optional().editor({ input: 'icon' }),
-  size: createEnum(['xs', 'sm', 'md', 'lg', 'xl']).optional(),
-  trailing: z.boolean().optional(),
-  target: createEnum(['_blank', '_self']).optional(),
-  color: createEnum(['primary', 'secondary', 'neutral', 'error', 'warning', 'success', 'info']).optional(),
-  variant: createEnum(['solid', 'outline', 'subtle', 'soft', 'ghost', 'link']).optional()
-})
+const createLinkSchema = () =>
+  z.object({
+    label: z.string().nonempty(),
+    to: z.string().nonempty(),
+    icon: z.string().optional().editor({ input: 'icon' }),
+    trailingIcon: z.string().optional().editor({ input: 'icon' }),
+    size: createEnum(['xs', 'sm', 'md', 'lg', 'xl']).optional(),
+    trailing: z.boolean().optional(),
+    target: createEnum(['_blank', '_self']).optional(),
+    color: createEnum([
+      'primary',
+      'secondary',
+      'neutral',
+      'error',
+      'warning',
+      'success',
+      'info',
+    ]).optional(),
+    variant: createEnum(['solid', 'outline', 'subtle', 'soft', 'ghost', 'link']).optional(),
+  });
 
 // ─── Deck section sub-schemas ────────────────────────────────────────────────
 
@@ -21,86 +30,110 @@ const coverSchema = z.object({
   sectionTitle: z.string().optional(),
   subtitle: z.string().optional(),
   description: z.string().optional().editor({ input: 'textarea' }),
-  sectionImage: z.object({
-    url: z.string().optional().editor({ input: 'media' }),
-    alt: z.string().optional(),
-    caption: z.string().optional(),
-    captionStyle: createEnum(['below', 'overlay', 'both']).optional(),
-    layout: createEnum(['hidden', 'right', 'left', 'banner-top']).optional().default('hidden')
-  }).optional(),
+  sectionImage: z
+    .object({
+      url: z.string().optional().editor({ input: 'media' }),
+      alt: z.string().optional(),
+      caption: z.string().optional(),
+      captionStyle: createEnum(['below', 'overlay', 'both']).optional(),
+      layout: createEnum(['hidden', 'right', 'left', 'banner-top']).optional().default('hidden'),
+    })
+    .optional(),
   tagline: z.string().optional(),
   body: z.string().optional().editor({ input: 'textarea' }),
   heroImageUrl: z.string().optional().editor({ input: 'media' }),
   contactName: z.string().optional(),
   contactTitle: z.string().optional(),
   company: z.string().optional(),
-  address: z.string().optional()
-})
+  address: z.string().optional(),
+});
 
 const sectionBase = z.object({
   enabled: z.boolean().default(true),
   sectionTitle: z.string().optional(),
   subtitle: z.string().optional(),
   description: z.string().optional().editor({ input: 'textarea' }),
-  sectionImage: z.object({
-    url: z.string().optional().editor({ input: 'media' }),
-    alt: z.string().optional(),
-    caption: z.string().optional(),
-    captionStyle: createEnum(['below', 'overlay', 'both']).optional(),
-    layout: createEnum(['hidden', 'right', 'left', 'banner-top']).optional().default('hidden')
-  }).optional()
-})
+  sectionImage: z
+    .object({
+      url: z.string().optional().editor({ input: 'media' }),
+      alt: z.string().optional(),
+      caption: z.string().optional(),
+      captionStyle: createEnum(['below', 'overlay', 'both']).optional(),
+      layout: createEnum(['hidden', 'right', 'left', 'banner-top']).optional().default('hidden'),
+    })
+    .optional(),
+});
 
 const executiveSummarySchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  tableOfContents: z.array(z.object({
-    number: z.number(),
-    label: z.string()
-  })).optional(),
+  tableOfContents: z
+    .array(
+      z.object({
+        number: z.number(),
+        label: z.string(),
+      })
+    )
+    .optional(),
   returnsTableTitle: z.string().optional(),
-  returnsTableRows: z.array(z.object({
-    label: z.string(),
-    value: z.string(),
-    highlight: z.boolean().optional()
-  })).optional()
-})
+  returnsTableRows: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+        highlight: z.boolean().optional(),
+      })
+    )
+    .optional(),
+});
 
 const investmentThesisSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  bullets: z.array(z.string()).optional()
-})
+  bullets: z.array(z.string()).optional(),
+});
 
 const opportunitySchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
   bullets: z.array(z.string()).optional(),
-  imageUrl: z.string().optional().editor({ input: 'media' })
-})
+  imageUrl: z.string().optional().editor({ input: 'media' }),
+});
 
 const marketSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  metrics: z.array(z.object({
-    value: z.string(),
-    label: z.string()
-  })).optional()
-})
+  metrics: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .optional(),
+});
 
 const projectOverviewSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  images: z.array(z.object({
-    url: z.string().editor({ input: 'media' }),
-    alt: z.string().optional()
-  })).optional()
-})
+  images: z
+    .array(
+      z.object({
+        url: z.string().editor({ input: 'media' }),
+        alt: z.string().optional(),
+      })
+    )
+    .optional(),
+});
 
 const teamSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  members: z.array(z.object({
-    name: z.string(),
-    title: z.string(),
-    bio: z.string().optional().editor({ input: 'textarea' }),
-    imageUrl: z.string().optional().editor({ input: 'media' })
-  })).optional()
-})
+  members: z
+    .array(
+      z.object({
+        name: z.string(),
+        title: z.string(),
+        bio: z.string().optional().editor({ input: 'textarea' }),
+        imageUrl: z.string().optional().editor({ input: 'media' }),
+      })
+    )
+    .optional(),
+});
 
 const homepageAboutProfileSchema = z.object({
   name: z.string().nonempty(),
@@ -109,86 +142,118 @@ const homepageAboutProfileSchema = z.object({
   body: z.string().nonempty().editor({ input: 'textarea' }),
   imageUrl: z.string().optional().editor({ input: 'media' }),
   credibilityBullets: z.array(z.string().nonempty()).min(1),
-  timelineItems: z.array(z.object({
-    period: z.string().nonempty(),
-    label: z.string().nonempty(),
-    description: z.string().nonempty()
-  })).min(1)
-})
+  timelineItems: z
+    .array(
+      z.object({
+        period: z.string().nonempty(),
+        label: z.string().nonempty(),
+        description: z.string().nonempty(),
+      })
+    )
+    .min(1),
+});
 
 const homepageAboutSchema = z.object({
   headline: z.string().optional(),
   title: z.string().nonempty(),
   description: z.string().nonempty(),
   primaryProfile: homepageAboutProfileSchema,
-  profiles: z.array(homepageAboutProfileSchema).optional()
-})
+  profiles: z.array(homepageAboutProfileSchema).optional(),
+});
 
 const homepageNarrativeSectionSchema = z.object({
   title: z.string().nonempty(),
-  paragraphs: z.array(z.string().nonempty()).min(1)
-})
+  paragraphs: z.array(z.string().nonempty()).min(1),
+});
 
 const homepageMechanismSchema = z.object({
   title: z.string().nonempty(),
   description: z.string().nonempty(),
-  items: z.array(z.string().nonempty()).min(1)
-})
+  items: z.array(z.string().nonempty()).min(1),
+});
 
 const homepageProcessSchema = z.object({
   title: z.string().nonempty(),
-  items: z.array(z.object({
-    step: z.string().nonempty(),
-    title: z.string().nonempty(),
-    description: z.string().nonempty()
-  })).min(1)
-})
+  items: z
+    .array(
+      z.object({
+        step: z.string().nonempty(),
+        title: z.string().nonempty(),
+        description: z.string().nonempty(),
+      })
+    )
+    .min(1),
+});
 
 const useOfFundsSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  allocationRows: z.array(z.object({
-    category: z.string(),
-    amount: z.string()
-  })).optional(),
+  allocationRows: z
+    .array(
+      z.object({
+        category: z.string(),
+        amount: z.string(),
+      })
+    )
+    .optional(),
   totalLabel: z.string().optional(),
   totalAmount: z.string().optional(),
-  highlights: z.array(z.object({
-    title: z.string(),
-    body: z.string().editor({ input: 'textarea' })
-  })).optional()
-})
+  highlights: z
+    .array(
+      z.object({
+        title: z.string(),
+        body: z.string().editor({ input: 'textarea' }),
+      })
+    )
+    .optional(),
+});
 
 const returnsSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  timelineItems: z.array(z.object({
-    period: z.string(),
-    phase: z.string(),
-    description: z.string()
-  })).optional(),
-  keyMetrics: z.array(z.object({
-    value: z.string(),
-    label: z.string()
-  })).optional(),
+  timelineItems: z
+    .array(
+      z.object({
+        period: z.string(),
+        phase: z.string(),
+        description: z.string(),
+      })
+    )
+    .optional(),
+  keyMetrics: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .optional(),
   exitStrategyTitle: z.string().optional(),
-  exitStrategyBody: z.string().optional().editor({ input: 'textarea' })
-})
+  exitStrategyBody: z.string().optional().editor({ input: 'textarea' }),
+});
 
 const projectionsSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  rows: z.array(z.object({
-    label: z.string(),
-    value: z.string()
-  })).optional(),
-  metrics: z.array(z.object({
-    value: z.string(),
-    label: z.string()
-  })).optional()
-})
+  rows: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+      })
+    )
+    .optional(),
+  metrics: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .optional(),
+});
 
 const risksDisclaimerSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
-  bullets: z.array(z.string()).optional()
-})
+  bullets: z.array(z.string()).optional(),
+});
 
 const closingCtaSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
@@ -196,34 +261,42 @@ const closingCtaSchema = sectionBase.extend({
   ctaUrl: z.string().optional(),
   contactName: z.string().optional(),
   contactTitle: z.string().optional(),
-  contactEmail: z.string().optional()
-})
+  contactEmail: z.string().optional(),
+});
 
 const operationalPerformanceSchema = sectionBase.extend({
   body: z.string().optional().editor({ input: 'textarea' }),
   since: z.string().optional(),
   acreage: z.string().optional(),
-  fields: z.array(z.object({
-    type: z.string(),
-    count: z.number()
-  })).optional(),
+  fields: z
+    .array(
+      z.object({
+        type: z.string(),
+        count: z.number(),
+      })
+    )
+    .optional(),
   capacityPercent: z.number().optional(),
   annualRevenue: z.string().optional(),
   eventTypes: z.array(z.string()).optional(),
   anchorTenants: z.array(z.string()).optional(),
-  metrics: z.array(z.object({
-    value: z.string(),
-    label: z.string()
-  })).optional()
-})
+  metrics: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .optional(),
+});
 
 const locationSchema = z.object({
   address: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
   zip: z.string().optional(),
-  mapEmbedUrl: z.string().optional()
-})
+  mapEmbedUrl: z.string().optional(),
+});
 
 // ─── Collections ─────────────────────────────────────────────────────────────
 
@@ -232,27 +305,33 @@ export const collections = {
     source: 'index.yml',
     type: 'page',
     schema: z.object({
-      seo: z.object({
-        title: z.string().optional(),
-        description: z.string().optional()
-      }).optional(),
+      seo: z
+        .object({
+          title: z.string().optional(),
+          description: z.string().optional(),
+        })
+        .optional(),
       title: z.string().optional(),
       description: z.string().optional(),
       hero: z.object({
         headline: z.string().optional(),
-        links: z.array(createLinkSchema())
+        links: z.array(createLinkSchema()),
       }),
       terminal: z.object({
-        lines: z.array(z.object({
-          segments: z.array(z.object({
-            text: z.string(),
-            style: z.string()
-          }))
-        }))
+        lines: z.array(
+          z.object({
+            segments: z.array(
+              z.object({
+                text: z.string(),
+                style: z.string(),
+              })
+            ),
+          })
+        ),
       }),
       logos: z.object({
         title: z.string().nonempty(),
-        items: z.array(z.string())
+        items: z.array(z.string()),
       }),
       about: homepageAboutSchema,
       problem: homepageNarrativeSectionSchema,
@@ -263,29 +342,33 @@ export const collections = {
         headline: z.string().optional(),
         title: z.string().nonempty(),
         description: z.string().nonempty(),
-        items: z.array(z.object({
-          icon: z.string(),
-          title: z.string().nonempty(),
-          description: z.string().nonempty()
-        }))
+        items: z.array(
+          z.object({
+            icon: z.string(),
+            title: z.string().nonempty(),
+            description: z.string().nonempty(),
+          })
+        ),
       }),
       metrics: z.object({
         headline: z.string().optional(),
         title: z.string().nonempty(),
         description: z.string().nonempty(),
-        items: z.array(z.object({
-          value: z.string().nonempty(),
-          label: z.string().nonempty(),
-          class: z.string().nonempty()
-        }))
+        items: z.array(
+          z.object({
+            value: z.string().nonempty(),
+            label: z.string().nonempty(),
+            class: z.string().nonempty(),
+          })
+        ),
       }),
       cta: z.object({
         title: z.string().nonempty(),
         description: z.string().nonempty(),
         command: z.string().nonempty(),
-        links: z.array(createLinkSchema())
-      })
-    })
+        links: z.array(createLinkSchema()),
+      }),
+    }),
   }),
 
   investments: defineCollection({
@@ -310,8 +393,8 @@ export const collections = {
       returns: returnsSchema.optional(),
       projections: projectionsSchema.optional(),
       risksDisclaimer: risksDisclaimerSchema.optional(),
-      closingCta: closingCtaSchema.optional()
-    })
+      closingCta: closingCtaSchema.optional(),
+    }),
   }),
 
   projects: defineCollection({
@@ -335,7 +418,7 @@ export const collections = {
       investmentThesis: investmentThesisSchema.optional(),
       returns: returnsSchema.optional(),
       risksDisclaimer: risksDisclaimerSchema.optional(),
-      closingCta: closingCtaSchema.optional()
-    })
-  })
-}
+      closingCta: closingCtaSchema.optional(),
+    }),
+  }),
+};

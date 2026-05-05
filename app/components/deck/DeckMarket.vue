@@ -1,18 +1,18 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  metrics?: Array<{ value: string, label: string }>
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  metrics?: Array<{ value: string; label: string }>;
+}>();
 </script>
 
 <template>
@@ -24,17 +24,11 @@ defineProps<{
         :description="description"
         :section-image="sectionImage"
       >
-        <div
-          v-if="body"
-          class="max-w-2xl text-muted leading-relaxed whitespace-pre-line mb-12"
-        >
+        <div v-if="body" class="max-w-2xl text-muted leading-relaxed whitespace-pre-line mb-12">
           {{ body }}
         </div>
 
-        <div
-          v-if="metrics?.length"
-          class="grid grid-cols-2 lg:grid-cols-4 gap-6"
-        >
+        <div v-if="metrics?.length" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div
             v-for="metric in metrics"
             :key="metric.label"

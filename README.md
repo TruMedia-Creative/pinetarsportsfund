@@ -44,16 +44,16 @@ All content lives in YAML files under `content/`. Nuxt Studio provides a visual 
 If you are editing an investment page in Studio and need field-level guidance quickly:
 
 1. How do I add a photo when replacing an image URL?
-	Edit the image field directly in the entry. Common fields are `cover.heroImageUrl`, `sectionImage.url`, `projectOverview.images[].url`, and `team.members[].imageUrl`. These use Studio media input and typically store project-relative paths like `/howe-phases.png`.
+   Edit the image field directly in the entry. Common fields are `cover.heroImageUrl`, `sectionImage.url`, `projectOverview.images[].url`, and `team.members[].imageUrl`. These use Studio media input and typically store project-relative paths like `/howe-phases.png`.
 
 2. How do I edit bullets like Proven Phase I, Anchor Tenant, Scarcity Value, and Experienced Operator?
-	Edit `investmentThesis.bullets`. If you are updating bullets in the Phases section, edit `opportunity.bullets`.
+   Edit `investmentThesis.bullets`. If you are updating bullets in the Phases section, edit `opportunity.bullets`.
 
 3. How do I edit content under phases?
-	Edit `returns.timelineItems[].phase` for timeline phase labels. Edit `opportunity.body` and `projectOverview.body` for phase narrative text.
+   Edit `returns.timelineItems[].phase` for timeline phase labels. Edit `opportunity.body` and `projectOverview.body` for phase narrative text.
 
 4. Where is the edit info for Dugout Howe Complex Phase II consists of ...?
-	That text is in `projectOverview.body`, not in Phase I budget fields.
+   That text is in `projectOverview.body`, not in Phase I budget fields.
 
 For the full walkthrough, open the in-app Studio Guide at `/studio-instructions` after logging in at `/admin`.
 
@@ -76,13 +76,13 @@ Press **⌘.** (Cmd + period) on any page to jump to the login screen.
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---|---|
+| Variable              | Required       | Description                                                                               |
+| --------------------- | -------------- | ----------------------------------------------------------------------------------------- |
 | `STUDIO_GITHUB_TOKEN` | **Yes** (prod) | GitHub Personal Access Token with `repo` scope. Studio uses this to push content commits. |
-| `NUXT_ADMIN_USERNAME` | **Yes** (prod) | Username for the `/admin` login page. |
-| `NUXT_ADMIN_PASSWORD` | **Yes** (prod) | Password for the `/admin` login page. Use a strong, unique value. |
-| `NUXT_SITE_URL` | No | Canonical site URL used for sitemap, robots, canonical tags, and absolute OG image URLs. |
-| `SITE_URL` | No | Legacy fallback for canonical site URL. Prefer `NUXT_SITE_URL`. |
+| `NUXT_ADMIN_USERNAME` | **Yes** (prod) | Username for the `/admin` login page.                                                     |
+| `NUXT_ADMIN_PASSWORD` | **Yes** (prod) | Password for the `/admin` login page. Use a strong, unique value.                         |
+| `NUXT_SITE_URL`       | No             | Canonical site URL used for sitemap, robots, canonical tags, and absolute OG image URLs.  |
+| `SITE_URL`            | No             | Legacy fallback for canonical site URL. Prefer `NUXT_SITE_URL`.                           |
 
 On Vercel, set these under **Settings → Environment Variables**. The repository connection (`VERCEL_GIT_*`) is handled automatically by Vercel.
 

@@ -1,28 +1,27 @@
 <script setup lang="ts">
-const route = useRoute()
-const slug = route.params.slug as string
+const route = useRoute();
+const slug = route.params.slug as string;
 
 const { data: deck } = await useAsyncData(`project-${slug}`, () =>
   queryCollection('projects').where('stem', '=', `projects/${slug}`).first()
-)
+);
 
 if (!deck.value || !deck.value.published) {
-  throw createError({ statusCode: 404, statusMessage: 'Project not found', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: 'Project not found', fatal: true });
 }
 
-const deckDescription = deck.value.subtitle || `${deck.value.projectName} — operational youth sports complex from Pine Tar Sports Fund.`
+const deckDescription =
+  deck.value.subtitle ||
+  `${deck.value.projectName} — operational youth sports complex from Pine Tar Sports Fund.`;
 
 useSeoMeta({
   title: `${deck.value.title} — Pine Tar Sports Fund`,
-  description: deckDescription
-})
+  description: deckDescription,
+});
 </script>
 
 <template>
-  <div
-    v-if="deck"
-    class="min-h-screen"
-  >
+  <div v-if="deck" class="min-h-screen">
     <!-- Back nav -->
     <div class="max-w-6xl mx-auto px-6 pt-8">
       <UButton
@@ -56,35 +55,23 @@ useSeoMeta({
       v-bind="deck.projectOverview"
     />
 
-    <DeckProjectMap
-      v-if="deck.location"
-      v-bind="deck.location"
-    />
+    <DeckProjectMap v-if="deck.location" v-bind="deck.location" />
 
-    <DeckMarket
-      v-if="deck.market?.enabled !== false && deck.market"
-      v-bind="deck.market"
-    />
+    <DeckMarket v-if="deck.market?.enabled !== false && deck.market" v-bind="deck.market" />
 
     <DeckOperationalPerformance
       v-if="deck.operationalPerformance?.enabled !== false && deck.operationalPerformance"
       v-bind="deck.operationalPerformance"
     />
 
-    <DeckTeam
-      v-if="deck.team?.enabled !== false && deck.team"
-      v-bind="deck.team"
-    />
+    <DeckTeam v-if="deck.team?.enabled !== false && deck.team" v-bind="deck.team" />
 
     <DeckInvestmentThesis
       v-if="deck.investmentThesis?.enabled !== false && deck.investmentThesis"
       v-bind="deck.investmentThesis"
     />
 
-    <DeckReturns
-      v-if="deck.returns?.enabled !== false && deck.returns"
-      v-bind="deck.returns"
-    />
+    <DeckReturns v-if="deck.returns?.enabled !== false && deck.returns" v-bind="deck.returns" />
 
     <DeckRisksDisclaimer
       v-if="deck.risksDisclaimer?.enabled !== false && deck.risksDisclaimer"

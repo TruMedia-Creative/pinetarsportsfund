@@ -1,29 +1,27 @@
 <script setup lang="ts">
-const route = useRoute()
-const slug = route.params.slug as string
+const route = useRoute();
+const slug = route.params.slug as string;
 
 const { data: deck } = await useAsyncData(`deck-${slug}`, () =>
   queryCollection('investments').where('stem', '=', `investments/${slug}`).first()
-)
+);
 
 // 404 if not found or not published
 if (!deck.value || !deck.value.published) {
-  throw createError({ statusCode: 404, statusMessage: 'Deck not found', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: 'Deck not found', fatal: true });
 }
 
-const deckDescription = deck.value.subtitle || `${deck.value.projectName} offering deck from Pine Tar Sports Fund.`
+const deckDescription =
+  deck.value.subtitle || `${deck.value.projectName} offering deck from Pine Tar Sports Fund.`;
 
 useSeoMeta({
   title: `${deck.value.title} — Pine Tar Sports Fund`,
-  description: deckDescription
-})
+  description: deckDescription,
+});
 </script>
 
 <template>
-  <div
-    v-if="deck"
-    class="min-h-screen"
-  >
+  <div v-if="deck" class="min-h-screen">
     <!-- Back nav -->
     <div class="max-w-6xl mx-auto px-6 pt-8">
       <UButton
@@ -62,30 +60,21 @@ useSeoMeta({
       v-bind="deck.opportunity"
     />
 
-    <DeckMarket
-      v-if="deck.market?.enabled !== false && deck.market"
-      v-bind="deck.market"
-    />
+    <DeckMarket v-if="deck.market?.enabled !== false && deck.market" v-bind="deck.market" />
 
     <DeckProjectOverview
       v-if="deck.projectOverview?.enabled !== false && deck.projectOverview"
       v-bind="deck.projectOverview"
     />
 
-    <DeckTeam
-      v-if="deck.team?.enabled !== false && deck.team"
-      v-bind="deck.team"
-    />
+    <DeckTeam v-if="deck.team?.enabled !== false && deck.team" v-bind="deck.team" />
 
     <DeckUseOfFunds
       v-if="deck.useOfFunds?.enabled !== false && deck.useOfFunds"
       v-bind="deck.useOfFunds"
     />
 
-    <DeckReturns
-      v-if="deck.returns?.enabled !== false && deck.returns"
-      v-bind="deck.returns"
-    />
+    <DeckReturns v-if="deck.returns?.enabled !== false && deck.returns" v-bind="deck.returns" />
 
     <DeckProjections
       v-if="deck.projections?.enabled !== false && deck.projections"

@@ -1,19 +1,19 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  bullets?: string[]
-  imageUrl?: string
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  bullets?: string[];
+  imageUrl?: string;
+}>();
 </script>
 
 <template>
@@ -26,22 +26,12 @@ defineProps<{
         :section-image="sectionImage || (imageUrl ? { url: imageUrl, layout: 'right' } : undefined)"
       >
         <div class="space-y-8">
-          <p
-            v-if="body"
-            class="text-lg text-muted leading-relaxed whitespace-pre-line"
-          >
+          <p v-if="body" class="text-lg text-muted leading-relaxed whitespace-pre-line">
             {{ body }}
           </p>
 
-          <ul
-            v-if="bullets?.length"
-            class="space-y-3"
-          >
-            <li
-              v-for="(bullet, i) in bullets"
-              :key="i"
-              class="flex items-start gap-3"
-            >
+          <ul v-if="bullets?.length" class="space-y-3">
+            <li v-for="(bullet, i) in bullets" :key="i" class="flex items-start gap-3">
               <span class="text-primary font-bold shrink-0">→</span>
               <span class="text-muted">{{ bullet }}</span>
             </li>

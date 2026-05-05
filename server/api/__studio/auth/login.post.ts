@@ -1,4 +1,4 @@
-import { createError, getRequestIP, readBody } from 'h3'
+import { createError, getRequestIP, readBody } from 'h3';
 
 /**
  * POST /api/__studio/auth/login
@@ -13,104 +13,109 @@ import { createError, getRequestIP, readBody } from 'h3'
  */
 
 // ── Simple in-memory rate limiter (per-IP) ──────────────────────────────────
-const MAX_ATTEMPTS = 5
-const WINDOW_MS = 15 * 60 * 1000 // 15 minutes
-const attempts = new Map<string, { count: number, firstAttempt: number }>()
+const MAX_ATTEMPTS = 5;
+const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const attempts = new Map<string, { count: number; firstAttempt: number }>();
 
 function checkRateLimit(ip: string): void {
-  const now = Date.now()
-  const record = attempts.get(ip)
+  const now = Date.now();
+  const record = attempts.get(ip);
 
   if (record && now - record.firstAttempt < WINDOW_MS) {
     if (record.count >= MAX_ATTEMPTS) {
       throw createError({
         statusCode: 429,
-        message: 'Too many login attempts. Please try again later.'
-      })
+        message: 'Too many login attempts. Please try again later.',
+      });
     }
   } else if (record) {
     // Window expired — clean up stale entry
-    attempts.delete(ip)
+    attempts.delete(ip);
   }
 }
 
 function recordFailedAttempt(ip: string): void {
-  const now = Date.now()
-  const record = attempts.get(ip)
+  const now = Date.now();
+  const record = attempts.get(ip);
 
   if (!record || now - record.firstAttempt >= WINDOW_MS) {
-    attempts.set(ip, { count: 1, firstAttempt: now })
+    attempts.set(ip, { count: 1, firstAttempt: now });
   } else {
-    record.count++
+    record.count++;
   }
 }
 
 function clearAttempts(ip: string): void {
-  attempts.delete(ip)
+  attempts.delete(ip);
 }
 
 // ── Handler ─────────────────────────────────────────────────────────────────
 export default defineEventHandler(async (event) => {
-  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
-  checkRateLimit(ip)
+  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
+  checkRateLimit(ip);
 
   // Validate request body shape
-  const body = await readBody(event).catch(() => null)
+  const body = await readBody(event).catch(() => null);
 
   if (!body || typeof body !== 'object') {
     throw createError({
       statusCode: 400,
-      message: 'Username and password are required.'
-    })
+      message: 'Username and password are required.',
+    });
   }
 
-  const { username, password } = body as Record<string, unknown>
+  const { username, password } = body as Record<string, unknown>;
 
-  if (typeof username !== 'string' || typeof password !== 'string' || !username.trim() || !password) {
+  if (
+    typeof username !== 'string' ||
+    typeof password !== 'string' ||
+    !username.trim() ||
+    !password
+  ) {
     throw createError({
       statusCode: 400,
-      message: 'Username and password are required.'
-    })
+      message: 'Username and password are required.',
+    });
   }
 
-  const config = useRuntimeConfig(event)
+  const config = useRuntimeConfig(event);
   // Nuxt auto-maps NUXT_ADMIN_USERNAME and NUXT_ADMIN_PASSWORD env vars
   // into runtimeConfig at runtime.
-  const expectedUser = config.adminUsername as string | undefined
-  const expectedPass = config.adminPassword as string | undefined
+  const expectedUser = config.adminUsername as string | undefined;
+  const expectedPass = config.adminPassword as string | undefined;
 
   if (!expectedUser || !expectedPass) {
     throw createError({
       statusCode: 500,
-      message: 'Admin credentials are not configured on the server.'
-    })
+      message: 'Admin credentials are not configured on the server.',
+    });
   }
 
   // Simple constant-length comparison to mitigate basic timing attacks.
   // For a single-user admin form this is sufficient.
-  const userMatch = constantTimeEqual(username.trim(), expectedUser)
-  const passMatch = constantTimeEqual(password, expectedPass)
+  const userMatch = constantTimeEqual(username.trim(), expectedUser);
+  const passMatch = constantTimeEqual(password, expectedPass);
 
   if (!userMatch || !passMatch) {
-    recordFailedAttempt(ip)
+    recordFailedAttempt(ip);
     throw createError({
       statusCode: 401,
-      message: 'Invalid username or password.'
-    })
+      message: 'Invalid username or password.',
+    });
   }
 
-  clearAttempts(ip)
+  clearAttempts(ip);
 
   // setStudioUserSession is auto-imported by the nuxt-studio module.
   // It reads the repository provider from runtimeConfig and the git access
   // token from STUDIO_GITHUB_TOKEN, then sets the signed session cookie.
   await setStudioUserSession(event, {
     name: expectedUser,
-    email: `${expectedUser}@pinetarsportsfund.com`
-  })
+    email: `${expectedUser}@pinetarsportsfund.com`,
+  });
 
-  return { ok: true }
-})
+  return { ok: true };
+});
 
 /**
  * Constant-time string comparison (prevents basic timing side-channels).
@@ -118,10 +123,10 @@ export default defineEventHandler(async (event) => {
  * Always iterates over the longer string to avoid leaking length information.
  */
 function constantTimeEqual(a: string, b: string): boolean {
-  const len = Math.max(a.length, b.length)
-  let result = a.length ^ b.length // non-zero if lengths differ
+  const len = Math.max(a.length, b.length);
+  let result = a.length ^ b.length; // non-zero if lengths differ
   for (let i = 0; i < len; i++) {
-    result |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0)
+    result |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
   }
-  return result === 0
+  return result === 0;
 }

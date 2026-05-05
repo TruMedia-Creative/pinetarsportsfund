@@ -1,21 +1,21 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  allocationRows?: Array<{ category: string, amount: string }>
-  totalLabel?: string
-  totalAmount?: string
-  highlights?: Array<{ title: string, body: string }>
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  allocationRows?: Array<{ category: string; amount: string }>;
+  totalLabel?: string;
+  totalAmount?: string;
+  highlights?: Array<{ title: string; body: string }>;
+}>();
 </script>
 
 <template>
@@ -29,22 +29,15 @@ defineProps<{
       >
         <div class="grid lg:grid-cols-2 gap-12 items-start">
           <div v-if="allocationRows?.length">
-            <p
-              v-if="body"
-              class="text-muted mb-6 leading-relaxed"
-            >
+            <p v-if="body" class="text-muted mb-6 leading-relaxed">
               {{ body }}
             </p>
             <div class="rounded-xl border border-default overflow-hidden">
               <table class="w-full text-sm">
                 <thead>
                   <tr class="border-b border-default bg-default/50">
-                    <th class="px-4 py-3 text-left text-dimmed font-medium">
-                      Category
-                    </th>
-                    <th class="px-4 py-3 text-right text-dimmed font-medium">
-                      Amount
-                    </th>
+                    <th class="px-4 py-3 text-left text-dimmed font-medium">Category</th>
+                    <th class="px-4 py-3 text-right text-dimmed font-medium">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -60,10 +53,7 @@ defineProps<{
                       {{ row.amount }}
                     </td>
                   </tr>
-                  <tr
-                    v-if="totalLabel"
-                    class="bg-primary/5 border-t-2 border-primary/20"
-                  >
+                  <tr v-if="totalLabel" class="bg-primary/5 border-t-2 border-primary/20">
                     <td class="px-4 py-3 font-bold">
                       {{ totalLabel }}
                     </td>
@@ -76,10 +66,7 @@ defineProps<{
             </div>
           </div>
 
-          <div
-            v-if="highlights?.length"
-            class="space-y-6"
-          >
+          <div v-if="highlights?.length" class="space-y-6">
             <div
               v-for="highlight in highlights"
               :key="highlight.title"

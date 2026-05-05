@@ -3,21 +3,19 @@ const links = [
   { label: 'Investment Opportunities', to: '/investments' },
   { label: 'Contact', to: 'mailto:info@pinetarsportsfund.com' },
   { label: 'Privacy', to: '#' },
-  { label: 'Terms', to: '#' }
-]
+  { label: 'Terms', to: '#' },
+];
 </script>
 
 <template>
   <UFooter
     :ui="{
       container: 'border-t border-default lg:py-8',
-      right: 'gap-x-0 flex-wrap'
+      right: 'gap-x-0 flex-wrap',
     }"
   >
     <template #left>
-      <p class="text-sm text-dimmed">
-        Pine Tar Sports Fund • © {{ new Date().getFullYear() }}
-      </p>
+      <p class="text-sm text-dimmed">Pine Tar Sports Fund • © {{ new Date().getFullYear() }}</p>
     </template>
 
     <template #right>

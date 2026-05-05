@@ -1,19 +1,19 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  rows?: Array<{ label: string, value: string }>
-  metrics?: Array<{ value: string, label: string }>
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  rows?: Array<{ label: string; value: string }>;
+  metrics?: Array<{ value: string; label: string }>;
+}>();
 </script>
 
 <template>
@@ -27,17 +27,11 @@ defineProps<{
       >
         <div class="grid lg:grid-cols-2 gap-12 items-start">
           <div>
-            <p
-              v-if="body"
-              class="text-muted leading-relaxed mb-8 whitespace-pre-line"
-            >
+            <p v-if="body" class="text-muted leading-relaxed mb-8 whitespace-pre-line">
               {{ body }}
             </p>
 
-            <div
-              v-if="rows?.length"
-              class="rounded-xl border border-default overflow-hidden"
-            >
+            <div v-if="rows?.length" class="rounded-xl border border-default overflow-hidden">
               <table class="w-full text-sm">
                 <tbody>
                   <tr
@@ -57,10 +51,7 @@ defineProps<{
             </div>
           </div>
 
-          <div
-            v-if="metrics?.length"
-            class="grid grid-cols-2 gap-4"
-          >
+          <div v-if="metrics?.length" class="grid grid-cols-2 gap-4">
             <div
               v-for="metric in metrics"
               :key="metric.label"

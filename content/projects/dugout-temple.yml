@@ -17,11 +17,11 @@ audienceType: investor
 published: true
 
 location:
-  address: ""
+  address: ''
   city: Temple
   state: TX
-  zip: ""
-  mapEmbedUrl: ""
+  zip: ''
+  mapEmbedUrl: ''
 
 cover:
   enabled: true
@@ -30,8 +30,8 @@ cover:
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
-  address: ""
-  description: ""
+  address: ''
+  description: ''
   sectionImage:
     url: /projects/dugout-temple/hero.jpg
     layout: hidden
@@ -59,14 +59,14 @@ executiveSummary:
       label: Risks & Disclaimer
   returnsTableTitle: Key Investment Metrics
   returnsTableRows:
-    - label: ""
-      value: ""
+    - label: ''
+      value: ''
       highlight: true
 
 projectOverview:
   enabled: true
   sectionTitle: Project Overview
-  body: ""
+  body: ''
   images:
     - url: /projects/dugout-temple/photo-1.jpg
       alt: Dugout Temple aerial view
@@ -76,73 +76,73 @@ projectOverview:
 market:
   enabled: true
   sectionTitle: Market Context
-  body: ""
+  body: ''
   metrics:
-    - value: ""
+    - value: ''
       label: Population within 60 miles
-    - value: ""
+    - value: ''
       label: Median household income
-    - value: ""
+    - value: ''
       label: Youth sports participation rate
-    - value: ""
+    - value: ''
       label: Annual tournament market size
 
 operationalPerformance:
   enabled: true
   sectionTitle: Operational Performance
-  body: ""
-  since: ""
-  acreage: ""
+  body: ''
+  since: ''
+  acreage: ''
   fields:
     - type: Baseball
       count: 0
     - type: Softball
       count: 0
   capacityPercent: 0
-  annualRevenue: ""
+  annualRevenue: ''
   eventTypes:
     - Tournaments
     - League Play
     - Field Rentals
   anchorTenants: []
   metrics:
-    - value: ""
+    - value: ''
       label: Fields
-    - value: ""
+    - value: ''
       label: Operational Since
-    - value: ""
+    - value: ''
       label: Annual Revenue
-    - value: ""
+    - value: ''
       label: Avg. Capacity
 
 team:
   enabled: true
   sectionTitle: Team
-  body: ""
+  body: ''
   members:
     - name: Tim Truman
       title: Managing Partner
-      bio: ""
-      imageUrl: ""
+      bio: ''
+      imageUrl: ''
 
 investmentThesis:
   enabled: true
   sectionTitle: Expansion Opportunity
-  body: ""
+  body: ''
   bullets: []
 
 returns:
   enabled: true
   sectionTitle: Returns & Timeline
-  body: ""
+  body: ''
   timelineItems: []
   keyMetrics:
-    - value: ""
+    - value: ''
       label: Preferred Return
-    - value: ""
+    - value: ''
       label: Target Payback
   exitStrategyTitle: Exit Strategy
-  exitStrategyBody: ""
+  exitStrategyBody: ''
 
 risksDisclaimer:
   enabled: true

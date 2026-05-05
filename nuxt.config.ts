@@ -1,17 +1,29 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs';
 
 function isPublished(contentDir: string, filename: string): boolean {
-  const content = readFileSync(new URL(`./${contentDir}/${filename}`, import.meta.url), 'utf-8')
-  return content.includes('published: true')
+  const content = readFileSync(new URL(`./${contentDir}/${filename}`, import.meta.url), 'utf-8');
+  return content.includes('published: true');
 }
 
-const investmentDeckRoutes = readdirSync(new URL('./content/investments', import.meta.url), { withFileTypes: true })
-  .filter(entry => entry.isFile() && entry.name.endsWith('.yml') && isPublished('content/investments', entry.name))
-  .map(entry => `/investments/${entry.name.replace(/\.yml$/, '')}`)
+const investmentDeckRoutes = readdirSync(new URL('./content/investments', import.meta.url), {
+  withFileTypes: true,
+})
+  .filter(
+    (entry) =>
+      entry.isFile() &&
+      entry.name.endsWith('.yml') &&
+      isPublished('content/investments', entry.name)
+  )
+  .map((entry) => `/investments/${entry.name.replace(/\.yml$/, '')}`);
 
-const projectDeckRoutes = readdirSync(new URL('./content/projects', import.meta.url), { withFileTypes: true })
-  .filter(entry => entry.isFile() && entry.name.endsWith('.yml') && isPublished('content/projects', entry.name))
-  .map(entry => `/projects/${entry.name.replace(/\.yml$/, '')}`)
+const projectDeckRoutes = readdirSync(new URL('./content/projects', import.meta.url), {
+  withFileTypes: true,
+})
+  .filter(
+    (entry) =>
+      entry.isFile() && entry.name.endsWith('.yml') && isPublished('content/projects', entry.name)
+  )
+  .map((entry) => `/projects/${entry.name.replace(/\.yml$/, '')}`);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -24,40 +36,37 @@ export default defineNuxtConfig({
     'motion-v/nuxt',
     'nuxt-studio',
     '@nuxt/hints',
-    '@vercel/analytics'
+    '@vercel/analytics',
   ],
 
   // Register deck section components globally so Studio component picker can list them
-  components: [
-    { path: '~/components/deck', global: true },
-    '~/components'
-  ],
+  components: [{ path: '~/components/deck', global: true }, '~/components'],
 
   devtools: {
-    enabled: true
+    enabled: true,
   },
 
   css: ['~/assets/css/main.css'],
 
   site: {
     url: process.env.NUXT_SITE_URL || process.env.SITE_URL || 'https://pinetarsportsfund.com',
-    name: 'Pine Tar Sports Fund'
+    name: 'Pine Tar Sports Fund',
   },
   mdc: {
     highlight: {
-      noApiRoute: false
-    }
+      noApiRoute: false,
+    },
   },
 
   // Server-only runtime config.  Nuxt automatically maps NUXT_ADMIN_USERNAME
   // and NUXT_ADMIN_PASSWORD env vars into these keys at runtime.
   runtimeConfig: {
     adminUsername: '',
-    adminPassword: ''
+    adminPassword: '',
   },
 
   experimental: {
-    payloadExtraction: false
+    payloadExtraction: false,
   },
 
   compatibilityDate: '2025-01-15',
@@ -65,45 +74,45 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: ['/', '/investments', ...investmentDeckRoutes, '/projects', ...projectDeckRoutes],
-      crawlLinks: false
-    }
+      crawlLinks: false,
+    },
   },
 
   vite: {
     optimizeDeps: {
-      include: ['gsap', 'gsap/ScrollTrigger']
-    }
+      include: ['gsap', 'gsap/ScrollTrigger'],
+    },
   },
   debug: process.env.NODE_ENV === 'development',
 
   hooks: {
     'vite:extendConfig'(config) {
-      const optimizeDeps = config.optimizeDeps
+      const optimizeDeps = config.optimizeDeps;
 
       if (!optimizeDeps || !Array.isArray(optimizeDeps.include)) {
-        return
+        return;
       }
 
       optimizeDeps.include = optimizeDeps.include.filter((entry) => {
-        return typeof entry !== 'string' || !entry.startsWith('@nuxtjs/mdc >')
-      })
-    }
+        return typeof entry !== 'string' || !entry.startsWith('@nuxtjs/mdc >');
+      });
+    },
   },
 
   eslint: {
     config: {
       stylistic: {
         commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
+        braceStyle: '1tbs',
+      },
+    },
   },
   icon: {
-    serverBundle: 'local'
+    serverBundle: 'local',
   },
 
   ogImage: {
-    zeroRuntime: true
+    zeroRuntime: true,
   },
 
   studio: {
@@ -116,7 +125,7 @@ export default defineNuxtConfig({
       provider: 'github',
       owner: 'TruMedia-Creative',
       repo: 'pinetarsportsfund',
-      branch: 'main'
+      branch: 'main',
     },
 
     meta: {
@@ -124,9 +133,9 @@ export default defineNuxtConfig({
         groups: [
           { label: 'Deck Sections', include: ['Deck*'] },
           { label: 'Layout', include: ['App*'] },
-          { label: 'UI', include: ['Gradient*', 'Hero*'] }
-        ]
-      }
-    }
-  }
-})
+          { label: 'UI', include: ['Gradient*', 'Hero*'] },
+        ],
+      },
+    },
+  },
+});

@@ -4,7 +4,7 @@ seo:
 title: "Invest in Sports Facilities  \nWithout Operating Them."
 description: Pine Tar Sports Fund structures private sports facility investments for qualified investors — combining real estate, operator experience, preferred return targets, and growing youth sports demand.
 hero:
-  headline: "Now accepting investors"
+  headline: 'Now accepting investors'
   links:
     - label: View Active Deals
       color: primary
@@ -18,41 +18,41 @@ hero:
 terminal:
   lines:
     - segments:
-        - text: "$ "
+        - text: '$ '
           style: prompt
-        - text: "pinetarsf"
+        - text: 'pinetarsf'
           style: cmd
-        - text: " opportunities --status open"
+        - text: ' opportunities --status open'
           style: flag
     - segments:
-        - text: "→ Scanning active offerings..."
+        - text: '→ Scanning active offerings...'
           style: dim
     - segments:
-        - text: "→ Found "
+        - text: '→ Found '
           style: dim
-        - text: "active opportunities"
+        - text: 'active opportunities'
           style: cmd
-        - text: " across "
+        - text: ' across '
           style: dim
-        - text: "multiple audience types"
+        - text: 'multiple audience types'
           style: cmd
     - segments:
-        - text: "→ Minimum investment from "
+        - text: '→ Minimum investment from '
           style: dim
-        - text: "$50,000"
+        - text: '$50,000'
           style: metric-good
     - segments:
-        - text: "→ Preferred Return"
+        - text: '→ Preferred Return'
           style: dim
-        - text: "8-9%"
+        - text: '8-9%'
           style: metric-good
     - segments:
-        - text: " "
+        - text: ' '
           style: dim
     - segments:
-        - text: "✓ Investor portal at "
+        - text: '✓ Investor portal at '
           style: success
-        - text: "pinetarsportsfund.com/investments"
+        - text: 'pinetarsportsfund.com/investments'
           style: url
 logos:
   title: Structured for institutional and accredited investors
@@ -64,13 +64,13 @@ logos:
     - i-lucide-bar-chart-3
 about:
   headline: Meet the operator
-  title: "Tim Truman brings
-    deal discipline to sports capital."
+  title: 'Tim Truman brings
+    deal discipline to sports capital.'
   description: Pine Tar Sports Fund is built around operator judgment, structured underwriting, and long-term alignment. Tim Truman leads the platform with a focus on credible execution over promotional noise.
   primaryProfile:
     name: Tim Truman
     title: Founder & Managing Partner
-    quote: "We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation."
+    quote: 'We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation.'
     body: Tim Truman brings together operating experience, relationship-driven deal access, and a practical understanding of how capital moves through sports and entertainment markets. His approach centers on sourcing opportunities where underwriting discipline, smart structuring, and long-term partnership matter more than hype. That philosophy shapes how Pine Tar Sports Fund evaluates risk, aligns stakeholders, and builds offerings investors can understand.
     imageUrl: /tim-headshot.jpg
     credibilityBullets:
@@ -90,7 +90,7 @@ about:
   profiles:
     - name: Larryon Truman, II
       title: Business Development & Investor Relations
-      quote: "Play ball. Then keep score. Investors want to know how the game is going, and they want to trust the team keeping score."
+      quote: 'Play ball. Then keep score. Investors want to know how the game is going, and they want to trust the team keeping score.'
       body: Larryon helps translate complex deal structures into materials investors can evaluate quickly and confidently. He focuses on clarity, reporting cadence, and maintaining trust through disciplined communication from first review through closing.
       credibilityBullets:
         - Investor-facing process built around clarity, responsiveness, and documentation quality.
@@ -108,7 +108,7 @@ about:
           description: Maintains a clear expectation that updates, documentation, and accountability remain part of the investment experience.
     - name: Marcus Vale
       title: Strategic Partnerships
-      quote: "The best sports deals work because the capital stack and the operating partners are aligned before the market ever sees the offering."
+      quote: 'The best sports deals work because the capital stack and the operating partners are aligned before the market ever sees the offering.'
       body: Marcus supports partner strategy across sponsors, municipalities, and operating counterparties. His role centers on shaping opportunities so commercial alignment, execution reality, and capital needs fit together before a project is presented to investors.
       credibilityBullets:
         - Partnership-first mindset across public, private, and sponsor-backed deal structures.
@@ -149,21 +149,21 @@ features:
       description: Our fee structure is back-end heavy. We win when our investors win. There is no incentive to over-raise or over-promise.
 metrics:
   headline: By the numbers
-  title: "A track record built on execution."
+  title: 'A track record built on execution.'
   description: Pine Tar Sports Fund has structured over $20M in sports and entertainment capital projects since inception.
   items:
-    - value: "$20M+"
+    - value: '$20M+'
       label: Capital structured
-      class: "text-primary"
-    - value: "8-9%"
+      class: 'text-primary'
+    - value: '8-9%'
       label: Preferred Return
-      class: "text-success"
-    - value: "7"
+      class: 'text-success'
+    - value: '7'
       label: Active projects
-      class: "text-info"
-    - value: "$50K"
+      class: 'text-info'
+    - value: '$50K'
       label: Minimum investment
-      class: "text-warning"
+      class: 'text-warning'
 problem:
   title: Sports is booming. Access is the problem.
   paragraphs:
@@ -178,7 +178,7 @@ guide:
     - We look for assets with demand, operators, revenue paths, and a real plan.
 mechanism:
   title: Underwritten like real estate. Operated like sports. Structured for investors.
-  description: "Every opportunity is reviewed through the lens of:"
+  description: 'Every opportunity is reviewed through the lens of:'
   items:
     - Location demand
     - Facility economics
@@ -190,16 +190,16 @@ mechanism:
 process:
   title: How it works
   items:
-    - step: "01"
+    - step: '01'
       title: Review active opportunities
       description: See current sports facility, sponsorship, and entertainment offerings.
-    - step: "02"
+    - step: '02'
       title: Request the investor materials
       description: Get the deck, terms, projections, and supporting documents.
-    - step: "03"
+    - step: '03'
       title: Evaluate the fit
       description: Review the risk profile, return target, timeline, and minimum investment.
-    - step: "04"
+    - step: '04'
       title: Invest with clarity
       description: Participate in a structured opportunity with defined terms and transparent communication.
 cta:

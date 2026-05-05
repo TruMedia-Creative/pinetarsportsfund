@@ -1,22 +1,22 @@
 <script setup lang="ts">
 defineProps<{
-  sectionTitle?: string
-  subtitle?: string
-  description?: string
+  sectionTitle?: string;
+  subtitle?: string;
+  description?: string;
   sectionImage?: {
-    url?: string
-    alt?: string
-    caption?: string
-    captionStyle?: 'below' | 'overlay' | 'both'
-    layout?: 'hidden' | 'right' | 'left' | 'banner-top'
-  }
-  body?: string
-  ctaText?: string
-  ctaUrl?: string
-  contactName?: string
-  contactTitle?: string
-  contactEmail?: string
-}>()
+    url?: string;
+    alt?: string;
+    caption?: string;
+    captionStyle?: 'below' | 'overlay' | 'both';
+    layout?: 'hidden' | 'right' | 'left' | 'banner-top';
+  };
+  body?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  contactName?: string;
+  contactTitle?: string;
+  contactEmail?: string;
+}>();
 </script>
 
 <template>
@@ -28,10 +28,7 @@ defineProps<{
         :description="description"
         :section-image="sectionImage"
       >
-        <p
-          v-if="body"
-          class="text-lg text-muted mb-10 leading-relaxed max-w-2xl mx-auto"
-        >
+        <p v-if="body" class="text-lg text-muted mb-10 leading-relaxed max-w-2xl mx-auto">
           {{ body }}
         </p>
 
@@ -55,23 +52,14 @@ defineProps<{
           />
         </div>
 
-        <div
-          v-if="contactName"
-          class="border-t border-default pt-8"
-        >
+        <div v-if="contactName" class="border-t border-default pt-8">
           <p class="font-semibold">
             {{ contactName }}
           </p>
-          <p
-            v-if="contactTitle"
-            class="text-sm text-dimmed"
-          >
+          <p v-if="contactTitle" class="text-sm text-dimmed">
             {{ contactTitle }}
           </p>
-          <p
-            v-if="contactEmail"
-            class="text-sm text-primary mt-1"
-          >
+          <p v-if="contactEmail" class="text-sm text-primary mt-1">
             {{ contactEmail }}
           </p>
         </div>
