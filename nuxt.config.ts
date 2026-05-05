@@ -1,11 +1,16 @@
-import { readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
+
+function isPublished(contentDir: string, filename: string): boolean {
+  const content = readFileSync(new URL(`./${contentDir}/${filename}`, import.meta.url), 'utf-8')
+  return content.includes('published: true')
+}
 
 const investmentDeckRoutes = readdirSync(new URL('./content/investments', import.meta.url), { withFileTypes: true })
-  .filter(entry => entry.isFile() && entry.name.endsWith('.yml'))
+  .filter(entry => entry.isFile() && entry.name.endsWith('.yml') && isPublished('content/investments', entry.name))
   .map(entry => `/investments/${entry.name.replace(/\.yml$/, '')}`)
 
 const projectDeckRoutes = readdirSync(new URL('./content/projects', import.meta.url), { withFileTypes: true })
-  .filter(entry => entry.isFile() && entry.name.endsWith('.yml'))
+  .filter(entry => entry.isFile() && entry.name.endsWith('.yml') && isPublished('content/projects', entry.name))
   .map(entry => `/projects/${entry.name.replace(/\.yml$/, '')}`)
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -93,6 +98,10 @@ export default defineNuxtConfig({
       }
     }
   },
+  icon: {
+    serverBundle: 'local'
+  },
+
   ogImage: {
     zeroRuntime: true
   },
