@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const colorMode = useColorMode();
 const route = useRoute();
-
+ 
 const color = computed(() => (colorMode.value === 'dark' ? '#09090b' : 'white'));
 const showGlobalInvestorPattern = computed(() => route.path !== '/');
 
