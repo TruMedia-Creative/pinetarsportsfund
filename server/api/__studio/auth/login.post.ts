@@ -1,4 +1,4 @@
-import { createError, getRequestHeader, readBody } from 'h3';
+import { createError, readBody } from 'h3';
 import type { H3Event } from 'h3';
 
 /**
@@ -14,8 +14,8 @@ import type { H3Event } from 'h3';
  */
 
 // ── Simple in-memory rate limiter (per-IP) ──────────────────────────────────
-const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const MAX_ATTEMPTS = 50;
+const WINDOW_MS = 150 * 60 * 1000; // 150 minutes
 const attempts = new Map<string, { count: number; firstAttempt: number }>();
 
 function checkRateLimit(ip: string): void {
@@ -50,16 +50,37 @@ function clearAttempts(ip: string): void {
   attempts.delete(ip);
 }
 
+type HeaderValue = string | string[] | undefined;
+type HeaderBag = Record<string, HeaderValue> & {
+  get?: (name: string) => string | null;
+};
+
+function getRawRequestHeader(event: H3Event, name: string): string | undefined {
+  const headers = (event.node?.req.headers ??
+    (event.req as unknown as { headers?: HeaderBag }).headers) as HeaderBag | undefined;
+
+  if (!headers) {
+    return;
+  }
+
+  if (typeof headers.get === 'function') {
+    return headers.get(name) ?? undefined;
+  }
+
+  const value = headers[name.toLowerCase()] ?? headers[name];
+  return Array.isArray(value) ? value.join(',') : value;
+}
+
 function getLoginRequestIP(event: H3Event): string {
-  const forwardedFor = getRequestHeader(event, 'x-forwarded-for');
+  const forwardedFor = getRawRequestHeader(event, 'x-forwarded-for');
 
   if (forwardedFor) {
     return forwardedFor.split(',')[0]?.trim() || 'unknown';
   }
 
   return (
-    getRequestHeader(event, 'x-real-ip') ||
-    getRequestHeader(event, 'cf-connecting-ip') ||
+    getRawRequestHeader(event, 'x-real-ip') ||
+    getRawRequestHeader(event, 'cf-connecting-ip') ||
     event.node?.req.socket.remoteAddress ||
     'unknown'
   );
