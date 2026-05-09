@@ -1,4 +1,5 @@
-import { createError, getRequestIP, readBody } from 'h3';
+import { createError, getRequestHeader, readBody } from 'h3';
+import type { H3Event } from 'h3';
 
 /**
  * POST /api/__studio/auth/login
@@ -49,9 +50,24 @@ function clearAttempts(ip: string): void {
   attempts.delete(ip);
 }
 
+function getLoginRequestIP(event: H3Event): string {
+  const forwardedFor = getRequestHeader(event, 'x-forwarded-for');
+
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0]?.trim() || 'unknown';
+  }
+
+  return (
+    getRequestHeader(event, 'x-real-ip') ||
+    getRequestHeader(event, 'cf-connecting-ip') ||
+    event.node?.req.socket.remoteAddress ||
+    'unknown'
+  );
+}
+
 // ── Handler ─────────────────────────────────────────────────────────────────
 export default defineEventHandler(async (event) => {
-  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown';
+  const ip = getLoginRequestIP(event);
   checkRateLimit(ip);
 
   // Validate request body shape
