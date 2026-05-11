@@ -42,7 +42,6 @@
     "@vueuse/nuxt": "^14.3.0",
     "better-sqlite3": "^12.9.0",
     "gsap": "^3.15.0",
-    "h3": "2.0.1-rc.21",
     "motion-v": "^2.2.1",
     "nuxt": "^4.4.4",
     "nuxt-studio": "1.7.0",

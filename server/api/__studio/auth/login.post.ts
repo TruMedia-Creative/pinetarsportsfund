@@ -1,6 +1,3 @@
-import { createError, readBody } from 'h3';
-import type { H3Event } from 'h3';
-
 /**
  * POST /api/__studio/auth/login
  *
@@ -55,9 +52,25 @@ type HeaderBag = Record<string, HeaderValue> & {
   get?: (name: string) => string | null;
 };
 
-function getRawRequestHeader(event: H3Event, name: string): string | undefined {
-  const headers = (event.node?.req.headers ??
-    (event.req as unknown as { headers?: HeaderBag }).headers) as HeaderBag | undefined;
+type LoginRequestEvent = {
+  node?: {
+    req?: {
+      headers?: unknown;
+      socket?: {
+        remoteAddress?: string;
+      };
+    };
+  };
+  req?: {
+    headers?: unknown;
+  };
+};
+
+function getRawRequestHeader(event: unknown, name: string): string | undefined {
+  const requestEvent = event as LoginRequestEvent;
+  const headers = (requestEvent.node?.req?.headers ?? requestEvent.req?.headers) as
+    | HeaderBag
+    | undefined;
 
   if (!headers) {
     return;
@@ -71,7 +84,8 @@ function getRawRequestHeader(event: H3Event, name: string): string | undefined {
   return Array.isArray(value) ? value.join(',') : value;
 }
 
-function getLoginRequestIP(event: H3Event): string {
+function getLoginRequestIP(event: unknown): string {
+  const requestEvent = event as LoginRequestEvent;
   const forwardedFor = getRawRequestHeader(event, 'x-forwarded-for');
 
   if (forwardedFor) {
@@ -81,7 +95,7 @@ function getLoginRequestIP(event: H3Event): string {
   return (
     getRawRequestHeader(event, 'x-real-ip') ||
     getRawRequestHeader(event, 'cf-connecting-ip') ||
-    event.node?.req.socket.remoteAddress ||
+    requestEvent.node?.req?.socket?.remoteAddress ||
     'unknown'
   );
 }
