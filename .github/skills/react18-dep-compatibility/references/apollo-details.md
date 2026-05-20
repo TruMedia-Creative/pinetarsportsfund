@@ -8,13 +8,13 @@ Apollo 3.8 was the first version to adopt `useSyncExternalStore`, which React 18
 
 ## Version Summary
 
-| Apollo Version | React 18 Support | React 19 Support | Notes |
-|---|---|---|---|
-| < 3.7 | ❌ | ❌ | Concurrent mode data tearing |
-| 3.7.x | ⚠️ | ⚠️ | Works with legacy root only (ReactDOM.render) |
-| **3.8.x** | ✅ | ✅ | First fully compatible version |
-| 3.9+ | ✅ | ✅ | Recommended |
-| 3.11+ | ✅ | ✅ (confirmed) | Explicit React 19 testing added |
+| Apollo Version | React 18 Support | React 19 Support | Notes                                         |
+| -------------- | ---------------- | ---------------- | --------------------------------------------- |
+| < 3.7          | ❌               | ❌               | Concurrent mode data tearing                  |
+| 3.7.x          | ⚠️               | ⚠️               | Works with legacy root only (ReactDOM.render) |
+| **3.8.x**      | ✅               | ✅               | First fully compatible version                |
+| 3.9+           | ✅               | ✅               | Recommended                                   |
+| 3.11+          | ✅               | ✅ (confirmed)   | Explicit React 19 testing added               |
 
 ## If You're on Apollo 3.7 Using Legacy Root
 
@@ -28,15 +28,15 @@ Apollo's `MockedProvider` works with React 18 but async behavior changed:
 
 ```jsx
 // Old pattern - flushing with setTimeout:
-await new Promise(resolve => setTimeout(resolve, 0));
+await new Promise((resolve) => setTimeout(resolve, 0));
 wrapper.update();
 
 // React 18 pattern - use waitFor or findBy:
 await waitFor(() => {
-  expect(screen.getByText('Alice')).toBeInTheDocument();
+  expect(screen.getByText("Alice")).toBeInTheDocument();
 });
 // OR:
-expect(await screen.findByText('Alice')).toBeInTheDocument();
+expect(await screen.findByText("Alice")).toBeInTheDocument();
 ```
 
 ## Upgrading Apollo

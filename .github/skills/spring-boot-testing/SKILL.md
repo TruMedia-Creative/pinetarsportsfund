@@ -16,13 +16,13 @@ This skill provides expert guide for testing Spring Boot 4 applications with mod
 
 ## Which Test Slice?
 
-| Scenario | Annotation | Reference |
-|----------|------------|-----------|
-| Controller + HTTP semantics | `@WebMvcTest` | [references/webmvctest.md](references/webmvctest.md) |
-| Repository + JPA queries | `@DataJpaTest` | [references/datajpatest.md](references/datajpatest.md) |
-| REST client + external APIs | `@RestClientTest` | [references/restclienttest.md](references/restclienttest.md) |
-| JSON (de)serialization | `@JsonTest` | [references/test-slices-overview.md](references/test-slices-overview.md) |
-| Full application | `@SpringBootTest` | [references/test-slices-overview.md](references/test-slices-overview.md) |
+| Scenario                    | Annotation        | Reference                                                                |
+| --------------------------- | ----------------- | ------------------------------------------------------------------------ |
+| Controller + HTTP semantics | `@WebMvcTest`     | [references/webmvctest.md](references/webmvctest.md)                     |
+| Repository + JPA queries    | `@DataJpaTest`    | [references/datajpatest.md](references/datajpatest.md)                   |
+| REST client + external APIs | `@RestClientTest` | [references/restclienttest.md](references/restclienttest.md)             |
+| JSON (de)serialization      | `@JsonTest`       | [references/test-slices-overview.md](references/test-slices-overview.md) |
+| Full application            | `@SpringBootTest` | [references/test-slices-overview.md](references/test-slices-overview.md) |
 
 ## Test Slices Reference
 
@@ -98,6 +98,7 @@ When a method or class is too complex to test effectively:
 4. **Proceed if needed** - If the user decides to continue with the complex code, implement tests despite the difficulty
 
 **Example of refactoring recommendation:**
+
 ```java
 // Before: Complex method hard to test
 public Order processOrder(OrderRequest request) {
@@ -153,12 +154,13 @@ Aim for 80% code coverage as a practical balance between quality and effort. Hig
 
 Use Jacoco maven plugin for coverage reporting and tracking.
 
-
 **Coverage Rules:**
+
 - 80+% coverage minimum
 - Focus on meaningful assertions, not just execution
 
 **What to Prioritize:**
+
 1. Business-critical paths (payment processing, order validation)
 2. Complex algorithms (pricing, discount calculations)
 3. Error handling (exceptions, edge cases)

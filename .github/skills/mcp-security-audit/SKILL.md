@@ -76,6 +76,7 @@ def check_secrets(mcp_config: dict) -> list[dict]:
 ```
 
 **Good practice — use env var references:**
+
 ```json
 {
   "mcpServers": {
@@ -92,6 +93,7 @@ def check_secrets(mcp_config: dict) -> list[dict]:
 ```
 
 **Bad — hardcoded credentials:**
+
 ```json
 {
   "mcpServers": {
@@ -181,11 +183,13 @@ def check_pinned_versions(server_config: dict) -> list[dict]:
 ```
 
 **Good — pinned version:**
+
 ```json
 { "args": ["-y", "my-mcp-server@2.1.0"] }
 ```
 
 **Bad — unpinned:**
+
 ```json
 { "args": ["-y", "my-mcp-server@latest"] }
 ```
@@ -240,6 +244,7 @@ def audit_mcp_config(mcp_path: str) -> dict:
 ```
 
 **Usage:**
+
 ```python
 results = audit_mcp_config(".mcp.json")
 if not results["summary"]["passed"]:

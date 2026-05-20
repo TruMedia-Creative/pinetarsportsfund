@@ -44,8 +44,13 @@ const { spans: allSpans } = await getSpans({
   project: { projectName: "my-app" },
   limit: 70,
 });
-const sample = [...errors, ...allSpans.sort(() => Math.random() - 0.5).slice(0, 40)];
-const unique = [...new Map(sample.map((s) => [s.context.span_id, s])).values()].slice(0, 100);
+const sample = [
+  ...errors,
+  ...allSpans.sort(() => Math.random() - 0.5).slice(0, 40),
+];
+const unique = [
+  ...new Map(sample.map((s) => [s.context.span_id, s])).values(),
+].slice(0, 100);
 ```
 
 ### Trace-level sampling (Python)
@@ -96,20 +101,20 @@ import { addSpanNote } from "@arizeai/phoenix-client/spans";
 await addSpanNote({
   spanNote: {
     spanId: "abc123",
-    note: "wrong timezone - said 3pm EST but user is PST"
-  }
+    note: "wrong timezone - said 3pm EST but user is PST",
+  },
 });
 ```
 
 ## What to Note
 
-| Type | Examples |
-| ---- | -------- |
-| Factual errors | Wrong dates, prices, made-up features |
-| Missing info | Didn't answer question, omitted details |
-| Tone issues | Too casual/formal for context |
-| Tool issues | Wrong tool, wrong parameters |
-| Retrieval | Wrong docs, missing relevant docs |
+| Type           | Examples                                |
+| -------------- | --------------------------------------- |
+| Factual errors | Wrong dates, prices, made-up features   |
+| Missing info   | Didn't answer question, omitted details |
+| Tone issues    | Too casual/formal for context           |
+| Tool issues    | Wrong tool, wrong parameters            |
+| Retrieval      | Wrong docs, missing relevant docs       |
 
 ## Good Notes
 
@@ -161,7 +166,9 @@ const { annotations } = await getSpanAnnotations({
 });
 
 for (const ann of annotations) {
-  console.log(`${ann.span_id}: ${ann.name} = ${ann.result?.label} (${ann.result?.score})`);
+  console.log(
+    `${ann.span_id}: ${ann.name} = ${ann.result?.label} (${ann.result?.score})`,
+  );
 }
 ```
 

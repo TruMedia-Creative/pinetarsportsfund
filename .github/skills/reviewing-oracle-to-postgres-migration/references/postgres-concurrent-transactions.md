@@ -210,23 +210,23 @@ ExecuteReader\(.*\)[\s\S]*?Execute(Scalar|NonQuery|Reader)\(
 
 ## Error Messages to Watch For
 
-| Error Message | Likely Cause |
-|---------------|--------------|
-| `An operation is already in progress` | Second command executed while a `DataReader` is open on the same connection |
-| `A command is already in progress: <SQL>` | Npgsql detected overlapping command execution on a single connection |
-| `The connection is already in state 'Executing'` | Connection state conflict from concurrent usage |
+| Error Message                                    | Likely Cause                                                                |
+| ------------------------------------------------ | --------------------------------------------------------------------------- |
+| `An operation is already in progress`            | Second command executed while a `DataReader` is open on the same connection |
+| `A command is already in progress: <SQL>`        | Npgsql detected overlapping command execution on a single connection        |
+| `The connection is already in state 'Executing'` | Connection state conflict from concurrent usage                             |
 
 ---
 
 ## Comparison Table: Oracle vs. PostgreSQL
 
-| Aspect | Oracle (ODP.NET) | PostgreSQL (Npgsql) |
-|--------|------------------|---------------------|
-| **Concurrent commands** | Multiple active commands per connection | One active command per connection |
-| **Multiple open DataReaders** | Supported | Not supported — must close/materialize first |
-| **Nested DB calls during iteration** | Transparent | Throws `InvalidOperationException` |
-| **Deferred execution safety** | Safe to iterate and query | Must materialize (`.ToList()`) before issuing new queries |
-| **Connection pooling impact** | Lower connection demand | May need more pooled connections if using Solution 2 |
+| Aspect                               | Oracle (ODP.NET)                        | PostgreSQL (Npgsql)                                       |
+| ------------------------------------ | --------------------------------------- | --------------------------------------------------------- |
+| **Concurrent commands**              | Multiple active commands per connection | One active command per connection                         |
+| **Multiple open DataReaders**        | Supported                               | Not supported — must close/materialize first              |
+| **Nested DB calls during iteration** | Transparent                             | Throws `InvalidOperationException`                        |
+| **Deferred execution safety**        | Safe to iterate and query               | Must materialize (`.ToList()`) before issuing new queries |
+| **Connection pooling impact**        | Lower connection demand                 | May need more pooled connections if using Solution 2      |
 
 ---
 

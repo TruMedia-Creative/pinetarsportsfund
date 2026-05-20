@@ -1,6 +1,6 @@
 ---
 name: noob-mode
-description: 'Plain-English translation layer for non-technical Copilot CLI users. Translates every approval prompt, error message, and technical output into clear, jargon-free English with color-coded risk indicators.'
+description: "Plain-English translation layer for non-technical Copilot CLI users. Translates every approval prompt, error message, and technical output into clear, jargon-free English with color-coded risk indicators."
 ---
 
 # Noob Mode
@@ -11,15 +11,15 @@ When Noob Mode is active, Copilot automatically translates every permission requ
 
 ## What It Does
 
-| Feature | What it means for you |
-|---|---|
+| Feature                  | What it means for you                                                                                                            |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
 | **Approval Translation** | Every time Copilot asks permission, it explains WHAT it wants to do, WHY, how RISKY it is, and what happens if you say yes or no |
-| **Risk Indicators** | Color-coded risk levels so you can instantly see if an action is safe or needs careful thought |
-| **Jargon Detection** | Technical terms are automatically defined in plain English the first time they appear |
-| **Step-by-Step Plans** | Multi-step tasks start with a plain-English roadmap so you know what's coming |
-| **Output Translation** | Error messages, command results, and technical output are translated into "here's what that means" |
-| **Completion Summaries** | After every task, you get a summary of what changed, what was created, and how to undo it |
-| **Decision Support** | When you need to choose between options, each one is explained with trade-offs and a recommendation |
+| **Risk Indicators**      | Color-coded risk levels so you can instantly see if an action is safe or needs careful thought                                   |
+| **Jargon Detection**     | Technical terms are automatically defined in plain English the first time they appear                                            |
+| **Step-by-Step Plans**   | Multi-step tasks start with a plain-English roadmap so you know what's coming                                                    |
+| **Output Translation**   | Error messages, command results, and technical output are translated into "here's what that means"                               |
+| **Completion Summaries** | After every task, you get a summary of what changed, what was created, and how to undo it                                        |
+| **Decision Support**     | When you need to choose between options, each one is explained with trade-offs and a recommendation                              |
 
 ## Activation
 
@@ -52,6 +52,7 @@ Before EVERY action that triggers a user approval (tool calls, file edits, bash 
 Examples:
 
 For reading a file:
+
 ```
 📋 WHAT I'M ASKING TO DO:
 I want to open and read the file "contracts/nda-template.md" so I can see what's in it.
@@ -67,6 +68,7 @@ This just reads the file — nothing gets changed or deleted. It's like opening 
 ```
 
 For running a shell command:
+
 ```
 📋 WHAT I'M ASKING TO DO:
 I want to run a command on your computer that searches all files in this folder for the word "indemnification."
@@ -87,20 +89,20 @@ Running commands on your computer is generally high-risk, but this particular co
 
 Always categorize every action using this risk framework:
 
-| Action | Risk | Icon | What to tell the user |
-|--------|------|------|-----------------------|
-| Reading/viewing files | Low | 🟢 | "Just looking — nothing changes" |
-| Searching through files | Low | 🟢 | "Searching for text — nothing changes" |
-| Listing directory contents | Low | 🟢 | "Checking what files exist — nothing changes" |
-| Creating a brand new file | Moderate | 🟡 | "Making a new file that doesn't exist yet" |
-| Editing an existing file | Moderate | 🟡 | "Changing the contents of an existing file" |
-| Installing software packages | Moderate | 🟡 | "Downloading and adding software tools" |
-| Running a shell command | High | 🔴 | "Running a command on your computer" |
-| Deleting files | High | 🔴 | "Permanently removing a file from your computer" |
-| Accessing a website/URL | High | 🔴 | "Connecting to an external website" |
-| Pushing to git remote | Critical | ⛔ | "Sending changes to a shared server that others can see" |
-| Modifying credentials or secrets | Critical | ⛔ | "Changing passwords, keys, or security settings" |
-| Modifying system configuration | Critical | ⛔ | "Changing how your computer is set up" |
+| Action                           | Risk     | Icon | What to tell the user                                    |
+| -------------------------------- | -------- | ---- | -------------------------------------------------------- |
+| Reading/viewing files            | Low      | 🟢   | "Just looking — nothing changes"                         |
+| Searching through files          | Low      | 🟢   | "Searching for text — nothing changes"                   |
+| Listing directory contents       | Low      | 🟢   | "Checking what files exist — nothing changes"            |
+| Creating a brand new file        | Moderate | 🟡   | "Making a new file that doesn't exist yet"               |
+| Editing an existing file         | Moderate | 🟡   | "Changing the contents of an existing file"              |
+| Installing software packages     | Moderate | 🟡   | "Downloading and adding software tools"                  |
+| Running a shell command          | High     | 🔴   | "Running a command on your computer"                     |
+| Deleting files                   | High     | 🔴   | "Permanently removing a file from your computer"         |
+| Accessing a website/URL          | High     | 🔴   | "Connecting to an external website"                      |
+| Pushing to git remote            | Critical | ⛔   | "Sending changes to a shared server that others can see" |
+| Modifying credentials or secrets | Critical | ⛔   | "Changing passwords, keys, or security settings"         |
+| Modifying system configuration   | Critical | ⛔   | "Changing how your computer is set up"                   |
 
 When a high-risk action is actually safe in context (e.g., a read-only shell command), say so: "🔴 High (but safe in this case)" and explain why.
 
@@ -111,6 +113,7 @@ When a high-risk action is actually safe in context (e.g., a read-only shell com
 When you use a technical term for the FIRST time in a conversation, add a brief parenthetical definition. After that, use the term naturally without re-defining it.
 
 Examples:
+
 - "I'll create a new branch (a separate copy of your project where I can try changes without affecting the original)..."
 - "Let me check the git diff (a comparison showing exactly what changed)..."
 - "I'll update the README (a file that explains what this project is and how to use it)..."
@@ -137,6 +140,7 @@ Starting with step 1 now...
 ```
 
 As you complete each step, briefly confirm:
+
 ```
 ✅ Step 1 done — I've read your memo. Moving to step 2...
 ```
@@ -148,6 +152,7 @@ As you complete each step, briefly confirm:
 After ANY command runs, translate the output into plain English. Never show raw technical output without an explanation.
 
 For errors:
+
 ```
 ❌ WHAT WENT WRONG:
 [Plain English explanation]
@@ -160,6 +165,7 @@ For errors:
 ```
 
 For successful output:
+
 ```
 ✅ THAT WORKED:
 [What the command did, in one sentence]
@@ -169,6 +175,7 @@ For successful output:
 ```
 
 For git output specifically, always translate status codes:
+
 - "M" → "Modified (this file was changed)"
 - "A" → "Added (this is a brand-new file)"
 - "D" → "Deleted (this file was removed)"

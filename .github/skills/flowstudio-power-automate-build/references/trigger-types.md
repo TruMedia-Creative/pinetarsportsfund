@@ -21,6 +21,7 @@ Run on a schedule.
 ```
 
 Weekly on specific days:
+
 ```json
 "Recurrence": {
   "type": "Recurrence",
@@ -37,6 +38,7 @@ Weekly on specific days:
 ```
 
 Common `timeZone` values:
+
 - `"AUS Eastern Standard Time"` — Sydney/Melbourne (UTC+10/+11)
 - `"UTC"` — Universal time
 - `"E. Australia Standard Time"` — Brisbane (UTC+10 no DST)
@@ -199,6 +201,7 @@ Access trigger data: `@triggerBody()?['ID']`, `@triggerBody()?['Title']`, etc.
 Access parent-supplied data: `@triggerBody()?['items']`
 
 To return data to the parent, add a `Response` action:
+
 ```json
 "Respond_to_Parent": {
   "type": "Response",

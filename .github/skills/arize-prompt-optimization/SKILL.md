@@ -11,16 +11,16 @@ description: "INVOKE THIS SKILL when optimizing, improving, or debugging LLM pro
 
 LLM applications emit spans following OpenInference semantic conventions. Prompts are stored in different span attributes depending on the span kind and instrumentation:
 
-| Column | What it contains | When to use |
-|--------|-----------------|-------------|
-| `attributes.llm.input_messages` | Structured chat messages (system, user, assistant, tool) in role-based format | **Primary source** for chat-based LLM prompts |
-| `attributes.llm.input_messages.roles` | Array of roles: `system`, `user`, `assistant`, `tool` | Extract individual message roles |
-| `attributes.llm.input_messages.contents` | Array of message content strings | Extract message text |
-| `attributes.input.value` | Serialized prompt or user question (generic, all span kinds) | Fallback when structured messages are not available |
-| `attributes.llm.prompt_template.template` | Template with `{variable}` placeholders (e.g., `"Answer {question} using {context}"`) | When the app uses prompt templates |
-| `attributes.llm.prompt_template.variables` | Template variable values (JSON object) | See what values were substituted into the template |
-| `attributes.output.value` | Model response text | See what the LLM produced |
-| `attributes.llm.output_messages` | Structured model output (including tool calls) | Inspect tool-calling responses |
+| Column                                     | What it contains                                                                      | When to use                                         |
+| ------------------------------------------ | ------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `attributes.llm.input_messages`            | Structured chat messages (system, user, assistant, tool) in role-based format         | **Primary source** for chat-based LLM prompts       |
+| `attributes.llm.input_messages.roles`      | Array of roles: `system`, `user`, `assistant`, `tool`                                 | Extract individual message roles                    |
+| `attributes.llm.input_messages.contents`   | Array of message content strings                                                      | Extract message text                                |
+| `attributes.input.value`                   | Serialized prompt or user question (generic, all span kinds)                          | Fallback when structured messages are not available |
+| `attributes.llm.prompt_template.template`  | Template with `{variable}` placeholders (e.g., `"Answer {question} using {context}"`) | When the app uses prompt templates                  |
+| `attributes.llm.prompt_template.variables` | Template variable values (JSON object)                                                | See what values were substituted into the template  |
+| `attributes.output.value`                  | Model response text                                                                   | See what the LLM produced                           |
+| `attributes.llm.output_messages`           | Structured model output (including tool calls)                                        | Inspect tool-calling responses                      |
 
 ### Finding Prompts by Span Kind
 
@@ -32,23 +32,24 @@ LLM applications emit spans following OpenInference semantic conventions. Prompt
 
 These columns carry the feedback data used for optimization:
 
-| Column pattern | Source | What it tells you |
-|---------------|--------|-------------------|
-| `annotation.<name>.label` | Human reviewers | Categorical grade (e.g., `correct`, `incorrect`, `partial`) |
-| `annotation.<name>.score` | Human reviewers | Numeric quality score (e.g., 0.0 - 1.0) |
-| `annotation.<name>.text` | Human reviewers | Freeform explanation of the grade |
-| `eval.<name>.label` | LLM-as-judge evals | Automated categorical assessment |
-| `eval.<name>.score` | LLM-as-judge evals | Automated numeric score |
-| `eval.<name>.explanation` | LLM-as-judge evals | Why the eval gave that score -- **most valuable for optimization** |
-| `attributes.input.value` | Trace data | What went into the LLM |
-| `attributes.output.value` | Trace data | What the LLM produced |
-| `{experiment_name}.output` | Experiment runs | Output from a specific experiment |
+| Column pattern             | Source             | What it tells you                                                  |
+| -------------------------- | ------------------ | ------------------------------------------------------------------ |
+| `annotation.<name>.label`  | Human reviewers    | Categorical grade (e.g., `correct`, `incorrect`, `partial`)        |
+| `annotation.<name>.score`  | Human reviewers    | Numeric quality score (e.g., 0.0 - 1.0)                            |
+| `annotation.<name>.text`   | Human reviewers    | Freeform explanation of the grade                                  |
+| `eval.<name>.label`        | LLM-as-judge evals | Automated categorical assessment                                   |
+| `eval.<name>.score`        | LLM-as-judge evals | Automated numeric score                                            |
+| `eval.<name>.explanation`  | LLM-as-judge evals | Why the eval gave that score -- **most valuable for optimization** |
+| `attributes.input.value`   | Trace data         | What went into the LLM                                             |
+| `attributes.output.value`  | Trace data         | What the LLM produced                                              |
+| `{experiment_name}.output` | Experiment runs    | Output from a specific experiment                                  |
 
 ## Prerequisites
 
 Proceed directly with the task — run the `ax` command you need. Do NOT check versions, env vars, or profiles upfront.
 
 If an `ax` command fails, troubleshoot based on the error:
+
 - `command not found` or version error → see references/ax-setup.md
 - `401 Unauthorized` / missing API key → run `ax profiles show` to inspect the current profile. If the profile is missing or the API key is wrong: check `.env` for `ARIZE_API_KEY` and use it to create/update the profile via references/ax-profiles.md. If `.env` has no key either, ask the user for their Arize API key (https://app.arize.com/admin > API Keys)
 - Space ID unknown → check `.env` for `ARIZE_SPACE_ID`, or run `ax spaces list -o json`, or ask the user
@@ -105,8 +106,11 @@ Once you have the span data, reconstruct the prompt as a messages array:
 
 ```json
 [
-  {"role": "system", "content": "You are a helpful assistant that..."},
-  {"role": "user", "content": "Given {input}, answer the question: {question}"}
+  { "role": "system", "content": "You are a helpful assistant that..." },
+  {
+    "role": "user",
+    "content": "Given {input}, answer the question: {question}"
+  }
 ]
 ```
 
@@ -189,7 +193,7 @@ Look for patterns across failures:
 
 Use this template to generate an improved version of the prompt. Fill in the three placeholders and send it to your LLM (GPT-4o, Claude, etc.):
 
-````
+```
 You are an expert in prompt optimization. Given the original baseline prompt
 and the associated performance data (inputs, outputs, evaluation labels, and
 explanations), generate a revised version that improves results.
@@ -259,7 +263,7 @@ Return the revised prompt as a JSON array of messages:
 Also provide a brief reasoning section (bulleted list) explaining:
 - What problems you found
 - How the revised prompt addresses each one
-````
+```
 
 ### Preparing the performance data
 
@@ -344,17 +348,17 @@ jq -s '
 
 Apply these when writing or revising prompts:
 
-| Technique | When to apply | Example |
-|-----------|--------------|---------|
-| Clear, detailed instructions | Output is vague or off-topic | "Classify the sentiment as exactly one of: positive, negative, neutral" |
-| Instructions at the beginning | Model ignores later instructions | Put the task description before examples |
-| Step-by-step breakdowns | Complex multi-step processes | "First extract entities, then classify each, then summarize" |
-| Specific personas | Need consistent style/tone | "You are a senior financial analyst writing for institutional investors" |
-| Delimiter tokens | Sections blend together | Use `---`, `###`, or XML tags to separate input from instructions |
-| Few-shot examples | Output format needs clarification | Show 2-3 synthetic input/output pairs |
-| Output length specifications | Responses are too long or short | "Respond in exactly 2-3 sentences" |
-| Reasoning instructions | Accuracy is critical | "Think step by step before answering" |
-| "I don't know" guidelines | Hallucination is a risk | "If the answer is not in the provided context, say 'I don't have enough information'" |
+| Technique                     | When to apply                     | Example                                                                               |
+| ----------------------------- | --------------------------------- | ------------------------------------------------------------------------------------- |
+| Clear, detailed instructions  | Output is vague or off-topic      | "Classify the sentiment as exactly one of: positive, negative, neutral"               |
+| Instructions at the beginning | Model ignores later instructions  | Put the task description before examples                                              |
+| Step-by-step breakdowns       | Complex multi-step processes      | "First extract entities, then classify each, then summarize"                          |
+| Specific personas             | Need consistent style/tone        | "You are a senior financial analyst writing for institutional investors"              |
+| Delimiter tokens              | Sections blend together           | Use `---`, `###`, or XML tags to separate input from instructions                     |
+| Few-shot examples             | Output format needs clarification | Show 2-3 synthetic input/output pairs                                                 |
+| Output length specifications  | Responses are too long or short   | "Respond in exactly 2-3 sentences"                                                    |
+| Reasoning instructions        | Accuracy is critical              | "Think step by step before answering"                                                 |
+| "I don't know" guidelines     | Hallucination is a risk           | "If the answer is not in the provided context, say 'I don't have enough information'" |
 
 ### Variable preservation
 
@@ -437,14 +441,14 @@ When optimizing prompts that use template variables:
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `ax: command not found` | See references/ax-setup.md |
-| `No profile found` | No profile is configured. See references/ax-profiles.md to create one. |
-| No `input_messages` on span | Check span kind -- Chain/Agent spans store prompts on child LLM spans, not on themselves |
-| Prompt template is `null` | Not all instrumentations emit `prompt_template`. Use `input_messages` or `input.value` instead |
-| Variables lost after optimization | Verify the revised prompt preserves all `{var}` placeholders from the original |
-| Optimization makes things worse | Check for overfitting -- the meta-prompt may have memorized test data. Ensure few-shot examples are synthetic |
-| No eval/annotation columns | Run evaluations first (via Arize UI or SDK), then re-export |
-| Experiment output column not found | The column name is `{experiment_name}.output` -- check exact experiment name via `ax experiments get` |
-| `jq` errors on span JSON | Ensure you're targeting the correct file path (e.g., `trace_*/spans.json`) |
+| Problem                            | Solution                                                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `ax: command not found`            | See references/ax-setup.md                                                                                    |
+| `No profile found`                 | No profile is configured. See references/ax-profiles.md to create one.                                        |
+| No `input_messages` on span        | Check span kind -- Chain/Agent spans store prompts on child LLM spans, not on themselves                      |
+| Prompt template is `null`          | Not all instrumentations emit `prompt_template`. Use `input_messages` or `input.value` instead                |
+| Variables lost after optimization  | Verify the revised prompt preserves all `{var}` placeholders from the original                                |
+| Optimization makes things worse    | Check for overfitting -- the meta-prompt may have memorized test data. Ensure few-shot examples are synthetic |
+| No eval/annotation columns         | Run evaluations first (via Arize UI or SDK), then re-export                                                   |
+| Experiment output column not found | The column name is `{experiment_name}.output` -- check exact experiment name via `ax experiments get`         |
+| `jq` errors on span JSON           | Ensure you're targeting the correct file path (e.g., `trace_*/spans.json`)                                    |

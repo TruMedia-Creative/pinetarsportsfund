@@ -6,7 +6,7 @@ title: React 19 Suspense for Data Fetching Pattern Reference
 
 React 19's new Suspense integration for **data fetching** is a preview feature that allows components to suspend (pause rendering) until data is available, without `useEffect + state`.
 
-**Important:** This is a **preview**  it requires specific setup and is not yet stable for production, but you should know the pattern for React 19 migration planning.
+**Important:** This is a **preview** it requires specific setup and is not yet stable for production, but you should know the pattern for React 19 migration planning.
 
 ---
 
@@ -14,9 +14,9 @@ React 19's new Suspense integration for **data fetching** is a preview feature t
 
 React 18 Suspense only supported **code splitting** (lazy components). React 19 extends it to **data fetching** if certain conditions are met:
 
-- **Lib usage**  the data fetching library must implement Suspense (e.g., React Query 5+, SWR, Remix loaders)
-- **Or your own promise tracking**  wrap promises in a way React can track their suspension
-- **No more "no hook after suspense"**  you can use Suspense directly in components with `use()`
+- **Lib usage** the data fetching library must implement Suspense (e.g., React Query 5+, SWR, Remix loaders)
+- **Or your own promise tracking** wrap promises in a way React can track their suspension
+- **No more "no hook after suspense"** you can use Suspense directly in components with `use()`
 
 ---
 
@@ -24,7 +24,7 @@ React 18 Suspense only supported **code splitting** (lazy components). React 19 
 
 ```jsx
 // React 18  Suspense for lazy imports only:
-const LazyComponent = React.lazy(() => import('./Component'));
+const LazyComponent = React.lazy(() => import("./Component"));
 
 function App() {
   return (
@@ -43,7 +43,7 @@ const dataPromise = fetchData();
 const resource = {
   read: () => {
     throw dataPromise; // Throw to suspend
-  }
+  },
 };
 
 function Component() {
@@ -87,7 +87,7 @@ function App() {
 ```jsx
 // Raw promise (not recommended in production):
 function DataComponent() {
-  const data = use(fetch('/api/data').then(r => r.json()));
+  const data = use(fetch("/api/data").then((r) => r.json()));
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
@@ -109,18 +109,18 @@ function App() {
 ```jsx
 function DataComponent({ id }) {
   // Only create promise once per id:
-  const dataPromise = useMemo(() => 
-    fetch(`/api/data/${id}`).then(r => r.json()),
-    [id]
+  const dataPromise = useMemo(
+    () => fetch(`/api/data/${id}`).then((r) => r.json()),
+    [id],
   );
-  
+
   const data = use(dataPromise);
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
 function App() {
   const [id, setId] = useState(1);
-  
+
   return (
     <Suspense fallback={<Spinner />}>
       <DataComponent id={id} />
@@ -138,15 +138,15 @@ Modern data libraries support Suspense directly. React Query 5+ example:
 
 ```jsx
 // React Query 5+ with Suspense:
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 function UserProfile({ userId }) {
   // useSuspenseQuery throws promise if suspended
   const { data: user } = useSuspenseQuery({
-    queryKey: ['user', userId],
+    queryKey: ["user", userId],
     queryFn: () => fetchUser(userId),
   });
-  
+
   return <div>{user.name}</div>;
 }
 
@@ -185,11 +185,11 @@ function App() {
 
 class ErrorBoundary extends React.Component {
   state = { error: null };
-  
+
   static getDerivedStateFromError(error) {
     return { error };
   }
-  
+
   render() {
     if (this.state.error) return this.props.fallback;
     return this.props.children;
@@ -210,7 +210,7 @@ function App({ userId }) {
       <Suspense fallback={<UserSpinner />}>
         <UserProfile userId={userId} />
       </Suspense>
-      
+
       <Suspense fallback={<PostsSpinner />}>
         <UserPosts userId={userId} />
       </Suspense>
@@ -225,7 +225,13 @@ function UserProfile({ userId }) {
 
 function UserPosts({ userId }) {
   const posts = use(fetchUserPosts(userId));
-  return <ul>{posts.map(p => <li key={p.id}>{p.title}</li>)}</ul>;
+  return (
+    <ul>
+      {posts.map((p) => (
+        <li key={p.id}>{p.title}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -244,7 +250,7 @@ Now:
 ```jsx
 function App({ userId }) {
   const user = use(fetchUser(userId)); // Must complete first
-  
+
   return (
     <Suspense fallback={<PostsSpinner />}>
       <UserPosts userId={user.id} /> {/* Depends on user */}
@@ -254,7 +260,13 @@ function App({ userId }) {
 
 function UserPosts({ userId }) {
   const posts = use(fetchUserPosts(userId));
-  return <ul>{posts.map(p => <li>{p.title}</li>)}</ul>;
+  return (
+    <ul>
+      {posts.map((p) => (
+        <li>{p.title}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -267,7 +279,7 @@ function App({ userId }) {
       <Suspense fallback={<UserSpinner />}>
         <UserProfile userId={userId} />
       </Suspense>
-      
+
       <Suspense fallback={<PostsSpinner />}>
         <UserPosts userId={userId} /> {/* Fetches in parallel */}
       </Suspense>
@@ -280,11 +292,11 @@ function App({ userId }) {
 
 ## Migration Strategy for React 18 → React 19
 
-### Phase 1  No changes required
+### Phase 1 No changes required
 
 Suspense is still optional and experimental for data fetching. All existing `useEffect + state` patterns continue to work.
 
-### Phase 2  Wait for stability
+### Phase 2 Wait for stability
 
 Before adopting Suspense data fetching in production:
 
@@ -292,7 +304,7 @@ Before adopting Suspense data fetching in production:
 - Verify your data library supports Suspense
 - Plan migration after app stabilizes on React 19 core
 
-### Phase 3  Refactor to Suspense (optional, post-preview)
+### Phase 3 Refactor to Suspense (optional, post-preview)
 
 Once stable, profile candidates:
 
@@ -304,11 +316,11 @@ grep -rn "useEffect.*fetch\|useEffect.*axios\|useEffect.*graphql" src/ --include
 // Before (React 18):
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId).then(setUser);
   }, [userId]);
-  
+
   if (!user) return <Spinner />;
   return <div>{user.name}</div>;
 }
@@ -322,14 +334,14 @@ function UserProfile({ userId }) {
 // Must be wrapped in Suspense:
 <Suspense fallback={<Spinner />}>
   <UserProfile userId={123} />
-</Suspense>
+</Suspense>;
 ```
 
 ---
 
 ## Important Warnings
 
-1. **Still Preview**  Suspense for data is marked experimental, behavior may change
-2. **Performance**  promises are recreated on every render without memoization; use `useMemo`
-3. **Cache**  `use()` doesn't cache; use React Query or similar for production apps
-4. **SSR**  Suspense SSR support is limited; check Next.js version requirements
+1. **Still Preview** Suspense for data is marked experimental, behavior may change
+2. **Performance** promises are recreated on every render without memoization; use `useMemo`
+3. **Cache** `use()` doesn't cache; use React Query or similar for production apps
+4. **SSR** Suspense SSR support is limited; check Next.js version requirements

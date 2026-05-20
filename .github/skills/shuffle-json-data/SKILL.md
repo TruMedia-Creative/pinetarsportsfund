@@ -1,6 +1,6 @@
 ---
 name: shuffle-json-data
-description: 'Shuffle repetitive JSON objects safely by validating schema consistency before randomising entries.'
+description: "Shuffle repetitive JSON objects safely by validating schema consistency before randomising entries."
 ---
 
 # Shuffle JSON Data

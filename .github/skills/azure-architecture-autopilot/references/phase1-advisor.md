@@ -36,6 +36,7 @@ ask_user({
   choices: ["<inferred-default>", "azure-project"]
 })
 ```
+
 The project name is used for the Bicep output folder name, diagram save path, deployment name, etc.
 
 **🔹 Parallel Preload Along with Project Name Question (Required):**
@@ -69,6 +70,7 @@ so SKU/region questions can be presented with accurate choices immediately after
 Wait time is significantly reduced compared to sequential execution.
 
 **Notes:**
+
 - Preload targets are only information independent of the project name (nothing depends on the name)
 - web_fetch is performed only for services mentioned in the user's initial request (no guessing)
 - Azure CLI check (`az account show`) is NOT done at this point — preload at architecture finalization
@@ -82,6 +84,7 @@ and naturally incorporate them into subsequent user questions.
 but reflecting **design decision points** recommended by official architecture guidance into the questions.
 
 **Example — When "RAG chatbot" is requested:**
+
 - Fetch Baseline Foundry Chat Architecture (A6)
 - Extract recommended design decision points from the document:
   → Network isolation level (full private vs hybrid?)
@@ -91,11 +94,13 @@ but reflecting **design decision points** recommended by official architecture g
 - Naturally include these points in user questions
 
 **Notes:**
+
 - What is extracted from architecture guidance is **"points to ask about"**, not "answers"
 - Deployment specs like SKU/API version/region are still determined only via `azure-dynamic-sources.md`
 - Fetch budget: maximum 2 documents. No full traversal
 
 **Required confirmation items:**
+
 - [ ] Project name (default: `azure-project`)
 - [ ] Service list (which Azure services to use)
 - [ ] SKU/tier for each service
@@ -103,6 +108,7 @@ but reflecting **design decision points** recommended by official architecture g
 - [ ] Deployment location (region)
 
 **Questioning principles:**
+
 - Do not ask again for information the user has already mentioned
 - Do not ask about detailed implementation specifics not directly represented in the diagram (indexing method, query volume, etc.)
 - Do not ask too many questions at once; ask only key undecided items concisely
@@ -115,6 +121,7 @@ but reflecting **design decision points** recommended by official architecture g
 If a SKU is blocked due to capacity restrictions in a specific region, the deployment will fail.
 
 **VM SKU verification method:**
+
 ```powershell
 # Query only VM SKUs available without restrictions in the target region
 az vm list-skus --location "<LOCATION>" --size Standard_D2 --resource-type virtualMachines `
@@ -122,6 +129,7 @@ az vm list-skus --location "<LOCATION>" --size Standard_D2 --resource-type virtu
 ```
 
 **Principles:**
+
 - Do not include unverified SKUs in the choices
 - Do not recommend "commonly used SKUs" from memory — MUST verify via az cli or MS Docs
 - Include only verified SKUs in `ask_user` choices
@@ -134,16 +142,19 @@ az vm list-skus --location "<LOCATION>" --size Standard_D2 --resource-type virtu
 When the user asks about a service category ("What Spark options are there?", "What are the message queue options?"), or when you need to explore services for a specific capability:
 
 **NEVER do this:**
+
 - Directly fetch URLs for only 2-3 services from your memory and list them
 - State definitively "In Azure, X has A and B"
 
 **MUST do this:**
+
 1. **Explore the full category via web_search** — Search at the category level like `"Azure managed Spark options site:learn.microsoft.com"` to first discover what services exist
 2. **Cross-check with v1 scope** — Regardless of search results, check whether v1 scope services (Foundry, Fabric, AI Search, ADLS Gen2, etc.) fall under the relevant category. e.g.: "Spark" → Microsoft Fabric's Data Engineering workload also provides Spark
 3. **Targeted fetch of discovered options** — Fetch MS Docs for the services found via search to collect accurate comparison information
 4. **Present all options to the user** — Present all discovered options in a comprehensive comparison without omitting any
 
 **Example — When asked "What Spark instances are available?":**
+
 ```
 Wrong approach: Fetch only Databricks URL + Synapse URL → Compare only 2
 Correct approach: web_search("Azure managed Spark options") → Discover Databricks, Synapse, Fabric Spark, HDInsight
@@ -158,6 +169,7 @@ This principle applies not only to service category exploration, but to all situ
 For questions with choices, you MUST use the `ask_user` tool. It allows users to select with arrow keys for convenience, and they can also type a custom input.
 
 **ask_user usage rules:**
+
 - Questions with 2 or more choices **MUST** use ask_user (do not list them as text)
 - **`choices` MUST be passed as a string array (`["A", "B"]`)** — passing as a string (`"A, B"`) will cause an error
 - If there is a recommended option, place it first and append `(Recommended)` at the end
@@ -167,6 +179,7 @@ For questions with choices, you MUST use the `ask_user` tool. It allows users to
 - If multiple selections are needed, split them into separate questions
 
 **Items requiring ask_user:**
+
 - Deployment location (region) selection
 - SKU/tier selection
 - Model selection (chat model, embedding model, etc.)
@@ -176,6 +189,7 @@ For questions with choices, you MUST use the `ask_user` tool. It allows users to
 - Any other question requiring a user choice
 
 **Usage examples:**
+
 ```
 // Project name is free-form input so ask_user is not used (ask as text)
 // SKU, region, etc. with defined choices use ask_user:
@@ -205,6 +219,7 @@ ask_user({
 > **Note**: The SKU and region values in the examples above are for illustration only. When actually asking, dynamically compose choices based on the latest information by querying MS Docs via web_fetch. Do not hardcode.
 
 **Example — When user input is insufficient:**
+
 ```
 User: "I want to build a RAG chatbot. Using a GPT model in Foundry and AI Search."
 
@@ -228,6 +243,7 @@ Include MS Docs URLs in the choices so the user can reference them directly.
 6. If the user has no changes → proceed to Phase 2 transition (ask_user with next step guidance)
 
 **NEVER do this:**
+
 - ❌ Not generating the diagram and asking "The architecture is confirmed. Shall we proceed to the next step?"
 - ❌ Deferring diagram generation to Phase 2 or later
 - ❌ Saying "I'll create the diagram later"
@@ -238,6 +254,7 @@ Include MS Docs URLs in the choices so the user can reference them directly.
 **Validation condition**: Phase 2 entry is NOT allowed if the `01_arch_diagram_draft.html` file has not been generated.
 
 **Report format after diagram completion (ALL sections are MANDATORY):**
+
 ```
 ## Architecture Diagram
 
@@ -255,6 +272,7 @@ Include MS Docs URLs in the choices so the user can reference them directly.
 ```
 
 **After showing the report, immediately use `ask_user` with choices:**
+
 ```
 ask_user({
   question: "The architecture diagram and configuration are ready. What would you like to do?",
@@ -282,11 +300,11 @@ No `pip install` is needed as the scripts are directly available in the `scripts
 All diagrams are generated inside the Bicep project folder (`<project-name>/`).
 They are systematically managed with numbered prefixes per stage, and previous stage files are never overwritten.
 
-| Stage | File Name | When Generated |
-|-------|-----------|----------------|
-| Phase 1 design draft | `01_arch_diagram_draft.html` | When architecture design is confirmed |
-| Phase 4 What-if preview | `02_arch_diagram_preview.html` | After What-if validation |
-| Phase 4 deployment result | `03_arch_diagram_result.html` | After actual deployment completes |
+| Stage                     | File Name                      | When Generated                        |
+| ------------------------- | ------------------------------ | ------------------------------------- |
+| Phase 1 design draft      | `01_arch_diagram_draft.html`   | When architecture design is confirmed |
+| Phase 4 What-if preview   | `02_arch_diagram_preview.html` | After What-if validation              |
+| Phase 4 deployment result | `03_arch_diagram_result.html`  | After actual deployment completes     |
 
 **Built-in module path discovery + Python path discovery:**
 
@@ -387,11 +405,11 @@ with open("<project-name>/01_arch_diagram_draft.html", "w", encoding="utf-8") as
 
 **🔹 CLI vs Python API Selection Criteria:**
 
-| Scenario | Method | Reason |
-|----------|--------|--------|
-| 10 or fewer services | CLI (`python scripts/cli.py`) | Simple and fast |
-| More than 10 services or using hierarchy | Python API (sys.path addition) | Avoids CLI argument length limits |
-| Multi-subscription/RG diagrams | Python API + `hierarchy` parameter | Hierarchical structure representation |
+| Scenario                                 | Method                             | Reason                                |
+| ---------------------------------------- | ---------------------------------- | ------------------------------------- |
+| 10 or fewer services                     | CLI (`python scripts/cli.py`)      | Simple and fast                       |
+| More than 10 services or using hierarchy | Python API (sys.path addition)     | Avoids CLI argument length limits     |
+| Multi-subscription/RG diagrams           | Python API + `hierarchy` parameter | Hierarchical structure representation |
 
 **Full list of supported service types:**
 
@@ -403,6 +421,7 @@ Supported service type values are listed below in the services JSON format secti
 > **🚨 Automatic Diagram Open (No Exceptions)**: When an HTML file is generated with the built-in diagram engine, it **MUST always** be opened in the browser regardless of the situation. Without exception, whenever a diagram is (re)generated, execute the `Start-Process` command. Diagram generation and browser opening are always executed together in a single PowerShell command block.
 >
 > **When this applies (not just these, but ALL times an HTML diagram is generated):**
+>
 > - Phase 1 design draft (`01_arch_diagram_draft.html`)
 > - Diagram regeneration after Delta Confirmation
 > - Phase 4 What-if preview (`02_arch_diagram_preview.html`)
@@ -421,74 +440,74 @@ Dynamically composed based on the user's confirmed service list. Below is the JS
 ]
 ```
 
-| Field | Required | Type | Description |
-|-------|----------|------|-------------|
-| `id` | Yes | string | Unique identifier (kebab-case) |
-| `name` | Yes | string | Display name shown on diagram |
-| `type` | Yes | string | Service type (select from list below) |
-| `sku` | | string | SKU/tier information |
-| `private` | | boolean | Private Endpoint connected (default: false) |
-| `details` | | string[] | Additional info shown in sidebar |
-| `subscription` | | string | Subscription name (required when using hierarchy) |
-| `resourceGroup` | | string | Resource group name (required when using hierarchy) |
+| Field           | Required | Type     | Description                                         |
+| --------------- | -------- | -------- | --------------------------------------------------- |
+| `id`            | Yes      | string   | Unique identifier (kebab-case)                      |
+| `name`          | Yes      | string   | Display name shown on diagram                       |
+| `type`          | Yes      | string   | Service type (select from list below)               |
+| `sku`           |          | string   | SKU/tier information                                |
+| `private`       |          | boolean  | Private Endpoint connected (default: false)         |
+| `details`       |          | string[] | Additional info shown in sidebar                    |
+| `subscription`  |          | string   | Subscription name (required when using hierarchy)   |
+| `resourceGroup` |          | string   | Resource group name (required when using hierarchy) |
 
 **Service Type — Canonical Reference:**
 
 > ⚠️ **CRITICAL**: Always use the **canonical type** from the table below. Do NOT use Azure ARM resource names (e.g., `private_endpoints`, `storage_accounts`, `data_factories`). The generator normalizes common variants, but using canonical types ensures correct icon rendering, PE detection, and color coding.
 
-| Category | Canonical Type | Azure Resource | Icon |
-|----------|---------------|----------------|------|
-| **AI** | `ai_foundry` | Microsoft.CognitiveServices/accounts (kind: AIServices) | AI Foundry |
-| | `openai` | Microsoft.CognitiveServices/accounts (kind: OpenAI) | Azure OpenAI |
-| | `ai_hub` | Foundry Project | AI Studio |
-| | `search` | Microsoft.Search/searchServices | Cognitive Search |
-| | `document_intelligence` | Microsoft.CognitiveServices/accounts (kind: FormRecognizer) | Form Recognizer |
-| | `aml` | Microsoft.MachineLearningServices/workspaces | Machine Learning |
-| **Data** | `fabric` | Microsoft.Fabric/capacities | Microsoft Fabric |
-| | `adf` | Microsoft.DataFactory/factories | Data Factory |
-| | `storage` | Microsoft.Storage/storageAccounts | Storage Account |
-| | `adls` | ADLS Gen2 (Storage with HNS) | Data Lake |
-| | `cosmos_db` | Microsoft.DocumentDB/databaseAccounts | Cosmos DB |
-| | `sql_database` | Microsoft.Sql/servers/databases | SQL Database |
-| | `sql_server` | Microsoft.Sql/servers | SQL Server |
-| | `databricks` | Microsoft.Databricks/workspaces | Databricks |
-| | `synapse` | Microsoft.Synapse/workspaces | Synapse Analytics |
-| | `redis` | Microsoft.Cache/redis | Redis Cache |
-| | `stream_analytics` | Microsoft.StreamAnalytics/streamingjobs | Stream Analytics |
-| | `postgresql` | Microsoft.DBforPostgreSQL/flexibleServers | PostgreSQL |
-| | `mysql` | Microsoft.DBforMySQL/flexibleServers | MySQL |
-| **Security** | `keyvault` | Microsoft.KeyVault/vaults | Key Vault |
-| | `sentinel` | Microsoft.SecurityInsights | Sentinel |
-| **Compute** | `appservice` | Microsoft.Web/sites | App Service |
-| | `function_app` | Microsoft.Web/sites (kind: functionapp) | Function App |
-| | `vm` | Microsoft.Compute/virtualMachines | Virtual Machine |
-| | `aks` | Microsoft.ContainerService/managedClusters | AKS |
-| | `acr` | Microsoft.ContainerRegistry/registries | Container Registry |
-| | `container_apps` | Microsoft.App/containerApps | Container Apps |
-| | `static_web_app` | Microsoft.Web/staticSites | Static Web App |
-| | `spring_apps` | Microsoft.AppPlatform/Spring | Spring Apps |
-| **Network** | `pe` | Microsoft.Network/privateEndpoints | Private Endpoint |
-| | `vnet` | Microsoft.Network/virtualNetworks | VNet |
-| | `nsg` | Microsoft.Network/networkSecurityGroups | NSG |
-| | `firewall` | Microsoft.Network/azureFirewalls | Firewall |
-| | `bastion` | Microsoft.Network/bastionHosts | Bastion |
-| | `app_gateway` | Microsoft.Network/applicationGateways | App Gateway |
-| | `front_door` | Microsoft.Cdn/profiles (Front Door) | Front Door |
-| | `vpn` | Microsoft.Network/virtualNetworkGateways | VPN Gateway |
-| | `load_balancer` | Microsoft.Network/loadBalancers | Load Balancer |
-| | `nat_gateway` | Microsoft.Network/natGateways | NAT Gateway |
-| | `cdn` | Microsoft.Cdn/profiles | CDN |
-| **IoT** | `iot_hub` | Microsoft.Devices/IotHubs | IoT Hub |
-| | `digital_twins` | Microsoft.DigitalTwins/digitalTwinsInstances | Digital Twins |
-| **Integration** | `event_hub` | Microsoft.EventHub/namespaces | Event Hub |
-| | `event_grid` | Microsoft.EventGrid/topics | Event Grid |
-| | `apim` | Microsoft.ApiManagement/service | API Management |
-| | `service_bus` | Microsoft.ServiceBus/namespaces | Service Bus |
-| | `logic_apps` | Microsoft.Logic/workflows | Logic Apps |
-| **Monitoring** | `log_analytics` | Microsoft.OperationalInsights/workspaces | Log Analytics |
-| | `appinsights` | Microsoft.Insights/components | App Insights |
-| | `monitor` | Azure Monitor | Monitor |
-| **Other** | `jumpbox`, `user`, `devops` | — | Special |
+| Category        | Canonical Type              | Azure Resource                                              | Icon               |
+| --------------- | --------------------------- | ----------------------------------------------------------- | ------------------ |
+| **AI**          | `ai_foundry`                | Microsoft.CognitiveServices/accounts (kind: AIServices)     | AI Foundry         |
+|                 | `openai`                    | Microsoft.CognitiveServices/accounts (kind: OpenAI)         | Azure OpenAI       |
+|                 | `ai_hub`                    | Foundry Project                                             | AI Studio          |
+|                 | `search`                    | Microsoft.Search/searchServices                             | Cognitive Search   |
+|                 | `document_intelligence`     | Microsoft.CognitiveServices/accounts (kind: FormRecognizer) | Form Recognizer    |
+|                 | `aml`                       | Microsoft.MachineLearningServices/workspaces                | Machine Learning   |
+| **Data**        | `fabric`                    | Microsoft.Fabric/capacities                                 | Microsoft Fabric   |
+|                 | `adf`                       | Microsoft.DataFactory/factories                             | Data Factory       |
+|                 | `storage`                   | Microsoft.Storage/storageAccounts                           | Storage Account    |
+|                 | `adls`                      | ADLS Gen2 (Storage with HNS)                                | Data Lake          |
+|                 | `cosmos_db`                 | Microsoft.DocumentDB/databaseAccounts                       | Cosmos DB          |
+|                 | `sql_database`              | Microsoft.Sql/servers/databases                             | SQL Database       |
+|                 | `sql_server`                | Microsoft.Sql/servers                                       | SQL Server         |
+|                 | `databricks`                | Microsoft.Databricks/workspaces                             | Databricks         |
+|                 | `synapse`                   | Microsoft.Synapse/workspaces                                | Synapse Analytics  |
+|                 | `redis`                     | Microsoft.Cache/redis                                       | Redis Cache        |
+|                 | `stream_analytics`          | Microsoft.StreamAnalytics/streamingjobs                     | Stream Analytics   |
+|                 | `postgresql`                | Microsoft.DBforPostgreSQL/flexibleServers                   | PostgreSQL         |
+|                 | `mysql`                     | Microsoft.DBforMySQL/flexibleServers                        | MySQL              |
+| **Security**    | `keyvault`                  | Microsoft.KeyVault/vaults                                   | Key Vault          |
+|                 | `sentinel`                  | Microsoft.SecurityInsights                                  | Sentinel           |
+| **Compute**     | `appservice`                | Microsoft.Web/sites                                         | App Service        |
+|                 | `function_app`              | Microsoft.Web/sites (kind: functionapp)                     | Function App       |
+|                 | `vm`                        | Microsoft.Compute/virtualMachines                           | Virtual Machine    |
+|                 | `aks`                       | Microsoft.ContainerService/managedClusters                  | AKS                |
+|                 | `acr`                       | Microsoft.ContainerRegistry/registries                      | Container Registry |
+|                 | `container_apps`            | Microsoft.App/containerApps                                 | Container Apps     |
+|                 | `static_web_app`            | Microsoft.Web/staticSites                                   | Static Web App     |
+|                 | `spring_apps`               | Microsoft.AppPlatform/Spring                                | Spring Apps        |
+| **Network**     | `pe`                        | Microsoft.Network/privateEndpoints                          | Private Endpoint   |
+|                 | `vnet`                      | Microsoft.Network/virtualNetworks                           | VNet               |
+|                 | `nsg`                       | Microsoft.Network/networkSecurityGroups                     | NSG                |
+|                 | `firewall`                  | Microsoft.Network/azureFirewalls                            | Firewall           |
+|                 | `bastion`                   | Microsoft.Network/bastionHosts                              | Bastion            |
+|                 | `app_gateway`               | Microsoft.Network/applicationGateways                       | App Gateway        |
+|                 | `front_door`                | Microsoft.Cdn/profiles (Front Door)                         | Front Door         |
+|                 | `vpn`                       | Microsoft.Network/virtualNetworkGateways                    | VPN Gateway        |
+|                 | `load_balancer`             | Microsoft.Network/loadBalancers                             | Load Balancer      |
+|                 | `nat_gateway`               | Microsoft.Network/natGateways                               | NAT Gateway        |
+|                 | `cdn`                       | Microsoft.Cdn/profiles                                      | CDN                |
+| **IoT**         | `iot_hub`                   | Microsoft.Devices/IotHubs                                   | IoT Hub            |
+|                 | `digital_twins`             | Microsoft.DigitalTwins/digitalTwinsInstances                | Digital Twins      |
+| **Integration** | `event_hub`                 | Microsoft.EventHub/namespaces                               | Event Hub          |
+|                 | `event_grid`                | Microsoft.EventGrid/topics                                  | Event Grid         |
+|                 | `apim`                      | Microsoft.ApiManagement/service                             | API Management     |
+|                 | `service_bus`               | Microsoft.ServiceBus/namespaces                             | Service Bus        |
+|                 | `logic_apps`                | Microsoft.Logic/workflows                                   | Logic Apps         |
+| **Monitoring**  | `log_analytics`             | Microsoft.OperationalInsights/workspaces                    | Log Analytics      |
+|                 | `appinsights`               | Microsoft.Insights/components                               | App Insights       |
+|                 | `monitor`                   | Azure Monitor                                               | Monitor            |
+| **Other**       | `jumpbox`, `user`, `devops` | —                                                           | Special            |
 
 **When Using Private Endpoints — PE Node Addition Required:**
 
@@ -524,6 +543,7 @@ PE connections (`"type": "private"`) represent network isolation. But this alone
 ```
 
 **NEVER do this:**
+
 - Create only PE connections and omit business logic connections
 - Connect `from`/`to` of business logic connections to PE nodes (use the **actual service ID**, not the PE)
 - Assume "the PE is there so the connection line will show up"
@@ -534,29 +554,37 @@ The PE groupId differs by service. Refer to the PE groupId & DNS Zone mapping ta
 > For resource types and key properties per service, refer to `references/ai-data.md`.
 
 **connections JSON format:**
+
 ```json
 [
-  {"from": "serviceA_ID", "to": "serviceB_ID", "label": "Connection description", "type": "api|data|security|private"}
+  {
+    "from": "serviceA_ID",
+    "to": "serviceB_ID",
+    "label": "Connection description",
+    "type": "api|data|security|private"
+  }
 ]
 ```
 
 **Connection Types:**
 
-| type | Color | Style | Use For |
-|------|-------|-------|---------|
-| `api` | Blue | Solid | API calls, queries |
-| `data` | Green | Solid | Data flow, indexing |
-| `security` | Orange | Dashed | Secrets, auth |
-| `private` | Purple | Dashed | Private Endpoint connections |
-| `network` | Gray | Solid | Network routing |
-| `default` | Gray | Solid | Other |
+| type       | Color  | Style  | Use For                      |
+| ---------- | ------ | ------ | ---------------------------- |
+| `api`      | Blue   | Solid  | API calls, queries           |
+| `data`     | Green  | Solid  | Data flow, indexing          |
+| `security` | Orange | Dashed | Secrets, auth                |
+| `private`  | Purple | Dashed | Private Endpoint connections |
+| `network`  | Gray   | Solid  | Network routing              |
+| `default`  | Gray   | Solid  | Other                        |
 
 **🔹 Diagram Multilingual Principle:**
+
 - The `name`, `details` in services and `label` in connections are written in **the user's language**
 - Example: `"label": "RAG Search"`, `"label": "Data Ingestion"`
 - Official Azure service names (Microsoft Foundry, AI Search, etc.) are always in English regardless of language
 
 **🔹 VNet Node — Do NOT add to services JSON:**
+
 - VNet is automatically displayed as a **purple dashed boundary** in the diagram (when PEs are present)
 - Adding a separate VNet node to services JSON causes confusion by duplicating with the boundary line
 - VNet information (CIDR, subnets) is sufficiently conveyed through the sidebar VNet boundary label
@@ -572,6 +600,7 @@ The architecture is finalized incrementally through conversation with the user. 
 Service addition/change is not a "simple update" — it is an **event that reopens undecided required fields for that service**.
 
 **Process:**
+
 1. Diff the current confirmed state + new request
 2. Identify the required fields for newly added services (refer to `domain-packs` or MS Docs)
 3. Fetch the region availability/options for the service from MS Docs
@@ -579,6 +608,7 @@ Service addition/change is not a "simple update" — it is an **event that reope
 5. **Regenerate the diagram only after confirmation is complete**
 
 **NEVER do this:**
+
 - Finalize diagram update while required fields remain undecided
 - Arbitrarily add sub-components/workloads the user did not mention (e.g., automatically adding OneLake and data pipeline to a Fabric request)
 - Vaguely assume SKU/model like "F SKU" without confirmation
@@ -594,10 +624,10 @@ Service addition/change is not a "simple update" — it is an **event that reope
 
 **Design Direction vs Deployment Specs — Separate Information Paths:**
 
-| Decision Type | Reference Path | Examples |
-|--------------|----------------|----------|
-| **Design direction** (architecture patterns, best practices, service combinations) | `references/architecture-guidance-sources.md` → targeted fetch | "What's the recommended RAG structure?", "Enterprise baseline?" |
-| **Deployment specs** (API version, SKU, region, model, PE mapping) | `references/azure-dynamic-sources.md` → MS Docs fetch | "What's the API version?", "Is this model available in Korea Central?" |
+| Decision Type                                                                      | Reference Path                                                 | Examples                                                               |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Design direction** (architecture patterns, best practices, service combinations) | `references/architecture-guidance-sources.md` → targeted fetch | "What's the recommended RAG structure?", "Enterprise baseline?"        |
+| **Deployment specs** (API version, SKU, region, model, PE mapping)                 | `references/azure-dynamic-sources.md` → MS Docs fetch          | "What's the API version?", "Is this model available in Korea Central?" |
 
 - **Design direction comes from architecture guidance, actual deployment values from dynamic sources.** Do not mix these two paths.
 - Do NOT use Architecture guidance document content to determine SKU/API version/region.
@@ -605,6 +635,7 @@ Service addition/change is not a "simple update" — it is an **event that reope
 - For trigger/fetch budget/decision rules by question type, refer to `architecture-guidance-sources.md`.
 
 **This principle applies to ALL requests without exception:**
+
 - Model addition/change → Verify in MS Docs whether the model exists and can be deployed in the target region
 - Service addition/change → Verify in MS Docs whether the service is available in the target region
 - SKU change → Verify in MS Docs whether the SKU is valid and supports the desired features
@@ -613,6 +644,7 @@ Service addition/change is not a "simple update" — it is an **event that reope
 - **Any other request** → Fact-check with MS Docs
 
 **MS Docs verification results:**
+
 - **Possible** → Reflect in diagram
 - **Not possible** → Immediately explain the reason to the user and suggest available alternatives
 
@@ -637,6 +669,7 @@ Do not simply query once and move on for user requests.
 ```
 
 **Fact Check Quality Standards — Be Thorough, Not Cursory:**
+
 - When a MS Docs page is fetched, **check ALL relevant sections, tabs, and conditions without omission**
 - When checking model availability: Check **ALL deployment types** including Global Standard, Standard, Provisioned, Data Zone, etc. Do NOT conclude "not supported" based on only one deployment type
 - When checking SKUs: **Fully** verify the feature list supported by that SKU
@@ -644,6 +677,7 @@ Do not simply query once and move on for user requests.
 - If uncertain, query additional pages. **NEVER answer based on guesswork**
 
 **NEVER do this:**
+
 - Add to the diagram without verification
 - Defer verification with "I'll check during Bicep generation" or "It will be validated during deployment"
 - Rely only on your memory and answer "it should work" — **MUST directly query MS Docs**
@@ -653,6 +687,7 @@ Do not simply query once and move on for user requests.
 **🚫 Sub-Agent Usage Rules:**
 
 **Sub-agents in GHCP = `task` tool:**
+
 - `agent_type: "explore"` — Read-only tasks like codebase exploration, file search (**web_fetch/web_search NOT available**)
 - `agent_type: "task"` — Command execution like az cli, bicep build
 - `agent_type: "general-purpose"` — High-level tasks like complex Bicep generation
@@ -661,6 +696,7 @@ Do not simply query once and move on for user requests.
 > Fact checks requiring MS Docs queries, API version verification, model availability checks, etc. MUST be performed **directly by the main agent**.
 
 **Foreground vs Background Decision Criteria:**
+
 - **If results are needed before proceeding to the next step → `mode: "sync"` (default)**
   - e.g., Query SKU list then provide choices to user, verify model availability then reflect in diagram
   - Running in background here would leave the user idle waiting for results
@@ -670,6 +706,7 @@ Do not simply query once and move on for user requests.
 **Most fact checks should be run in foreground (`mode: "sync"`)** because the next question cannot be asked without the results.
 
 **How to run cross-verification in parallel:**
+
 ```
 // Execute 1st and 2nd verification simultaneously (main agent performs directly)
 [Simultaneously] Directly query primary MS Docs page via web_fetch (1st)
@@ -679,6 +716,7 @@ Do not simply query once and move on for user requests.
 ```
 
 **NEVER do this:**
+
 - Run in background when results are needed, then sit idle doing nothing while waiting
 - Delegate tasks requiring web_fetch/web_search to sub-agents (main agent MUST perform directly)
 - Attempt to directly read files internal to sub-agents
@@ -711,6 +749,7 @@ If the configuration table was not shown, **show it right now** before asking ab
 ```
 
 ask_user display format:
+
 ```
 The architecture is confirmed! Shall we proceed to the next step?
 
@@ -755,6 +794,7 @@ Provide up to 4 existing resource groups from the list as `ask_user` choices.
 If the user selects an existing group, use it as-is; if they type a new name as custom input, create it during Phase 4 deployment.
 
 **Required confirmed items:**
+
 - [ ] Service list and SKUs
 - [ ] Networking method (Private Endpoint usage)
 - [ ] Subscription ID (confirmed in Step 2)
@@ -767,14 +807,14 @@ If the user selects an existing group, use it as-is; if they type a new name as 
 
 Before leaving Phase 1, verify **ALL** items below. If any are incomplete, do NOT proceed to Phase 2.
 
-| # | Item | Verification Method |
-|---|------|---------------------|
-| 1 | All required specs confirmed | Project name, services, SKUs, region, and networking method are all confirmed |
-| 2 | Fact check completed | MS Docs cross-verification has been performed |
-| 3 | **Diagram generated** | `01_arch_diagram_draft.html` file has been generated using the built-in diagram engine |
-| 4 | **Configuration table shown** | Detailed table with Service/Type/SKU/Details displayed to user in report format |
-| 5 | **User reviewed diagram** | Browser auto-open + report format + "anything to change?" question asked |
-| 6 | User final approval | User confirmed no changes, then selected "proceed to next step" |
+| #   | Item                          | Verification Method                                                                    |
+| --- | ----------------------------- | -------------------------------------------------------------------------------------- |
+| 1   | All required specs confirmed  | Project name, services, SKUs, region, and networking method are all confirmed          |
+| 2   | Fact check completed          | MS Docs cross-verification has been performed                                          |
+| 3   | **Diagram generated**         | `01_arch_diagram_draft.html` file has been generated using the built-in diagram engine |
+| 4   | **Configuration table shown** | Detailed table with Service/Type/SKU/Details displayed to user in report format        |
+| 5   | **User reviewed diagram**     | Browser auto-open + report format + "anything to change?" question asked               |
+| 6   | User final approval           | User confirmed no changes, then selected "proceed to next step"                        |
 
 **⚠️ Do NOT ask item 6 while items 3-5 are incomplete.** The flow must be: diagram → table → ask changes → confirm → next step.
 
@@ -786,6 +826,7 @@ Once the user agrees to proceed, read the `references/bicep-generator.md` instru
 Alternatively, this can be delegated to a separate sub-agent.
 
 **Sensitive Information Handling Principle (NEVER violate):**
+
 - NEVER ask for VM passwords, API keys, or other sensitive values in chat, and NEVER store them in parameter files
 - During code review, if sensitive values are found in plaintext in `main.bicepparam`, remove them immediately
 
@@ -793,13 +834,16 @@ Alternatively, this can be delegated to a separate sub-agent.
 
 When the user inputs a VM admin password or similar, validate complexity requirements **before** sending to Azure.
 Azure VMs must satisfy ALL of the following conditions:
+
 - 12 characters or more
 - Contains at least 3 of: uppercase letters, lowercase letters, numbers, special characters
 
 **On validation failure:** Do NOT attempt deployment; immediately ask the user to re-enter:
+
 > **⚠️ The password does not meet Azure complexity requirements.** It must be 12 characters or more and contain at least 3 of: uppercase + lowercase + numbers + special characters.
 
 **NEVER do this:**
+
 - Warn "it may not meet requirements" but attempt deployment anyway — **MUST block**
 - Send to Azure without complexity validation, causing deployment failure
 
@@ -831,10 +875,12 @@ Therefore, `@secure()` parameter handling follows these rules:
    ```
 
 **Decision criteria:**
+
 - All `@secure()` parameters have default values (newGuid, etc.) → `.bicepparam` can be used
 - Any `@secure()` parameter requires user input → Use JSON parameter file instead of `.bicepparam`
 
 **When MS Docs fetch fails:**
+
 - If web_fetch fails due to rate limiting, etc., MUST notify the user:
   ```
   ⚠️ MS Docs API version lookup failed. Generating with the last known stable version.
@@ -844,6 +890,7 @@ Therefore, `@secure()` parameter handling follows these rules:
 - Do NOT silently proceed with a hardcoded version without user approval
 
 **Pre-Bicep generation reference files:**
+
 - `references/service-gotchas.md` — Required properties, common mistakes, PE groupId/DNS Zone mapping
 - `references/ai-data.md` — AI/Data service configuration guide (v1 domain)
 - `references/azure-common-patterns.md` — PE/security/naming common patterns
@@ -851,6 +898,7 @@ Therefore, `@secure()` parameter handling follows these rules:
 - For services not covered in the above files, directly fetch MS Docs to verify resource types, properties, and PE mappings
 
 **Output structure:**
+
 ```
 <project-name>/
 ├── main.bicep              # Main orchestration
@@ -865,6 +913,7 @@ Therefore, `@secure()` parameter handling follows these rules:
 ```
 
 **Bicep mandatory principles:**
+
 - Parameterize all resource names — `param openAiName string = 'oai-${uniqueString(resourceGroup().id)}'`
 - Private services MUST have `publicNetworkAccess: 'Disabled'`
 - Set `privateEndpointNetworkPolicies: 'Disabled'` on pe-subnet
@@ -917,6 +966,7 @@ Shall we proceed with deployment? (If you'd like just the code without deploymen
 ```
 
 **NEVER do this:**
+
 - Completing Phase 3 and just providing the `az deployment group create` command without further guidance
 - Deploying directly without What-if validation, or telling the user to run commands themselves
 - Skipping the Phase 4 steps (What-if → Preview Diagram → Deployment)

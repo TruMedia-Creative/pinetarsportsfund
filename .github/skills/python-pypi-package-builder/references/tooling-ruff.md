@@ -1,6 +1,7 @@
 # Tooling — Ruff-Only Setup and Code Quality
 
 ## Table of Contents
+
 1. [Use Only Ruff (Replaces black, isort, flake8)](#1-use-only-ruff-replaces-black-isort-flake8)
 2. [Ruff Configuration in pyproject.toml](#2-ruff-configuration-in-pyprojecttoml)
 3. [mypy Configuration](#3-mypy-configuration)
@@ -16,16 +17,17 @@
 
 **Decision:** Use `ruff` as the single linting and formatting tool. Remove `black` and `isort`.
 
-| Old (avoid) | New (use) | What it does |
-|---|---|---|
-| `black` | `ruff format` | Code formatting |
-| `isort` | `ruff check --select I` | Import sorting |
-| `flake8` | `ruff check` | Style and error linting |
-| `pyupgrade` | `ruff check --select UP` | Upgrade syntax to modern Python |
-| `bandit` | `ruff check --select S` | Security linting |
-| All of the above | `ruff` | One tool, one config section |
+| Old (avoid)      | New (use)                | What it does                    |
+| ---------------- | ------------------------ | ------------------------------- |
+| `black`          | `ruff format`            | Code formatting                 |
+| `isort`          | `ruff check --select I`  | Import sorting                  |
+| `flake8`         | `ruff check`             | Style and error linting         |
+| `pyupgrade`      | `ruff check --select UP` | Upgrade syntax to modern Python |
+| `bandit`         | `ruff check --select S`  | Security linting                |
+| All of the above | `ruff`                   | One tool, one config section    |
 
 **Why ruff?**
+
 - 10–100× faster than the tools it replaces (written in Rust).
 - Single config section in `pyproject.toml` — no `.flake8`, `.isort.cfg`, `pyproject.toml[tool.black]` sprawl.
 - Actively maintained by Astral; follows the same rules as the tools it replaces.
@@ -149,11 +151,11 @@ In CI, detect layout dynamically:
 # .pre-commit-config.yaml
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.4    # Pin to a specific release; update periodically with `pre-commit autoupdate`
+    rev: v0.4.4 # Pin to a specific release; update periodically with `pre-commit autoupdate`
     hooks:
       - id: ruff
-        args: [--fix]       # Auto-fix what can be fixed
-      - id: ruff-format     # Format (replaces black hook)
+        args: [--fix] # Auto-fix what can be fixed
+      - id: ruff-format # Format (replaces black hook)
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.10.0
@@ -180,10 +182,10 @@ repos:
 
 ```yaml
 # DELETE or never add:
-- repo: https://github.com/psf/black           # replaced by ruff-format
-- repo: https://github.com/PyCQA/isort          # replaced by ruff lint I rules
-- repo: https://github.com/PyCQA/flake8         # replaced by ruff check
-- repo: https://github.com/PyCQA/autoflake      # replaced by ruff check F401
+- repo: https://github.com/psf/black # replaced by ruff-format
+- repo: https://github.com/PyCQA/isort # replaced by ruff lint I rules
+- repo: https://github.com/PyCQA/flake8 # replaced by ruff check
+- repo: https://github.com/PyCQA/autoflake # replaced by ruff check F401
 ```
 
 ### Setup

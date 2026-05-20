@@ -11,6 +11,7 @@ ax profiles show
 ```
 
 Look at the output to understand what's configured:
+
 - `API Key: (not set)` or missing → key needs to be created/updated
 - No profile output or "No profiles found" → no profile exists yet
 - Connected but getting `401 Unauthorized` → key is wrong or expired
@@ -53,6 +54,7 @@ ax profiles create work --api-key $ARIZE_API_KEY --region us-east-1b
 ```
 
 To use a named profile with any `ax` command, add `-p NAME`:
+
 ```bash
 ax spans export PROJECT_ID -p work
 ```
@@ -86,15 +88,19 @@ Confirm the API key and region are correct, then retry the original command.
 There is no profile flag for space ID. Save it as an environment variable:
 
 **macOS/Linux** — add to `~/.zshrc` or `~/.bashrc`:
+
 ```bash
 export ARIZE_SPACE_ID="U3BhY2U6..."
 ```
+
 Then `source ~/.zshrc` (or restart terminal).
 
 **Windows (PowerShell):**
+
 ```powershell
 [System.Environment]::SetEnvironmentVariable('ARIZE_SPACE_ID', 'U3BhY2U6...', 'User')
 ```
+
 Restart terminal for it to take effect.
 
 ## Save Credentials for Future Use
@@ -102,11 +108,12 @@ Restart terminal for it to take effect.
 At the **end of the session**, if the user manually provided any credentials during this conversation **and** those values were NOT already loaded from a saved profile or environment variable, offer to save them.
 
 **Skip this entirely if:**
+
 - The API key was already loaded from an existing profile or `ARIZE_API_KEY` env var
 - The space ID was already set via `ARIZE_SPACE_ID` env var
 - The user only used base64 project IDs (no space ID was needed)
 
-**How to offer:** Use **AskQuestion**: *"Would you like to save your Arize credentials so you don't have to enter them next time?"* with options `"Yes, save them"` / `"No thanks"`.
+**How to offer:** Use **AskQuestion**: _"Would you like to save your Arize credentials so you don't have to enter them next time?"_ with options `"Yes, save them"` / `"No thanks"`.
 
 **If the user says yes:**
 

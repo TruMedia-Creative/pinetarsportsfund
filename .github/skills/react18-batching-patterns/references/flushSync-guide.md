@@ -3,16 +3,16 @@
 ## Import
 
 ```jsx
-import { flushSync } from 'react-dom';
+import { flushSync } from "react-dom";
 // NOT from 'react' - it lives in react-dom
 ```
 
 If the file already imports from `react-dom`:
 
 ```jsx
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 // Add named import:
-import ReactDOM, { flushSync } from 'react-dom';
+import ReactDOM, { flushSync } from "react-dom";
 ```
 
 ## Syntax
@@ -28,7 +28,7 @@ Multiple setState calls inside one flushSync batch together into ONE synchronous
 
 ```jsx
 flushSync(() => {
-  this.setState({ step: 'loading' });
+  this.setState({ step: "loading" });
   this.setState({ progress: 0 });
   // These batch together → one render
 });
@@ -46,9 +46,9 @@ await expensiveAsyncOperation();
 ✅ Use in multi-step progress flows where each step must visually complete before the next:
 
 ```jsx
-flushSync(() => this.setState({ status: 'validating' }));
+flushSync(() => this.setState({ status: "validating" }));
 await validate();
-flushSync(() => this.setState({ status: 'processing' }));
+flushSync(() => this.setState({ status: "processing" }));
 await process();
 ```
 

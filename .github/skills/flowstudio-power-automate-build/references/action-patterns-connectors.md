@@ -38,18 +38,22 @@ Result reference: `@outputs('Get_SP_Items')?['body/value']`
 
 > **Dynamic OData filter with string interpolation**: inject a runtime value
 > directly into the `$filter` string using `@{...}` syntax:
+>
 > ```
-> "$filter": "Title eq '@{outputs('ConfirmationCode')}'"  
+> "$filter": "Title eq '@{outputs('ConfirmationCode')}'"
 > ```
+>
 > Note the single-quotes inside double-quotes — correct OData string literal
 > syntax. Avoids a separate variable action.
 
 > **Pagination for large lists**: by default, GetItems stops at `$top`. To auto-paginate
 > beyond that, enable the pagination policy on the action. In the flow definition this
 > appears as:
+>
 > ```json
 > "paginationPolicy": { "minimumItemCount": 10000 }
 > ```
+>
 > Set `minimumItemCount` to the maximum number of items you expect. The connector will
 > keep fetching pages until that count is reached or the list is exhausted. Without this,
 > flows silently return a capped result on lists with >5,000 items.
@@ -190,6 +194,7 @@ returns its ID, which `UpdateFile` can then overwrite:
 > **Document library system properties** — when iterating a file library result (e.g.
 > from `ListFolder` or `GetFilesV2`), use curly-brace property names to access
 > SharePoint's built-in file metadata. These are different from list field names:
+>
 > ```
 > @item()?['{Name}']                  — filename without path (e.g. "report.csv")
 > @item()?['{FilenameWithExtension}'] — same as {Name} in most connectors
@@ -280,6 +285,7 @@ SharePoint REST API via the `HttpRequest` operation:
 ```
 
 > **Key headers:**
+>
 > - `X-HTTP-Method: MERGE` — tells SharePoint to do a partial update (PATCH semantics)
 > - `IF-MATCH: *` — overwrites regardless of current ETag (no conflict check)
 >
@@ -392,6 +398,7 @@ the file; the flow downloads and filters it for before/after comparisons.
 ```
 
 Access subject and body:
+
 ```
 @first(outputs('Get_Email_Template')?['body/value'])?['subject']
 @first(outputs('Get_Email_Template')?['body/value'])?['body']
@@ -465,6 +472,7 @@ For 1:1 ("Chat with Flow bot"), use `"location": "Chat with Flow bot"` and set
 > **Active-user gate:** When sending notifications in a loop, check the recipient's
 > Azure AD account is enabled before posting — avoids failed deliveries to departed
 > staff:
+>
 > ```json
 > "Check_User_Active": {
 >   "type": "OpenApiConnection",
@@ -475,6 +483,7 @@ For 1:1 ("Chat with Flow bot"), use `"location": "Chat with Flow bot"` and set
 >   }
 > }
 > ```
+>
 > Then gate: `@equals(body('Check_User_Active')?['accountEnabled'], true)`
 
 ---
@@ -526,11 +535,13 @@ scope), split it into two actions: `CreateAnApproval` (fire-and-forget) then
 ```
 
 > **`approvalType` options:**
+>
 > - `"Approve/Reject - First to respond"` — binary, first responder wins
 > - `"Approve/Reject - Everyone must approve"` — requires all assignees
 > - `"CustomResponse/Result"` — define your own response buttons
 >
 > After `Wait_For_Approval`, read the outcome:
+>
 > ```
 > @body('Wait_For_Approval')?['outcome']          → "Approve", "Reject", or custom
 > @body('Wait_For_Approval')?['responses'][0]?['responder']?['displayName']

@@ -18,6 +18,7 @@ Give this prompt identically to three independent AI tools (e.g., Claude, GPT, G
 ---
 
 **Context files to read:**
+
 1. [List all spec/intent documents with paths]
 2. [Architecture docs]
 3. [Design decision records]
@@ -26,11 +27,13 @@ Give this prompt identically to three independent AI tools (e.g., Claude, GPT, G
 
 **Requirement confidence tiers:**
 Requirements are tagged with `[Req: tier — source]`. Weight your findings by tier:
+
 - **formal** — written by humans in a spec document. Authoritative. Divergence is a real finding.
 - **user-confirmed** — stated by the user but not in a formal doc. Treat as authoritative unless contradicted by other evidence.
 - **inferred** — deduced from code behavior. Lower confidence. Report divergence as NEEDS REVIEW, not as a definitive defect.
 
 **Rules:**
+
 - ONLY list defects. Do not summarize what matches.
 - For EVERY defect, cite specific file and line number(s).
   If you cannot cite a line number, do not include the finding.
@@ -40,6 +43,7 @@ Requirements are tagged with `[Req: tier — source]`. Weight your findings by t
 - For findings against inferred requirements, add: NEEDS REVIEW
 
 **Defect classifications:**
+
 - **MISSING** — Spec requires it, code doesn't implement it
 - **DIVERGENT** — Both spec and code address it, but they disagree
 - **UNDOCUMENTED** — Code does it, spec doesn't mention it
@@ -59,9 +63,10 @@ Requirements are tagged with `[Req: tier — source]`. Weight your findings by t
 **Output format:**
 
 ### [filename.ext]
+
 - **Line NNN:** [MISSING / DIVERGENT / UNDOCUMENTED / PHANTOM] [Req: tier — source] Description.
   Spec says: [quote or reference]. Code does: [what actually happens].
-  *(Include the `[Req: tier — source]` tag so findings can be traced back to their requirement and confidence level.)*
+  _(Include the `[Req: tier — source]` tag so findings can be traced back to their requirement and confidence level.)_
 
 ---
 
@@ -75,11 +80,11 @@ Requirements are tagged with `[Req: tier — source]`. Weight your findings by t
 
 After all three models report, merge findings:
 
-| Confidence | Found By | Action |
-|------------|----------|--------|
-| Highest | All three | Almost certainly real — fix or update spec |
-| High | Two of three | Likely real — verify and fix |
-| Needs verification | One only | Could be real or hallucinated — deploy verification probe |
+| Confidence         | Found By     | Action                                                    |
+| ------------------ | ------------ | --------------------------------------------------------- |
+| Highest            | All three    | Almost certainly real — fix or update spec                |
+| High               | Two of three | Likely real — verify and fix                              |
+| Needs verification | One only     | Could be real or hallucinated — deploy verification probe |
 
 ### The Verification Probe
 
@@ -135,10 +140,12 @@ The specific models that excel will change over time. The principle holds: use m
 The scrutiny areas are the most important part of the prompt. Generic questions like "check if the code matches the spec" produce generic answers. Specific questions that name functions, files, and edge cases produce specific findings.
 
 Good scrutiny areas:
+
 - "Read `process_input()` in `pipeline.py` lines 45–120. The spec says it should handle missing fields by substituting defaults. Does it? Which fields have defaults and which silently produce null?"
 - "The architecture doc says Module A passes validated data to Module B. Read both modules. Is there any path where unvalidated data reaches Module B?"
 
 Bad scrutiny areas:
+
 - "Check if the code is correct"
 - "Look for bugs"
 - "Verify the implementation matches the spec"

@@ -1,6 +1,7 @@
 # CI/CD, Publishing, and Changelog
 
 ## Table of Contents
+
 1. [Changelog format](#1-changelog-format)
 2. [ci.yml — lint, type-check, test matrix](#2-ciyml)
 3. [publish.yml — triggered on version tags](#3-publishyml)
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - (in-progress features go here)
 
 ---
@@ -38,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-04-02
 
 ### Added
+
 - Initial stable release
 - `YourMiddleware` with gradual, strict, and combined modes
 - In-memory backend (no extra deps)
@@ -47,7 +50,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI: lint, mypy, test matrix, Trusted Publishing
 
 ### Changed
+
 ### Fixed
+
 ### Removed
 
 ---
@@ -55,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-03-01
 
 ### Added
+
 - Initial project scaffold
 
 [Unreleased]: https://github.com/you/your-package/compare/v1.0.0...HEAD
@@ -64,11 +70,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Semver — what bumps what
 
-| Change type | Bump | Example |
-|---|---|---|
-| Breaking API change | MAJOR | `1.0.0 → 2.0.0` |
+| Change type                      | Bump  | Example         |
+| -------------------------------- | ----- | --------------- |
+| Breaking API change              | MAJOR | `1.0.0 → 2.0.0` |
 | New feature, backward-compatible | MINOR | `1.0.0 → 1.1.0` |
-| Bug fix | PATCH | `1.0.0 → 1.0.1` |
+| Bug fix                          | PATCH | `1.0.0 → 1.0.1` |
 
 ---
 
@@ -119,7 +125,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0    # REQUIRED for setuptools_scm to read git tags
+          fetch-depth: 0 # REQUIRED for setuptools_scm to read git tags
 
       - uses: actions/setup-python@v5
         with:
@@ -187,7 +193,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0      # Critical for setuptools_scm
+          fetch-depth: 0 # Critical for setuptools_scm
 
       - uses: actions/setup-python@v5
         with:
@@ -213,7 +219,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
-      id-token: write     # Required for Trusted Publishing (OIDC)
+      id-token: write # Required for Trusted Publishing (OIDC)
 
     steps:
       - uses: actions/download-artifact@v4
@@ -306,10 +312,10 @@ fully typed. This is a silent failure — always verify before releasing.
 
 ## 8. Semver Change-Type Guide
 
-| Change | Version bump | Example |
-|---|---|---|
-| Breaking API change (remove/rename public symbol) | MAJOR | `1.2.3 → 2.0.0` |
-| New feature, fully backward-compatible | MINOR | `1.2.3 → 1.3.0` |
-| Bug fix, no API change | PATCH | `1.2.3 → 1.2.4` |
-| Pre-release | suffix | `2.0.0a1 → 2.0.0rc1 → 2.0.0` |
-| Packaging-only fix (no code change) | post-release | `1.2.3 → 1.2.3.post1` |
+| Change                                            | Version bump | Example                      |
+| ------------------------------------------------- | ------------ | ---------------------------- |
+| Breaking API change (remove/rename public symbol) | MAJOR        | `1.2.3 → 2.0.0`              |
+| New feature, fully backward-compatible            | MINOR        | `1.2.3 → 1.3.0`              |
+| Bug fix, no API change                            | PATCH        | `1.2.3 → 1.2.4`              |
+| Pre-release                                       | suffix       | `2.0.0a1 → 2.0.0rc1 → 2.0.0` |
+| Packaging-only fix (no code change)               | post-release | `1.2.3 → 1.2.3.post1`        |

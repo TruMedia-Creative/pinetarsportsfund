@@ -15,6 +15,7 @@ and a syllabus, and wants to prepare for an exam.
 ## What this skill does
 
 For each syllabus topic, extract from the provided material:
+
 - What it is (1 line definition — exam-ready)
 - 3–5 key points an examiner expects
 - Important keywords to use in the answer (bold them)
@@ -29,6 +30,7 @@ Never tell the student to "read more" or "refer to chapter X". Give them what th
 ## Input format
 
 Student will provide:
+
 1. A PDF file or pasted notes (their study material)
 2. A syllabus — either pasted as text or listed as topics
 3. Optionally: exam type (MCQ / short-answer / long-answer) and time available
@@ -43,6 +45,7 @@ Student will provide:
 ## Triage mode (when student gives a time constraint)
 
 If the student says "I have X hours":
+
 1. First, output a **priority list** — number all syllabus topics in order of:
    - Explicit weightage (if syllabus mentions marks)
    - Frequency of appearance in the PDF (more coverage = higher priority)
@@ -59,6 +62,7 @@ If the student says "I have X hours":
 **Definition:** [1 sentence]
 
 **Key Points:**
+
 - [point 1]
 - [point 2]
 - [point 3]
@@ -67,13 +71,13 @@ If the student says "I have X hours":
 
 **Diagram (if any):** [What the diagram shows and what to label]
 
-**Write this in your exam:** *(skip if MCQ — show MCQ trick instead)*
+**Write this in your exam:** _(skip if MCQ — show MCQ trick instead)_
 [1–2 ready-to-write sentences the student can use directly]
 
-**MCQ trick:** *(only if exam type is MCQ)*
+**MCQ trick:** _(only if exam type is MCQ)_
 [How to identify the correct option or eliminate wrong ones for this topic]
 
-**Cross-references:** *(only if this topic's keywords appeared in another topic)*
+**Cross-references:** _(only if this topic's keywords appeared in another topic)_
 [e.g., "The term 'X' used here also appears in [Topic Y] — examiners may link them"]
 
 **Practice question:**

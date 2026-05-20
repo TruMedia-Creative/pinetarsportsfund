@@ -9,11 +9,13 @@ If `ax` is installed (not `command not found`), always run `ax --version` before
 ## `ax: command not found`
 
 **macOS/Linux:**
+
 1. Check common locations: `~/.local/bin/ax`, `~/Library/Python/*/bin/ax`
 2. Install: `uv tool install arize-ax-cli` (preferred), `pipx install arize-ax-cli`, or `pip install arize-ax-cli`
 3. Add to PATH if needed: `export PATH="$HOME/.local/bin:$PATH"`
 
 **Windows (PowerShell):**
+
 1. Check: `Get-Command ax` or `where.exe ax`
 2. Common locations: `%APPDATA%\Python\Scripts\ax.exe`, `%LOCALAPPDATA%\Programs\Python\Python*\Scripts\ax.exe`
 3. Install: `pip install arize-ax-cli`

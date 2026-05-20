@@ -16,6 +16,7 @@ This skill focuses on **annotation configs** — the schema for human feedback �
 Proceed directly with the task — run the `ax` command you need. Do NOT check versions, env vars, or profiles upfront.
 
 If an `ax` command fails, troubleshoot based on the error:
+
 - `command not found` or version error → see references/ax-setup.md
 - `401 Unauthorized` / missing API key → run `ax profiles show` to inspect the current profile. If the profile is missing or the API key is wrong: check `.env` for `ARIZE_API_KEY` and use it to create/update the profile via references/ax-profiles.md. If `.env` has no key either, ask the user for their Arize API key (https://app.arize.com/admin > API Keys)
 - Space ID unknown → check `.env` for `ARIZE_SPACE_ID`, or run `ax spaces list -o json`, or ask the user
@@ -28,22 +29,22 @@ If an `ax` command fails, troubleshoot based on the error:
 
 An **annotation config** defines the schema for a single type of human feedback label. Before anyone can annotate a span, dataset record, experiment output, or queue item, a config must exist for that label in the space.
 
-| Field | Description |
-|-------|-------------|
-| **Name** | Descriptive identifier (e.g. `Correctness`, `Helpfulness`). Must be unique within the space. |
-| **Type** | `categorical` (pick from a list), `continuous` (numeric range), or `freeform` (free text). |
-| **Values** | For categorical: array of `{"label": str, "score": number}` pairs. |
-| **Min/Max Score** | For continuous: numeric bounds. |
+| Field                      | Description                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Name**                   | Descriptive identifier (e.g. `Correctness`, `Helpfulness`). Must be unique within the space.          |
+| **Type**                   | `categorical` (pick from a list), `continuous` (numeric range), or `freeform` (free text).            |
+| **Values**                 | For categorical: array of `{"label": str, "score": number}` pairs.                                    |
+| **Min/Max Score**          | For continuous: numeric bounds.                                                                       |
 | **Optimization Direction** | Whether higher scores are better (`maximize`) or worse (`minimize`). Used to render trends in the UI. |
 
 ### Where labels get applied (surfaces)
 
-| Surface | Typical path |
-|---------|----------------|
-| **Project spans** | Python SDK `spans.update_annotations` (below) and/or the Arize UI |
-| **Dataset examples** | Arize UI (human labeling flows); configs must exist in the space |
-| **Experiment outputs** | Often reviewed alongside datasets or traces in the UI — see arize-experiment, arize-dataset |
-| **Annotation queue items** | Arize UI; configs must exist — no `ax` queue commands documented here yet |
+| Surface                    | Typical path                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| **Project spans**          | Python SDK `spans.update_annotations` (below) and/or the Arize UI                           |
+| **Dataset examples**       | Arize UI (human labeling flows); configs must exist in the space                            |
+| **Experiment outputs**     | Often reviewed alongside datasets or traces in the UI — see arize-experiment, arize-dataset |
+| **Annotation queue items** | Arize UI; configs must exist — no `ax` queue commands documented here yet                   |
 
 Always ensure the relevant **annotation config** exists in the space before expecting labels to persist.
 
@@ -73,6 +74,7 @@ ax annotation-configs create \
 ```
 
 Common binary label pairs:
+
 - `correct` / `incorrect`
 - `helpful` / `unhelpful`
 - `safe` / `unsafe`
@@ -159,14 +161,14 @@ response = client.spans.update_annotations(
 
 **DataFrame column schema:**
 
-| Column | Required | Description |
-|--------|----------|-------------|
-| `context.span_id` | yes | The span to annotate |
-| `annotation.<name>.label` | one of | Categorical or freeform label |
-| `annotation.<name>.score` | one of | Numeric score |
-| `annotation.<name>.updated_by` | no | Annotator identifier (email or name) |
-| `annotation.<name>.updated_at` | no | Timestamp in milliseconds since epoch |
-| `annotation.notes` | no | Freeform notes on the span |
+| Column                         | Required | Description                           |
+| ------------------------------ | -------- | ------------------------------------- |
+| `context.span_id`              | yes      | The span to annotate                  |
+| `annotation.<name>.label`      | one of   | Categorical or freeform label         |
+| `annotation.<name>.score`      | one of   | Numeric score                         |
+| `annotation.<name>.updated_by` | no       | Annotator identifier (email or name)  |
+| `annotation.<name>.updated_at` | no       | Timestamp in milliseconds since epoch |
+| `annotation.notes`             | no       | Freeform notes on the span            |
 
 **Limitation:** Annotations apply only to spans within 31 days prior to submission.
 
@@ -174,14 +176,14 @@ response = client.spans.update_annotations(
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `ax: command not found` | See references/ax-setup.md |
-| `401 Unauthorized` | API key may not have access to this space. Verify at https://app.arize.com/admin > API Keys |
-| `Annotation config not found` | `ax annotation-configs list --space-id SPACE_ID` |
-| `409 Conflict on create` | Name already exists in the space. Use a different name or get the existing config ID. |
-| Human review / queues in UI | Use the Arize app; ensure configs exist — no `ax` annotation-queue CLI yet |
-| Span SDK errors or missing spans | Confirm `project_name`, `space_id`, and span IDs; use arize-trace to export spans |
+| Problem                          | Solution                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------- |
+| `ax: command not found`          | See references/ax-setup.md                                                                  |
+| `401 Unauthorized`               | API key may not have access to this space. Verify at https://app.arize.com/admin > API Keys |
+| `Annotation config not found`    | `ax annotation-configs list --space-id SPACE_ID`                                            |
+| `409 Conflict on create`         | Name already exists in the space. Use a different name or get the existing config ID.       |
+| Human review / queues in UI      | Use the Arize app; ensure configs exist — no `ax` annotation-queue CLI yet                  |
+| Span SDK errors or missing spans | Confirm `project_name`, `space_id`, and span IDs; use arize-trace to export spans           |
 
 ---
 

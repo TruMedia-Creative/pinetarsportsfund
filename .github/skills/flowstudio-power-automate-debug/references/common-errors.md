@@ -14,11 +14,13 @@ Power Automate flows via the FlowStudio MCP server.
 **Root cause**: An expression like `@split(item()?['Name'], ' ')` received a null value.
 
 **Diagnosis**:
+
 1. Note the action name in the error message
 2. Call `get_live_flow_run_action_outputs` on the action that produces the array
 3. Find items where `Name` (or the referenced field) is `null`
 
 **Fixes**:
+
 ```
 Before: @split(item()?['Name'], ' ')
 After:  @split(coalesce(item()?['Name'], ''), ' ')
@@ -36,6 +38,7 @@ Or guard the whole foreach body with a condition:
 **Root cause**: The field name in the expression doesn't match the actual payload schema.
 
 **Diagnosis**:
+
 ```python
 # Check trigger output shape
 mcp("get_live_flow_run_action_outputs",
@@ -45,6 +48,7 @@ mcp("get_live_flow_run_action_outputs",
 ```
 
 **Fix**: Update expression to use the correct key name. Common mismatches:
+
 - `triggerBody()?['body']` vs `triggerBody()?['Body']` (case-sensitive)
 - `triggerBody()?['Subject']` vs `triggerOutputs()?['body/Subject']`
 
@@ -57,6 +61,7 @@ mcp("get_live_flow_run_action_outputs",
 **Root cause**: Passing an object where the expression expects an array (e.g. a single item HTTP response vs a list response).
 
 **Fix**:
+
 ```
 Before: @outputs('HTTP')?['body']
 After:  @outputs('HTTP')?['body/value']    ← for OData list responses
@@ -78,6 +83,7 @@ user/service account than the one whose JWT is being used.
 identifies the owner. Cannot be fixed via API.
 
 **Fix options**:
+
 1. Open flow in Power Automate designer → re-authenticate the connection
 2. Use a connection owned by the service account whose token you hold
 3. Share the connection with the service account in PA admin
@@ -100,6 +106,7 @@ the user's credentials changed.
 **Full message pattern**: `"An HTTP request to... failed with status code '400'"`
 
 **Diagnosis**:
+
 ```python
 actions_out = mcp("get_live_flow_run_action_outputs", ..., actionName="HTTP_My_Call")
 item = actions_out[0]   # first entry in the returned array
@@ -108,6 +115,7 @@ print(item["outputs"]["body"])         # error details from target API
 ```
 
 **Common causes**:
+
 - 401 — missing or expired auth header
 - 403 — permission denied on target resource
 - 404 — wrong URL / resource deleted

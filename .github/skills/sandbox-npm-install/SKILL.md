@@ -1,6 +1,6 @@
 ---
 name: sandbox-npm-install
-description: 'Install npm packages in a Docker sandbox environment. Use this skill whenever you need to install, reinstall, or update node_modules inside a container where the workspace is mounted via virtiofs. Native binaries (esbuild, lightningcss, rollup) crash on virtiofs, so packages must be installed on the local ext4 filesystem and symlinked back.'
+description: "Install npm packages in a Docker sandbox environment. Use this skill whenever you need to install, reinstall, or update node_modules inside a container where the workspace is mounted via virtiofs. Native binaries (esbuild, lightningcss, rollup) crash on virtiofs, so packages must be installed on the local ext4 filesystem and symlinked back."
 ---
 
 # Sandbox npm Install
@@ -8,6 +8,7 @@ description: 'Install npm packages in a Docker sandbox environment. Use this ski
 ## When to Use This Skill
 
 Use this skill whenever:
+
 - You need to install npm packages for the first time in a new sandbox session
 - `package.json` or `package-lock.json` has changed and you need to reinstall
 - You encounter native binary crashes with errors like `SIGILL`, `SIGSEGV`, `mmap`, or `unaligned sysNoHugePageOS`
@@ -33,10 +34,10 @@ bash scripts/install.sh
 
 ### Common Options
 
-| Option | Description |
-|---|---|
+| Option               | Description                                                            |
+| -------------------- | ---------------------------------------------------------------------- |
 | `--workspace <path>` | Path to directory containing `package.json` (auto-detected if omitted) |
-| `--playwright` | Also install Playwright Chromium browser for E2E testing |
+| `--playwright`       | Also install Playwright Chromium browser for E2E testing               |
 
 ### What the Script Does
 
@@ -68,12 +69,12 @@ npm run dev          # Start dev server
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---|---|
+| Problem                                       | Solution                                                                                     |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | `SIGILL` or `SIGSEGV` when running dev server | Re-run the install script; ensure you're not running `npm install` directly in the workspace |
-| `node_modules` not found after install | Check that the symlink exists: `ls -la node_modules` |
-| Permission errors during install | Ensure the local deps directory is writable by the current user |
-| Verification fails intermittently | Run the script again — native binary crashes can be non-deterministic on first load |
+| `node_modules` not found after install        | Check that the symlink exists: `ls -la node_modules`                                         |
+| Permission errors during install              | Ensure the local deps directory is writable by the current user                              |
+| Verification fails intermittently             | Run the script again — native binary crashes can be non-deterministic on first load          |
 
 ## Vite Compatibility
 

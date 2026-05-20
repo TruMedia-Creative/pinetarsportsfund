@@ -13,11 +13,9 @@ First determine whether the problem is the embedding model, Qdrant configuration
 
 - Start by testing with exact search to isolate the problem [Search API](https://search.qdrant.tech/md/documentation/search/search/?s=search-api)
 
-
 ## Diagnosis and Tuning
 
 Isolate the source of quality issues, tune HNSW parameters, and choose the right embedding model. [Diagnosis and Tuning](diagnosis/SKILL.md)
-
 
 ## Search Strategies
 

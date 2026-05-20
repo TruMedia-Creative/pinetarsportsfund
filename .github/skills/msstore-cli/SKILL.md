@@ -1,6 +1,6 @@
 ---
 name: msstore-cli
-description: 'Microsoft Store Developer CLI (msstore) for publishing Windows applications to the Microsoft Store. Use when asked to configure Store credentials, list Store apps, check submission status, publish submissions, manage package flights, set up CI/CD for Store publishing, or integrate with Partner Center. Supports Windows App SDK/WinUI, UWP, .NET MAUI, Flutter, Electron, React Native, and PWA applications.'
+description: "Microsoft Store Developer CLI (msstore) for publishing Windows applications to the Microsoft Store. Use when asked to configure Store credentials, list Store apps, check submission status, publish submissions, manage package flights, set up CI/CD for Store publishing, or integrate with Partner Center. Supports Windows App SDK/WinUI, UWP, .NET MAUI, Flutter, Electron, React Native, and PWA applications."
 license: MIT
 ---
 
@@ -55,8 +55,8 @@ msstore info
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
+| Option          | Description          |
+| --------------- | -------------------- |
 | `-v, --verbose` | Print verbose output |
 
 ### reconfigure - Configure Credentials
@@ -69,16 +69,16 @@ msstore reconfigure [options]
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
-| `-t, --tenantId` | Azure AD Tenant ID |
-| `-s, --sellerId` | Partner Center Seller ID |
-| `-c, --clientId` | Azure AD Application Client ID |
-| `-cs, --clientSecret` | Client Secret for authentication |
+| Option                         | Description                                           |
+| ------------------------------ | ----------------------------------------------------- |
+| `-t, --tenantId`               | Azure AD Tenant ID                                    |
+| `-s, --sellerId`               | Partner Center Seller ID                              |
+| `-c, --clientId`               | Azure AD Application Client ID                        |
+| `-cs, --clientSecret`          | Client Secret for authentication                      |
 | `-ct, --certificateThumbprint` | Certificate thumbprint (alternative to client secret) |
-| `-cfp, --certificateFilePath` | Certificate file path (alternative to client secret) |
-| `-cp, --certificatePassword` | Certificate password |
-| `--reset` | Reset credentials without full reconfiguration |
+| `-cfp, --certificateFilePath`  | Certificate file path (alternative to client secret)  |
+| `-cp, --certificatePassword`   | Certificate password                                  |
+| `--reset`                      | Reset credentials without full reconfiguration        |
 
 **Examples:**
 
@@ -100,8 +100,8 @@ msstore settings [options]
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
+| Option                  | Description                                |
+| ----------------------- | ------------------------------------------ |
 | `-t, --enableTelemetry` | Enable (true) or disable (false) telemetry |
 
 #### Set Publisher Display Name
@@ -132,8 +132,8 @@ msstore apps get <productId>
 
 **Arguments:**
 
-| Argument | Description |
-| -------- | ----------- |
+| Argument    | Description                               |
+| ----------- | ----------------------------------------- |
 | `productId` | The Store product ID (e.g., 9NBLGGH4R315) |
 
 **Example:**
@@ -147,15 +147,15 @@ msstore apps get 9NBLGGH4R315
 
 Manage Store submissions.
 
-| Sub-Command | Description |
-| ----------- | ----------- |
-| `status` | Get submission status |
-| `get` | Get submission metadata and package info |
-| `getListingAssets` | Get listing assets of a submission |
-| `updateMetadata` | Update submission metadata |
-| `poll` | Poll submission status until complete |
-| `publish` | Publish a submission |
-| `delete` | Delete a submission |
+| Sub-Command        | Description                              |
+| ------------------ | ---------------------------------------- |
+| `status`           | Get submission status                    |
+| `get`              | Get submission metadata and package info |
+| `getListingAssets` | Get listing assets of a submission       |
+| `updateMetadata`   | Update submission metadata               |
+| `poll`             | Poll submission status until complete    |
+| `publish`          | Publish a submission                     |
+| `delete`           | Delete a submission                      |
 
 #### Get Submission Status
 
@@ -191,14 +191,15 @@ Where `<metadata>` is a JSON string with the updated metadata. Because JSON cont
   ```
 
 > **Tip:** For complex or multi-line metadata, save the JSON to a file and pass its contents instead to avoid quoting issues:
+>
 > ```bash
 > msstore submission updateMetadata 9NBLGGH4R315 "$(cat metadata.json)"
 > ```
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
+| Option                     | Description                 |
+| -------------------------- | --------------------------- |
 | `-s, --skipInitialPolling` | Skip initial status polling |
 
 #### Publish Submission
@@ -223,8 +224,8 @@ msstore submission delete <productId>
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
+| Option         | Description              |
+| -------------- | ------------------------ |
 | `--no-confirm` | Skip confirmation prompt |
 
 ### init - Initialize Project for Store
@@ -237,22 +238,22 @@ msstore init <pathOrUrl> [options]
 
 **Arguments:**
 
-| Argument | Description |
-| -------- | ----------- |
+| Argument    | Description                       |
+| ----------- | --------------------------------- |
 | `pathOrUrl` | Project directory path or PWA URL |
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
-| `-n, --publisherDisplayName` | Publisher Display Name |
-| `--package` | Also package the project |
-| `--publish` | Package and publish (implies --package) |
-| `-f, --flightId` | Publish to a specific flight |
-| `-prp, --packageRolloutPercentage` | Gradual rollout percentage (0-100) |
-| `-a, --arch` | Architecture(s): x86, x64, arm64 |
-| `-o, --output` | Output directory for packages |
-| `-ver, --version` | Version to use when building |
+| Option                             | Description                             |
+| ---------------------------------- | --------------------------------------- |
+| `-n, --publisherDisplayName`       | Publisher Display Name                  |
+| `--package`                        | Also package the project                |
+| `--publish`                        | Package and publish (implies --package) |
+| `-f, --flightId`                   | Publish to a specific flight            |
+| `-prp, --packageRolloutPercentage` | Gradual rollout percentage (0-100)      |
+| `-a, --arch`                       | Architecture(s): x86, x64, arm64        |
+| `-o, --output`                     | Output directory for packages           |
+| `-ver, --version`                  | Version to use when building            |
 
 **Supported Project Types:**
 
@@ -287,17 +288,17 @@ msstore package <pathOrUrl> [options]
 
 **Arguments:**
 
-| Argument | Description |
-| -------- | ----------- |
+| Argument    | Description                       |
+| ----------- | --------------------------------- |
 | `pathOrUrl` | Project directory path or PWA URL |
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
-| `-o, --output` | Output directory for the package |
-| `-a, --arch` | Architecture(s): x86, x64, arm64 |
-| `-ver, --version` | Version for the package |
+| Option            | Description                      |
+| ----------------- | -------------------------------- |
+| `-o, --output`    | Output directory for the package |
+| `-a, --arch`      | Architecture(s): x86, x64, arm64 |
+| `-ver, --version` | Version for the package          |
 
 **Examples:**
 
@@ -322,19 +323,19 @@ msstore publish <pathOrUrl> [options]
 
 **Arguments:**
 
-| Argument | Description |
-| -------- | ----------- |
+| Argument    | Description                       |
+| ----------- | --------------------------------- |
 | `pathOrUrl` | Project directory path or PWA URL |
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
-| `-i, --inputFile` | Path to existing .msix or .msixupload file |
-| `-id, --appId` | Application ID (if not initialized) |
-| `-nc, --noCommit` | Keep submission in draft state |
-| `-f, --flightId` | Publish to a specific flight |
-| `-prp, --packageRolloutPercentage` | Gradual rollout percentage (0-100) |
+| Option                             | Description                                |
+| ---------------------------------- | ------------------------------------------ |
+| `-i, --inputFile`                  | Path to existing .msix or .msixupload file |
+| `-id, --appId`                     | Application ID (if not initialized)        |
+| `-nc, --noCommit`                  | Keep submission in draft state             |
+| `-f, --flightId`                   | Publish to a specific flight               |
+| `-prp, --packageRolloutPercentage` | Gradual rollout percentage (0-100)         |
 
 **Examples:**
 
@@ -356,13 +357,13 @@ msstore publish ./my-app --packageRolloutPercentage 10
 
 Manage package flights (beta testing groups).
 
-| Sub-Command | Description |
-| ----------- | ----------- |
-| `list` | List all flights for an app |
-| `get` | Get flight details |
-| `delete` | Delete a flight |
-| `create` | Create a new flight |
-| `submission` | Manage flight submissions |
+| Sub-Command  | Description                 |
+| ------------ | --------------------------- |
+| `list`       | List all flights for an app |
+| `get`        | Get flight details          |
+| `delete`     | Delete a flight             |
+| `create`     | Create a new flight         |
+| `submission` | Manage flight submissions   |
 
 #### List Flights
 
@@ -384,10 +385,10 @@ msstore flights create <productId> <friendlyName> --group-ids <group-ids>
 
 **Options:**
 
-| Option | Description |
-| ------ | ----------- |
-| `-g, --group-ids` | Flight group IDs (comma-separated) |
-| `-r, --rank-higher-than` | Flight ID to rank higher than |
+| Option                   | Description                        |
+| ------------------------ | ---------------------------------- |
+| `-g, --group-ids`        | Flight group IDs (comma-separated) |
+| `-r, --rank-higher-than` | Flight ID to rank higher than      |
 
 #### Delete Flight
 
@@ -525,22 +526,22 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
-      
+          dotnet-version: "9.0.x"
+
       - name: Install msstore CLI
         run: winget install "Microsoft Store Developer CLI" --accept-package-agreements --accept-source-agreements
-      
+
       - name: Configure Store credentials
         run: |
           msstore reconfigure --tenantId ${{ secrets.TENANT_ID }} --sellerId ${{ secrets.SELLER_ID }} --clientId ${{ secrets.CLIENT_ID }} --clientSecret ${{ secrets.CLIENT_SECRET }}
-      
+
       - name: Build application
         run: dotnet publish -c Release
-      
+
       - name: Publish to Store
         run: msstore publish ./src/MyApp
 ```
@@ -567,27 +568,27 @@ Use `winapp store` when you want a unified CLI experience for both packaging and
 
 ## Troubleshooting
 
-| Issue | Solution |
-| ----- | -------- |
-| Authentication failed | Verify credentials with `msstore info`; re-run `msstore reconfigure` |
-| App not found | Ensure the product ID is correct; run `msstore apps list` to verify |
-| Insufficient permissions | Check Azure AD app role in Partner Center (needs Manager or Developer) |
-| Package validation failed | Ensure package meets Store requirements; check Partner Center for details |
-| Submission stuck | Run `msstore submission poll <productId>` to check status |
-| Flight not found | Verify flight ID with `msstore flights list <productId>` |
-| Rollout percentage invalid | Value must be between 0 and 100 |
-| Init fails for PWA | Ensure URL is publicly accessible and has valid web app manifest |
+| Issue                      | Solution                                                                  |
+| -------------------------- | ------------------------------------------------------------------------- |
+| Authentication failed      | Verify credentials with `msstore info`; re-run `msstore reconfigure`      |
+| App not found              | Ensure the product ID is correct; run `msstore apps list` to verify       |
+| Insufficient permissions   | Check Azure AD app role in Partner Center (needs Manager or Developer)    |
+| Package validation failed  | Ensure package meets Store requirements; check Partner Center for details |
+| Submission stuck           | Run `msstore submission poll <productId>` to check status                 |
+| Flight not found           | Verify flight ID with `msstore flights list <productId>`                  |
+| Rollout percentage invalid | Value must be between 0 and 100                                           |
+| Init fails for PWA         | Ensure URL is publicly accessible and has valid web app manifest          |
 
 ## Environment Variables
 
 The CLI supports environment variables for credentials:
 
-| Variable | Description |
-| -------- | ----------- |
-| `MSSTORE_TENANT_ID` | Azure AD Tenant ID |
-| `MSSTORE_SELLER_ID` | Partner Center Seller ID |
-| `MSSTORE_CLIENT_ID` | Azure AD Application Client ID |
-| `MSSTORE_CLIENT_SECRET` | Client Secret |
+| Variable                | Description                    |
+| ----------------------- | ------------------------------ |
+| `MSSTORE_TENANT_ID`     | Azure AD Tenant ID             |
+| `MSSTORE_SELLER_ID`     | Partner Center Seller ID       |
+| `MSSTORE_CLIENT_ID`     | Azure AD Application Client ID |
+| `MSSTORE_CLIENT_SECRET` | Client Secret                  |
 
 ## References
 

@@ -22,7 +22,7 @@ The `use()` hook is React 19's answer for unwrapping promises and context within
 
 ```jsx
 // React 18 approach 1  lazy load a component module:
-const UserComponent = React.lazy(() => import('./User'));
+const UserComponent = React.lazy(() => import("./User"));
 
 function App() {
   return (
@@ -35,11 +35,11 @@ function App() {
 // React 18 approach 2  fetch data with state + useEffect:
 function App({ userId }) {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId).then(setUser);
   }, [userId]);
-  
+
   if (!user) return <Spinner />;
   return <User user={user} />;
 }
@@ -77,8 +77,8 @@ function Root() {
 // React 18  conditional with state
 function SearchResults() {
   const [results, setResults] = useState(null);
-  const [query, setQuery] = useState('');
-  
+  const [query, setQuery] = useState("");
+
   useEffect(() => {
     if (query) {
       search(query).then(setResults);
@@ -86,17 +86,17 @@ function SearchResults() {
       setResults(null);
     }
   }, [query]);
-  
+
   if (!results) return null;
   return <Results items={results} />;
 }
 
 // React 19  use() with conditional
 function SearchResults() {
-  const [query, setQuery] = useState('');
-  
+  const [query, setQuery] = useState("");
+
   if (!query) return null;
-  
+
   const results = use(search(query)); // Only fetches if query is truthy
   return <Results items={results} />;
 }
@@ -121,17 +121,19 @@ function Button({ useSystemTheme }) {
 
 ## Migration Strategy
 
-### Phase 1  No changes required
+### Phase 1 No changes required
 
 React 19 `use()` is opt-in. All existing Suspense + component splitting patterns continue to work:
 
 ```jsx
 // Keep this as-is if it's working:
-const Lazy = React.lazy(() => import('./Component'));
-<Suspense fallback={<Spinner />}><Lazy /></Suspense>
+const Lazy = React.lazy(() => import("./Component"));
+<Suspense fallback={<Spinner />}>
+  <Lazy />
+</Suspense>;
 ```
 
-### Phase 2  Post-migration cleanup (optional)
+### Phase 2 Post-migration cleanup (optional)
 
 After React 19 migration stabilizes, profile codebases for `useEffect + state` async patterns. These are good candidates for `use()` refactoring:
 
@@ -154,11 +156,11 @@ Example refactor:
 // Before:
 function Post({ postId }) {
   const [post, setPost] = useState(null);
-  
+
   useEffect(() => {
     fetchPost(postId).then(setPost);
   }, [postId]);
-  
+
   if (!post) return <Spinner />;
   return <PostContent post={post} />;
 }
@@ -202,7 +204,7 @@ function DataComponent() {
 
 ## When NOT to use use()
 
-- **Avoid during migration**  stabilize React 19 first
-- **Complex dependencies**  if multiple promises or complex ordering logic, stick with `useEffect`
-- **Retry logic**  `use()` doesn't handle retry; `useEffect` with state is clearer
-- **Debounced updates**  `use()` refetches on every prop change; `useEffect` with cleanup is better
+- **Avoid during migration** stabilize React 19 first
+- **Complex dependencies** if multiple promises or complex ordering logic, stick with `useEffect`
+- **Retry logic** `use()` doesn't handle retry; `useEffect` with state is clearer
+- **Debounced updates** `use()` refetches on every prop change; `useEffect` with cleanup is better

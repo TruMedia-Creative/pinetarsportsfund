@@ -4,11 +4,11 @@
 
 ## Metadata
 
-| Attribute | Value |
-|-----------|-------|
-| Priority | Critical - production readiness |
-| Impact | Security, Performance |
-| Setup Time | 5-15 min |
+| Attribute  | Value                           |
+| ---------- | ------------------------------- |
+| Priority   | Critical - production readiness |
+| Impact     | Security, Performance           |
+| Setup Time | 5-15 min                        |
 
 ## Batch Processing
 
@@ -19,7 +19,7 @@ import { register } from "@arizeai/phoenix-otel";
 
 const provider = register({
   projectName: "my-app",
-  batch: true,  // Production default
+  batch: true, // Production default
 });
 ```
 
@@ -36,12 +36,12 @@ const provider = register({
 
 async function main() {
   await doWork();
-  await provider.shutdown();  // Flush spans before exit
+  await provider.shutdown(); // Flush spans before exit
 }
 
 main().catch(async (error) => {
   console.error(error);
-  await provider.shutdown();  // Flush on error too
+  await provider.shutdown(); // Flush on error too
   process.exit(1);
 });
 ```
@@ -86,7 +86,7 @@ import { OpenAIInstrumentation } from "@arizeai/openinference-instrumentation-op
 const traceConfig = {
   hideInputs: true,
   hideOutputs: true,
-  hideInputMessages: true
+  hideInputMessages: true,
 };
 
 const instrumentation = new OpenAIInstrumentation({ traceConfig });

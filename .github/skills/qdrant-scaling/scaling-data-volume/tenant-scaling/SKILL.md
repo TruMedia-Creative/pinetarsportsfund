@@ -17,7 +17,6 @@ Use the default multitenancy strategy via payload filtering.
 
 Read about [Partition by payload](https://search.qdrant.tech/md/documentation/manage-data/multitenancy/?s=partition-by-payload) and [Calibrate performance](https://search.qdrant.tech/md/documentation/manage-data/multitenancy/?s=calibrate-performance) for best practices on indexing and query performance.
 
-
 ## Number of Tenants is around 100k and more
 
 At this scale, the cluster may consist of several peers.
@@ -35,7 +34,6 @@ Use when: legal/compliance requirements demand per-tenant encryption or strict i
 - Multiple collections may be necessary for per-tenant encryption keys
 - Limit collection count and use payload filtering within each collection
 - This is the exception, not the default. Only use when compliance requires it.
-
 
 ## What NOT to Do
 

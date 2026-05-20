@@ -31,6 +31,7 @@ no UI, no manual steps.
 
 > **Requires:** A [FlowStudio](https://mcp.flowstudio.app) MCP subscription (or
 > compatible Power Automate MCP server). You will need:
+>
 > - MCP endpoint: `https://mcp.flowstudio.app/mcp` (same for all subscribers)
 > - API key / JWT token (`x-api-key` header — NOT Bearer)
 > - Power Platform environment name (e.g. `Default-<tenant-guid>`)
@@ -39,11 +40,11 @@ no UI, no manual steps.
 
 ## Source of Truth
 
-| Priority | Source | Covers |
-|----------|--------|--------|
-| 1 | **Real API response** | Always trust what the server actually returns |
-| 2 | **`tools/list`** | Tool names, parameter names, types, required flags |
-| 3 | **SKILL docs & reference files** | Response shapes, behavioral notes, workflow recipes |
+| Priority | Source                           | Covers                                              |
+| -------- | -------------------------------- | --------------------------------------------------- |
+| 1        | **Real API response**            | Always trust what the server actually returns       |
+| 2        | **`tools/list`**                 | Tool names, parameter names, types, required flags  |
+| 3        | **SKILL docs & reference files** | Response shapes, behavioral notes, workflow recipes |
 
 > **Start every new session with `tools/list`.**
 > It returns the authoritative, up-to-date schema for every tool — parameter names,
@@ -64,12 +65,12 @@ native, and the async/await model maps cleanly onto the request-response pattern
 of MCP tool calls — making it a natural fit for teams already working in a
 JavaScript/TypeScript stack.
 
-| Language | Verdict | Notes |
-|---|---|---|
-| **Python** | ✅ Recommended | Clean JSON handling, no escaping issues, all skill examples use it |
-| **Node.js (≥ 18)** | ✅ Recommended | Native `fetch` + `JSON.stringify`/`JSON.parse`; async/await fits MCP call patterns well; no extra packages needed |
-| PowerShell | ⚠️ Avoid for flow operations | `ConvertTo-Json -Depth` silently truncates nested definitions; quoting and escaping break complex payloads. Acceptable for a quick `tools/list` discovery call but not for building or updating flows. |
-| cURL / Bash | ⚠️ Possible but fragile | Shell-escaping nested JSON is error-prone; no native JSON parser |
+| Language           | Verdict                      | Notes                                                                                                                                                                                                  |
+| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Python**         | ✅ Recommended               | Clean JSON handling, no escaping issues, all skill examples use it                                                                                                                                     |
+| **Node.js (≥ 18)** | ✅ Recommended               | Native `fetch` + `JSON.stringify`/`JSON.parse`; async/await fits MCP call patterns well; no extra packages needed                                                                                      |
+| PowerShell         | ⚠️ Avoid for flow operations | `ConvertTo-Json -Depth` silently truncates nested definitions; quoting and escaping break complex payloads. Acceptable for a quick `tools/list` discovery call but not for building or updating flows. |
+| cURL / Bash        | ⚠️ Possible but fragile      | Shell-escaping nested JSON is error-prone; no native JSON parser                                                                                                                                       |
 
 > **TL;DR — use the Core MCP Helper (Python or Node.js) below.** Both handle
 > JSON-RPC framing, auth, and response parsing in a single reusable function.
@@ -85,53 +86,53 @@ more than enough to build, debug, and operate flows.
 
 ### Live Tools — Available to All MCP Subscribers
 
-| Tool | What it does |
-|---|---|
-| `list_live_flows` | List flows in an environment directly from the PA API (always current) |
-| `list_live_environments` | List all Power Platform environments visible to the service account |
-| `list_live_connections` | List all connections in an environment from the PA API |
-| `get_live_flow` | Fetch the complete flow definition (triggers, actions, parameters) |
-| `get_live_flow_http_schema` | Inspect the JSON body schema and response schemas of an HTTP-triggered flow |
-| `get_live_flow_trigger_url` | Get the current signed callback URL for an HTTP-triggered flow |
-| `trigger_live_flow` | POST to an HTTP-triggered flow's callback URL (AAD auth handled automatically) |
-| `update_live_flow` | Create a new flow or patch an existing definition in one call |
-| `add_live_flow_to_solution` | Migrate a non-solution flow into a solution |
-| `get_live_flow_runs` | List recent run history with status, start/end times, and errors |
-| `get_live_flow_run_error` | Get structured error details (per-action) for a failed run |
-| `get_live_flow_run_action_outputs` | Inspect inputs/outputs of any action (or every foreach iteration) in a run |
-| `resubmit_live_flow_run` | Re-run a failed or cancelled run using its original trigger payload |
-| `cancel_live_flow_run` | Cancel a currently running flow execution |
+| Tool                               | What it does                                                                   |
+| ---------------------------------- | ------------------------------------------------------------------------------ |
+| `list_live_flows`                  | List flows in an environment directly from the PA API (always current)         |
+| `list_live_environments`           | List all Power Platform environments visible to the service account            |
+| `list_live_connections`            | List all connections in an environment from the PA API                         |
+| `get_live_flow`                    | Fetch the complete flow definition (triggers, actions, parameters)             |
+| `get_live_flow_http_schema`        | Inspect the JSON body schema and response schemas of an HTTP-triggered flow    |
+| `get_live_flow_trigger_url`        | Get the current signed callback URL for an HTTP-triggered flow                 |
+| `trigger_live_flow`                | POST to an HTTP-triggered flow's callback URL (AAD auth handled automatically) |
+| `update_live_flow`                 | Create a new flow or patch an existing definition in one call                  |
+| `add_live_flow_to_solution`        | Migrate a non-solution flow into a solution                                    |
+| `get_live_flow_runs`               | List recent run history with status, start/end times, and errors               |
+| `get_live_flow_run_error`          | Get structured error details (per-action) for a failed run                     |
+| `get_live_flow_run_action_outputs` | Inspect inputs/outputs of any action (or every foreach iteration) in a run     |
+| `resubmit_live_flow_run`           | Re-run a failed or cancelled run using its original trigger payload            |
+| `cancel_live_flow_run`             | Cancel a currently running flow execution                                      |
 
 ### Store Tools — FlowStudio for Teams Subscribers Only
 
 These tools read from (and write to) the FlowStudio Azure table — a monitored
 snapshot of your tenant's flows enriched with governance metadata and run statistics.
 
-| Tool | What it does |
-|---|---|
-| `list_store_flows` | Search flows from the cache with governance flags, run failure rates, and owner metadata |
-| `get_store_flow` | Get full cached details for a single flow including run stats and governance fields |
-| `get_store_flow_trigger_url` | Get the trigger URL from the cache (instant, no PA API call) |
-| `get_store_flow_runs` | Cached run history for the last N days with duration and remediation hints |
-| `get_store_flow_errors` | Cached failed-only runs with failed action names and remediation hints |
-| `get_store_flow_summary` | Aggregated stats: success rate, failure count, avg/max duration |
-| `set_store_flow_state` | Start or stop a flow via the PA API and sync the result back to the store |
-| `update_store_flow` | Update governance metadata (description, tags, monitor flag, notification rules, business impact) |
-| `list_store_environments` | List all environments from the cache |
-| `list_store_makers` | List all makers (citizen developers) from the cache |
-| `get_store_maker` | Get a maker's flow/app counts and account status |
-| `list_store_power_apps` | List all Power Apps canvas apps from the cache |
-| `list_store_connections` | List all Power Platform connections from the cache |
+| Tool                         | What it does                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| `list_store_flows`           | Search flows from the cache with governance flags, run failure rates, and owner metadata          |
+| `get_store_flow`             | Get full cached details for a single flow including run stats and governance fields               |
+| `get_store_flow_trigger_url` | Get the trigger URL from the cache (instant, no PA API call)                                      |
+| `get_store_flow_runs`        | Cached run history for the last N days with duration and remediation hints                        |
+| `get_store_flow_errors`      | Cached failed-only runs with failed action names and remediation hints                            |
+| `get_store_flow_summary`     | Aggregated stats: success rate, failure count, avg/max duration                                   |
+| `set_store_flow_state`       | Start or stop a flow via the PA API and sync the result back to the store                         |
+| `update_store_flow`          | Update governance metadata (description, tags, monitor flag, notification rules, business impact) |
+| `list_store_environments`    | List all environments from the cache                                                              |
+| `list_store_makers`          | List all makers (citizen developers) from the cache                                               |
+| `get_store_maker`            | Get a maker's flow/app counts and account status                                                  |
+| `list_store_power_apps`      | List all Power Apps canvas apps from the cache                                                    |
+| `list_store_connections`     | List all Power Platform connections from the cache                                                |
 
 ---
 
 ## Which Tool Tier to Call First
 
-| Task | Tool | Notes |
-|---|---|---|
-| List flows | `list_live_flows` | Always current — calls PA API directly |
-| Read a definition | `get_live_flow` | Always fetched live — not cached |
-| Debug a failure | `get_live_flow_runs` → `get_live_flow_run_error` | Use live run data |
+| Task              | Tool                                             | Notes                                  |
+| ----------------- | ------------------------------------------------ | -------------------------------------- |
+| List flows        | `list_live_flows`                                | Always current — calls PA API directly |
+| Read a definition | `get_live_flow`                                  | Always fetched live — not cached       |
+| Debug a failure   | `get_live_flow_runs` → `get_live_flow_run_error` | Use live run data                      |
 
 > ⚠️ **`list_live_flows` returns a wrapper object** with a `flows` array — access via `result["flows"]`.
 
@@ -201,6 +202,7 @@ def mcp(tool, args, cid=1):
 ```
 
 > **Common auth errors:**
+>
 > - HTTP 401/403 → token is missing, expired, or malformed. Get a fresh JWT from [mcp.flowstudio.app](https://mcp.flowstudio.app).
 > - HTTP 400 → malformed JSON-RPC payload. Check `Content-Type: application/json` and body structure.
 > - `MCP error: {"code": -32602, ...}` → wrong or missing tool arguments.
@@ -213,7 +215,7 @@ Equivalent helper for Node.js 18+ (built-in `fetch` — no packages required):
 
 ```js
 const TOKEN = "<YOUR_JWT_TOKEN>";
-const MCP   = "https://mcp.flowstudio.app/mcp";
+const MCP = "https://mcp.flowstudio.app/mcp";
 
 async function mcp(tool, args, cid = 1) {
   const payload = {
@@ -438,11 +440,11 @@ print(new_runs[0]["status"])   # Succeeded = done
 
 ## Auth & Connection Notes
 
-| Field | Value |
-|---|---|
-| Auth header | `x-api-key: <JWT>` — **not** `Authorization: Bearer` |
-| Token format | Plain JWT — do not strip, alter, or prefix it |
-| Timeout | Use ≥ 120 s for `get_live_flow_run_action_outputs` (large outputs) |
+| Field            | Value                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| Auth header      | `x-api-key: <JWT>` — **not** `Authorization: Bearer`                                         |
+| Token format     | Plain JWT — do not strip, alter, or prefix it                                                |
+| Timeout          | Use ≥ 120 s for `get_live_flow_run_action_outputs` (large outputs)                           |
 | Environment name | `Default-<tenant-guid>` (find it via `list_live_environments` or `list_live_flows` response) |
 
 ---

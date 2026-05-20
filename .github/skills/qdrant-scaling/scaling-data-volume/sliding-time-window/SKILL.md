@@ -9,7 +9,6 @@ Use when only recent data needs fast search -- social media posts, news articles
 
 Three strategies: **shard rotation** (recommended), **collection rotation** (when per-period config differs), and **filter-and-delete** (simplest, for continuous cleanup).
 
-
 ## Shard Rotation (Recommended)
 
 Use when: data has natural time boundaries (daily, weekly, monthly). Preferred because queries span all time periods in one request without application-level fan-out. [User-defined sharding](https://search.qdrant.tech/md/documentation/operations/distributed_deployment/?s=user-defined-sharding)
@@ -25,7 +24,6 @@ Use when: data has natural time boundaries (daily, weekly, monthly). Preferred b
 - Use `shard_key_selector` at query time to search only specific periods for efficiency
 - Shard keys can be placed on specific nodes for hot/cold tiering
 
-
 ## Collection Rotation (Alias Swap)
 
 Use when: you need per-period collection configuration (e.g., different quantization or storage settings). [Collection aliases](https://search.qdrant.tech/md/documentation/manage-data/collections/?s=collection-aliases)
@@ -36,7 +34,6 @@ Use when: you need per-period collection configuration (e.g., different quantiza
 4. Drop the oldest collection outside the window
 
 Trade-off vs shard rotation: allows per-collection config differences, but requires application-level fan-out and more operational overhead.
-
 
 ## Filter-and-Delete
 
@@ -50,14 +47,12 @@ Use when: data arrives continuously without clear time boundaries, or you want t
 - Deletes are not free: tombstoned points degrade search until optimizer compacts segments
 - Does not reclaim disk instantly (compaction is asynchronous)
 
-
 ## Hot/Cold Tiers
 
 Use when: recent data needs fast in-RAM search, older data should remain searchable at lower performance.
 
 - **Shard rotation:** place current shard key on fast-storage nodes, move older shard keys to cheaper nodes via shard placement. All queries still go through a single collection.
 - **Collection rotation:** keep current collection in RAM (`always_ram: true`), move older collections to mmap/on-disk vectors. [Quantization](https://search.qdrant.tech/md/documentation/manage-data/quantization/)
-
 
 ## What NOT to Do
 

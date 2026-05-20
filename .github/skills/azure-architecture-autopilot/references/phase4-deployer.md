@@ -22,6 +22,7 @@ Step 5: Generate deployment result diagram (03_arch_diagram_result.html)
 ```
 
 **Never do the following:**
+
 - Execute `az deployment group create` directly without What-if
 - Skip generating the preview diagram (`02_arch_diagram_preview.html`)
 - Proceed with deployment without showing What-if results to the user
@@ -40,9 +41,11 @@ If not logged in, ask the user to run `az login`.
 The agent must never enter or store credentials directly.
 
 Create resource group:
+
 ```powershell
 az group create --name "<RG_NAME>" --location "<LOCATION>"  # Location confirmed in Phase 1
 ```
+
 → Proceed to next step after confirming success
 
 ### Step 2: Validate → What-if Validation — 🚨 Mandatory
@@ -72,6 +75,7 @@ az deployment group validate `
 Run what-if after validate passes.
 
 **Choose parameter passing method:**
+
 - If all `@secure()` parameters have default values → Use `.bicepparam`
 - If `@secure()` parameters require user input → Use `--template-file` + JSON parameter file
 
@@ -88,6 +92,7 @@ az deployment group what-if `
   --parameters main.parameters.json `
   --parameters secureParam='value'
 ```
+
 → Summarize the What-if results and present them to the user.
 
 **⏱️ What-if Execution Method and Timeout Handling:**
@@ -119,11 +124,13 @@ ask_user({
 
 **If "Retry" is selected:** Re-execute the same command with `initial_wait: 300`. Retry up to 2 times maximum.
 **If "Skip What-if and deploy directly" is selected:**
+
 - Generate the preview diagram based on the Phase 1 draft
 - Inform the user of the risks:
   > **⚠️ Deploying without What-if validation.** Unexpected resource changes may occur. Please verify in the Azure Portal after deployment.
 
 **Never do the following:**
+
 - Execute without setting `initial_wait`, causing indefinite waiting
 - Let the agent arbitrarily decide "what-if is optional" and skip it
 - Automatically switch to deployment without asking the user on timeout
@@ -176,6 +183,7 @@ az deployment group create `
 ```
 
 Periodically monitor progress during deployment:
+
 ```powershell
 az deployment group show `
   --resource-group "<RG_NAME>" `
@@ -205,6 +213,7 @@ When a resource group is deleted after a failed deployment, Cognitive Services (
 Redeploying with the same name causes `FlagMustBeSetForRestore`, `Conflict` errors.
 
 **Always check before redeployment:**
+
 ```powershell
 # Check soft-deleted Cognitive Services
 az cognitiveservices account list-deleted -o table
@@ -214,6 +223,7 @@ az keyvault list-deleted -o table
 ```
 
 **Resolution options (provide choices to the user):**
+
 ```
 ask_user({
   question: "Soft-deleted resources from a previous deployment were found. How would you like to handle this?",
@@ -225,6 +235,7 @@ ask_user({
 ```
 
 **Caution — Key Vault with `enablePurgeProtection: true`:**
+
 - Cannot be purged (must wait until retention period expires)
 - Cannot recreate with the same name
 - **Solution: Change the Key Vault name** and redeploy (e.g., add timestamp to `uniqueString()` seed)
@@ -235,6 +246,7 @@ ask_user({
 Once deployment is complete, query the actually deployed resources and generate the final architecture diagram.
 
 **Step 1: Query Deployed Resources**
+
 ```powershell
 az resource list --resource-group "<RG_NAME>" --output json
 ```
@@ -243,16 +255,19 @@ az resource list --resource-group "<RG_NAME>" --output json
 
 Extract resource names, types, SKUs, and endpoints from the query results and generate the final diagram using the built-in diagram engine.
 Be careful with file names to avoid overwriting previous diagrams:
+
 - `01_arch_diagram_draft.html` — Design draft (keep)
 - `02_arch_diagram_preview.html` — What-if preview (keep)
 - `03_arch_diagram_result.html` — Deployment result final version
 
 Populate the diagram's services JSON with actual deployed resource information:
+
 - `name`: Actual resource name (e.g., `foundry-duru57kxgqzxs`)
 - `sku`: Actual SKU
 - `details`: Actual values such as endpoints, location, etc.
 
 **Step 3: Report**
+
 ```
 ## Deployment Complete!
 
@@ -281,6 +296,7 @@ Always return to Phase 1 and update the architecture first.
 **Process:**
 
 1. **Confirm user intent** — Ask first whether they want to add to the existing deployed architecture:
+
    ```
    Would you like to add a VM to the currently deployed architecture?
    Current configuration: [Deployed services summary]
@@ -295,6 +311,7 @@ Always return to Phase 1 and update the architecture first.
 3. **Generate Updated Architecture Diagram**
    - Combine existing deployed resources + new resources into `04_arch_diagram_update_draft.html`
    - Show to the user and get confirmation:
+
    ```
    ## Updated Architecture
 
@@ -313,6 +330,7 @@ Always return to Phase 1 and update the architecture first.
    - Review → What-if → Deploy (incremental deployment)
 
 **Never do the following:**
+
 - Jump directly to Bicep generation without updating the architecture diagram when a change is requested after deployment
 - Ignore the existing deployment state and create new resources in isolation
 - Proceed without confirming with the user whether to add to the existing architecture

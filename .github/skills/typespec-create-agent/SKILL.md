@@ -1,6 +1,6 @@
 ---
 name: typespec-create-agent
-description: 'Generate a complete TypeSpec declarative agent with instructions, capabilities, and conversation starters for Microsoft 365 Copilot'
+description: "Generate a complete TypeSpec declarative agent with instructions, capabilities, and conversation starters for Microsoft 365 Copilot"
 ---
 
 # Create TypeSpec Declarative Agent
@@ -83,6 +83,7 @@ namespace [AgentName] {
 ## Examples
 
 Ask the user:
+
 1. What is the agent's purpose and role?
 2. What capabilities does it need?
 3. What knowledge sources should it access?

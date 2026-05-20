@@ -15,59 +15,64 @@ Every API endpoint MUST have `defineRouteMeta` for OpenAPI documentation. This e
 // ❌ WRONG - server/api/tokens.post.ts
 export default defineEventHandler(async (event) => {
   // No defineRouteMeta - BAD!
-  const body = await readValidatedBody(event, createTokenSchema.parse)
-  return await createToken(body)
-})
+  const body = await readValidatedBody(event, createTokenSchema.parse);
+  return await createToken(body);
+});
 ```
 
 **Correct (with route metadata):**
 
 ```typescript
 // ✅ CORRECT - server/api/tokens.post.ts
-import { createTokenSchema } from '#shared/schemas/token'
+import { createTokenSchema } from "#shared/schemas/token";
 
 export default defineEventHandler(async (event) => {
   defineRouteMeta({
     openAPI: {
-      tags: ['Tokens'],
-      summary: 'Create a new API token',
-      description: 'Creates a new API token for the authenticated user with specified scopes and optional expiration.',
+      tags: ["Tokens"],
+      summary: "Create a new API token",
+      description:
+        "Creates a new API token for the authenticated user with specified scopes and optional expiration.",
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
+              type: "object",
               properties: {
-                name: { type: 'string', description: 'Token name' },
-                scopes: { type: 'array', items: { type: 'string' } },
-                expiresAt: { type: 'string', format: 'date-time', nullable: true }
+                name: { type: "string", description: "Token name" },
+                scopes: { type: "array", items: { type: "string" } },
+                expiresAt: {
+                  type: "string",
+                  format: "date-time",
+                  nullable: true,
+                },
               },
-              required: ['name', 'scopes']
-            }
-          }
-        }
+              required: ["name", "scopes"],
+            },
+          },
+        },
       },
       responses: {
-        '201': {
-          description: 'Token created successfully',
+        "201": {
+          description: "Token created successfully",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                $ref: '#/components/schemas/ApiToken'
-              }
-            }
-          }
+                $ref: "#/components/schemas/ApiToken",
+              },
+            },
+          },
         },
-        '400': { description: 'Invalid input' },
-        '401': { description: 'Unauthorized' }
-      }
-    }
-  })
+        "400": { description: "Invalid input" },
+        "401": { description: "Unauthorized" },
+      },
+    },
+  });
 
-  const body = await readValidatedBody(event, createTokenSchema.parse)
-  return await createToken(body)
-})
+  const body = await readValidatedBody(event, createTokenSchema.parse);
+  return await createToken(body);
+});
 ```
 
 **Minimal metadata (at minimum):**
@@ -77,14 +82,14 @@ export default defineEventHandler(async (event) => {
 export default defineEventHandler(async (event) => {
   defineRouteMeta({
     openAPI: {
-      tags: ['Users'],
-      summary: 'Get current user profile',
-      description: 'Returns the authenticated user\'s profile information'
-    }
-  })
+      tags: ["Users"],
+      summary: "Get current user profile",
+      description: "Returns the authenticated user's profile information",
+    },
+  });
 
-  return await getCurrentUser(event)
-})
+  return await getCurrentUser(event);
+});
 ```
 
 **Common patterns:**
@@ -93,38 +98,38 @@ export default defineEventHandler(async (event) => {
 // GET endpoint
 defineRouteMeta({
   openAPI: {
-    tags: ['Items'],
-    summary: 'List all items',
+    tags: ["Items"],
+    summary: "List all items",
     parameters: [
-      { name: 'page', in: 'query', schema: { type: 'integer' } },
-      { name: 'limit', in: 'query', schema: { type: 'integer' } }
-    ]
-  }
-})
+      { name: "page", in: "query", schema: { type: "integer" } },
+      { name: "limit", in: "query", schema: { type: "integer" } },
+    ],
+  },
+});
 
 // DELETE endpoint
 defineRouteMeta({
   openAPI: {
-    tags: ['Items'],
-    summary: 'Delete an item',
+    tags: ["Items"],
+    summary: "Delete an item",
     parameters: [
-      { name: 'id', in: 'path', required: true, schema: { type: 'string' } }
+      { name: "id", in: "path", required: true, schema: { type: "string" } },
     ],
     responses: {
-      '204': { description: 'Item deleted' },
-      '404': { description: 'Item not found' }
-    }
-  }
-})
+      "204": { description: "Item deleted" },
+      "404": { description: "Item not found" },
+    },
+  },
+});
 
 // Protected endpoint
 defineRouteMeta({
   openAPI: {
-    tags: ['Admin'],
-    summary: 'Admin-only operation',
-    security: [{ bearerAuth: [] }]
-  }
-})
+    tags: ["Admin"],
+    summary: "Admin-only operation",
+    security: [{ bearerAuth: [] }],
+  },
+});
 ```
 
 **Enable OpenAPI in nuxt.config:**
@@ -134,10 +139,10 @@ defineRouteMeta({
 export default defineNuxtConfig({
   nitro: {
     experimental: {
-      openAPI: true
-    }
-  }
-})
+      openAPI: true,
+    },
+  },
+});
 ```
 
 **Access generated docs:**

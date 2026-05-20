@@ -46,6 +46,7 @@ DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{label_name}
 Removes a single label from an issue. Returns `200 OK` with the remaining labels on the issue.
 
 **Important:** URL-encode label names with spaces or special characters:
+
 - `good first issue` → `good%20first%20issue`
 - `bug/critical` → `bug%2Fcritical`
 

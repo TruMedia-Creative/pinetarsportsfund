@@ -25,13 +25,13 @@ Projects that have not yet upgraded to Npgsql 6+, or that explicitly opt back in
 
 ## Behavior Comparison
 
-| Aspect | Oracle | PostgreSQL |
-|---|---|---|
-| `CURRENT_TIMESTAMP` type | `TIMESTAMP WITH LOCAL TIME ZONE` | `timestamptz` (UTC-normalised) |
-| Client `DateTime.Kind` via driver | `Local` | `Unspecified` (Npgsql < 6 / legacy mode); `Utc` (Npgsql 6+ default) |
-| Session timezone influence | Yes — affects stored/returned value | Affects *display* only; UTC stored internally |
-| NOW() equivalent | `SYSDATE` / `CURRENT_TIMESTAMP` | `NOW()` = `CURRENT_TIMESTAMP` (both return `timestamptz`) |
-| Implicit conversion on comparison | Oracle applies session TZ offset | PostgreSQL compares UTC; session TZ is display-only |
+| Aspect                            | Oracle                              | PostgreSQL                                                          |
+| --------------------------------- | ----------------------------------- | ------------------------------------------------------------------- |
+| `CURRENT_TIMESTAMP` type          | `TIMESTAMP WITH LOCAL TIME ZONE`    | `timestamptz` (UTC-normalised)                                      |
+| Client `DateTime.Kind` via driver | `Local`                             | `Unspecified` (Npgsql < 6 / legacy mode); `Utc` (Npgsql 6+ default) |
+| Session timezone influence        | Yes — affects stored/returned value | Affects _display_ only; UTC stored internally                       |
+| NOW() equivalent                  | `SYSDATE` / `CURRENT_TIMESTAMP`     | `NOW()` = `CURRENT_TIMESTAMP` (both return `timestamptz`)           |
+| Implicit conversion on comparison | Oracle applies session TZ offset    | PostgreSQL compares UTC; session TZ is display-only                 |
 
 ---
 
@@ -39,12 +39,12 @@ Projects that have not yet upgraded to Npgsql 6+, or that explicitly opt back in
 
 PostgreSQL resolves the effective session timezone using the following hierarchy (highest priority wins):
 
-| Level | How it is set |
-|---|---|
-| **Session** | `SET TimeZone = 'UTC'` sent at connection open |
-| **Role** | `ALTER ROLE app_user SET TimeZone = 'UTC'` |
-| **Database** | `ALTER DATABASE mydb SET TimeZone = 'UTC'` |
-| **Server** | `postgresql.conf` → `TimeZone = 'America/New_York'` |
+| Level        | How it is set                                       |
+| ------------ | --------------------------------------------------- |
+| **Session**  | `SET TimeZone = 'UTC'` sent at connection open      |
+| **Role**     | `ALTER ROLE app_user SET TimeZone = 'UTC'`          |
+| **Database** | `ALTER DATABASE mydb SET TimeZone = 'UTC'`          |
+| **Server**   | `postgresql.conf` → `TimeZone = 'America/New_York'` |
 
 The session timezone does **not** affect the stored UTC value of a `timestamptz` column — it only controls how `SHOW timezone` and `::text` casts format a value for display. Application code that relies on `DateTime.Kind` or compares timestamps without an explicit timezone can produce incorrect results if the server's default timezone is not UTC.
 

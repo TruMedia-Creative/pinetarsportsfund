@@ -1,6 +1,6 @@
 ---
 name: creating-oracle-to-postgres-master-migration-plan
-description: 'Discovers all projects in a .NET solution, classifies each for Oracle-to-PostgreSQL migration eligibility, and produces a persistent master migration plan. Use when starting a multi-project Oracle-to-PostgreSQL migration, creating a migration inventory, or assessing which .NET projects contain Oracle dependencies.'
+description: "Discovers all projects in a .NET solution, classifies each for Oracle-to-PostgreSQL migration eligibility, and produces a persistent master migration plan. Use when starting a multi-project Oracle-to-PostgreSQL migration, creating a migration inventory, or assessing which .NET projects contain Oracle dependencies."
 ---
 
 # Creating an Oracle-to-PostgreSQL Master Migration Plan
@@ -32,12 +32,12 @@ Scan every non-test project for Oracle indicators:
 
 Assign one classification per project:
 
-| Classification | Meaning |
-|---|---|
-| **MIGRATE** | Has Oracle interactions requiring conversion |
-| **SKIP** | No Oracle indicators (UI-only, shared utility, etc.) |
+| Classification       | Meaning                                                             |
+| -------------------- | ------------------------------------------------------------------- |
+| **MIGRATE**          | Has Oracle interactions requiring conversion                        |
+| **SKIP**             | No Oracle indicators (UI-only, shared utility, etc.)                |
 | **ALREADY_MIGRATED** | A `-postgres` or `.Postgres` duplicate exists and appears processed |
-| **TEST_PROJECT** | Test project; handled by the testing workflow |
+| **TEST_PROJECT**     | Test project; handled by the testing workflow                       |
 
 **Step 3: Confirm with user**
 
@@ -49,7 +49,7 @@ Save to: `.github/oracle-to-postgres-migration/Reports/Master Migration Plan.md`
 
 Use this exact template — downstream consumers depend on the structure:
 
-````markdown
+```markdown
 # Master Migration Plan
 
 **Solution:** {solution file name}
@@ -59,25 +59,25 @@ Use this exact template — downstream consumers depend on the structure:
 
 ## Solution Summary
 
-| Metric | Count |
-|--------|-------|
-| Total projects in solution | {n} |
-| Projects requiring migration | {n} |
-| Projects already migrated | {n} |
-| Projects skipped (no Oracle usage) | {n} |
-| Test projects (handled separately) | {n} |
+| Metric                             | Count |
+| ---------------------------------- | ----- |
+| Total projects in solution         | {n}   |
+| Projects requiring migration       | {n}   |
+| Projects already migrated          | {n}   |
+| Projects skipped (no Oracle usage) | {n}   |
+| Test projects (handled separately) | {n}   |
 
 ## Project Inventory
 
-| # | Project Name | Path | Classification | Notes |
-|---|---|---|---|---|
-| 1 | {name} | {relative path} | MIGRATE | {notes} |
-| 2 | {name} | {relative path} | SKIP | No Oracle dependencies |
+| #   | Project Name | Path            | Classification | Notes                  |
+| --- | ------------ | --------------- | -------------- | ---------------------- |
+| 1   | {name}       | {relative path} | MIGRATE        | {notes}                |
+| 2   | {name}       | {relative path} | SKIP           | No Oracle dependencies |
 
 ## Migration Order
 
 1. **{ProjectName}** — {rationale, e.g., "Core data access library; other projects depend on it."}
 2. **{ProjectName}** — {rationale}
-````
+```
 
 Order projects so that shared/foundational libraries are migrated before their dependents.

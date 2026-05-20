@@ -40,7 +40,7 @@ Periodic scans on the default branch:
 ```yaml
 on:
   schedule:
-    - cron: '20 14 * * 1'  # Monday 14:20 UTC
+    - cron: "20 14 * * 1" # Monday 14:20 UTC
 ```
 
 - Only triggers if the workflow file exists on the default branch
@@ -67,9 +67,9 @@ Control when the workflow runs based on changed files:
 on:
   pull_request:
     paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
-      - 'docs/**'
+      - "**/*.md"
+      - "**/*.txt"
+      - "docs/**"
 ```
 
 Or use `paths` to only trigger on specific directories:
@@ -78,8 +78,8 @@ Or use `paths` to only trigger on specific directories:
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - 'apps/**'
+      - "src/**"
+      - "apps/**"
 ```
 
 > **Important:** `paths-ignore` and `paths` control whether the workflow runs. When the workflow does run, it analyzes ALL changed files in the PR (including those matched by `paths-ignore`), unless files are excluded via the CodeQL configuration file's `paths-ignore`.
@@ -91,9 +91,9 @@ on:
   workflow_dispatch:
     inputs:
       language:
-        description: 'Language to analyze'
+        description: "Language to analyze"
         required: true
-        default: 'javascript-typescript'
+        default: "javascript-typescript"
 ```
 
 ## Runner and OS Configuration
@@ -103,7 +103,7 @@ on:
 ```yaml
 jobs:
   analyze:
-    runs-on: ubuntu-latest    # Also: windows-latest, macos-latest
+    runs-on: ubuntu-latest # Also: windows-latest, macos-latest
 ```
 
 - `ubuntu-latest` — most common, recommended for most languages
@@ -119,6 +119,7 @@ jobs:
 ```
 
 Requirements for self-hosted runners:
+
 - Git must be in the PATH
 - SSD with ≥14 GB disk space recommended
 - See hardware requirements table in SKILL.md
@@ -169,19 +170,19 @@ strategy:
 
 ### Build Mode Summary
 
-| Language | `none` | `autobuild` | `manual` | Default Setup Mode |
-|---|:---:|:---:|:---:|---|
-| C/C++ | ✅ | ✅ | ✅ | `none` |
-| C# | ✅ | ✅ | ✅ | `none` |
-| Go | ❌ | ✅ | ✅ | `autobuild` |
-| Java | ✅ | ✅ | ✅ | `none` |
-| Kotlin | ❌ | ✅ | ✅ | `autobuild` |
-| Python | ✅ | ❌ | ❌ | `none` |
-| Ruby | ✅ | ❌ | ❌ | `none` |
-| Rust | ✅ | ✅ | ✅ | `none` |
-| Swift | ❌ | ✅ | ✅ | `autobuild` |
-| JavaScript/TypeScript | ✅ | ❌ | ❌ | `none` |
-| GitHub Actions | ✅ | ❌ | ❌ | `none` |
+| Language              | `none` | `autobuild` | `manual` | Default Setup Mode |
+| --------------------- | :----: | :---------: | :------: | ------------------ |
+| C/C++                 |   ✅   |     ✅      |    ✅    | `none`             |
+| C#                    |   ✅   |     ✅      |    ✅    | `none`             |
+| Go                    |   ❌   |     ✅      |    ✅    | `autobuild`        |
+| Java                  |   ✅   |     ✅      |    ✅    | `none`             |
+| Kotlin                |   ❌   |     ✅      |    ✅    | `autobuild`        |
+| Python                |   ✅   |     ❌      |    ❌    | `none`             |
+| Ruby                  |   ✅   |     ❌      |    ❌    | `none`             |
+| Rust                  |   ✅   |     ✅      |    ✅    | `none`             |
+| Swift                 |   ❌   |     ✅      |    ✅    | `autobuild`        |
+| JavaScript/TypeScript |   ✅   |     ❌      |    ❌    | `none`             |
+| GitHub Actions        |   ✅   |     ❌      |    ❌    | `none`             |
 
 ## CodeQL Database Location
 
@@ -190,7 +191,7 @@ Override the default database location:
 ```yaml
 - uses: github/codeql-action/init@v4
   with:
-    db-location: '${{ github.runner_temp }}/my_location'
+    db-location: "${{ github.runner_temp }}/my_location"
 ```
 
 - Default: `${{ github.runner_temp }}/codeql_databases`
@@ -208,6 +209,7 @@ Override the default database location:
 ```
 
 Options:
+
 - (default) — standard security queries
 - `security-extended` — additional security queries with slightly higher false-positive rate
 - `security-and-quality` — security plus code quality queries
@@ -274,9 +276,9 @@ paths:
 # Directories to exclude
 paths-ignore:
   - node_modules/
-  - '**/test/**'
-  - '**/fixtures/**'
-  - '**/*.test.ts'
+  - "**/test/**"
+  - "**/fixtures/**"
+  - "**/*.test.ts"
 
 # Additional queries
 queries:
@@ -310,6 +312,7 @@ Enable caching to speed up dependency resolution:
 ```
 
 Values:
+
 - `false` / `none` / `off` — disabled (default for advanced setup)
 - `restore` — only restore existing caches
 - `store` — only store new caches
@@ -348,7 +351,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '30 6 * * 1'
+    - cron: "30 6 * * 1"
 
 permissions:
   security-events: write

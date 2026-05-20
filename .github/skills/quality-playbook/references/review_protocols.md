@@ -10,6 +10,7 @@
 ## Bootstrap (Read First)
 
 Before reviewing, read these files for context:
+
 1. `quality/QUALITY.md` — Quality constitution and fitness-to-purpose scenarios
 2. [Main architectural doc]
 3. [Key design decisions doc]
@@ -42,9 +43,11 @@ Save findings to `quality/code_reviews/YYYY-MM-DD-reviewer.md`
 For each file reviewed:
 
 ### filename.ext
+
 - **Line NNN:** [BUG / QUESTION / INCOMPLETE] Description. Expected vs. actual. Why it matters.
 
 ### Summary
+
 - Total findings by severity
 - Files with no findings
 - Overall assessment: SHIP IT / FIX FIRST / NEEDS DISCUSSION
@@ -72,6 +75,7 @@ After the code review produces findings, write regression tests that reproduce e
    - TypeScript: `quality/regression.test.ts`
 
 3. **Each test should document its origin:**
+
    ```
    # Python example
    def test_webhook_signature_raises_on_malformed_input():
@@ -87,6 +91,7 @@ After the code review produces findings, write regression tests that reproduce e
    ```
 
 4. **Run the tests and report results** as a confirmation table:
+
    ```
    | Finding | Test | Result | Confirmed? |
    |---------|------|--------|------------|
@@ -123,7 +128,7 @@ The "no style changes" rule keeps reviews focused on correctness. Style suggesti
 
 ### Template
 
-```markdown
+````markdown
 # Integration Test Protocol: [Project Name]
 
 ## Working Directory
@@ -133,6 +138,7 @@ All commands in this protocol use **relative paths from the project root.** Run 
 ## Safety Constraints
 
 [If this protocol runs with elevated permissions:]
+
 - DO NOT modify source code
 - DO NOT delete files
 - ONLY create files in the test results directory
@@ -141,6 +147,7 @@ All commands in this protocol use **relative paths from the project root.** Run 
 ## Pre-Flight Check
 
 Before running integration tests, verify:
+
 - [ ] [Dependencies installed — specific command]
 - [ ] [API keys / external services available — specific checks]
 - [ ] [Test fixtures exist — specific paths]
@@ -148,13 +155,13 @@ Before running integration tests, verify:
 
 ## Test Matrix
 
-| Check | Method | Pass Criteria |
-|-------|--------|---------------|
-| [Happy path flow] | [Specific command or test] | [Specific expected result] |
-| [Variant A end-to-end] | [Command] | [Expected result] |
-| [Variant B end-to-end] | [Command] | [Expected result] |
-| [Output correctness] | [Specific assertion] | [Expected property] |
-| [Component boundary A→B] | [Command] | [Expected result] |
+| Check                    | Method                     | Pass Criteria              |
+| ------------------------ | -------------------------- | -------------------------- |
+| [Happy path flow]        | [Specific command or test] | [Specific expected result] |
+| [Variant A end-to-end]   | [Command]                  | [Expected result]          |
+| [Variant B end-to-end]   | [Command]                  | [Expected result]          |
+| [Output correctness]     | [Specific assertion]       | [Expected property]        |
+| [Component boundary A→B] | [Command]                  | [Expected result]          |
 
 ### Design Principles for Integration Checks
 
@@ -170,6 +177,7 @@ Where possible, encode checks as automated tests:
 ```bash
 [test runner] [integration test file] --verbose
 ```
+````
 
 ## Manual Verification Steps
 
@@ -238,15 +246,19 @@ Then save the detailed results to `quality/results/YYYY-MM-DD-integration.md`.
 Save results to `quality/results/YYYY-MM-DD-integration.md`
 
 ### Summary Table
-| Check | Result | Notes |
-|-------|--------|-------|
-| ... | PASS/FAIL | ... |
+
+| Check | Result    | Notes |
+| ----- | --------- | ----- |
+| ...   | PASS/FAIL | ...   |
 
 ### Detailed Findings
+
 [Specific failures, unexpected behavior, performance observations]
 
 ### Recommendation
+
 [SHIP IT / FIX FIRST / NEEDS INVESTIGATION]
+
 ```
 
 ### Tips for Writing Good Integration Checks
@@ -288,9 +300,11 @@ Sequential integration runs waste time. Group runs so that independent runs exec
 Example grouping for a project with 3 pipelines and 3 providers (9+ runs):
 
 ```
+
 Group 1 (parallel): Pipeline_A × Provider_1 | Pipeline_B × Provider_2 | Pipeline_C × Provider_3
 Group 2 (parallel): Pipeline_A × Provider_2 | Pipeline_B × Provider_3 | Pipeline_C × Provider_1
 Group 3 (parallel): Pipeline_A × Provider_3 | Pipeline_B × Provider_1 | Pipeline_C × Provider_2
+
 ```
 
 This pattern maximizes throughput while never hitting the same provider with concurrent requests. Adapt the grouping to the project's actual pipeline and provider count.
@@ -320,9 +334,11 @@ For each pipeline in the project, the integration protocol should have a dedicat
 Before writing any quality gate that references output field names, build a **Field Reference Table** by re-reading each schema file:
 
 ```
+
 ## Field Reference Table (built from schemas, not memory)
 
 ### Pipeline: WeatherForecast
+
 Schema: pipelines/WeatherForecast/schemas/analyze.json
 | Field | Type | Constraints |
 |-------|------|-------------|
@@ -331,6 +347,7 @@ Schema: pipelines/WeatherForecast/schemas/analyze.json
 | condition | string | enum: ["sunny", "cloudy", "rain", "snow"] |
 
 ### Pipeline: SentimentAnalysis
+
 Schema: pipelines/SentimentAnalysis/schemas/evaluate.json
 | Field | Type | Constraints |
 |-------|------|-------------|
@@ -338,6 +355,7 @@ Schema: pipelines/SentimentAnalysis/schemas/evaluate.json
 | sentiment_score | number | min: -1.0, max: 1.0 |
 | classification | string | enum: ["positive", "negative", "neutral"] |
 ...
+
 ```
 
 **The process:**
@@ -374,3 +392,4 @@ A run that completes without errors may still be wrong. For each integration tes
 6. **UI-level (if applicable):** If the project has a dashboard/TUI/UI, verify the run appears correctly there.
 
 Include all applicable levels in the generated protocol's post-run checklist. The common failure is stopping at level 2 (process completed) without checking levels 3–5.
+```

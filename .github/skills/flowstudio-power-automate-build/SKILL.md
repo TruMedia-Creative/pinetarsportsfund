@@ -124,16 +124,16 @@ print("Available connectors:", list(conn_map.keys()))
 Based on the flow you are building, identify which connectors are required.
 Common connector API names:
 
-| Connector | API name |
-|---|---|
-| SharePoint | `shared_sharepointonline` |
-| Outlook / Office 365 | `shared_office365` |
-| Teams | `shared_teams` |
-| Approvals | `shared_approvals` |
-| OneDrive for Business | `shared_onedriveforbusiness` |
-| Excel Online (Business) | `shared_excelonlinebusiness` |
-| Dataverse | `shared_commondataserviceforapps` |
-| Microsoft Forms | `shared_microsoftforms` |
+| Connector               | API name                          |
+| ----------------------- | --------------------------------- |
+| SharePoint              | `shared_sharepointonline`         |
+| Outlook / Office 365    | `shared_office365`                |
+| Teams                   | `shared_teams`                    |
+| Approvals               | `shared_approvals`                |
+| OneDrive for Business   | `shared_onedriveforbusiness`      |
+| Excel Online (Business) | `shared_excelonlinebusiness`      |
+| Dataverse               | `shared_commondataserviceforapps` |
+| Microsoft Forms         | `shared_microsoftforms`           |
 
 > **Flows that need NO connections** (e.g. Recurrence + Compose + HTTP only)
 > can skip the rest of Step 2 — omit `connectionReferences` from the deploy call.
@@ -187,6 +187,7 @@ for connector in connectors_needed:
 
 > **Alternative** — if you already have a flow using the same connectors,
 > you can extract `connectionReferences` from its definition:
+>
 > ```python
 > ref_flow = mcp("get_live_flow", environmentName=ENV, flowName="<existing-flow-id>")
 > connection_references = ref_flow["properties"]["connectionReferences"]
@@ -201,6 +202,7 @@ for the full connection reference structure.
 
 Construct the definition object. See [flow-schema.md](references/flow-schema.md)
 for the full schema and these action pattern references for copy-paste templates:
+
 - [action-patterns-core.md](references/action-patterns-core.md) — Variables, control flow, expressions
 - [action-patterns-data.md](references/action-patterns-data.md) — Array transforms, HTTP, parsing
 - [action-patterns-connectors.md](references/action-patterns-connectors.md) — SharePoint, Outlook, Teams, Approvals
@@ -272,12 +274,12 @@ else:
 
 ### Common deployment errors
 
-| Error message (contains) | Cause | Fix |
-|---|---|---|
-| `missing from connectionReferences` | An action's `host.connectionName` references a key that doesn't exist in the `connectionReferences` map | Ensure `host.connectionName` uses the **key** from `connectionReferences` (e.g. `shared_teams`), not the raw GUID |
-| `ConnectionAuthorizationFailed` / 403 | The connection GUID belongs to another user or is not authorized | Re-run Step 2a and use a connection owned by the current `x-api-key` user |
-| `InvalidTemplate` / `InvalidDefinition` | Syntax error in the definition JSON | Check `runAfter` chains, expression syntax, and action type spelling |
-| `ConnectionNotConfigured` | A connector action exists but the connection GUID is invalid or expired | Re-check `list_live_connections` for a fresh GUID |
+| Error message (contains)                | Cause                                                                                                   | Fix                                                                                                               |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `missing from connectionReferences`     | An action's `host.connectionName` references a key that doesn't exist in the `connectionReferences` map | Ensure `host.connectionName` uses the **key** from `connectionReferences` (e.g. `shared_teams`), not the raw GUID |
+| `ConnectionAuthorizationFailed` / 403   | The connection GUID belongs to another user or is not authorized                                        | Re-run Step 2a and use a connection owned by the current `x-api-key` user                                         |
+| `InvalidTemplate` / `InvalidDefinition` | Syntax error in the definition JSON                                                                     | Check `runAfter` chains, expression syntax, and action type spelling                                              |
+| `ConnectionNotConfigured`               | A connector action exists but the connection GUID is invalid or expired                                 | Re-check `list_live_connections` for a fresh GUID                                                                 |
 
 ---
 
@@ -440,24 +442,24 @@ else:
 
 ## Gotchas
 
-| Mistake | Consequence | Prevention |
-|---|---|---|
-| Missing `connectionReferences` in deploy | 400 "Supply connectionReferences" | Always call `list_live_connections` first |
-| `"operationOptions"` missing on Foreach | Parallel execution, race conditions on writes | Always add `"Sequential"` |
-| `union(old_data, new_data)` | Old values override new (first-wins) | Use `union(new_data, old_data)` |
-| `split()` on potentially-null string | `InvalidTemplate` crash | Wrap with `coalesce(field, '')` |
-| Checking `result["error"]` exists | Always present; true error is `!= null` | Use `result.get("error") is not None` |
-| Flow deployed but state is "Stopped" | Flow won't run on schedule | Call `set_live_flow_state` with `state: "Started"` — do **not** use `update_live_flow` for state changes |
-| Teams "Chat with Flow bot" recipient as object | 400 `GraphUserDetailNotFound` | Use plain string with trailing semicolon (see below) |
+| Mistake                                        | Consequence                                   | Prevention                                                                                               |
+| ---------------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Missing `connectionReferences` in deploy       | 400 "Supply connectionReferences"             | Always call `list_live_connections` first                                                                |
+| `"operationOptions"` missing on Foreach        | Parallel execution, race conditions on writes | Always add `"Sequential"`                                                                                |
+| `union(old_data, new_data)`                    | Old values override new (first-wins)          | Use `union(new_data, old_data)`                                                                          |
+| `split()` on potentially-null string           | `InvalidTemplate` crash                       | Wrap with `coalesce(field, '')`                                                                          |
+| Checking `result["error"]` exists              | Always present; true error is `!= null`       | Use `result.get("error") is not None`                                                                    |
+| Flow deployed but state is "Stopped"           | Flow won't run on schedule                    | Call `set_live_flow_state` with `state: "Started"` — do **not** use `update_live_flow` for state changes |
+| Teams "Chat with Flow bot" recipient as object | 400 `GraphUserDetailNotFound`                 | Use plain string with trailing semicolon (see below)                                                     |
 
 ### Teams `PostMessageToConversation` — Recipient Formats
 
 The `body/recipient` parameter format depends on the `location` value:
 
-| Location | `body/recipient` format | Example |
-|---|---|---|
-| **Chat with Flow bot** | Plain email string with **trailing semicolon** | `"user@contoso.com;"` |
-| **Channel** | Object with `groupId` and `channelId` | `{"groupId": "...", "channelId": "..."}` |
+| Location               | `body/recipient` format                        | Example                                  |
+| ---------------------- | ---------------------------------------------- | ---------------------------------------- |
+| **Chat with Flow bot** | Plain email string with **trailing semicolon** | `"user@contoso.com;"`                    |
+| **Channel**            | Object with `groupId` and `channelId`          | `{"groupId": "...", "channelId": "..."}` |
 
 > **Common mistake**: passing `{"to": "user@contoso.com"}` for "Chat with Flow bot"
 > returns a 400 `GraphUserDetailNotFound` error. The API expects a plain string.

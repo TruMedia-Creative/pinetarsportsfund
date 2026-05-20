@@ -34,7 +34,6 @@ Most general use-cases require global search across all data.
 In these situations, we might need to fall back to vertical scaling,
 and then horizontal scaling when we reach the limits of vertical scaling.
 
-
 ### Vertical Scaling
 
 When data doesn't fit in a single node, the first approach is to scale the node itself — more RAM, better disk, quantization, mmap.

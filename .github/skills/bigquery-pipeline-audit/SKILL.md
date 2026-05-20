@@ -1,6 +1,6 @@
 ---
 name: bigquery-pipeline-audit
-description: 'Audits Python + BigQuery pipelines for cost safety, idempotency, and production readiness. Returns a structured report with exact patch locations.'
+description: "Audits Python + BigQuery pipelines for cost safety, idempotency, and production readiness. Returns a structured report with exact patch locations."
 ---
 
 # BigQuery Pipeline Audit: Cost, Safety and Production Readiness
@@ -22,6 +22,7 @@ Locate every BigQuery job trigger (`client.query`, `load_table_from_*`,
 (APIs, LLM calls, storage writes).
 
 For each, answer:
+
 - Is this inside a loop, retry block, or async gather?
 - What is the realistic worst-case call count?
 - For each `client.query`, is `QueryJobConfig.maximum_bytes_billed` set?
@@ -30,6 +31,7 @@ For each, answer:
   Flag repeated identical queries and suggest query hashing plus temp table caching.
 
 **Flag immediately if:**
+
 - Any BQ query runs once per date or once per entity in a loop
 - Worst-case BQ job count exceeds 20
 - `maximum_bytes_billed` is missing on any `client.query` call
@@ -54,11 +56,13 @@ If missing, propose a minimal `argparse` patch with safe defaults.
 **Hard fail if:** the script runs one BQ query per date or per entity in a loop.
 
 Check that date-range backfills use one of:
+
 1. A single set-based query with `GENERATE_DATE_ARRAY`
 2. A staging table loaded with all dates then one join query
 3. Explicit chunks with a hard `MAX_CHUNKS` cap
 
 Also check:
+
 - Is the date range bounded by default (suggest 14 days max without `--override`)?
 - If the script crashes mid-run, is it safe to re-run without double-writing?
 - For backdated simulations, verify data is read from time-consistent snapshots
@@ -72,6 +76,7 @@ Suggest a concrete rewrite if the current approach is row-by-row.
 ## D) QUERY SAFETY AND SCAN SIZE
 
 For each query, check:
+
 - **Partition filter** is on the raw column, not `DATE(ts)`, `CAST(...)`, or
   any function that prevents pruning
 - **No `SELECT *`**: only columns actually used downstream
@@ -89,12 +94,14 @@ Provide a specific SQL fix for any query that fails these checks.
 Identify every write operation. Flag plain `INSERT`/append with no dedup logic.
 
 Each write should use one of:
+
 1. `MERGE` on a deterministic key (e.g., `entity_id + date + model_version`)
 2. Write to a staging table scoped to the run, then swap or merge into final
 3. Append-only with a dedupe view:
    `QUALIFY ROW_NUMBER() OVER (PARTITION BY <key>) = 1`
 
 Also check:
+
 - Will a re-run create duplicate rows?
 - Is the write disposition (`WRITE_TRUNCATE` vs `WRITE_APPEND`) intentional
   and documented?
@@ -109,6 +116,7 @@ State the recommended approach and the exact dedup key for this codebase.
 ## F) OBSERVABILITY: Can you debug a failure?
 
 Verify:
+
 - Failures raise exceptions and abort with no silent `except: pass` or warn-only
 - Each BQ job logs: job ID, bytes processed or billed when available,
   slot milliseconds, and duration

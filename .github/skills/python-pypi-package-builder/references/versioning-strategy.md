@@ -1,6 +1,7 @@
 # Versioning Strategy — PEP 440, SemVer, and Decision Engine
 
 ## Table of Contents
+
 1. [PEP 440 — The Standard](#1-pep-440--the-standard)
 2. [Semantic Versioning (SemVer)](#2-semantic-versioning-semver)
 3. [Pre-release Identifiers](#3-pre-release-identifiers)
@@ -59,16 +60,16 @@ Examples:
 
 ### What counts as a breaking change?
 
-| Change | Breaking? |
-|---|---|
-| Rename a public function | YES — `MAJOR` |
-| Remove a parameter | YES — `MAJOR` |
-| Add a required parameter | YES — `MAJOR` |
-| Add an optional parameter with a default | NO — `MINOR` |
-| Add a new function/class | NO — `MINOR` |
-| Fix a bug | NO — `PATCH` |
-| Update a dependency lower bound | NO (usually) — `PATCH` |
-| Update a dependency upper bound (breaking) | YES — `MAJOR` |
+| Change                                     | Breaking?              |
+| ------------------------------------------ | ---------------------- |
+| Rename a public function                   | YES — `MAJOR`          |
+| Remove a parameter                         | YES — `MAJOR`          |
+| Add a required parameter                   | YES — `MAJOR`          |
+| Add an optional parameter with a default   | NO — `MINOR`           |
+| Add a new function/class                   | NO — `MINOR`           |
+| Fix a bug                                  | NO — `PATCH`           |
+| Update a dependency lower bound            | NO (usually) — `PATCH` |
+| Update a dependency upper bound (breaking) | YES — `MAJOR`          |
 
 ---
 
@@ -126,13 +127,13 @@ Does the package have C/Cython/Fortran extensions?
 
 ### Summary Table
 
-| Backend | Version source | Best for |
-|---|---|---|
-| `setuptools` + `setuptools_scm` | Git tags — fully automatic | DEFAULT for new projects |
-| `hatchling` + `hatch-vcs` | Git tags — automatic via plugin | hatchling users |
-| `flit` | `__version__` in `__init__.py` | Very simple, minimal config |
-| `poetry` | `[tool.poetry] version` field | Integrated dep + build management |
-| `hatchling` manual | `[project] version` field | One-off static versioning |
+| Backend                         | Version source                  | Best for                          |
+| ------------------------------- | ------------------------------- | --------------------------------- |
+| `setuptools` + `setuptools_scm` | Git tags — fully automatic      | DEFAULT for new projects          |
+| `hatchling` + `hatch-vcs`       | Git tags — automatic via plugin | hatchling users                   |
+| `flit`                          | `__version__` in `__init__.py`  | Very simple, minimal config       |
+| `poetry`                        | `[tool.poetry] version` field   | Integrated dep + build management |
+| `hatchling` manual              | `[project] version` field       | One-off static versioning         |
 
 ---
 
@@ -188,8 +189,9 @@ uploads while still being visible locally.
 ```yaml
 - uses: actions/checkout@v4
   with:
-    fetch-depth: 0    # REQUIRED — without this, git has no tag history
-                      # setuptools_scm falls back to 0.0.0+d<date> silently
+    fetch-depth:
+      0 # REQUIRED — without this, git has no tag history
+      # setuptools_scm falls back to 0.0.0+d<date> silently
 ```
 
 **Every** CI job that installs or builds the package must have `fetch-depth: 0`.

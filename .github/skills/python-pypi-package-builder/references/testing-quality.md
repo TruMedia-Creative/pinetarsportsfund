@@ -1,6 +1,7 @@
 # Testing and Code Quality
 
 ## Table of Contents
+
 1. [conftest.py](#1-conftestpy)
 2. [Unit tests](#2-unit-tests)
 3. [Backend unit tests](#3-backend-unit-tests)
@@ -232,7 +233,7 @@ repos:
     rev: v1.10.0
     hooks:
       - id: mypy
-        additional_dependencies: [types-redis]  # Add stubs for typed dependencies
+        additional_dependencies: [types-redis] # Add stubs for typed dependencies
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0

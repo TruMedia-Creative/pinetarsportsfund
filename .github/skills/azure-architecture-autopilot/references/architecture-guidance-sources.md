@@ -10,12 +10,13 @@ A source registry for using Azure official architecture guidance **only for desi
 
 ## Purpose Separation
 
-| Purpose | Document to Use | Decidable Items |
-|---------|----------------|-----------------|
-| **Design direction decisions** | This document (architecture-guidance-sources) | Architecture patterns, best practices, service combination direction, security boundary design |
-| **Deployment spec verification** | `azure-dynamic-sources.md` | API version, SKU, region, model availability, PE groupId, actual property values |
+| Purpose                          | Document to Use                               | Decidable Items                                                                                |
+| -------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Design direction decisions**   | This document (architecture-guidance-sources) | Architecture patterns, best practices, service combination direction, security boundary design |
+| **Deployment spec verification** | `azure-dynamic-sources.md`                    | API version, SKU, region, model availability, PE groupId, actual property values               |
 
 **What must NOT be decided using this document:**
+
 - API version
 - SKU names/pricing
 - Region availability
@@ -29,24 +30,24 @@ A source registry for using Azure official architecture guidance **only for desi
 
 Targeted fetch targets for design direction decisions.
 
-| ID | Document | URL | Purpose |
-|----|----------|-----|---------|
-| A1 | Azure Architecture Center | https://learn.microsoft.com/en-us/azure/architecture/ | Hub — Entry point for finding domain-specific documents |
-| A2 | Well-Architected Framework | https://learn.microsoft.com/en-us/azure/architecture/framework/ | Security/reliability/performance/cost/operations principles |
-| A3 | Cloud Adoption Framework / Landing Zone | https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/ | Enterprise governance, network topology, subscription structure |
-| A4 | Azure AI/ML Architecture | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/ | AI/ML workload reference architecture hub |
-| A5 | Basic Foundry Chat Reference Architecture | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/basic-azure-ai-foundry-chat | Basic Foundry-based chatbot structure |
-| A6 | Baseline AI Foundry Chat Reference Architecture | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/baseline-openai-e2e-chat | Foundry chatbot enterprise baseline (including network isolation) |
-| A7 | RAG Solution Design Guide | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide | RAG pattern design guide |
-| A8 | Microsoft Fabric Overview | https://learn.microsoft.com/en-us/fabric/get-started/microsoft-fabric-overview | Fabric platform overview and workload understanding |
-| A9 | Fabric Governance / Adoption | https://learn.microsoft.com/en-us/power-bi/guidance/fabric-adoption-roadmap-governance | Fabric governance, adoption roadmap |
+| ID  | Document                                        | URL                                                                                                           | Purpose                                                           |
+| --- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| A1  | Azure Architecture Center                       | https://learn.microsoft.com/en-us/azure/architecture/                                                         | Hub — Entry point for finding domain-specific documents           |
+| A2  | Well-Architected Framework                      | https://learn.microsoft.com/en-us/azure/architecture/framework/                                               | Security/reliability/performance/cost/operations principles       |
+| A3  | Cloud Adoption Framework / Landing Zone         | https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/                          | Enterprise governance, network topology, subscription structure   |
+| A4  | Azure AI/ML Architecture                        | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/                                                   | AI/ML workload reference architecture hub                         |
+| A5  | Basic Foundry Chat Reference Architecture       | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/basic-azure-ai-foundry-chat           | Basic Foundry-based chatbot structure                             |
+| A6  | Baseline AI Foundry Chat Reference Architecture | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/baseline-openai-e2e-chat              | Foundry chatbot enterprise baseline (including network isolation) |
+| A7  | RAG Solution Design Guide                       | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-solution-design-and-evaluation-guide | RAG pattern design guide                                          |
+| A8  | Microsoft Fabric Overview                       | https://learn.microsoft.com/en-us/fabric/get-started/microsoft-fabric-overview                                | Fabric platform overview and workload understanding               |
+| A9  | Fabric Governance / Adoption                    | https://learn.microsoft.com/en-us/power-bi/guidance/fabric-adoption-roadmap-governance                        | Fabric governance, adoption roadmap                               |
 
 ## Secondary Sources (awareness only)
 
 Not direct fetch targets; referenced only for change awareness.
 
-| Document | URL | Notes |
-|----------|-----|-------|
+| Document      | URL                                        | Notes                                                                  |
+| ------------- | ------------------------------------------ | ---------------------------------------------------------------------- |
 | Azure Updates | https://azure.microsoft.com/en-us/updates/ | Service changes/new feature announcements. Not a targeted fetch target |
 
 ---
@@ -78,24 +79,24 @@ Architecture guidance documents are **not queried on every request.** Only perfo
 
 ## Fetch Budget
 
-| Scenario | Max Fetch Count |
-|----------|----------------|
-| Default (when trigger fires) | Architecture guidance documents **up to 2** |
-| Additional fetch allowed when | Conflicts between documents / core design uncertainty remains / user explicitly requests deeper justification |
-| Simple deployment spec questions | **0** (no architecture guidance queries) |
+| Scenario                         | Max Fetch Count                                                                                               |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Default (when trigger fires)     | Architecture guidance documents **up to 2**                                                                   |
+| Additional fetch allowed when    | Conflicts between documents / core design uncertainty remains / user explicitly requests deeper justification |
+| Simple deployment spec questions | **0** (no architecture guidance queries)                                                                      |
 
 ---
 
 ## Decision Rule by Question Type
 
-| Question Type | Documents to Query | Design Decision Points to Extract | Documents NOT to Query |
-|--------------|-------------------|----------------------------------|----------------------|
-| RAG / chatbot / Foundry app | A5 or A6 + A7 | Network isolation level, authentication method (managed identity vs key), indexing strategy (push vs pull), monitoring scope | Do not traverse entire Architecture Center |
-| Enterprise security / governance / landing zone | A2 + A3 | Subscription structure, network topology (hub-spoke etc.), identity/governance model, security boundary | AI/ML domain documents not needed |
-| Fabric data platform | A8 + A9 | Capacity model (SKU selection criteria), governance level, data boundary (workspace separation etc.) | AI-related documents not needed |
-| Ambiguous service combination (unclear pattern) | A1 (find closest domain document from hub) + that document | Key design decision points identified from the document | Do not traverse all sub-documents |
-| Simple resource creation values (SKU/API/region) | No query | — | All architecture guidance |
-| General AI/ML architecture | A4 (hub) + closest reference architecture | Compute isolation, data boundary, model serving approach | Do not crawl entirely |
+| Question Type                                    | Documents to Query                                         | Design Decision Points to Extract                                                                                            | Documents NOT to Query                     |
+| ------------------------------------------------ | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| RAG / chatbot / Foundry app                      | A5 or A6 + A7                                              | Network isolation level, authentication method (managed identity vs key), indexing strategy (push vs pull), monitoring scope | Do not traverse entire Architecture Center |
+| Enterprise security / governance / landing zone  | A2 + A3                                                    | Subscription structure, network topology (hub-spoke etc.), identity/governance model, security boundary                      | AI/ML domain documents not needed          |
+| Fabric data platform                             | A8 + A9                                                    | Capacity model (SKU selection criteria), governance level, data boundary (workspace separation etc.)                         | AI-related documents not needed            |
+| Ambiguous service combination (unclear pattern)  | A1 (find closest domain document from hub) + that document | Key design decision points identified from the document                                                                      | Do not traverse all sub-documents          |
+| Simple resource creation values (SKU/API/region) | No query                                                   | —                                                                                                                            | All architecture guidance                  |
+| General AI/ML architecture                       | A4 (hub) + closest reference architecture                  | Compute isolation, data boundary, model serving approach                                                                     | Do not crawl entirely                      |
 
 ---
 

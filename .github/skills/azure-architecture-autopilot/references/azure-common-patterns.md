@@ -31,6 +31,7 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets' = {
 ### publicNetworkAccess Pattern
 
 Services using PE must include:
+
 ```bicep
 properties: {
   publicNetworkAccess: 'Disabled'
@@ -58,6 +59,7 @@ properties: {
 ### Managed Identity
 
 When AI services access other resources:
+
 ```bicep
 identity: {
   type: 'SystemAssigned'  // or 'UserAssigned'
@@ -84,6 +86,7 @@ foundry-{project}-{env}      Cognitive Services (Foundry)
 ```
 
 > Name collision prevention: Recommend using `uniqueString(resourceGroup().id)`
+>
 > ```bicep
 > param storageName string = 'st${uniqueString(resourceGroup().id)}'
 > ```

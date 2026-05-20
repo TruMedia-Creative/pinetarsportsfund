@@ -136,14 +136,14 @@ if (tz.IsInvalidTime(localTime))
 
 ## Common Mistakes
 
-| Wrong | Better |
-| --- | --- |
-| `DateTime.Now` in server code | `DateTime.UtcNow` |
-| Storing local timestamps in the database | Store UTC and convert for display |
-| Hardcoding offsets such as `+05:30` | Use timezone IDs |
+| Wrong                                                     | Better                                          |
+| --------------------------------------------------------- | ----------------------------------------------- |
+| `DateTime.Now` in server code                             | `DateTime.UtcNow`                               |
+| Storing local timestamps in the database                  | Store UTC and convert for display               |
+| Hardcoding offsets such as `+05:30`                       | Use timezone IDs                                |
 | Using `FindSystemTimeZoneById("Asia/Colombo")` on Windows | Use `TZConvert.GetTimeZoneInfo("Asia/Colombo")` |
-| Comparing local `DateTime` values from different zones | Compare UTC or use `DateTimeOffset` |
-| Creating `DateTime` without intentional kind semantics | Use `Utc`, `Local`, or deliberate `Unspecified` |
+| Comparing local `DateTime` values from different zones    | Compare UTC or use `DateTimeOffset`             |
+| Creating `DateTime` without intentional kind semantics    | Use `Utc`, `Local`, or deliberate `Unspecified` |
 
 ## Decision Guide
 

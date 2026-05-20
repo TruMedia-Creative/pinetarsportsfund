@@ -4,36 +4,39 @@ Represent calls to language models (OpenAI, Anthropic, local models, etc.).
 
 ## Required Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `openinference.span.kind` | String | Must be "LLM" |
-| `llm.model_name` | String | Model identifier (e.g., "gpt-4", "claude-3-5-sonnet-20241022") |
+| Attribute                 | Type   | Description                                                    |
+| ------------------------- | ------ | -------------------------------------------------------------- |
+| `openinference.span.kind` | String | Must be "LLM"                                                  |
+| `llm.model_name`          | String | Model identifier (e.g., "gpt-4", "claude-3-5-sonnet-20241022") |
 
 ## Key Attributes
 
-| Category | Attributes | Example |
-|----------|------------|---------|
-| **Model** | `llm.model_name`, `llm.provider` | "gpt-4-turbo", "openai" |
-| **Tokens** | `llm.token_count.prompt`, `llm.token_count.completion`, `llm.token_count.total` | 25, 8, 33 |
-| **Cost** | `llm.cost.prompt`, `llm.cost.completion`, `llm.cost.total` | 0.0021, 0.0045, 0.0066 |
-| **Parameters** | `llm.invocation_parameters` (JSON) | `{"temperature": 0.7, "max_tokens": 1024}` |
-| **Messages** | `llm.input_messages.{i}.*`, `llm.output_messages.{i}.*` | See examples below |
-| **Tools** | `llm.tools.{i}.tool.json_schema` | Function definitions |
+| Category       | Attributes                                                                      | Example                                    |
+| -------------- | ------------------------------------------------------------------------------- | ------------------------------------------ |
+| **Model**      | `llm.model_name`, `llm.provider`                                                | "gpt-4-turbo", "openai"                    |
+| **Tokens**     | `llm.token_count.prompt`, `llm.token_count.completion`, `llm.token_count.total` | 25, 8, 33                                  |
+| **Cost**       | `llm.cost.prompt`, `llm.cost.completion`, `llm.cost.total`                      | 0.0021, 0.0045, 0.0066                     |
+| **Parameters** | `llm.invocation_parameters` (JSON)                                              | `{"temperature": 0.7, "max_tokens": 1024}` |
+| **Messages**   | `llm.input_messages.{i}.*`, `llm.output_messages.{i}.*`                         | See examples below                         |
+| **Tools**      | `llm.tools.{i}.tool.json_schema`                                                | Function definitions                       |
 
 ## Cost Tracking
 
 **Core attributes:**
+
 - `llm.cost.prompt` - Total input cost (USD)
 - `llm.cost.completion` - Total output cost (USD)
 - `llm.cost.total` - Total cost (USD)
 
 **Detailed cost breakdown:**
+
 - `llm.cost.prompt_details.{input,cache_read,cache_write,audio}` - Input cost components
 - `llm.cost.completion_details.{output,reasoning,audio}` - Output cost components
 
 ## Messages
 
 **Input messages:**
+
 - `llm.input_messages.{i}.message.role` - "user", "assistant", "system", "tool"
 - `llm.input_messages.{i}.message.content` - Text content
 - `llm.input_messages.{i}.message.contents.{j}` - Multimodal (text + images)

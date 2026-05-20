@@ -1,6 +1,6 @@
 ---
 name: update-markdown-file-index
-description: 'Update a markdown file section with an index/table of files from a specified folder.'
+description: "Update a markdown file section with an index/table of files from a specified folder."
 ---
 
 # Update Markdown File Index
@@ -41,9 +41,9 @@ Choose format based on file types and existing content:
 
 ### Option 2: Detailed Table
 
-| File | Type | Description |
-|------|------|-------------|
-| [filename.ext](path/to/filename.ext) | Extension | Description |
+| File                                   | Type      | Description |
+| -------------------------------------- | --------- | ----------- |
+| [filename.ext](path/to/filename.ext)   | Extension | Description |
 | [filename2.ext](path/to/filename2.ext) | Extension | Description |
 
 ### Option 3: Categorized Sections

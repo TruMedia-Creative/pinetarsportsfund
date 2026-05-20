@@ -65,35 +65,35 @@ rule management to auto-configure failure alerts on critical flows.
 
 ## Tools
 
-| Tool | Purpose |
-|---|---|
-| `list_store_flows` | List flows with failure rates and monitoring filters |
-| `get_store_flow` | Full cached record: run stats, owners, tier, connections, definition |
-| `get_store_flow_summary` | Aggregated run stats: success/fail rate, avg/max duration |
-| `get_store_flow_runs` | Per-run history with duration, status, failed actions, remediation |
-| `get_store_flow_errors` | Failed-only runs with action names and remediation hints |
-| `get_store_flow_trigger_url` | Trigger URL from cache (instant, no PA API call) |
-| `set_store_flow_state` | Start or stop a flow and sync state back to cache |
-| `update_store_flow` | Set monitor flag, notification rules, tags, governance metadata |
-| `list_store_environments` | All Power Platform environments |
-| `list_store_connections` | All connections |
-| `list_store_makers` | All makers (citizen developers) |
-| `get_store_maker` | Maker detail: flow/app counts, licenses, account status |
-| `list_store_power_apps` | All Power Apps canvas apps |
+| Tool                         | Purpose                                                              |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `list_store_flows`           | List flows with failure rates and monitoring filters                 |
+| `get_store_flow`             | Full cached record: run stats, owners, tier, connections, definition |
+| `get_store_flow_summary`     | Aggregated run stats: success/fail rate, avg/max duration            |
+| `get_store_flow_runs`        | Per-run history with duration, status, failed actions, remediation   |
+| `get_store_flow_errors`      | Failed-only runs with action names and remediation hints             |
+| `get_store_flow_trigger_url` | Trigger URL from cache (instant, no PA API call)                     |
+| `set_store_flow_state`       | Start or stop a flow and sync state back to cache                    |
+| `update_store_flow`          | Set monitor flag, notification rules, tags, governance metadata      |
+| `list_store_environments`    | All Power Platform environments                                      |
+| `list_store_connections`     | All connections                                                      |
+| `list_store_makers`          | All makers (citizen developers)                                      |
+| `get_store_maker`            | Maker detail: flow/app counts, licenses, account status              |
+| `list_store_power_apps`      | All Power Apps canvas apps                                           |
 
 ---
 
 ## Store vs Live
 
-| Question | Use Store | Use Live |
-|---|---|---|
-| How many flows are failing? | `list_store_flows` | — |
-| What's the fail rate over 30 days? | `get_store_flow_summary` | — |
-| Show error history for a flow | `get_store_flow_errors` | — |
-| Who built this flow? | `get_store_flow` → parse `owners` | — |
-| Read the full flow definition | `get_store_flow` has it (JSON string) | `get_live_flow` (structured) |
-| Inspect action inputs/outputs from a run | — | `get_live_flow_run_action_outputs` |
-| Resubmit a failed run | — | `resubmit_live_flow_run` |
+| Question                                 | Use Store                             | Use Live                           |
+| ---------------------------------------- | ------------------------------------- | ---------------------------------- |
+| How many flows are failing?              | `list_store_flows`                    | —                                  |
+| What's the fail rate over 30 days?       | `get_store_flow_summary`              | —                                  |
+| Show error history for a flow            | `get_store_flow_errors`               | —                                  |
+| Who built this flow?                     | `get_store_flow` → parse `owners`     | —                                  |
+| Read the full flow definition            | `get_store_flow` has it (JSON string) | `get_live_flow` (structured)       |
+| Inspect action inputs/outputs from a run | —                                     | `get_live_flow_run_action_outputs` |
+| Resubmit a failed run                    | —                                     | `resubmit_live_flow_run`           |
 
 > Store tools answer "what happened?" and "how healthy is it?"
 > Live tools answer "what exactly went wrong?" and "fix it now."
@@ -145,14 +145,14 @@ Direct array. Filters: `monitor` (bool), `rule_notify_onfail` (bool),
 
 Full cached record. Key fields:
 
-| Category | Fields |
-|---|---|
-| Identity | `name`, `displayName`, `environmentName`, `state`, `triggerType`, `triggerKind`, `tier`, `sharingType` |
-| Run stats | `runPeriodTotal`, `runPeriodFails`, `runPeriodSuccess`, `runPeriodFailRate`, `runPeriodSuccessRate`, `runPeriodDurationAverage`/`Max`/`Min` (milliseconds), `runTotal`, `runFails`, `runFirst`, `runLast`, `runToday` |
-| Governance | `monitor` (bool), `rule_notify_onfail` (bool), `rule_notify_onmissingdays` (number), `rule_notify_email` (string), `log_notify_onfail` (ISO), `description`, `tags` |
-| Freshness | `scanned` (ISO), `nextScan` (ISO) |
-| Lifecycle | `deleted` (bool), `deletedTime` (ISO) |
-| JSON strings | `actions`, `connections`, `owners`, `complexity`, `definition`, `createdBy`, `security`, `triggers`, `referencedResources`, `runError` — all require `json.loads()` to parse |
+| Category     | Fields                                                                                                                                                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Identity     | `name`, `displayName`, `environmentName`, `state`, `triggerType`, `triggerKind`, `tier`, `sharingType`                                                                                                                |
+| Run stats    | `runPeriodTotal`, `runPeriodFails`, `runPeriodSuccess`, `runPeriodFailRate`, `runPeriodSuccessRate`, `runPeriodDurationAverage`/`Max`/`Min` (milliseconds), `runTotal`, `runFails`, `runFirst`, `runLast`, `runToday` |
+| Governance   | `monitor` (bool), `rule_notify_onfail` (bool), `rule_notify_onmissingdays` (number), `rule_notify_email` (string), `log_notify_onfail` (ISO), `description`, `tags`                                                   |
+| Freshness    | `scanned` (ISO), `nextScan` (ISO)                                                                                                                                                                                     |
+| Lifecycle    | `deleted` (bool), `deletedTime` (ISO)                                                                                                                                                                                 |
+| JSON strings | `actions`, `connections`, `owners`, `complexity`, `definition`, `createdBy`, `security`, `triggers`, `referencedResources`, `runError` — all require `json.loads()` to parse                                          |
 
 > Duration fields (`runPeriodDurationAverage`, `Max`, `Min`) are in
 > **milliseconds**. Divide by 1000 for seconds.
@@ -216,7 +216,9 @@ full updated record.
   "flowKey": "Default-<envGuid>.<flowGuid>",
   "requestedState": "Stopped",
   "currentState": "Stopped",
-  "flow": { /* full gFlows record, same shape as get_store_flow */ }
+  "flow": {
+    /* full gFlows record, same shape as get_store_flow */
+  }
 }
 ```
 
@@ -227,7 +229,7 @@ full updated record.
 >
 > Functionally equivalent to `set_live_flow_state` for changing state,
 > but `set_live_flow_state` only returns `{flowName, environmentName,
-> requestedState, actualState}` and doesn't sync the cache. Prefer
+requestedState, actualState}` and doesn't sync the cache. Prefer
 > `set_live_flow_state` when you only need to toggle state and don't
 > care about cache freshness.
 

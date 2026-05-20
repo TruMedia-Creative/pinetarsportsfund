@@ -6,19 +6,19 @@ GUARDRAIL spans represent safety and policy checks (content moderation, PII dete
 
 ## Required Attributes
 
-| Attribute | Type | Description | Required |
-|-----------|------|-------------|----------|
-| `openinference.span.kind` | String | Must be "GUARDRAIL" | Yes |
+| Attribute                 | Type   | Description         | Required |
+| ------------------------- | ------ | ------------------- | -------- |
+| `openinference.span.kind` | String | Must be "GUARDRAIL" | Yes      |
 
 ## Common Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `input.value` | String | Content being checked |
-| `output.value` | String | Guardrail result (allowed/blocked/flagged) |
-| `metadata.guardrail_type` | String | Type of check (toxicity, pii, bias) |
-| `metadata.score` | Float | Safety score (0-1) |
-| `metadata.threshold` | Float | Threshold for blocking |
+| Attribute                 | Type   | Description                                |
+| ------------------------- | ------ | ------------------------------------------ |
+| `input.value`             | String | Content being checked                      |
+| `output.value`            | String | Guardrail result (allowed/blocked/flagged) |
+| `metadata.guardrail_type` | String | Type of check (toxicity, pii, bias)        |
+| `metadata.score`          | Float  | Safety score (0-1)                         |
+| `metadata.threshold`      | Float  | Threshold for blocking                     |
 
 ## Example: Content Moderation
 

@@ -179,7 +179,9 @@ class TabPanel extends React.Component {
         {this.props.tabs.map((tab, i) => (
           <button
             key={tab.id}
-            ref={el => { this.tabRefs[i] = el; }}  // callback ref stores DOM node directly
+            ref={(el) => {
+              this.tabRefs[i] = el;
+            }} // callback ref stores DOM node directly
           >
             {tab.label}
           </button>
@@ -287,7 +289,7 @@ class Parent extends React.Component {
 }
 
 // MyInput.js (React 18 - use forwardRef):
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 const MyInput = forwardRef(function MyInput(props, ref) {
   return <input ref={ref} className="my-input" />;
 });

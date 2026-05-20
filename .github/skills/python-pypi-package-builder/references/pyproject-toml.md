@@ -1,6 +1,7 @@
 # pyproject.toml, Backends, Versioning, and Typed Package
 
 ## Table of Contents
+
 1. [Complete pyproject.toml — setuptools + setuptools_scm](#1-complete-pyprojecttoml)
 2. [hatchling (modern, zero-config)](#2-hatchling-modern-zero-config)
 3. [flit (minimal, version from `__version__`)](#3-flit-minimal-version-from-__version__)
@@ -315,12 +316,12 @@ MINOR: New feature, fully backward-compatible
 PATCH: Bug fix, no API change
 ```
 
-| Change | What bumps | Example |
-|---|---|---|
-| Remove / rename a public function | MAJOR | `1.2.3 → 2.0.0` |
-| Add new public function | MINOR | `1.2.3 → 1.3.0` |
-| Bug fix, no API change | PATCH | `1.2.3 → 1.2.4` |
-| New pre-release | suffix | `2.0.0a1`, `2.0.0rc1` |
+| Change                            | What bumps | Example               |
+| --------------------------------- | ---------- | --------------------- |
+| Remove / rename a public function | MAJOR      | `1.2.3 → 2.0.0`       |
+| Add new public function           | MINOR      | `1.2.3 → 1.3.0`       |
+| Bug fix, no API change            | PATCH      | `1.2.3 → 1.2.4`       |
+| New pre-release                   | suffix     | `2.0.0a1`, `2.0.0rc1` |
 
 ### Version in code — read from package metadata
 

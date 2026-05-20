@@ -67,13 +67,17 @@ class AppProvider extends React.Component {
 
 ```jsx
 // src/contexts/ThemeContext.js
-export const ThemeContext = React.createContext('light');
+export const ThemeContext = React.createContext("light");
 
 // src/contexts/AuthContext.js
-export const AuthContext = React.createContext({ user: null, login: () => {}, logout: () => {} });
+export const AuthContext = React.createContext({
+  user: null,
+  login: () => {},
+  logout: () => {},
+});
 
 // src/contexts/LocaleContext.js
-export const LocaleContext = React.createContext('en');
+export const LocaleContext = React.createContext("en");
 
 // src/contexts/NotificationContext.js
 export const NotificationContext = React.createContext([]);
@@ -81,17 +85,19 @@ export const NotificationContext = React.createContext([]);
 
 ```jsx
 // AppProvider.js - now wraps with multiple providers
-import { ThemeContext } from './contexts/ThemeContext';
-import { AuthContext } from './contexts/AuthContext';
-import { LocaleContext } from './contexts/LocaleContext';
-import { NotificationContext } from './contexts/NotificationContext';
+import { ThemeContext } from "./contexts/ThemeContext";
+import { AuthContext } from "./contexts/AuthContext";
+import { LocaleContext } from "./contexts/LocaleContext";
+import { NotificationContext } from "./contexts/NotificationContext";
 
 class AppProvider extends React.Component {
   render() {
     const { theme, user, locale, notifications } = this.state;
     return (
       <ThemeContext.Provider value={theme}>
-        <AuthContext.Provider value={{ user, login: this.login, logout: this.logout }}>
+        <AuthContext.Provider
+          value={{ user, login: this.login, logout: this.logout }}
+        >
           <LocaleContext.Provider value={locale}>
             <NotificationContext.Provider value={notifications}>
               {this.props.children}
@@ -113,8 +119,8 @@ Class components can only use ONE `static contextType`. For multiple, use `Consu
 ### Option A - Render Props (keep as class component)
 
 ```jsx
-import { ThemeContext } from '../contexts/ThemeContext';
-import { AuthContext } from '../contexts/AuthContext';
+import { ThemeContext } from "../contexts/ThemeContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 class UserPanel extends React.Component {
   render() {
@@ -139,9 +145,9 @@ class UserPanel extends React.Component {
 ### Option B - Convert to Function Component (preferred)
 
 ```jsx
-import { useContext } from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
-import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 function UserPanel() {
   const theme = useContext(ThemeContext);

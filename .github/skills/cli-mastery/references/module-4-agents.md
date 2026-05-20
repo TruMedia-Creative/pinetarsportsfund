@@ -2,20 +2,20 @@
 
 ## Built-in Agents
 
-| Agent | Model | Best For | Key Trait |
-|-------|-------|----------|-----------|
-| `explore` | Haiku | Fast codebase Q&A | Read-only, <300 words, safe to parallelize |
-| `task` | Haiku | Running commands (tests, builds, lints) | Brief on success, verbose on failure |
-| `general-purpose` | Sonnet | Complex multi-step tasks | Full toolset, separate context window |
-| `code-review` | Sonnet | Analyzing code changes | Never modifies code, high signal-to-noise |
+| Agent             | Model  | Best For                                | Key Trait                                  |
+| ----------------- | ------ | --------------------------------------- | ------------------------------------------ |
+| `explore`         | Haiku  | Fast codebase Q&A                       | Read-only, <300 words, safe to parallelize |
+| `task`            | Haiku  | Running commands (tests, builds, lints) | Brief on success, verbose on failure       |
+| `general-purpose` | Sonnet | Complex multi-step tasks                | Full toolset, separate context window      |
+| `code-review`     | Sonnet | Analyzing code changes                  | Never modifies code, high signal-to-noise  |
 
 ## Custom Agents — define your own in Markdown
 
-| Level | Location | Scope |
-|-------|----------|-------|
-| Personal | `~/.copilot/agents/*.md` | All your projects |
-| Project | `.github/agents/*.md` | Everyone on this repo |
-| Organization | `.github-private/agents/` in org repo | Entire org |
+| Level        | Location                              | Scope                 |
+| ------------ | ------------------------------------- | --------------------- |
+| Personal     | `~/.copilot/agents/*.md`              | All your projects     |
+| Project      | `.github/agents/*.md`                 | Everyone on this repo |
+| Organization | `.github-private/agents/` in org repo | Entire org            |
 
 ## Agent file anatomy
 
@@ -30,6 +30,7 @@ tools:
 ---
 
 # Agent Instructions
+
 Your detailed behavior instructions here.
 ```
 

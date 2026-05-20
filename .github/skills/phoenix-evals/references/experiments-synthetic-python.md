@@ -30,7 +30,7 @@ tuples = [
 def tuple_to_query(t):
     prompt = f"""Generate a realistic customer message:
     Issue: {t[0]}, Mood: {t[1]}, Complexity: {t[2]}
-    
+
     Write naturally, include typos if appropriate. Don't be formulaic."""
     return llm(prompt)
 ```
@@ -55,16 +55,16 @@ dimensions = {
 
 ## When to Use
 
-| Use Synthetic | Use Real Data |
-| ------------- | ------------- |
-| Limited production data | Sufficient traces |
-| Testing edge cases | Validating actual behavior |
-| Pre-launch evals | Post-launch monitoring |
+| Use Synthetic           | Use Real Data              |
+| ----------------------- | -------------------------- |
+| Limited production data | Sufficient traces          |
+| Testing edge cases      | Validating actual behavior |
+| Pre-launch evals        | Post-launch monitoring     |
 
 ## Sample Sizes
 
-| Purpose | Size |
-| ------- | ---- |
-| Initial exploration | 50-100 |
-| Comprehensive eval | 100-500 |
-| Per-dimension | 10-20 per combination |
+| Purpose             | Size                  |
+| ------------------- | --------------------- |
+| Initial exploration | 50-100                |
+| Comprehensive eval  | 100-500               |
+| Per-dimension       | 10-20 per combination |

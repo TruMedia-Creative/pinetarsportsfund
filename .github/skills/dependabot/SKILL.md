@@ -28,31 +28,31 @@ Follow this process when creating or optimizing a `dependabot.yml`:
 
 Scan the repository for dependency manifests. Look for:
 
-| Ecosystem | YAML Value | Manifest Files |
-|---|---|---|
-| npm/pnpm/yarn | `npm` | `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock` |
-| pip/pipenv/poetry/uv | `pip` | `requirements.txt`, `Pipfile`, `pyproject.toml`, `setup.py` |
-| Docker | `docker` | `Dockerfile` |
-| Docker Compose | `docker-compose` | `docker-compose.yml` |
-| GitHub Actions | `github-actions` | `.github/workflows/*.yml` |
-| Go modules | `gomod` | `go.mod` |
-| Bundler (Ruby) | `bundler` | `Gemfile` |
-| Cargo (Rust) | `cargo` | `Cargo.toml` |
-| Composer (PHP) | `composer` | `composer.json` |
-| NuGet (.NET) | `nuget` | `*.csproj`, `packages.config` |
-| .NET SDK | `dotnet-sdk` | `global.json` |
-| Maven (Java) | `maven` | `pom.xml` |
-| Gradle (Java) | `gradle` | `build.gradle` |
-| Terraform | `terraform` | `*.tf` |
-| OpenTofu | `opentofu` | `*.tf` |
-| Helm | `helm` | `Chart.yaml` |
-| Hex (Elixir) | `mix` | `mix.exs` |
-| Swift | `swift` | `Package.swift` |
-| Pub (Dart) | `pub` | `pubspec.yaml` |
-| Bun | `bun` | `bun.lockb` |
-| Dev Containers | `devcontainers` | `devcontainer.json` |
-| Git Submodules | `gitsubmodule` | `.gitmodules` |
-| Pre-commit | `pre-commit` | `.pre-commit-config.yaml` |
+| Ecosystem            | YAML Value       | Manifest Files                                                     |
+| -------------------- | ---------------- | ------------------------------------------------------------------ |
+| npm/pnpm/yarn        | `npm`            | `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock` |
+| pip/pipenv/poetry/uv | `pip`            | `requirements.txt`, `Pipfile`, `pyproject.toml`, `setup.py`        |
+| Docker               | `docker`         | `Dockerfile`                                                       |
+| Docker Compose       | `docker-compose` | `docker-compose.yml`                                               |
+| GitHub Actions       | `github-actions` | `.github/workflows/*.yml`                                          |
+| Go modules           | `gomod`          | `go.mod`                                                           |
+| Bundler (Ruby)       | `bundler`        | `Gemfile`                                                          |
+| Cargo (Rust)         | `cargo`          | `Cargo.toml`                                                       |
+| Composer (PHP)       | `composer`       | `composer.json`                                                    |
+| NuGet (.NET)         | `nuget`          | `*.csproj`, `packages.config`                                      |
+| .NET SDK             | `dotnet-sdk`     | `global.json`                                                      |
+| Maven (Java)         | `maven`          | `pom.xml`                                                          |
+| Gradle (Java)        | `gradle`         | `build.gradle`                                                     |
+| Terraform            | `terraform`      | `*.tf`                                                             |
+| OpenTofu             | `opentofu`       | `*.tf`                                                             |
+| Helm                 | `helm`           | `Chart.yaml`                                                       |
+| Hex (Elixir)         | `mix`            | `mix.exs`                                                          |
+| Swift                | `swift`          | `Package.swift`                                                    |
+| Pub (Dart)           | `pub`            | `pubspec.yaml`                                                     |
+| Bun                  | `bun`            | `bun.lockb`                                                        |
+| Dev Containers       | `devcontainers`  | `devcontainer.json`                                                |
+| Git Submodules       | `gitsubmodule`   | `.gitmodules`                                                      |
+| Pre-commit           | `pre-commit`     | `.pre-commit-config.yaml`                                          |
 
 Note: pnpm and yarn both use the `npm` ecosystem value.
 
@@ -62,11 +62,11 @@ For each ecosystem, identify where manifests live. Use `directories` (plural) wi
 
 ```yaml
 directories:
-  - "/"           # root
-  - "/apps/*"     # all app subdirs
+  - "/" # root
+  - "/apps/*" # all app subdirs
   - "/packages/*" # all package subdirs
-  - "/lib-*"      # dirs starting with lib-
-  - "**/*"        # recursive (all subdirs)
+  - "/lib-*" # dirs starting with lib-
+  - "**/*" # recursive (all subdirs)
 ```
 
 Important: `directory` (singular) does NOT support globs. Use `directories` (plural) for wildcards.
@@ -116,6 +116,7 @@ groups:
 This creates one PR per dependency across all specified directories, reducing CI costs and review burden.
 
 Limitations:
+
 - All directories must use the same package ecosystem
 - Applies to version updates only
 - Incompatible version constraints create separate PRs
@@ -162,6 +163,7 @@ groups:
 ```
 
 Key behaviors:
+
 - Dependencies matching multiple groups go to the **first** match
 - `applies-to` defaults to `version-updates` when absent
 - Ungrouped dependencies get individual PRs
@@ -211,27 +213,27 @@ Set `labels: []` to disable all labels including defaults. SemVer labels (`major
 commit-message:
   prefix: "deps"
   prefix-development: "deps-dev"
-  include: "scope"  # adds deps/deps-dev scope after prefix
+  include: "scope" # adds deps/deps-dev scope after prefix
 ```
 
 ### Assignees and Milestones
 
 ```yaml
 assignees: ["security-team-lead"]
-milestone: 4  # numeric ID from milestone URL
+milestone: 4 # numeric ID from milestone URL
 ```
 
 ### Branch Name Separator
 
 ```yaml
 pull-request-branch-name:
-  separator: "-"  # default is /
+  separator: "-" # default is /
 ```
 
 ### Target Branch
 
 ```yaml
-target-branch: "develop"  # PRs target this instead of default branch
+target-branch: "develop" # PRs target this instead of default branch
 ```
 
 Note: When `target-branch` is set, security updates still target the default branch; all ecosystem config only applies to version updates.
@@ -245,8 +247,8 @@ Supported: `daily`, `weekly`, `monthly`, `quarterly`, `semiannually`, `yearly`, 
 ```yaml
 schedule:
   interval: "weekly"
-  day: "monday"         # for weekly only
-  time: "09:00"         # HH:MM format
+  day: "monday" # for weekly only
+  time: "09:00" # HH:MM format
   timezone: "America/New_York"
 ```
 
@@ -255,7 +257,7 @@ schedule:
 ```yaml
 schedule:
   interval: "cron"
-  cronjob: "0 9 * * 1"  # Every Monday at 9 AM
+  cronjob: "0 9 * * 1" # Every Monday at 9 AM
 ```
 
 ### Cooldown Periods
@@ -293,7 +295,7 @@ groups:
 ### Disable Version Updates (Security Only)
 
 ```yaml
-open-pull-requests-limit: 0  # disables version update PRs
+open-pull-requests-limit: 0 # disables version update PRs
 ```
 
 ### Auto-Triage Rules
@@ -307,16 +309,17 @@ Interact with Dependabot PRs using `@dependabot` comments.
 > **Note:** As of January 2026, merge/close/reopen commands have been deprecated.
 > Use GitHub's native UI, CLI (`gh pr merge`), or auto-merge instead.
 
-| Command | Effect |
-|---|---|
-| `@dependabot rebase` | Rebase the PR |
-| `@dependabot recreate` | Recreate the PR from scratch |
-| `@dependabot ignore this dependency` | Close and never update this dependency |
-| `@dependabot ignore this major version` | Ignore this major version |
-| `@dependabot ignore this minor version` | Ignore this minor version |
-| `@dependabot ignore this patch version` | Ignore this patch version |
+| Command                                 | Effect                                 |
+| --------------------------------------- | -------------------------------------- |
+| `@dependabot rebase`                    | Rebase the PR                          |
+| `@dependabot recreate`                  | Recreate the PR from scratch           |
+| `@dependabot ignore this dependency`    | Close and never update this dependency |
+| `@dependabot ignore this major version` | Ignore this major version              |
+| `@dependabot ignore this minor version` | Ignore this minor version              |
+| `@dependabot ignore this patch version` | Ignore this patch version              |
 
 For grouped PRs, additional commands:
+
 - `@dependabot ignore DEPENDENCY_NAME` — ignore specific dependency in group
 - `@dependabot unignore DEPENDENCY_NAME` — clear ignores, reopen with updates
 - `@dependabot unignore *` — clear all ignores for all dependencies in group
@@ -361,18 +364,18 @@ exclude-paths:
 
 Controls how Dependabot edits version constraints:
 
-| Value | Behavior |
-|---|---|
-| `auto` | Default — increase for apps, widen for libraries |
-| `increase` | Always increase minimum version |
+| Value                   | Behavior                                          |
+| ----------------------- | ------------------------------------------------- |
+| `auto`                  | Default — increase for apps, widen for libraries  |
+| `increase`              | Always increase minimum version                   |
 | `increase-if-necessary` | Only change if current range excludes new version |
-| `lockfile-only` | Only update lockfiles, ignore manifests |
-| `widen` | Widen range to include both old and new versions |
+| `lockfile-only`         | Only update lockfiles, ignore manifests           |
+| `widen`                 | Widen range to include both old and new versions  |
 
 ### Rebase Strategy
 
 ```yaml
-rebase-strategy: "disabled"  # stop auto-rebasing
+rebase-strategy: "disabled" # stop auto-rebasing
 ```
 
 Allow rebase over extra commits by including `[dependabot skip]` in commit messages.
@@ -380,7 +383,7 @@ Allow rebase over extra commits by including `[dependabot skip]` in commit messa
 ### Open PR Limit
 
 ```yaml
-open-pull-requests-limit: 10  # default is 5 for version, 10 for security
+open-pull-requests-limit: 10 # default is 5 for version, 10 for security
 ```
 
 Set to `0` to disable version updates entirely.

@@ -6,37 +6,37 @@ RERANKER spans represent reordering of retrieved documents (Cohere Rerank, cross
 
 ## Required Attributes
 
-| Attribute | Type | Description | Required |
-|-----------|------|-------------|----------|
-| `openinference.span.kind` | String | Must be "RERANKER" | Yes |
+| Attribute                 | Type   | Description        | Required |
+| ------------------------- | ------ | ------------------ | -------- |
+| `openinference.span.kind` | String | Must be "RERANKER" | Yes      |
 
 ## Attribute Reference
 
 ### Reranker Parameters
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `reranker.model_name` | String | Reranker model identifier |
-| `reranker.query` | String | Query used for reranking |
-| `reranker.top_k` | Integer | Number of documents to return |
+| Attribute             | Type    | Description                   |
+| --------------------- | ------- | ----------------------------- |
+| `reranker.model_name` | String  | Reranker model identifier     |
+| `reranker.query`      | String  | Query used for reranking      |
+| `reranker.top_k`      | Integer | Number of documents to return |
 
 ### Input Documents
 
-| Attribute Pattern | Type | Description |
-|-------------------|------|-------------|
-| `reranker.input_documents.{i}.document.id` | String | Input document ID |
-| `reranker.input_documents.{i}.document.content` | String | Input document content |
-| `reranker.input_documents.{i}.document.score` | Float | Original retrieval score |
-| `reranker.input_documents.{i}.document.metadata` | String (JSON) | Document metadata |
+| Attribute Pattern                                | Type          | Description              |
+| ------------------------------------------------ | ------------- | ------------------------ |
+| `reranker.input_documents.{i}.document.id`       | String        | Input document ID        |
+| `reranker.input_documents.{i}.document.content`  | String        | Input document content   |
+| `reranker.input_documents.{i}.document.score`    | Float         | Original retrieval score |
+| `reranker.input_documents.{i}.document.metadata` | String (JSON) | Document metadata        |
 
 ### Output Documents
 
-| Attribute Pattern | Type | Description |
-|-------------------|------|-------------|
-| `reranker.output_documents.{i}.document.id` | String | Output document ID (reordered) |
-| `reranker.output_documents.{i}.document.content` | String | Output document content |
-| `reranker.output_documents.{i}.document.score` | Float | New reranker score |
-| `reranker.output_documents.{i}.document.metadata` | String (JSON) | Document metadata |
+| Attribute Pattern                                 | Type          | Description                    |
+| ------------------------------------------------- | ------------- | ------------------------------ |
+| `reranker.output_documents.{i}.document.id`       | String        | Output document ID (reordered) |
+| `reranker.output_documents.{i}.document.content`  | String        | Output document content        |
+| `reranker.output_documents.{i}.document.score`    | Float         | New reranker score             |
+| `reranker.output_documents.{i}.document.metadata` | String (JSON) | Document metadata              |
 
 ### Score Comparison
 
@@ -56,6 +56,7 @@ Input scores (from retriever) vs. output scores (from reranker):
 ```
 
 In this example:
+
 - Input: doc_B (0.9) ranked higher than doc_A (0.7)
 - Output: doc_B still highest but both scores increased
 - Reranker confirmed retriever's ordering but refined scores

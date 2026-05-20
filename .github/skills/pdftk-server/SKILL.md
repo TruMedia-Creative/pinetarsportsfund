@@ -1,6 +1,6 @@
 ---
 name: pdftk-server
-description: 'Skill for using the command-line tool pdftk (PDFtk Server) for working with PDF files. Use when asked to merge PDFs, split PDFs, rotate pages, encrypt or decrypt PDFs, fill PDF forms, apply watermarks, stamp overlays, extract metadata, burst documents into pages, repair corrupted PDFs, attach or extract files, or perform any PDF manipulation from the command line.'
+description: "Skill for using the command-line tool pdftk (PDFtk Server) for working with PDF files. Use when asked to merge PDFs, split PDFs, rotate pages, encrypt or decrypt PDFs, fill PDF forms, apply watermarks, stamp overlays, extract metadata, burst documents into pages, repair corrupted PDFs, attach or extract files, or perform any PDF manipulation from the command line."
 ---
 
 # PDFtk Server
@@ -142,14 +142,14 @@ pdftk A=even.pdf B=odd.pdf shuffle A B output collated.pdf
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| `pdftk` command not found | Verify installation; check that pdftk is in your system PATH |
-| Cannot decrypt PDF | Ensure you are providing the correct owner or user password via `input_pw` |
-| Output file is empty or corrupt | Check input file integrity; try running `pdftk input.pdf output repaired.pdf` first |
-| Form fields not visible after fill | Use the `flatten` flag to merge fields into the page content |
-| Watermark not appearing | Ensure the input PDF has transparent regions; use `stamp` for opaque overlays |
-| Permission denied errors | Check file permissions on input and output paths |
+| Issue                              | Solution                                                                            |
+| ---------------------------------- | ----------------------------------------------------------------------------------- |
+| `pdftk` command not found          | Verify installation; check that pdftk is in your system PATH                        |
+| Cannot decrypt PDF                 | Ensure you are providing the correct owner or user password via `input_pw`          |
+| Output file is empty or corrupt    | Check input file integrity; try running `pdftk input.pdf output repaired.pdf` first |
+| Form fields not visible after fill | Use the `flatten` flag to merge fields into the page content                        |
+| Watermark not appearing            | Ensure the input PDF has transparent regions; use `stamp` for opaque overlays       |
+| Permission denied errors           | Check file permissions on input and output paths                                    |
 
 ## References
 

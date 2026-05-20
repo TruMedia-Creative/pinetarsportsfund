@@ -4,7 +4,7 @@ title: React 19 Actions Pattern Reference
 
 # React 19 Actions Pattern Reference
 
-React 19 introduces **Actions**  a pattern for handling async operations (like form submissions) with built-in loading states, error handling, and optimistic updates. This replaces the `useReducer + state` pattern with a simpler API.
+React 19 introduces **Actions** a pattern for handling async operations (like form submissions) with built-in loading states, error handling, and optimistic updates. This replaces the `useReducer + state` pattern with a simpler API.
 
 ## What are Actions?
 
@@ -29,28 +29,28 @@ function Form() {
   const [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
-        case 'loading':
+        case "loading":
           return { ...state, loading: true, error: null };
-        case 'success':
+        case "success":
           return { ...state, loading: false, data: action.data };
-        case 'error':
+        case "error":
           return { ...state, loading: false, error: action.error };
       }
     },
-    { loading: false, data: null, error: null }
+    { loading: false, data: null, error: null },
   );
-  
+
   async function handleSubmit(e) {
     e.preventDefault();
-    dispatch({ type: 'loading' });
+    dispatch({ type: "loading" });
     try {
       const result = await submitForm(new FormData(e.target));
-      dispatch({ type: 'success', data: result });
+      dispatch({ type: "success", data: result });
     } catch (err) {
-      dispatch({ type: 'error', error: err.message });
+      dispatch({ type: "error", error: err.message });
     }
   }
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input name="email" />
@@ -67,12 +67,12 @@ function Form() {
 
 ```jsx
 // React 19  same form with useActionState:
-import { useActionState } from 'react';
+import { useActionState } from "react";
 
 async function submitFormAction(prevState, formData) {
   // prevState = previous return value from this function
   // formData = FormData from <form action={submitFormAction}>
-  
+
   try {
     const result = await submitForm(formData);
     return { data: result, error: null };
@@ -84,9 +84,9 @@ async function submitFormAction(prevState, formData) {
 function Form() {
   const [state, formAction, isPending] = useActionState(
     submitFormAction,
-    { data: null, error: null } // initial state
+    { data: null, error: null }, // initial state
   );
-  
+
   return (
     <form action={formAction}>
       <input name="email" />
@@ -135,7 +135,7 @@ function SubmitButton() {
 
 function Form() {
   const [state, formAction] = useActionState(submitFormAction, {});
-  
+
   return (
     <form action={formAction}>
       <input />
@@ -145,7 +145,7 @@ function Form() {
 }
 ```
 
-**Key point:** `useFormStatus` only works inside a `<form action={...}>`  regular `<form onSubmit>` won't trigger it.
+**Key point:** `useFormStatus` only works inside a `<form action={...}>` regular `<form onSubmit>` won't trigger it.
 
 ---
 
@@ -159,29 +159,29 @@ function Form() {
 // React 18  manual optimistic update:
 function TodoList({ todos, onAddTodo }) {
   const [optimistic, setOptimistic] = useState(todos);
-  
+
   async function handleAddTodo(text) {
     const newTodo = { id: Date.now(), text, completed: false };
-    
+
     // Show optimistic update immediately
     setOptimistic([...optimistic, newTodo]);
-    
+
     try {
       const result = await addTodo(text);
       // Update with confirmed result
-      setOptimistic(prev => [
-        ...prev.filter(t => t.id !== newTodo.id),
-        result
+      setOptimistic((prev) => [
+        ...prev.filter((t) => t.id !== newTodo.id),
+        result,
       ]);
     } catch (err) {
       // Revert on error
       setOptimistic(optimistic);
     }
   }
-  
+
   return (
     <ul>
-      {optimistic.map(todo => (
+      {optimistic.map((todo) => (
         <li key={todo.id}>{todo.text}</li>
       ))}
     </ul>
@@ -192,34 +192,34 @@ function TodoList({ todos, onAddTodo }) {
 ### React 19 useOptimistic() Pattern
 
 ```jsx
-import { useOptimistic } from 'react';
+import { useOptimistic } from "react";
 
 async function addTodoAction(prevTodos, formData) {
-  const text = formData.get('text');
+  const text = formData.get("text");
   const result = await addTodo(text);
   return [...prevTodos, result];
 }
 
 function TodoList({ todos }) {
-  const [optimistic, addOptimistic] = useOptimistic(
-    todos,
-    (state, newTodo) => [...state, newTodo]
-  );
-  
+  const [optimistic, addOptimistic] = useOptimistic(todos, (state, newTodo) => [
+    ...state,
+    newTodo,
+  ]);
+
   const [, formAction] = useActionState(addTodoAction, todos);
-  
+
   async function handleAddTodo(formData) {
-    const text = formData.get('text');
+    const text = formData.get("text");
     // Optimistic update:
     addOptimistic({ id: Date.now(), text, completed: false });
     // Then call the form action:
     formAction(formData);
   }
-  
+
   return (
     <>
       <ul>
-        {optimistic.map(todo => (
+        {optimistic.map((todo) => (
           <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>
@@ -244,46 +244,45 @@ function TodoList({ todos }) {
 ## Full Example: Todo List with All Hooks
 
 ```jsx
-import { useActionState, useFormStatus, useOptimistic } from 'react';
+import { useActionState, useFormStatus, useOptimistic } from "react";
 
 // Server action:
 async function addTodoAction(prevTodos, formData) {
-  const text = formData.get('text');
-  if (!text) throw new Error('Text required');
-  const newTodo = await api.post('/todos', { text });
+  const text = formData.get("text");
+  if (!text) throw new Error("Text required");
+  const newTodo = await api.post("/todos", { text });
   return [...prevTodos, newTodo];
 }
 
 // Submit button with useFormStatus:
 function AddButton() {
   const { pending } = useFormStatus();
-  return <button disabled={pending}>{pending ? 'Adding...' : 'Add Todo'}</button>;
+  return (
+    <button disabled={pending}>{pending ? "Adding..." : "Add Todo"}</button>
+  );
 }
 
 // Main component:
 function TodoApp({ initialTodos }) {
   const [optimistic, addOptimistic] = useOptimistic(
     initialTodos,
-    (state, newTodo) => [...state, newTodo]
+    (state, newTodo) => [...state, newTodo],
   );
-  
-  const [todos, formAction] = useActionState(
-    addTodoAction,
-    initialTodos
-  );
-  
+
+  const [todos, formAction] = useActionState(addTodoAction, initialTodos);
+
   async function handleAddTodo(formData) {
-    const text = formData.get('text');
+    const text = formData.get("text");
     // Optimistic: show it immediately
     addOptimistic({ id: Date.now(), text });
     // Then submit the form (which updates when server confirms)
     await formAction(formData);
   }
-  
+
   return (
     <>
       <ul>
-        {optimistic.map(todo => (
+        {optimistic.map((todo) => (
           <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>
@@ -300,11 +299,11 @@ function TodoApp({ initialTodos }) {
 
 ## Migration Strategy
 
-### Phase 1  No changes required
+### Phase 1 No changes required
 
 Actions are opt-in. All existing `useReducer + onSubmit` patterns continue to work. No forced migration.
 
-### Phase 2  Identify refactor candidates
+### Phase 2 Identify refactor candidates
 
 After React 19 migration stabilizes, profile for `useReducer + async` patterns:
 
@@ -319,24 +318,28 @@ Patterns worth refactoring:
 - Current code uses `dispatch({ type: '...' })`
 - Simple state shape (object with `loading`, `error`, `data`)
 
-### Phase 3  Refactor to useActionState
+### Phase 3 Refactor to useActionState
 
 ```jsx
 // Before:
 function LoginForm() {
-  const [state, dispatch] = useReducer(loginReducer, { loading: false, error: null, user: null });
-  
+  const [state, dispatch] = useReducer(loginReducer, {
+    loading: false,
+    error: null,
+    user: null,
+  });
+
   async function handleSubmit(e) {
     e.preventDefault();
-    dispatch({ type: 'loading' });
+    dispatch({ type: "loading" });
     try {
       const user = await login(e.target);
-      dispatch({ type: 'success', data: user });
+      dispatch({ type: "success", data: user });
     } catch (err) {
-      dispatch({ type: 'error', error: err.message });
+      dispatch({ type: "error", error: err.message });
     }
   }
-  
+
   return <form onSubmit={handleSubmit}>...</form>;
 }
 
@@ -351,8 +354,11 @@ async function loginAction(prevState, formData) {
 }
 
 function LoginForm() {
-  const [state, formAction] = useActionState(loginAction, { user: null, error: null });
-  
+  const [state, formAction] = useActionState(loginAction, {
+    user: null,
+    error: null,
+  });
+
   return <form action={formAction}>...</form>;
 }
 ```
@@ -361,11 +367,11 @@ function LoginForm() {
 
 ## Comparison Table
 
-| Feature | React 18 | React 19 |
-|---|---|---|
-| Form handling | `onSubmit` + useReducer | `action` + useActionState |
-| Loading state | Manual dispatch | Automatic `isPending` |
-| Child component pending state | Prop drilling | `useFormStatus` hook |
-| Optimistic updates | Manual state dance | `useOptimistic` hook |
-| Error handling | Manual in dispatch | Return from action |
-| Complexity | More boilerplate | Less boilerplate |
+| Feature                       | React 18                | React 19                  |
+| ----------------------------- | ----------------------- | ------------------------- |
+| Form handling                 | `onSubmit` + useReducer | `action` + useActionState |
+| Loading state                 | Manual dispatch         | Automatic `isPending`     |
+| Child component pending state | Prop drilling           | `useFormStatus` hook      |
+| Optimistic updates            | Manual state dance      | `useOptimistic` hook      |
+| Error handling                | Manual in dispatch      | Return from action        |
+| Complexity                    | More boilerplate        | Less boilerplate          |

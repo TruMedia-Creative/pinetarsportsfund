@@ -16,18 +16,19 @@
 
 Threats are classified into three exploitability tiers based on the prerequisites an attacker needs:
 
-| Tier | Label | Prerequisites | Assignment Rule |
-|------|-------|---------------|----------------|
-| **Tier 1** | Direct Exposure | `None` | Exploitable by unauthenticated external attacker with NO prior access. The prerequisite field MUST say `None`. |
-| **Tier 2** | Conditional Risk | Single prerequisite: `Authenticated User`, `Privileged User`, `Internal Network`, or single `{Boundary} Access` | Requires exactly ONE form of access. The prerequisite field has ONE item. |
-| **Tier 3** | Defense-in-Depth | `Host/OS Access`, `Admin Credentials`, `{Component} Compromise`, `Physical Access`, or MULTIPLE prerequisites joined with `+` | Requires significant prior breach, infrastructure access, or multiple combined prerequisites. |
+| Tier       | Label            | Prerequisites                                                                                                                 | Assignment Rule                                                                                                |
+| ---------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Tier 1** | Direct Exposure  | `None`                                                                                                                        | Exploitable by unauthenticated external attacker with NO prior access. The prerequisite field MUST say `None`. |
+| **Tier 2** | Conditional Risk | Single prerequisite: `Authenticated User`, `Privileged User`, `Internal Network`, or single `{Boundary} Access`               | Requires exactly ONE form of access. The prerequisite field has ONE item.                                      |
+| **Tier 3** | Defense-in-Depth | `Host/OS Access`, `Admin Credentials`, `{Component} Compromise`, `Physical Access`, or MULTIPLE prerequisites joined with `+` | Requires significant prior breach, infrastructure access, or multiple combined prerequisites.                  |
 
 <!-- ⛔ POST-TABLE CHECK: Verify this table has EXACTLY 4 columns (Tier|Label|Prerequisites|Assignment Rule). If you wrote 3 columns or named the 4th column 'Description' or 'Example' → FIX NOW before continuing. -->
 
 ## Summary
 
-| Component | Link | S | T | R | I | D | E | A | Total | T1 | T2 | T3 | Risk |
-|-----------|------|---|---|---|---|---|---|---|-------|----|----|----|------|
+| Component | Link | S   | T   | R   | I   | D   | E   | A   | Total | T1  | T2  | T3  | Risk |
+| --------- | ---- | --- | --- | --- | --- | --- | --- | --- | ----- | --- | --- | --- | ---- |
+
 [REPEAT: one row per component — numeric STRIDE counts, 0 is valid with N/A justification]
 | [FILL: ComponentName] | [Link](#[FILL: anchor]) | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL: sum] | [FILL] | [FILL] | [FILL] | [FILL: Low/Medium/High/Critical] |
 [END-REPEAT]
@@ -57,24 +58,27 @@ Threats are classified into three exploitability tiers based on the prerequisite
 
 #### Tier 1 — Direct Exposure (No Prerequisites)
 
-| ID | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
-|----|----------|--------|---------------|---------------|------------|--------|
+| ID  | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
+| --- | -------- | ------ | ------------- | ------------- | ---------- | ------ |
+
 [REPEAT: threat rows or "*No Tier 1 threats identified.*"]
 | [FILL: T##.X] | [FILL: Spoofing/Tampering/Repudiation/Information Disclosure/Denial of Service/Elevation of Privilege/Abuse] | [FILL] | [FILL] | [FILL: DF##] | [FILL] | [FILL: Open/Mitigated/Platform] |
 [END-REPEAT]
 
 #### Tier 2 — Conditional Risk
 
-| ID | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
-|----|----------|--------|---------------|---------------|------------|--------|
+| ID  | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
+| --- | -------- | ------ | ------------- | ------------- | ---------- | ------ |
+
 [REPEAT: threat rows or "*No Tier 2 threats identified.*"]
 | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] |
 [END-REPEAT]
 
 #### Tier 3 — Defense-in-Depth
 
-| ID | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
-|----|----------|--------|---------------|---------------|------------|--------|
+| ID  | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
+| --- | -------- | ------ | ------------- | ------------- | ---------- | ------ |
+
 [REPEAT: threat rows or "*No Tier 3 threats identified.*"]
 | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] | [FILL] |
 [END-REPEAT]
@@ -82,7 +86,8 @@ Threats are classified into three exploitability tiers based on the prerequisite
 #### Categories Not Applicable
 
 | Category | Justification |
-|----------|---------------|
+| -------- | ------------- |
+
 [REPEAT: one row per N/A STRIDE category — use "Abuse" not "Authorization" for the A category]
 | [FILL: Spoofing/Tampering/Repudiation/Information Disclosure/Denial of Service/Elevation of Privilege/Abuse] | [FILL: 1-sentence justification] |
 [END-REPEAT]

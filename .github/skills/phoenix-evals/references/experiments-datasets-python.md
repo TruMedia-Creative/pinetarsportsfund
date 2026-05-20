@@ -53,11 +53,11 @@ df = dataset.to_dataframe()
 
 ## Key Parameters
 
-| Parameter | Description |
-| --------- | ----------- |
-| `input_keys` | Columns for task input |
-| `output_keys` | Columns for expected output |
-| `metadata_keys` | Additional context |
+| Parameter       | Description                 |
+| --------------- | --------------------------- |
+| `input_keys`    | Columns for task input      |
+| `output_keys`   | Columns for expected output |
+| `metadata_keys` | Additional context          |
 
 ## Using Evaluators in Experiments
 

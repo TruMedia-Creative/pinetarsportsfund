@@ -50,9 +50,9 @@ graph TD
 - INT-002: Provide a method or property reference table
 - INT-003: Cover events, callbacks, or notification mechanisms when applicable
 
-| Method/Property | Purpose | Parameters | Return Type | Usage Notes |
-|-----------------|---------|------------|-------------|-------------|
-| [Name] | [Purpose] | [Parameters] | [Type] | [Notes] |
+| Method/Property | Purpose   | Parameters   | Return Type | Usage Notes |
+| --------------- | --------- | ------------ | ----------- | ----------- |
+| [Name]          | [Purpose] | [Parameters] | [Type]      | [Notes]     |
 
 ## 4. Implementation Details
 

@@ -15,13 +15,13 @@ Annual Cost  = Monthly Cost × 12
 
 ### Common Multipliers
 
-| Period | Hours | Calculation |
-|--------|-------|-------------|
-| 1 Hour | 1 | Unit price |
-| 1 Day | 24 | Unit price × 24 |
-| 1 Week | 168 | Unit price × 168 |
-| 1 Month | 730 | Unit price × 730 |
-| 1 Year | 8,760 | Unit price × 8,760 |
+| Period  | Hours | Calculation        |
+| ------- | ----- | ------------------ |
+| 1 Hour  | 1     | Unit price         |
+| 1 Day   | 24    | Unit price × 24    |
+| 1 Week  | 168   | Unit price × 168   |
+| 1 Month | 730   | Unit price × 730   |
+| 1 Year  | 8,760 | Unit price × 8,760 |
 
 ## Service-Specific Formulas
 
@@ -32,6 +32,7 @@ Monthly Cost = hourly price × 730
 ```
 
 For VMs that run only business hours (8h/day, 22 days/month):
+
 ```
 Monthly Cost = hourly price × 176
 ```
@@ -58,11 +59,13 @@ Total Monthly  = Storage Cost + Transaction Cost + Egress Cost
 ### Azure Cosmos DB
 
 #### Provisioned Throughput
+
 ```
 Monthly Cost = (RU/s / 100) × price per 100 RU/s × 730
 ```
 
 #### Serverless
+
 ```
 Monthly Cost = (total RUs consumed / 1,000,000) × price per 1M RUs
 ```
@@ -70,11 +73,13 @@ Monthly Cost = (total RUs consumed / 1,000,000) × price per 1M RUs
 ### Azure SQL Database
 
 #### DTU Model
+
 ```
 Monthly Cost = price per DTU × DTUs × 730
 ```
 
 #### vCore Model
+
 ```
 Monthly Cost = vCore price × vCores × 730  +  storage price per GB × storage GB
 ```
@@ -118,6 +123,7 @@ When presenting pricing options, always show the comparison:
 ```
 
 Savings percentage formula:
+
 ```
 Savings % = ((PAYG Price - Reserved Price) / PAYG Price) × 100
 ```
@@ -127,9 +133,9 @@ Savings % = ((PAYG Price - Reserved Price) / PAYG Price) × 100
 Always present results in this format:
 
 ```markdown
-| Service | SKU | Region | Unit Price | Unit | Monthly Est. | Annual Est. |
-|---------|-----|--------|-----------|------|-------------|-------------|
-| Virtual Machines | Standard_D4s_v5 | East US | $0.192/hr | 1 Hour | $140.16 | $1,681.92 |
+| Service          | SKU             | Region  | Unit Price | Unit   | Monthly Est. | Annual Est. |
+| ---------------- | --------------- | ------- | ---------- | ------ | ------------ | ----------- |
+| Virtual Machines | Standard_D4s_v5 | East US | $0.192/hr  | 1 Hour | $140.16      | $1,681.92   |
 ```
 
 ## Tips

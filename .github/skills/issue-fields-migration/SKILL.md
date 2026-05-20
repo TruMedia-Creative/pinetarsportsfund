@@ -33,22 +33,22 @@ This skill bulk-migrates existing metadata into issue fields from two sources:
 
 ### MCP Tools (read operations)
 
-| Tool | Purpose |
-|------|---------|
+| Tool                         | Purpose                                                                                            |
+| ---------------------------- | -------------------------------------------------------------------------------------------------- |
 | `mcp__github__projects_list` | List project fields (`list_project_fields`), list project items with values (`list_project_items`) |
-| `mcp__github__projects_get` | Get details of a specific project field or item |
+| `mcp__github__projects_get`  | Get details of a specific project field or item                                                    |
 
 ### CLI / REST API
 
-| Operation | Command |
-|-----------|---------|
-| List org issue fields | `gh api /orgs/{org}/issue-fields -H "X-GitHub-Api-Version: 2026-03-10"` |
-| Read issue field values | `gh api /repos/{owner}/{repo}/issues/{number}/issue-field-values -H "X-GitHub-Api-Version: 2026-03-10"` |
+| Operation                | Command                                                                                                                     |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| List org issue fields    | `gh api /orgs/{org}/issue-fields -H "X-GitHub-Api-Version: 2026-03-10"`                                                     |
+| Read issue field values  | `gh api /repos/{owner}/{repo}/issues/{number}/issue-field-values -H "X-GitHub-Api-Version: 2026-03-10"`                     |
 | Write issue field values | `gh api /repositories/{repo_id}/issues/{number}/issue-field-values -X POST -H "X-GitHub-Api-Version: 2026-03-10" --input -` |
-| Get repository ID | `gh api /repos/{owner}/{repo} --jq .id` |
-| List repo labels | `gh label list -R {owner}/{repo} --limit 1000 --json name,color,description` |
-| List issues by label | `gh issue list -R {owner}/{repo} --label "{name}" --state all --json number,title,labels --limit 1000` |
-| Remove label from issue | `gh api /repos/{owner}/{repo}/issues/{number}/labels/{label_name} -X DELETE` |
+| Get repository ID        | `gh api /repos/{owner}/{repo} --jq .id`                                                                                     |
+| List repo labels         | `gh label list -R {owner}/{repo} --limit 1000 --json name,color,description`                                                |
+| List issues by label     | `gh issue list -R {owner}/{repo} --label "{name}" --state all --json number,title,labels --limit 1000`                      |
+| Remove label from issue  | `gh api /repos/{owner}/{repo}/issues/{number}/labels/{label_name} -X DELETE`                                                |
 
 See [references/issue-fields-api.md](references/issue-fields-api.md), [references/projects-api.md](references/projects-api.md), and [references/labels-api.md](references/labels-api.md) for full API details.
 
@@ -170,9 +170,9 @@ gh issue list -R {owner}/{repo} --label "{label_name}" --state all \
   --json number,title,labels,type --limit 1000
 ```
 
-   **Warning**: `--limit 1000` silently truncates results. If you expect a label may have more than 1000 issues, paginate manually or verify the total count first (e.g., `gh issue list --label "X" --state all --json number | jq length`).
+**Warning**: `--limit 1000` silently truncates results. If you expect a label may have more than 1000 issues, paginate manually or verify the total count first (e.g., `gh issue list --label "X" --state all --json number | jq length`).
 
-   **PR filtering**: `gh issue list` returns both issues and PRs. Include `type` in the `--json` output and filter for `type == "Issue"` if the user only wants issues migrated.
+**PR filtering**: `gh issue list` returns both issues and PRs. Include `type` in the `--json` output and filter for `type == "Issue"` if the user only wants issues migrated.
 
 3. If **all selected labels return 0 issues**, stop and tell the user. Suggest: try different labels, check spelling, or try a different repository. Do not proceed with an empty migration.
 
@@ -235,7 +235,7 @@ echo '{"issue_field_values": [{"field_id": FIELD_ID, "value": "OPTION_NAME"}]}' 
     --input -
 ```
 
-   Replace `FIELD_ID` with the integer field ID (e.g., `1`) and `OPTION_NAME` with the option name string.
+Replace `FIELD_ID` with the integer field ID (e.g., `1`) and `OPTION_NAME` with the option name string.
 
 2. If the user opted to remove labels, remove each migrated label after successful field write:
 
@@ -243,7 +243,7 @@ echo '{"issue_field_values": [{"field_id": FIELD_ID, "value": "OPTION_NAME"}]}' 
 gh api /repos/{owner}/{repo}/issues/{number}/labels/{label_name} -X DELETE
 ```
 
-   URL-encode label names that contain spaces or special characters.
+URL-encode label names that contain spaces or special characters.
 
 3. **Pacing**: 100ms delay between calls. Exponential backoff on HTTP 429 (1s, 2s, 4s, up to 30s).
 4. **Progress**: report every 25 items (e.g., "Migrated 75/156 issues...").
@@ -297,13 +297,13 @@ gh api /orgs/{org}/issue-fields \
 
 5. Auto-match fields by name (case-insensitive) with compatible types:
 
-| Project Field Type | Issue Field Type | Compatible? |
-|-------------------|-----------------|-------------|
-| TEXT | text | Yes, direct copy |
-| SINGLE_SELECT | single_select | Yes, option mapping needed |
-| NUMBER | number | Yes, direct copy |
-| DATE | date | Yes, direct copy |
-| ITERATION | (none) | No equivalent; skip with warning |
+| Project Field Type | Issue Field Type | Compatible?                      |
+| ------------------ | ---------------- | -------------------------------- |
+| TEXT               | text             | Yes, direct copy                 |
+| SINGLE_SELECT      | single_select    | Yes, option mapping needed       |
+| NUMBER             | number           | Yes, direct copy                 |
+| DATE               | date             | Yes, direct copy                 |
+| ITERATION          | (none)           | No equivalent; skip with warning |
 
 6. Present the proposed field mappings as a table. Let the user confirm, adjust, or skip fields.
 
@@ -394,7 +394,7 @@ gh api /repos/{owner}/{repo}/issues/{number}/issue-field-values \
   -H "X-GitHub-Api-Version: 2026-03-10"
 ```
 
-   - If the issue field already has a value, skip it (preserve existing data).
+- If the issue field already has a value, skip it (preserve existing data).
 
 3. Classify each item into one of:
    - **Migrate**: has source value, no existing target value
@@ -452,7 +452,7 @@ echo '{"issue_field_values": [{"field_id": FIELD_ID, "value": "VALUE"}]}' | \
     --input -
 ```
 
-   Replace `FIELD_ID` with the integer field ID (e.g., `1`) and `VALUE` with the value string.
+Replace `FIELD_ID` with the integer field ID (e.g., `1`) and `VALUE` with the value string.
 
 3. **Pacing**: add a 100ms delay between API calls. On HTTP 429 responses, use exponential backoff (1s, 2s, 4s, up to 30s).
 4. **Progress**: report status every 25 items (e.g., "Migrated 75/847 items...").

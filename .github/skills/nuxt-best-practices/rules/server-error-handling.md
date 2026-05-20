@@ -14,15 +14,15 @@ Use Nuxt's `createError` utility for all API errors. It provides consistent erro
 ```typescript
 // ❌ WRONG - Inconsistent error handling
 export default defineEventHandler(async (event) => {
-  const user = await getUser(event)
-  
+  const user = await getUser(event);
+
   if (!user) {
-    throw new Error('User not found')  // Generic 500 error
+    throw new Error("User not found"); // Generic 500 error
   }
-  
+
   // Or worse
-  return { error: 'Not found', status: 404 }  // Inconsistent format
-})
+  return { error: "Not found", status: 404 }; // Inconsistent format
+});
 ```
 
 **Correct (using createError):**
@@ -30,19 +30,19 @@ export default defineEventHandler(async (event) => {
 ```typescript
 // ✅ CORRECT - server/api/users/[id].get.ts
 export default defineEventHandler(async (event) => {
-  const { id } = getRouterParams(event)
-  const user = await getUser(id)
-  
+  const { id } = getRouterParams(event);
+  const user = await getUser(id);
+
   if (!user) {
     throw createError({
       statusCode: 404,
-      statusMessage: 'Not Found',
-      message: `User with ID ${id} not found`
-    })
+      statusMessage: "Not Found",
+      message: `User with ID ${id} not found`,
+    });
   }
-  
-  return user
-})
+
+  return user;
+});
 ```
 
 **Common error patterns:**
@@ -51,58 +51,58 @@ export default defineEventHandler(async (event) => {
 // 400 Bad Request - Invalid input
 throw createError({
   statusCode: 400,
-  statusMessage: 'Bad Request',
-  message: 'Invalid email format',
+  statusMessage: "Bad Request",
+  message: "Invalid email format",
   data: {
-    field: 'email',
-    reason: 'Must be a valid email address'
-  }
-})
+    field: "email",
+    reason: "Must be a valid email address",
+  },
+});
 
 // 401 Unauthorized - Not authenticated
 throw createError({
   statusCode: 401,
-  statusMessage: 'Unauthorized',
-  message: 'Authentication required'
-})
+  statusMessage: "Unauthorized",
+  message: "Authentication required",
+});
 
 // 403 Forbidden - Not authorized
 throw createError({
   statusCode: 403,
-  statusMessage: 'Forbidden',
-  message: 'You do not have permission to access this resource'
-})
+  statusMessage: "Forbidden",
+  message: "You do not have permission to access this resource",
+});
 
 // 404 Not Found
 throw createError({
   statusCode: 404,
-  statusMessage: 'Not Found',
-  message: 'Resource not found'
-})
+  statusMessage: "Not Found",
+  message: "Resource not found",
+});
 
 // 409 Conflict - Duplicate
 throw createError({
   statusCode: 409,
-  statusMessage: 'Conflict',
-  message: 'Email already registered'
-})
+  statusMessage: "Conflict",
+  message: "Email already registered",
+});
 
 // 422 Unprocessable Entity - Validation
 throw createError({
   statusCode: 422,
-  statusMessage: 'Unprocessable Entity',
-  message: 'Validation failed',
+  statusMessage: "Unprocessable Entity",
+  message: "Validation failed",
   data: {
-    errors: validationErrors
-  }
-})
+    errors: validationErrors,
+  },
+});
 
 // 500 Internal Server Error
 throw createError({
   statusCode: 500,
-  statusMessage: 'Internal Server Error',
-  message: 'An unexpected error occurred'
-})
+  statusMessage: "Internal Server Error",
+  message: "An unexpected error occurred",
+});
 ```
 
 **Error response helper:**
@@ -112,58 +112,60 @@ throw createError({
 export function notFound(resource: string, id?: string) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'Not Found',
-    message: id ? `${resource} with ID ${id} not found` : `${resource} not found`
-  })
+    statusMessage: "Not Found",
+    message: id
+      ? `${resource} with ID ${id} not found`
+      : `${resource} not found`,
+  });
 }
 
-export function unauthorized(message = 'Authentication required') {
+export function unauthorized(message = "Authentication required") {
   throw createError({
     statusCode: 401,
-    statusMessage: 'Unauthorized',
-    message
-  })
+    statusMessage: "Unauthorized",
+    message,
+  });
 }
 
-export function forbidden(message = 'Permission denied') {
+export function forbidden(message = "Permission denied") {
   throw createError({
     statusCode: 403,
-    statusMessage: 'Forbidden',
-    message
-  })
+    statusMessage: "Forbidden",
+    message,
+  });
 }
 
 export function badRequest(message: string, data?: unknown) {
   throw createError({
     statusCode: 400,
-    statusMessage: 'Bad Request',
+    statusMessage: "Bad Request",
     message,
-    data
-  })
+    data,
+  });
 }
 ```
 
 ```typescript
 // Usage in handlers
 export default defineEventHandler(async (event) => {
-  const user = await getUser(id)
-  if (!user) notFound('User', id)
-  
-  if (!canAccess(user)) forbidden()
-  
-  return user
-})
+  const user = await getUser(id);
+  if (!user) notFound("User", id);
+
+  if (!canAccess(user)) forbidden();
+
+  return user;
+});
 ```
 
 **Client-side error handling:**
 
 ```vue
 <script setup>
-const { data, error } = await useFetch('/api/users/123')
+const { data, error } = await useFetch("/api/users/123");
 
 if (error.value) {
   // error.value has shape: { statusCode, statusMessage, message, data }
-  console.error(error.value.message)
+  console.error(error.value.message);
 }
 </script>
 ```

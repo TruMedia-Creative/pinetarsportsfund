@@ -1,6 +1,6 @@
 ---
 name: integrate-context-matic
-description: 'Discovers and integrates third-party APIs using the context-matic MCP server. Uses `fetch_api` to find available API SDKs, `ask` for integration guidance, `model_search` and `endpoint_search` for SDK details. Use when the user asks to integrate a third-party API, add an API client, implement features with an external API, or work with any third-party API or SDK.'
+description: "Discovers and integrates third-party APIs using the context-matic MCP server. Uses `fetch_api` to find available API SDKs, `ask` for integration guidance, `model_search` and `endpoint_search` for SDK details. Use when the user asks to integrate a third-party API, add an API client, implement features with an external API, or work with any third-party API or SDK."
 ---
 
 # API Integration
@@ -10,6 +10,7 @@ When the user asks to integrate a third-party API or implement anything involvin
 ## When to Apply
 
 Apply this skill when the user:
+
 - Asks to integrate a third-party API
 - Wants to add a client or SDK for an external service
 - Requests implementation that depends on an external API
@@ -23,15 +24,15 @@ Apply this skill when the user:
 
 Before checking for guidelines or skills, identify the project's primary programming language by inspecting the workspace:
 
-| File / Pattern | Language |
-|---|---|
-| `*.csproj`, `*.sln` | `csharp` |
+| File / Pattern                                        | Language     |
+| ----------------------------------------------------- | ------------ |
+| `*.csproj`, `*.sln`                                   | `csharp`     |
 | `package.json` with `"typescript"` dep or `.ts` files | `typescript` |
-| `requirements.txt`, `pyproject.toml`, `*.py` | `python` |
-| `go.mod`, `*.go` | `go` |
-| `pom.xml`, `build.gradle`, `*.java` | `java` |
-| `Gemfile`, `*.rb` | `ruby` |
-| `composer.json`, `*.php` | `php` |
+| `requirements.txt`, `pyproject.toml`, `*.py`          | `python`     |
+| `go.mod`, `*.go`                                      | `go`         |
+| `pom.xml`, `build.gradle`, `*.java`                   | `java`       |
+| `Gemfile`, `*.rb`                                     | `ruby`       |
+| `composer.json`, `*.php`                              | `php`        |
 
 Use the detected language in all subsequent steps wherever `language` is required.
 
@@ -59,6 +60,7 @@ Call **fetch_api** to find available APIs — always start here.
 - Extract the correct `key` for the user's requested API before proceeding. This key will be used for all subsequent tool calls related to that API.
 
 **If the requested API is not in the list:**
+
 - Inform the user that the API is not currently available in this plugin (context-matic) and stop.
 - Request guidance from user on how to proceed with the API's integration.
 
@@ -83,13 +85,13 @@ These tools return definitions only — they do not call APIs or generate code.
 
 Call **update_activity** (with the appropriate `milestone`) whenever one of these is **concretely reached in code or infrastructure** — not merely mentioned or planned:
 
-| Milestone | When to pass it |
-|---|---|
-| `sdk_setup` | SDK package is installed in the project (e.g. `npm install`, `pip install`, `go get` has run and succeeded). |
-| `auth_configured` | API credentials are explicitly written into the project's runtime environment (e.g. present in a `.env` file, secrets manager, or config file) **and** referenced in actual code. |
-| `first_call_made` | First API call code written and executed |
-| `error_encountered` | Developer reports a bug, error response, or failing call |
-| `error_resolved` | Fix applied and API call confirmed working |
+| Milestone           | When to pass it                                                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sdk_setup`         | SDK package is installed in the project (e.g. `npm install`, `pip install`, `go get` has run and succeeded).                                                                      |
+| `auth_configured`   | API credentials are explicitly written into the project's runtime environment (e.g. present in a `.env` file, secrets manager, or config file) **and** referenced in actual code. |
+| `first_call_made`   | First API call code written and executed                                                                                                                                          |
+| `error_encountered` | Developer reports a bug, error response, or failing call                                                                                                                          |
+| `error_resolved`    | Fix applied and API call confirmed working                                                                                                                                        |
 
 ## Checklist
 

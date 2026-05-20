@@ -18,18 +18,18 @@
 
 ### FIND-[FILL: NN]: [FILL: title]
 
-| Attribute | Value |
-|-----------|-------|
-| SDL Bugbar Severity | [FILL: Critical / Important / Moderate / Low] |
-| CVSS 4.0 | [FILL: N.N] (CVSS:4.0/[FILL: full vector starting with AV:]) |
-| CWE | [CWE-[FILL: NNN]](https://cwe.mitre.org/data/definitions/[FILL: NNN].html): [FILL: weakness name] |
-| OWASP | A[FILL: NN]:2025 – [FILL: category name] |
-| Exploitation Prerequisites | [FILL: text or "None"] |
-| Exploitability Tier | Tier [FILL: 1/2/3] — [FILL: tier description] |
-| Remediation Effort | [FILL: Low / Medium / High] |
-| Mitigation Type | [FILL: Redesign / Standard Mitigation / Custom Mitigation / Existing Control / Accept Risk / Transfer Risk] |
-| Component | [FILL: component name] |
-| Related Threats | [T[FILL: NN].[FILL: X]](2-stride-analysis.md#[FILL: component-anchor]), [T[FILL: NN].[FILL: X]](2-stride-analysis.md#[FILL: component-anchor]) |
+| Attribute                  | Value                                                                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| SDL Bugbar Severity        | [FILL: Critical / Important / Moderate / Low]                                                                                                  |
+| CVSS 4.0                   | [FILL: N.N] (CVSS:4.0/[FILL: full vector starting with AV:])                                                                                   |
+| CWE                        | [CWE-[FILL: NNN]](https://cwe.mitre.org/data/definitions/[FILL: NNN].html): [FILL: weakness name]                                              |
+| OWASP                      | A[FILL: NN]:2025 – [FILL: category name]                                                                                                       |
+| Exploitation Prerequisites | [FILL: text or "None"]                                                                                                                         |
+| Exploitability Tier        | Tier [FILL: 1/2/3] — [FILL: tier description]                                                                                                  |
+| Remediation Effort         | [FILL: Low / Medium / High]                                                                                                                    |
+| Mitigation Type            | [FILL: Redesign / Standard Mitigation / Custom Mitigation / Existing Control / Accept Risk / Transfer Risk]                                    |
+| Component                  | [FILL: component name]                                                                                                                         |
+| Related Threats            | [T[FILL: NN].[FILL: X]](2-stride-analysis.md#[FILL: component-anchor]), [T[FILL: NN].[FILL: X]](2-stride-analysis.md#[FILL: component-anchor]) |
 
 <!-- ⛔ POST-FINDING CHECK: Verify this finding IMMEDIATELY:
   1. ALL 10 attribute rows present (SDL Bugbar Severity through Related Threats)
@@ -68,7 +68,7 @@
 
 [END-REPEAT]
 [CONDITIONAL-EMPTY: If no Tier 1 findings, include this line instead of the REPEAT block]
-*No Tier 1 findings identified for this repository.*
+_No Tier 1 findings identified for this repository._
 [END-CONDITIONAL-EMPTY]
 
 ---
@@ -79,18 +79,18 @@
 
 ### FIND-[FILL: NN]: [FILL: title]
 
-| Attribute | Value |
-|-----------|-------|
-| SDL Bugbar Severity | [FILL] |
-| CVSS 4.0 | [FILL] (CVSS:4.0/[FILL]) |
-| CWE | [CWE-[FILL]](https://cwe.mitre.org/data/definitions/[FILL].html): [FILL] |
-| OWASP | A[FILL]:2025 – [FILL] |
-| Exploitation Prerequisites | [FILL] |
-| Exploitability Tier | Tier [FILL] — [FILL] |
-| Remediation Effort | [FILL] |
-| Mitigation Type | [FILL] |
-| Component | [FILL] |
-| Related Threats | [FILL] |
+| Attribute                  | Value                                                                    |
+| -------------------------- | ------------------------------------------------------------------------ |
+| SDL Bugbar Severity        | [FILL]                                                                   |
+| CVSS 4.0                   | [FILL] (CVSS:4.0/[FILL])                                                 |
+| CWE                        | [CWE-[FILL]](https://cwe.mitre.org/data/definitions/[FILL].html): [FILL] |
+| OWASP                      | A[FILL]:2025 – [FILL]                                                    |
+| Exploitation Prerequisites | [FILL]                                                                   |
+| Exploitability Tier        | Tier [FILL] — [FILL]                                                     |
+| Remediation Effort         | [FILL]                                                                   |
+| Mitigation Type            | [FILL]                                                                   |
+| Component                  | [FILL]                                                                   |
+| Related Threats            | [FILL]                                                                   |
 
 #### Description
 
@@ -112,7 +112,7 @@
 
 [END-REPEAT]
 [CONDITIONAL-EMPTY: If no Tier 2 findings, include this line instead of the REPEAT block]
-*No Tier 2 findings identified for this repository.*
+_No Tier 2 findings identified for this repository._
 [END-CONDITIONAL-EMPTY]
 
 ---
@@ -123,18 +123,18 @@
 
 ### FIND-[FILL: NN]: [FILL: title]
 
-| Attribute | Value |
-|-----------|-------|
-| SDL Bugbar Severity | [FILL] |
-| CVSS 4.0 | [FILL] (CVSS:4.0/[FILL]) |
-| CWE | [CWE-[FILL]](https://cwe.mitre.org/data/definitions/[FILL].html): [FILL] |
-| OWASP | A[FILL]:2025 – [FILL] |
-| Exploitation Prerequisites | [FILL] |
-| Exploitability Tier | Tier [FILL] — [FILL] |
-| Remediation Effort | [FILL] |
-| Mitigation Type | [FILL] |
-| Component | [FILL] |
-| Related Threats | [FILL] |
+| Attribute                  | Value                                                                    |
+| -------------------------- | ------------------------------------------------------------------------ |
+| SDL Bugbar Severity        | [FILL]                                                                   |
+| CVSS 4.0                   | [FILL] (CVSS:4.0/[FILL])                                                 |
+| CWE                        | [CWE-[FILL]](https://cwe.mitre.org/data/definitions/[FILL].html): [FILL] |
+| OWASP                      | A[FILL]:2025 – [FILL]                                                    |
+| Exploitation Prerequisites | [FILL]                                                                   |
+| Exploitability Tier        | Tier [FILL] — [FILL]                                                     |
+| Remediation Effort         | [FILL]                                                                   |
+| Mitigation Type            | [FILL]                                                                   |
+| Component                  | [FILL]                                                                   |
+| Related Threats            | [FILL]                                                                   |
 
 #### Description
 
@@ -156,7 +156,7 @@
 
 [END-REPEAT]
 [CONDITIONAL-EMPTY: If no Tier 3 findings, include this line instead of the REPEAT block]
-*No Tier 3 findings identified for this repository.*
+_No Tier 3 findings identified for this repository._
 [END-CONDITIONAL-EMPTY]
 ```
 
@@ -168,7 +168,8 @@ At the END of `3-findings.md`, append the Threat Coverage Verification table:
 ## Threat Coverage Verification
 
 | Threat ID | Finding ID | Status |
-|-----------|------------|--------|
+| --------- | ---------- | ------ |
+
 [REPEAT: one row per threat from ALL components in 2-stride-analysis.md]
 | [FILL: T##.X] | [FILL: FIND-## or —] | [FILL: ✅ Covered (FIND-XX) / ✅ Mitigated (FIND-XX) / 🔄 Mitigated by Platform] |
 [END-REPEAT]
@@ -186,6 +187,7 @@ At the END of `3-findings.md`, append the Threat Coverage Verification table:
 ```
 
 **Fixed rules baked into this skeleton:**
+
 - Finding ID: `FIND-` prefix (never `F-`, `F01`, `Finding`)
 - Attribute names: `SDL Bugbar Severity`, `Exploitation Prerequisites`, `Exploitability Tier`, `Remediation Effort` (exact — not abbreviated)
 - CVSS: starts with `CVSS:4.0/` (never bare vector)
@@ -194,4 +196,4 @@ At the END of `3-findings.md`, append the Threat Coverage Verification table:
 - Related Threats: individual hyperlinks (never plain text)
 - Sub-sections: `#### Description`, `#### Evidence`, `#### Remediation`, `#### Verification`
 - Organized by TIER — no `## Critical Findings` or `## Mitigated` sections
-- Exactly 3 tier sections (all mandatory, even if empty with "*No Tier N findings identified.*")
+- Exactly 3 tier sections (all mandatory, even if empty with "_No Tier N findings identified._")

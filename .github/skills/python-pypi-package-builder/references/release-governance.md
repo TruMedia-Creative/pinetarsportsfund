@@ -1,6 +1,7 @@
 # Release Governance — Branching, Protection, OIDC, and Access Control
 
 ## Table of Contents
+
 1. [Branch Strategy](#1-branch-strategy)
 2. [Branch Protection Rules](#2-branch-protection-rules)
 3. [Tag-Based Release Model](#3-tag-based-release-model)
@@ -27,13 +28,13 @@ release/*     ← (optional) release preparation (e.g., release/v2.0.0)
 
 ### Rules
 
-| Rule | Why |
-|---|---|
-| No direct push to `main` | Prevent accidental breakage of the stable branch |
-| All changes via PR | Enforces review + CI before merge |
-| At least one approval required | Second pair of eyes on all changes |
-| CI must pass | Never merge broken code |
-| Only tags trigger releases | No ad-hoc publish from branch pushes |
+| Rule                           | Why                                              |
+| ------------------------------ | ------------------------------------------------ |
+| No direct push to `main`       | Prevent accidental breakage of the stable branch |
+| All changes via PR             | Enforces review + CI before merge                |
+| At least one approval required | Second pair of eyes on all changes               |
+| CI must pass                   | Never merge broken code                          |
+| Only tags trigger releases     | No ad-hoc publish from branch pushes             |
 
 ---
 
@@ -53,10 +54,10 @@ rules:
   - require_status_checks_to_pass:
       contexts:
         - "Lint, Format & Type Check"
-        - "Test (Python 3.11)"   # at minimum; add all matrix versions
-      strict: true               # branch must be up-to-date before merge
+        - "Test (Python 3.11)" # at minimum; add all matrix versions
+      strict: true # branch must be up-to-date before merge
   - restrict_pushes:
-      allowed_actors: []         # nobody — only PR merges
+      allowed_actors: [] # nobody — only PR merges
   - require_linear_history: true # prevents merge commits on main
 ```
 
@@ -69,7 +70,7 @@ rules:
       required_approving_review_count: 1
   - require_status_checks_to_pass:
       contexts: ["CI"]
-      strict: false   # less strict for the integration branch
+      strict: false # less strict for the integration branch
 ```
 
 ### Via GitHub CLI
@@ -136,17 +137,17 @@ git push origin v1.2.3          # ← ONLY the tag; not --tags (avoids pushing a
 
 Annotated tags (`git tag -a`) carry a tagger identity, date, and message — lightweight tags do
 not. `setuptools_scm` works with both, but annotated tags are safer for release governance because
-they record *who* created the tag.
+they record _who_ created the tag.
 
 ---
 
 ## 4. Role-Based Access Control
 
-| Role | What they can do |
-|---|---|
-| **Maintainer** | Create release tags, approve PRs, manage branch protection |
-| **Contributor** | Open PRs to `develop`; cannot push to `main` or create release tags |
-| **CI (GitHub Actions)** | Publish to PyPI via OIDC; cannot push code or create tags |
+| Role                    | What they can do                                                    |
+| ----------------------- | ------------------------------------------------------------------- |
+| **Maintainer**          | Create release tags, approve PRs, manage branch protection          |
+| **Contributor**         | Open PRs to `develop`; cannot push to `main` or create release tags |
+| **CI (GitHub Actions)** | Publish to PyPI via OIDC; cannot push code or create tags           |
 
 ### Implement via GitHub Teams
 
@@ -192,21 +193,21 @@ name: Publish to PyPI
 on:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+*"   # Matches v1.0.0, v2.0.0a1, v1.2.3rc1
+      - "v[0-9]+.[0-9]+.[0-9]+*" # Matches v1.0.0, v2.0.0a1, v1.2.3rc1
 
 jobs:
   publish:
     name: Build and publish
     runs-on: ubuntu-latest
-    environment: release       # Must match the PyPI Trusted Publisher environment name
+    environment: release # Must match the PyPI Trusted Publisher environment name
     permissions:
-      id-token: write          # Required for OIDC — grants a short-lived token to PyPI
+      id-token: write # Required for OIDC — grants a short-lived token to PyPI
       contents: read
 
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0       # REQUIRED for setuptools_scm
+          fetch-depth: 0 # REQUIRED for setuptools_scm
 
       - uses: actions/setup-python@v5
         with:
@@ -271,11 +272,11 @@ This stops accidental publishes from tags like `test`, `backup-old`, or `v1`.
 
 ### Regex explained
 
-| Pattern | Matches |
-|---|---|
-| `v[0-9]+\.[0-9]+\.[0-9]+` | `v1.0.0`, `v12.3.4` |
-| `(a\|b\|rc)[0-9]*` | `v1.0.0a1`, `v2.0.0rc2` |
-| `\.post[0-9]*` | `v1.0.0.post1` |
+| Pattern                   | Matches                 |
+| ------------------------- | ----------------------- |
+| `v[0-9]+\.[0-9]+\.[0-9]+` | `v1.0.0`, `v12.3.4`     |
+| `(a\|b\|rc)[0-9]*`        | `v1.0.0a1`, `v2.0.0rc2` |
+| `\.post[0-9]*`            | `v1.0.0.post1`          |
 
 ---
 
@@ -338,7 +339,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
-        continue-on-error: true   # Non-fatal; remove if you always want this to pass
+        continue-on-error: true # Non-fatal; remove if you always want this to pass
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

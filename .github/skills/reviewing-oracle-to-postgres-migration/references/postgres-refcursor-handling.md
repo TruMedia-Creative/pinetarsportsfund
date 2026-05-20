@@ -125,13 +125,13 @@ tx.Commit();
 
 ## Oracle vs. PostgreSQL Summary
 
-| Aspect | Oracle (ODP.NET) | PostgreSQL (Npgsql) |
-|--------|------------------|---------------------|
-| **Cursor return** | Result set exposed directly in data reader | Cursor name string in output parameter |
-| **Data access** | `ExecuteReader()` returns rows immediately | `ExecuteNonQuery()` → get cursor name → `FETCH ALL FROM` |
-| **Transaction** | Transparent | CALL and FETCH must share the same transaction |
-| **Multiple cursors** | Automatic | Each requires a separate `FETCH` command |
-| **Resource lifetime** | Driver-managed | Cursor is open until fetched or transaction ends |
+| Aspect                | Oracle (ODP.NET)                           | PostgreSQL (Npgsql)                                      |
+| --------------------- | ------------------------------------------ | -------------------------------------------------------- |
+| **Cursor return**     | Result set exposed directly in data reader | Cursor name string in output parameter                   |
+| **Data access**       | `ExecuteReader()` returns rows immediately | `ExecuteNonQuery()` → get cursor name → `FETCH ALL FROM` |
+| **Transaction**       | Transparent                                | CALL and FETCH must share the same transaction           |
+| **Multiple cursors**  | Automatic                                  | Each requires a separate `FETCH` command                 |
+| **Resource lifetime** | Driver-managed                             | Cursor is open until fetched or transaction ends         |
 
 ## Migration Checklist
 

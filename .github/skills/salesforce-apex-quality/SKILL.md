@@ -1,6 +1,6 @@
 ---
 name: salesforce-apex-quality
-description: 'Apex code quality guardrails for Salesforce development. Enforces bulk-safety rules (no SOQL/DML in loops), sharing model requirements, CRUD/FLS security, SOQL injection prevention, PNB test coverage (Positive / Negative / Bulk), and modern Apex idioms. Use this skill when reviewing or generating Apex classes, trigger handlers, batch jobs, or test classes to catch governor limit risks, security gaps, and quality issues before deployment.'
+description: "Apex code quality guardrails for Salesforce development. Enforces bulk-safety rules (no SOQL/DML in loops), sharing model requirements, CRUD/FLS security, SOQL injection prevention, PNB test coverage (Positive / Negative / Bulk), and modern Apex idioms. Use this skill when reviewing or generating Apex classes, trigger handlers, batch jobs, or test classes to catch governor limit risks, security gaps, and quality issues before deployment."
 ---
 
 # Salesforce Apex Quality Guardrails
@@ -38,11 +38,11 @@ Rule: if you see `[SELECT` or `Database.query`, `insert`, `update`, `delete`, `u
 
 Every class must declare its sharing intent explicitly. Undeclared sharing inherits from the caller — unpredictable behaviour.
 
-| Declaration | When to use |
-|---|---|
-| `public with sharing class Foo` | Default for all service, handler, selector, and controller classes |
-| `public without sharing class Foo` | Only when the class must run elevated (e.g. system-level logging, trigger bypass). Requires a code comment explaining why. |
-| `public inherited sharing class Foo` | Framework entry points that should respect the caller's sharing context |
+| Declaration                          | When to use                                                                                                                |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `public with sharing class Foo`      | Default for all service, handler, selector, and controller classes                                                         |
+| `public without sharing class Foo`   | Only when the class must run elevated (e.g. system-level logging, trigger bypass). Requires a code comment explaining why. |
+| `public inherited sharing class Foo` | Framework entry points that should respect the caller's sharing context                                                    |
 
 If a class does not have one of these three declarations, **add it before writing anything else**.
 
@@ -85,12 +85,12 @@ if (!allowedFields.contains(userInput)) {
 
 Prefer current language features (API 62.0 / Winter '25+):
 
-| Old pattern | Modern replacement |
-|---|---|
-| `if (obj != null) { x = obj.Field__c; }` | `x = obj?.Field__c;` |
-| `x = (y != null) ? y : defaultVal;` | `x = y ?? defaultVal;` |
-| `System.assertEquals(expected, actual)` | `Assert.areEqual(expected, actual)` |
-| `System.assert(condition)` | `Assert.isTrue(condition)` |
+| Old pattern                                      | Modern replacement                      |
+| ------------------------------------------------ | --------------------------------------- |
+| `if (obj != null) { x = obj.Field__c; }`         | `x = obj?.Field__c;`                    |
+| `x = (y != null) ? y : defaultVal;`              | `x = y ?? defaultVal;`                  |
+| `System.assertEquals(expected, actual)`          | `Assert.areEqual(expected, actual)`     |
+| `System.assert(condition)`                       | `Assert.isTrue(condition)`              |
 | `[SELECT ... WHERE ...]` with no sharing context | `[SELECT ... WHERE ... WITH USER_MODE]` |
 
 ## Step 6 — PNB Test Coverage Checklist
@@ -98,20 +98,24 @@ Prefer current language features (API 62.0 / Winter '25+):
 Every feature must be tested across all three paths. Missing any one of these is a quality failure:
 
 ### Positive Path
+
 - Expected input → expected output.
 - Assert the exact field values, record counts, or return values — not just that no exception was thrown.
 
 ### Negative Path
+
 - Invalid input, null values, empty collections, and error conditions.
 - Assert that exceptions are thrown with the correct type and message.
 - Assert that no records were mutated when the operation should have failed cleanly.
 
 ### Bulk Path
+
 - Insert/update/delete **200–251 records** in a single test transaction.
 - Assert that all records processed correctly — no partial failures from governor limits.
 - Use `Test.startTest()` / `Test.stopTest()` to isolate governor limit counters for async work.
 
 ### Test Class Rules
+
 ```apex
 @isTest(SeeAllData=false)   // Required — no exceptions without a documented reason
 private class AccountServiceTest {
@@ -145,14 +149,14 @@ private class AccountServiceTest {
 
 ## Quick Reference — Hardcoded Anti-Patterns Summary
 
-| Pattern | Action |
-|---|---|
-| SOQL inside `for` loop | Refactor: query before the loop, operate on collections |
-| DML inside `for` loop | Refactor: collect mutations, DML once after the loop |
-| Class missing sharing declaration | Add `with sharing` (or document why `without sharing`) |
-| `escape="false"` on user data (VF) | Remove — auto-escaping enforces XSS prevention |
-| Empty `catch` block | Add logging and appropriate re-throw or error handling |
-| String-concatenated SOQL with user input | Replace with bind variable or whitelist validation |
-| Test with no assertion | Add a meaningful `Assert.*` call |
-| `System.assert` / `System.assertEquals` style | Upgrade to `Assert.isTrue` / `Assert.areEqual` |
-| Hardcoded record ID (`'001...'`) | Replace with queried or inserted test record ID |
+| Pattern                                       | Action                                                  |
+| --------------------------------------------- | ------------------------------------------------------- |
+| SOQL inside `for` loop                        | Refactor: query before the loop, operate on collections |
+| DML inside `for` loop                         | Refactor: collect mutations, DML once after the loop    |
+| Class missing sharing declaration             | Add `with sharing` (or document why `without sharing`)  |
+| `escape="false"` on user data (VF)            | Remove — auto-escaping enforces XSS prevention          |
+| Empty `catch` block                           | Add logging and appropriate re-throw or error handling  |
+| String-concatenated SOQL with user input      | Replace with bind variable or whitelist validation      |
+| Test with no assertion                        | Add a meaningful `Assert.*` call                        |
+| `System.assert` / `System.assertEquals` style | Upgrade to `Assert.isTrue` / `Assert.areEqual`          |
+| Hardcoded record ID (`'001...'`)              | Replace with queried or inserted test record ID         |

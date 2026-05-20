@@ -1,6 +1,6 @@
 ---
 name: typespec-create-api-plugin
-description: 'Generate a TypeSpec API plugin with REST operations, authentication, and Adaptive Cards for Microsoft 365 Copilot'
+description: "Generate a TypeSpec API plugin with REST operations, authentication, and Adaptive Cards for Microsoft 365 Copilot"
 ---
 
 # Create TypeSpec API Plugin
@@ -12,6 +12,7 @@ Create a complete TypeSpec API plugin for Microsoft 365 Copilot that integrates 
 Generate TypeSpec files with:
 
 ### main.tsp - Agent Definition
+
 ```typescript
 import "@typespec/http";
 import "@typespec/openapi3";
@@ -36,6 +37,7 @@ namespace [AgentName] {
 ```
 
 ### actions.tsp - API Operations
+
 ```typescript
 import "@typespec/http";
 import "@microsoft/typespec-m365-copilot";
@@ -52,7 +54,7 @@ using TypeSpec.M365.Copilot.Actions;
 @server("[API_BASE_URL]", "[API Name]")
 @useAuth([AuthType]) // Optional
 namespace [APINamespace] {
-  
+
   @route("[/path]")
   @get
   @action
@@ -72,16 +74,19 @@ namespace [APINamespace] {
 Choose based on API requirements:
 
 1. **No Authentication** (Public APIs)
+
    ```typescript
    // No @useAuth decorator needed
    ```
 
 2. **API Key**
+
    ```typescript
    @useAuth(ApiKeyAuth<ApiKeyLocation.header, "X-API-Key">)
    ```
 
 3. **OAuth2**
+
    ```typescript
    @useAuth(OAuth2Auth<[{
      type: OAuth2FlowType.authorizationCode;
@@ -93,9 +98,10 @@ Choose based on API requirements:
    ```
 
 4. **Registered Auth Reference**
+
    ```typescript
    @useAuth(Auth)
-   
+
    @authReferenceId("registration-id-here")
    model Auth is ApiKeyAuth<ApiKeyLocation.header, "X-API-Key">
    ```
@@ -103,6 +109,7 @@ Choose based on API requirements:
 ## Function Capabilities
 
 ### Confirmation Dialog
+
 ```typescript
 @capabilities(#{
   confirmation: #{
@@ -117,6 +124,7 @@ Choose based on API requirements:
 ```
 
 ### Adaptive Card Response
+
 ```typescript
 @card(#{
   dataPath: "$.items",
@@ -127,6 +135,7 @@ Choose based on API requirements:
 ```
 
 ### Reasoning & Response Instructions
+
 ```typescript
 @reasoning("""
   Consider user's context when calling this operation.
@@ -152,6 +161,7 @@ Choose based on API requirements:
 ## Workflow
 
 Ask the user:
+
 1. What is the API base URL and purpose?
 2. What operations are needed (CRUD operations)?
 3. What authentication method does the API use?
@@ -159,6 +169,7 @@ Ask the user:
 5. Do responses need Adaptive Cards?
 
 Then generate:
+
 - Complete `main.tsp` with agent definition
 - Complete `actions.tsp` with API operations and models
 - Optional `cards/card.json` if Adaptive Cards are needed

@@ -24,11 +24,11 @@ def json_valid(output: str) -> bool:
 
 ## Parameter Binding
 
-| Parameter | Description |
-| --------- | ----------- |
-| `output` | Task output |
-| `input` | Example input |
-| `expected` | Expected output |
+| Parameter  | Description      |
+| ---------- | ---------------- |
+| `output`   | Task output      |
+| `input`    | Example input    |
+| `expected` | Expected output  |
 | `metadata` | Example metadata |
 
 ```python
@@ -47,14 +47,14 @@ def matches_expected(output: str, expected: dict) -> bool:
 
 ## Return Types
 
-| Return type | Result |
-| ----------- | ------ |
-| `bool` | `True` → score=1.0, label="True"; `False` → score=0.0, label="False" |
-| `float`/`int` | Used as the `score` value directly |
-| `str` (short, ≤3 words) | Used as the `label` value |
-| `str` (long, ≥4 words) | Used as the `explanation` value |
-| `dict` with `score`/`label`/`explanation` | Mapped to Score fields directly |
-| `Score` object | Used as-is |
+| Return type                               | Result                                                               |
+| ----------------------------------------- | -------------------------------------------------------------------- |
+| `bool`                                    | `True` → score=1.0, label="True"; `False` → score=0.0, label="False" |
+| `float`/`int`                             | Used as the `score` value directly                                   |
+| `str` (short, ≤3 words)                   | Used as the `label` value                                            |
+| `str` (long, ≥4 words)                    | Used as the `explanation` value                                      |
+| `dict` with `score`/`label`/`explanation` | Mapped to Score fields directly                                      |
+| `Score` object                            | Used as-is                                                           |
 
 ## Important: Code vs LLM Evaluators
 

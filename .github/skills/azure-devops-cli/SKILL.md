@@ -83,12 +83,12 @@ az artifacts       # Azure Artifacts
 
 Read the relevant reference file based on the user's task. Each file contains complete command syntax and examples for its domain.
 
-| File | When to read | Covers |
-|---|---|---|
-| `references/repos-and-prs.md` | Repos, branches, pull requests, branch policies | Repositories, Import, PRs (create/list/vote/reviewers/policies), Git refs, Branch policies |
-| `references/pipelines-and-builds.md` | Pipelines, builds, releases, artifacts | Pipelines CRUD, runs, builds, releases, artifacts download/upload |
-| `references/boards-and-iterations.md` | Work items, sprints, area paths | Work items (WIQL/create/update/relations), Area paths, Iterations, Team iterations |
-| `references/variables-and-agents.md` | Pipeline variables, agent pools | Pipeline variables, Variable groups, Pipeline folders, Agent pools/queues |
-| `references/org-and-security.md` | Projects, teams, users, permissions, wikis | Projects, Extensions, Teams, Users, Security groups/permissions, Service endpoints, Wikis, Admin |
-| `references/advanced-usage.md` | Output formatting, JMESPath queries | Output formats, JMESPath queries (basic + advanced), Global args, Common params, Git aliases |
-| `references/workflows-and-patterns.md` | Automation scripts, best practices, error handling | Common workflows, Best practices, Error handling, Scripting patterns, Real-world examples |
+| File                                   | When to read                                       | Covers                                                                                           |
+| -------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `references/repos-and-prs.md`          | Repos, branches, pull requests, branch policies    | Repositories, Import, PRs (create/list/vote/reviewers/policies), Git refs, Branch policies       |
+| `references/pipelines-and-builds.md`   | Pipelines, builds, releases, artifacts             | Pipelines CRUD, runs, builds, releases, artifacts download/upload                                |
+| `references/boards-and-iterations.md`  | Work items, sprints, area paths                    | Work items (WIQL/create/update/relations), Area paths, Iterations, Team iterations               |
+| `references/variables-and-agents.md`   | Pipeline variables, agent pools                    | Pipeline variables, Variable groups, Pipeline folders, Agent pools/queues                        |
+| `references/org-and-security.md`       | Projects, teams, users, permissions, wikis         | Projects, Extensions, Teams, Users, Security groups/permissions, Service endpoints, Wikis, Admin |
+| `references/advanced-usage.md`         | Output formatting, JMESPath queries                | Output formats, JMESPath queries (basic + advanced), Global args, Common params, Git aliases     |
+| `references/workflows-and-patterns.md` | Automation scripts, best practices, error handling | Common workflows, Best practices, Error handling, Scripting patterns, Real-world examples        |

@@ -186,14 +186,14 @@ import static org.hamcrest.Matchers.*;
 
 ## Migration to MockMvcTester
 
-| Classic MockMvc | MockMvcTester (recommended) |
-| --- | --- |
-| `@Autowired MockMvc mvc` | `@Autowired MockMvcTester mvc` |
-| `mvc.perform(get("/orders/1"))` | `mvc.get().uri("/orders/1")` |
-| `.andExpect(status().isOk())` | `.hasStatusOk()` |
+| Classic MockMvc                               | MockMvcTester (recommended)                |
+| --------------------------------------------- | ------------------------------------------ |
+| `@Autowired MockMvc mvc`                      | `@Autowired MockMvcTester mvc`             |
+| `mvc.perform(get("/orders/1"))`               | `mvc.get().uri("/orders/1")`               |
+| `.andExpect(status().isOk())`                 | `.hasStatusOk()`                           |
 | `.andExpect(jsonPath("$.status").value("X"))` | `.bodyJson().convertTo(T.class)` + AssertJ |
-| `throws Exception` on every method | No checked exception |
-| Hamcrest matchers | AssertJ fluent assertions |
+| `throws Exception` on every method            | No checked exception                       |
+| Hamcrest matchers                             | AssertJ fluent assertions                  |
 
 See [mockmvc-tester.md](mockmvc-tester.md) for the full modern API.
 

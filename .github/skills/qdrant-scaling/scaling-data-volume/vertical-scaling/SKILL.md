@@ -20,7 +20,6 @@ Use when: current node resources (RAM, CPU, disk) are insufficient, but the work
 - A single node can handle up to ~100M vectors depending on dimensions and quantization
 - For non-production workloads, which are tolerant to single-point-of-failure and don't require high availability
 
-
 ## How to Scale Vertically in Qdrant Cloud
 
 Vertical scaling is managed through the Qdrant Cloud Console.
@@ -33,7 +32,6 @@ Vertical scaling is managed through the Qdrant Cloud Console.
 
 **Important:** Scaling up is straightforward. Scaling down requires care -- if the working set no longer fits in RAM after downsizing, performance will degrade severely due to cache eviction. Always load test before scaling down.
 
-
 ## RAM Sizing Guidelines
 
 RAM is the most critical resource for Qdrant performance. Use these guidelines to right-size.
@@ -44,7 +42,6 @@ RAM is the most critical resource for Qdrant performance. Use these guidelines t
 - Add overhead for HNSW index (~20-30% of vector data), payload indexes, and WAL
 - Reserve 20% headroom for optimizer operations and OS cache
 - Monitor actual usage via Grafana/Prometheus before and after resizing [Monitoring](../../../qdrant-monitoring/SKILL.md)
-
 
 ## When Vertical Scaling Is No Longer Enough
 
@@ -58,7 +55,6 @@ Recognize these signals that it's time to go horizontal:
 - Next vertical scaling step is the largest available node size. You might need to be able to temporarily scale up to the larger node size to do batch operations or recovery. If you are already at the largest node size, you won't be able to do that.
 
 When you hit these limits, see [Horizontal Scaling](../horizontal-scaling/SKILL.md) for guidance on sharding and node planning.
-
 
 ## What NOT to Do
 

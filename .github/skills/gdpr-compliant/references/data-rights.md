@@ -11,15 +11,15 @@ Record of Processing Activities (RoPA), consent management.
 Every right MUST have a tested API endpoint or documented back-office process
 before the system goes live. Respond to verified requests within **30 calendar days**.
 
-| Right | Article | Engineering implementation |
-|---|---|---|
-| Right of access | 15 | `GET /api/v1/me/data-export` — all personal data, JSON or CSV |
-| Right to rectification | 16 | `PUT /api/v1/me/profile` — propagate to all downstream stores |
-| Right to erasure | 17 | `DELETE /api/v1/me` — scrub all stores per erasure checklist |
-| Right to restriction | 18 | `ProcessingRestricted` flag on user record; gate non-essential processing |
-| Right to portability | 20 | Same as access endpoint; structured, machine-readable (JSON) |
-| Right to object | 21 | Opt-out endpoint for legitimate-interest processing; honor immediately |
-| Automated decision-making | 22 | Expose a human review path + explanation of the logic |
+| Right                     | Article | Engineering implementation                                                |
+| ------------------------- | ------- | ------------------------------------------------------------------------- |
+| Right of access           | 15      | `GET /api/v1/me/data-export` — all personal data, JSON or CSV             |
+| Right to rectification    | 16      | `PUT /api/v1/me/profile` — propagate to all downstream stores             |
+| Right to erasure          | 17      | `DELETE /api/v1/me` — scrub all stores per erasure checklist              |
+| Right to restriction      | 18      | `ProcessingRestricted` flag on user record; gate non-essential processing |
+| Right to portability      | 20      | Same as access endpoint; structured, machine-readable (JSON)              |
+| Right to object           | 21      | Opt-out endpoint for legitimate-interest processing; honor immediately    |
+| Automated decision-making | 22      | Expose a human review path + explanation of the logic                     |
 
 ### Erasure Checklist — MUST cover all stores
 
@@ -61,6 +61,7 @@ When `DELETE /api/v1/me` is called, the erasure pipeline MUST scrub:
 ### DSR Tracker (back-office)
 
 Implement a **Data Subject Request tracker** with:
+
 - Incoming request date
 - Request type (access / rectification / erasure / portability / restriction / objection)
 - Verification status (identity confirmed y/n)
@@ -97,14 +98,14 @@ Update with **every** new feature that introduces a processing activity.
 
 ### Legal basis options (Art. 6)
 
-| Basis | When to use |
-|---|---|
-| `Contract (6(1)(b))` | Processing necessary to fulfill the service contract |
+| Basis                           | When to use                                                     |
+| ------------------------------- | --------------------------------------------------------------- |
+| `Contract (6(1)(b))`            | Processing necessary to fulfill the service contract            |
 | `Legitimate interest (6(1)(f))` | Fraud prevention, security, analytics (requires balancing test) |
-| `Consent (6(1)(a))` | Marketing, non-essential cookies, optional profiling |
-| `Legal obligation (6(1)(c))` | Tax records, anti-money-laundering |
-| `Vital interest (6(1)(d))` | Emergency situations only |
-| `Public task (6(1)(e))` | Public authorities |
+| `Consent (6(1)(a))`             | Marketing, non-essential cookies, optional profiling            |
+| `Legal obligation (6(1)(c))`    | Tax records, anti-money-laundering                              |
+| `Vital interest (6(1)(d))`      | Emergency situations only                                       |
+| `Public task (6(1)(e))`         | Public authorities                                              |
 
 ---
 
@@ -148,15 +149,15 @@ that touches personal data.
 
 Minimum fields per sub-processor:
 
-| Field | Example |
-|---|---|
-| Name | Brevo |
-| Service | Transactional email |
+| Field                       | Example                            |
+| --------------------------- | ---------------------------------- |
+| Name                        | Brevo                              |
+| Service                     | Transactional email                |
 | Data categories transferred | Email address, name, email content |
-| Processing location | EU (Paris) |
-| DPA signed |  2024-01-10 |
-| DPA URL / reference | [link] |
-| SCCs applicable | N/A (EU-based) |
+| Processing location         | EU (Paris)                         |
+| DPA signed                  | 2024-01-10                         |
+| DPA URL / reference         | [link]                             |
+| SCCs applicable             | N/A (EU-based)                     |
 
 **MUST** review the sub-processor list annually and upon any change.
 **MUST NOT** allow data to flow to a new sub-processor before a DPA is signed.

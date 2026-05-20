@@ -8,8 +8,8 @@ Deterministic evaluators without LLM. Fast, cheap, reproducible.
 import { createEvaluator } from "@arizeai/phoenix-evals";
 
 const containsCitation = createEvaluator<{ output: string }>(
-  ({ output }) => /\[\d+\]/.test(output) ? 1 : 0,
-  { name: "contains_citation", kind: "CODE" }
+  ({ output }) => (/\[\d+\]/.test(output) ? 1 : 0),
+  { name: "contains_citation", kind: "CODE" },
 );
 ```
 

@@ -17,11 +17,11 @@ Error analysis suggests model problem?
 
 ## Judge Model Selection
 
-| Principle | Action |
-| --------- | ------ |
-| Start capable | Use gpt-4o first |
+| Principle      | Action                             |
+| -------------- | ---------------------------------- |
+| Start capable  | Use gpt-4o first                   |
 | Optimize later | Test cheaper after criteria stable |
-| Same model OK | Judge does different task |
+| Same model OK  | Judge does different task          |
 
 ```python
 # Start with capable model

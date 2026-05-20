@@ -68,12 +68,12 @@ components/
 
 **Naming Convention Table:**
 
-| Path | Component Usage | Notes |
-|------|-----------------|-------|
-| `Button.vue` | `<Button />` | Root level |
-| `ui/Button.vue` | `<UiButton />` | Folder prefix |
-| `ui/form/Input.vue` | `<UiFormInput />` | Nested folders |
-| `dashboard/cards/Stats.vue` | `<DashboardCardsStats />` | Deep nesting |
+| Path                        | Component Usage           | Notes          |
+| --------------------------- | ------------------------- | -------------- |
+| `Button.vue`                | `<Button />`              | Root level     |
+| `ui/Button.vue`             | `<UiButton />`            | Folder prefix  |
+| `ui/form/Input.vue`         | `<UiFormInput />`         | Nested folders |
+| `dashboard/cards/Stats.vue` | `<DashboardCardsStats />` | Deep nesting   |
 
 **For shared/global components:**
 
@@ -92,12 +92,12 @@ export default defineNuxtConfig({
   components: {
     dirs: [
       {
-        path: '~/components/ui',
-        prefix: '' // No prefix for UI components
-      }
-    ]
-  }
-})
+        path: "~/components/ui",
+        prefix: "", // No prefix for UI components
+      },
+    ],
+  },
+});
 ```
 
 Reference: [Nuxt Components Directory](https://nuxt.com/docs/guide/directory-structure/components)

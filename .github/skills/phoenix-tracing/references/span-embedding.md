@@ -6,22 +6,23 @@ EMBEDDING spans represent vector generation operations (text-to-vector conversio
 
 ## Required Attributes
 
-| Attribute | Type | Description | Required |
-|-----------|------|-------------|----------|
-| `openinference.span.kind` | String | Must be "EMBEDDING" | Yes |
-| `embedding.model_name` | String | Embedding model identifier | Recommended |
+| Attribute                 | Type   | Description                | Required    |
+| ------------------------- | ------ | -------------------------- | ----------- |
+| `openinference.span.kind` | String | Must be "EMBEDDING"        | Yes         |
+| `embedding.model_name`    | String | Embedding model identifier | Recommended |
 
 ## Attribute Reference
 
 ### Single Embedding
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `embedding.model_name` | String | Embedding model identifier |
-| `embedding.text` | String | Input text to embed |
-| `embedding.vector` | String (JSON array) | Generated embedding vector |
+| Attribute              | Type                | Description                |
+| ---------------------- | ------------------- | -------------------------- |
+| `embedding.model_name` | String              | Embedding model identifier |
+| `embedding.text`       | String              | Input text to embed        |
+| `embedding.vector`     | String (JSON array) | Generated embedding vector |
 
 **Example:**
+
 ```json
 {
   "embedding.model_name": "text-embedding-ada-002",
@@ -32,12 +33,13 @@ EMBEDDING spans represent vector generation operations (text-to-vector conversio
 
 ### Batch Embeddings
 
-| Attribute Pattern | Type | Description |
-|-------------------|------|-------------|
-| `embedding.embeddings.{i}.embedding.text` | String | Text at index i |
+| Attribute Pattern                           | Type                | Description       |
+| ------------------------------------------- | ------------------- | ----------------- |
+| `embedding.embeddings.{i}.embedding.text`   | String              | Text at index i   |
 | `embedding.embeddings.{i}.embedding.vector` | String (JSON array) | Vector at index i |
 
 **Example:**
+
 ```json
 {
   "embedding.model_name": "text-embedding-ada-002",
@@ -51,11 +53,13 @@ EMBEDDING spans represent vector generation operations (text-to-vector conversio
 ### Vector Format
 
 Vectors stored as JSON array strings:
+
 - Dimensions: Typically 384, 768, 1536, or 3072
 - Format: `"[0.123, -0.456, 0.789, ...]"`
 - Precision: Usually 3-6 decimal places
 
 **Storage Considerations:**
+
 - Large vectors can significantly increase trace size
 - Consider omitting vectors in production (keep `embedding.text` for debugging)
 - Use separate vector database for actual similarity search

@@ -75,20 +75,20 @@ Only include connections that the definition actually uses.
 
 ## Common Connector API IDs
 
-| Service | API ID |
-|---|---|
-| SharePoint Online | `/providers/Microsoft.PowerApps/apis/shared_sharepointonline` |
-| Office 365 Outlook | `/providers/Microsoft.PowerApps/apis/shared_office365` |
-| Microsoft Teams | `/providers/Microsoft.PowerApps/apis/shared_teams` |
-| OneDrive for Business | `/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness` |
-| Azure AD | `/providers/Microsoft.PowerApps/apis/shared_azuread` |
-| HTTP with Azure AD | `/providers/Microsoft.PowerApps/apis/shared_webcontents` |
-| SQL Server | `/providers/Microsoft.PowerApps/apis/shared_sql` |
-| Dataverse | `/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps` |
-| Azure Blob Storage | `/providers/Microsoft.PowerApps/apis/shared_azureblob` |
-| Approvals | `/providers/Microsoft.PowerApps/apis/shared_approvals` |
-| Office 365 Users | `/providers/Microsoft.PowerApps/apis/shared_office365users` |
-| Flow Management | `/providers/Microsoft.PowerApps/apis/shared_flowmanagement` |
+| Service               | API ID                                                                |
+| --------------------- | --------------------------------------------------------------------- |
+| SharePoint Online     | `/providers/Microsoft.PowerApps/apis/shared_sharepointonline`         |
+| Office 365 Outlook    | `/providers/Microsoft.PowerApps/apis/shared_office365`                |
+| Microsoft Teams       | `/providers/Microsoft.PowerApps/apis/shared_teams`                    |
+| OneDrive for Business | `/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness`      |
+| Azure AD              | `/providers/Microsoft.PowerApps/apis/shared_azuread`                  |
+| HTTP with Azure AD    | `/providers/Microsoft.PowerApps/apis/shared_webcontents`              |
+| SQL Server            | `/providers/Microsoft.PowerApps/apis/shared_sql`                      |
+| Dataverse             | `/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps` |
+| Azure Blob Storage    | `/providers/Microsoft.PowerApps/apis/shared_azureblob`                |
+| Approvals             | `/providers/Microsoft.PowerApps/apis/shared_approvals`                |
+| Office 365 Users      | `/providers/Microsoft.PowerApps/apis/shared_office365users`           |
+| Flow Management       | `/providers/Microsoft.PowerApps/apis/shared_flowmanagement`           |
 
 ---
 

@@ -35,7 +35,7 @@ class UserList extends React.Component {
     super(props);
     // Existing state merged with componentWillMount state:
     this.state = {
-      ...this.existingState,  // whatever was already here
+      ...this.existingState, // whatever was already here
       items: [],
       loading: false,
       page: 1,
@@ -57,8 +57,8 @@ class UserDashboard extends React.Component {
   componentWillMount() {
     this.subscription = this.props.eventBus.subscribe(this.handleEvent);
     fetch(`/api/users/${this.props.userId}`)
-      .then(r => r.json())
-      .then(user => this.setState({ user, loading: false }));
+      .then((r) => r.json())
+      .then((user) => this.setState({ user, loading: false }));
     this.setState({ loading: true });
   }
 }
@@ -77,8 +77,8 @@ class UserDashboard extends React.Component {
     // All side effects move here - runs after first render
     this.subscription = this.props.eventBus.subscribe(this.handleEvent);
     fetch(`/api/users/${this.props.userId}`)
-      .then(r => r.json())
-      .then(user => this.setState({ user, loading: false }));
+      .then((r) => r.json())
+      .then((user) => this.setState({ user, loading: false }));
   }
 
   componentWillUnmount() {

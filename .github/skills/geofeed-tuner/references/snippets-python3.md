@@ -8,24 +8,24 @@
 
 - Use the [convenience factory functions in `ipaddress`](https://docs.python.org/3/library/ipaddress.html#convenience-factory-functions).
 
-    The following `ipaddress.ip_address(textAddress)` examples parse text into `IPv4Address` and `IPv6Address` objects, respectively:
+  The following `ipaddress.ip_address(textAddress)` examples parse text into `IPv4Address` and `IPv6Address` objects, respectively:
 
-    ```python
-    ipaddress.ip_address('192.168.0.1')
-    ipaddress.ip_address('2001:db8::')
-    ```
+  ```python
+  ipaddress.ip_address('192.168.0.1')
+  ipaddress.ip_address('2001:db8::')
+  ```
 
-    The following `ipaddress.ip_network(address, strict=True)` example parses a subnet string and returns an `IPv4Network` or `IPv6Network` object, failing on invalid input:
+  The following `ipaddress.ip_network(address, strict=True)` example parses a subnet string and returns an `IPv4Network` or `IPv6Network` object, failing on invalid input:
 
-    ```python
-    ipaddress.ip_network('192.168.0.0/28', strict=True)
-    ```
+  ```python
+  ipaddress.ip_network('192.168.0.0/28', strict=True)
+  ```
 
-    The following strict-mode call fails (correctly) with `ValueError: 192.168.0.1/30 has host bits set`. Ask the user to fix such errors; do not guess corrections:
+  The following strict-mode call fails (correctly) with `ValueError: 192.168.0.1/30 has host bits set`. Ask the user to fix such errors; do not guess corrections:
 
-    ```python
-    ipaddress.ip_network('192.168.0.1/30', strict=True)
-    ```
+  ```python
+  ipaddress.ip_network('192.168.0.1/30', strict=True)
+  ```
 
 - Use the strict-form parser [`ipaddress.ip_network(address, strict=True)`](https://docs.python.org/3/library/ipaddress.html#ipaddress.ip_network).
 
@@ -42,7 +42,7 @@ import ipaddress
 
 def is_non_public(network):
     """Check if a network is non-public (private, loopback, link-local, multicast, or reserved).
-    
+
     Note: In Python < 3.11, is_private may incorrectly flag some ranges
     (e.g., 100.64.0.0/10 CGNAT space). Use is_global as the primary check
     when available, with fallbacks for edge cases.

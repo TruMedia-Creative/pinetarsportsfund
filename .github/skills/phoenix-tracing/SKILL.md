@@ -117,10 +117,11 @@ references/*-typescript.md      # TypeScript implementations
 ```
 
 **Reading Order:**
+
 1. Start with setup-{lang} for your language
 2. Choose instrumentation-auto-{lang} OR instrumentation-manual-{lang}
 3. Reference span-{type} files as needed for specific operations
-4. See fundamentals-* files for attribute specifications
+4. See fundamentals-\* files for attribute specifications
 
 ## References
 

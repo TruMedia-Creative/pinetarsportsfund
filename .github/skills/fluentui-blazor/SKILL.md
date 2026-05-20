@@ -46,6 +46,7 @@ builder.Services.AddFluentUIComponents(options =>
 ```
 
 **ServiceLifetime rules:**
+
 - `ServiceLifetime.Scoped` — for Blazor Server / Interactive (default)
 - `ServiceLifetime.Singleton` — for Blazor WebAssembly standalone
 - `ServiceLifetime.Transient` — **throws `NotSupportedException`**
@@ -66,6 +67,7 @@ Usage with a `@using` alias:
 ```
 
 Pattern: `Icons.[Variant].[Size].[Name]`
+
 - Variants: `Regular`, `Filled`
 - Sizes: `Size12`, `Size16`, `Size20`, `Size24`, `Size28`, `Size32`, `Size48`
 
@@ -92,6 +94,7 @@ Custom image: `Icon.FromImageUrl("/path/to/image.png")`
 ```
 
 **NOT** like this (wrong pattern):
+
 ```razor
 @* WRONG — do not use InputSelect pattern *@
 <FluentSelect @bind-Value="@selectedValue">
@@ -173,6 +176,7 @@ private async Task ShowEditDialog()
 ```
 
 For convenience dialogs:
+
 ```csharp
 await DialogService.ShowConfirmationAsync("Are you sure?", "Yes", "No");
 await DialogService.ShowSuccessAsync("Done!");

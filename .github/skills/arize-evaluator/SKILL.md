@@ -14,6 +14,7 @@ This skill covers designing, creating, and running **LLM-as-judge evaluators** o
 Proceed directly with the task — run the `ax` command you need. Do NOT check versions, env vars, or profiles upfront.
 
 If an `ax` command fails, troubleshoot based on the error:
+
 - `command not found` or version error → see references/ax-setup.md
 - `401 Unauthorized` / missing API key → run `ax profiles show` to inspect the current profile. If the profile is missing or the API key is wrong: check `.env` for `ARIZE_API_KEY` and use it to create/update the profile via references/ax-profiles.md. If `.env` has no key either, ask the user for their Arize API key (https://app.arize.com/admin > API Keys)
 - Space ID unknown → check `.env` for `ARIZE_SPACE_ID`, or run `ax spaces list -o json`, or ask the user
@@ -27,15 +28,15 @@ If an `ax` command fails, troubleshoot based on the error:
 
 An **evaluator** is an LLM-as-judge definition. It contains:
 
-| Field | Description |
-|-------|-------------|
-| **Template** | The judge prompt. Uses `{variable}` placeholders (e.g. `{input}`, `{output}`, `{context}`) that get filled in at run time via a task's column mappings. |
+| Field                      | Description                                                                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Template**               | The judge prompt. Uses `{variable}` placeholders (e.g. `{input}`, `{output}`, `{context}`) that get filled in at run time via a task's column mappings.      |
 | **Classification choices** | The set of allowed output labels (e.g. `factual` / `hallucinated`). Binary is the default and most common. Each choice can optionally carry a numeric score. |
-| **AI Integration** | Stored LLM provider credentials (OpenAI, Anthropic, Bedrock, etc.) the evaluator uses to call the judge model. |
-| **Model** | The specific judge model (e.g. `gpt-4o`, `claude-sonnet-4-5`). |
-| **Invocation params** | Optional JSON of model settings like `{"temperature": 0}`. Low temperature is recommended for reproducibility. |
-| **Optimization direction** | Whether higher scores are better (`maximize`) or worse (`minimize`). Sets how the UI renders trends. |
-| **Data granularity** | Whether the evaluator runs at the **span**, **trace**, or **session** level. Most evaluators run at the span level. |
+| **AI Integration**         | Stored LLM provider credentials (OpenAI, Anthropic, Bedrock, etc.) the evaluator uses to call the judge model.                                               |
+| **Model**                  | The specific judge model (e.g. `gpt-4o`, `claude-sonnet-4-5`).                                                                                               |
+| **Invocation params**      | Optional JSON of model settings like `{"temperature": 0}`. Low temperature is recommended for reproducibility.                                               |
+| **Optimization direction** | Whether higher scores are better (`maximize`) or worse (`minimize`). Sets how the UI renders trends.                                                         |
+| **Data granularity**       | Whether the evaluator runs at the **span**, **trace**, or **session** level. Most evaluators run at the span level.                                          |
 
 Evaluators are **versioned** — every prompt or model change creates a new immutable version. The most recent version is active.
 
@@ -43,13 +44,13 @@ Evaluators are **versioned** — every prompt or model change creates a new immu
 
 A **task** is how you run one or more evaluators against real data. Tasks are attached to a **project** (live traces/spans) or a **dataset** (experiment runs). A task contains:
 
-| Field | Description |
-|-------|-------------|
-| **Evaluators** | List of evaluators to run. You can run multiple in one task. |
+| Field               | Description                                                                                                                                                                                                     |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Evaluators**      | List of evaluators to run. You can run multiple in one task.                                                                                                                                                    |
 | **Column mappings** | Maps each evaluator's template variables to actual field paths on spans or experiment runs (e.g. `"input" → "attributes.input.value"`). This is what makes evaluators portable across projects and experiments. |
-| **Query filter** | SQL-style expression to select which spans/runs to evaluate (e.g. `"span_kind = 'LLM'"`). Optional but important for precision. |
-| **Continuous** | For project tasks: whether to automatically score new spans as they arrive. |
-| **Sampling rate** | For continuous project tasks: fraction of new spans to evaluate (0–1). |
+| **Query filter**    | SQL-style expression to select which spans/runs to evaluate (e.g. `"span_kind = 'LLM'"`). Optional but important for precision.                                                                                 |
+| **Continuous**      | For project tasks: whether to automatically score new spans as they arrive.                                                                                                                                     |
+| **Sampling rate**   | For continuous project tasks: fraction of new spans to evaluate (0–1).                                                                                                                                          |
 
 ---
 
@@ -57,11 +58,11 @@ A **task** is how you run one or more evaluators against real data. Tasks are at
 
 The `--data-granularity` flag controls what unit of data the evaluator scores. It defaults to `span` and only applies to **project tasks** (not dataset/experiment tasks — those evaluate experiment runs directly).
 
-| Level | What it evaluates | Use for | Result column prefix |
-|-------|-------------------|---------|---------------------|
-| `span` (default) | Individual spans | Q&A correctness, hallucination, relevance | `eval.{name}.label` / `.score` / `.explanation` |
-| `trace` | All spans in a trace, grouped by `context.trace_id` | Agent trajectory, task correctness — anything that needs the full call chain | `trace_eval.{name}.label` / `.score` / `.explanation` |
-| `session` | All traces in a session, grouped by `attributes.session.id` and ordered by start time | Multi-turn coherence, overall tone, conversation quality | `session_eval.{name}.label` / `.score` / `.explanation` |
+| Level            | What it evaluates                                                                     | Use for                                                                      | Result column prefix                                    |
+| ---------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `span` (default) | Individual spans                                                                      | Q&A correctness, hallucination, relevance                                    | `eval.{name}.label` / `.score` / `.explanation`         |
+| `trace`          | All spans in a trace, grouped by `context.trace_id`                                   | Agent trajectory, task correctness — anything that needs the full call chain | `trace_eval.{name}.label` / `.score` / `.explanation`   |
+| `session`        | All traces in a session, grouped by `attributes.session.id` and ordered by start time | Multi-turn coherence, overall tone, conversation quality                     | `session_eval.{name}.label` / `.score` / `.explanation` |
 
 ### How trace and session aggregation works
 
@@ -154,22 +155,22 @@ ax evaluators delete EVALUATOR_ID
 
 **Key flags for `create`:**
 
-| Flag | Required | Description |
-|------|----------|-------------|
-| `--name` | yes | Evaluator name (unique within space) |
-| `--space-id` | yes | Space to create in |
-| `--template-name` | yes | Eval column name — alphanumeric, spaces, hyphens, underscores |
-| `--commit-message` | yes | Description of this version |
-| `--ai-integration-id` | yes | AI integration ID (from above) |
-| `--model-name` | yes | Judge model (e.g. `gpt-4o`) |
-| `--template` | yes | Prompt with `{variable}` placeholders (single-quoted in bash) |
-| `--classification-choices` | yes | JSON object mapping choice labels to numeric scores e.g. `'{"correct": 1, "incorrect": 0}'` |
-| `--description` | no | Human-readable description |
-| `--include-explanations` | no | Include reasoning alongside the label |
-| `--use-function-calling` | no | Prefer structured function-call output |
-| `--invocation-params` | no | JSON of model params e.g. `'{"temperature": 0}'` |
-| `--data-granularity` | no | `span` (default), `trace`, or `session`. Only relevant for project tasks, not dataset/experiment tasks. See Data Granularity section. |
-| `--provider-params` | no | JSON object of provider-specific parameters |
+| Flag                       | Required | Description                                                                                                                           |
+| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `--name`                   | yes      | Evaluator name (unique within space)                                                                                                  |
+| `--space-id`               | yes      | Space to create in                                                                                                                    |
+| `--template-name`          | yes      | Eval column name — alphanumeric, spaces, hyphens, underscores                                                                         |
+| `--commit-message`         | yes      | Description of this version                                                                                                           |
+| `--ai-integration-id`      | yes      | AI integration ID (from above)                                                                                                        |
+| `--model-name`             | yes      | Judge model (e.g. `gpt-4o`)                                                                                                           |
+| `--template`               | yes      | Prompt with `{variable}` placeholders (single-quoted in bash)                                                                         |
+| `--classification-choices` | yes      | JSON object mapping choice labels to numeric scores e.g. `'{"correct": 1, "incorrect": 0}'`                                           |
+| `--description`            | no       | Human-readable description                                                                                                            |
+| `--include-explanations`   | no       | Include reasoning alongside the label                                                                                                 |
+| `--use-function-calling`   | no       | Prefer structured function-call output                                                                                                |
+| `--invocation-params`      | no       | JSON of model params e.g. `'{"temperature": 0}'`                                                                                      |
+| `--data-granularity`       | no       | `span` (default), `trace`, or `session`. Only relevant for project tasks, not dataset/experiment tasks. See Data Granularity section. |
+| `--provider-params`        | no       | JSON object of provider-specific parameters                                                                                           |
 
 ### Tasks
 
@@ -228,28 +229,28 @@ ax tasks cancel-run RUN_ID --force
 
 **Additional trigger-run flags:**
 
-| Flag | Description |
-|------|-------------|
-| `--max-spans` | Cap processed spans (default 10,000) |
-| `--override-evaluations` | Re-score spans that already have labels |
-| `--wait` / `-w` | Block until the run finishes |
-| `--timeout` | Seconds to wait with `--wait` (default 600) |
-| `--poll-interval` | Poll interval in seconds when waiting (default 5) |
+| Flag                     | Description                                       |
+| ------------------------ | ------------------------------------------------- |
+| `--max-spans`            | Cap processed spans (default 10,000)              |
+| `--override-evaluations` | Re-score spans that already have labels           |
+| `--wait` / `-w`          | Block until the run finishes                      |
+| `--timeout`              | Seconds to wait with `--wait` (default 600)       |
+| `--poll-interval`        | Poll interval in seconds when waiting (default 5) |
 
 **Run status guide:**
 
-| Status | Meaning |
-|--------|---------|
+| Status               | Meaning                                                   |
+| -------------------- | --------------------------------------------------------- |
 | `completed`, 0 spans | No spans in eval index for that window — widen time range |
-| `cancelled` ~1s | Integration credentials invalid |
-| `cancelled` ~3min | Found spans but LLM call failed — check model name or key |
-| `completed`, N > 0 | Success — check scores in UI |
+| `cancelled` ~1s      | Integration credentials invalid                           |
+| `cancelled` ~3min    | Found spans but LLM call failed — check model name or key |
+| `completed`, N > 0   | Success — check scores in UI                              |
 
 ---
 
 ## Workflow A: Create an evaluator for a project
 
-Use this when the user says something like *"create an evaluator for my Playground Traces project"*.
+Use this when the user says something like _"create an evaluator for my Playground Traces project"_.
 
 ### Step 1: Resolve the project name to an ID
 
@@ -278,6 +279,7 @@ Each suggestion must include: the evaluator name (bold), a one-sentence descript
 1. **Name** — Description of what is being judged. (`label_a` / `label_b`)
 
 Example:
+
 1. **Response Correctness** — Does the agent's response correctly address the user's financial query? (`correct` / `incorrect`)
 2. **Hallucination** — Does the response fabricate facts not grounded in retrieved context? (`factual` / `hallucinated`)
 
@@ -332,12 +334,12 @@ ax spans export PROJECT_ID --space-id SPACE_ID -l 5 --days 7 --stdout
 
 For each template variable (`{input}`, `{output}`, `{context}`), find the matching JSON path. Common starting points — **always verify on your actual data before using**:
 
-| Template var | LLM span | CHAIN span |
-|---|---|---|
-| `input` | `attributes.input.value` | `attributes.input.value` |
-| `output` | `attributes.llm.output_messages.0.message.content` | `attributes.output.value` |
-| `context` | `attributes.retrieval.documents.contents` | — |
-| `tool_output` | `attributes.input.value` (fallback) | `attributes.output.value` |
+| Template var  | LLM span                                           | CHAIN span                |
+| ------------- | -------------------------------------------------- | ------------------------- |
+| `input`       | `attributes.input.value`                           | `attributes.input.value`  |
+| `output`      | `attributes.llm.output_messages.0.message.content` | `attributes.output.value` |
+| `context`     | `attributes.retrieval.documents.contents`          | —                         |
+| `tool_output` | `attributes.input.value` (fallback)                | `attributes.output.value` |
 
 **Validate span kind alignment:** If the evaluator prompt assumes LLM final text but the task targets CHAIN spans (or vice versa), runs can cancel or score the wrong text. Make sure the `query_filter` on the task matches the span kind you mapped.
 
@@ -362,6 +364,7 @@ Include a mapping for **every** variable the template references. Omitting one c
 ### Step 7: Create the task
 
 **Backfill only (a):**
+
 ```bash
 ax tasks create \
   --name "Hallucination Backfill" \
@@ -372,6 +375,7 @@ ax tasks create \
 ```
 
 **Continuous only (b):**
+
 ```bash
 ax tasks create \
   --name "Hallucination Monitor" \
@@ -387,6 +391,7 @@ ax tasks create \
 ### Step 8: Trigger a backfill run (if requested)
 
 First find what time range has data:
+
 ```bash
 ax spans export PROJECT_ID --space-id SPACE_ID -l 100 --days 1 --stdout   # try last 24h first
 ax spans export PROJECT_ID --space-id SPACE_ID -l 100 --days 7 --stdout   # widen if empty
@@ -405,9 +410,10 @@ ax tasks trigger-run TASK_ID \
 
 ## Workflow B: Create an evaluator for an experiment
 
-Use this when the user says something like *"create an evaluator for my experiment"* or *"evaluate my dataset runs"*.
+Use this when the user says something like _"create an evaluator for my experiment"_ or _"evaluate my dataset runs"_.
 
 **If the user says "dataset" but doesn't have an experiment:** A task must target an experiment (not a bare dataset). Ask:
+
 > "Evaluation tasks run against experiment runs, not datasets directly. Would you like help creating an experiment on that dataset first?"
 
 If yes, use the **arize-experiment** skill to create one, then return here.
@@ -450,10 +456,12 @@ ax experiments export EXPERIMENT_ID --stdout | python3 -c "import sys,json; runs
 ```
 
 Common mapping for experiment runs:
+
 - `output` → `"output"` (top-level field on each run)
 - `input` → check if it's on the run or embedded in the linked dataset examples
 
 If `input` is not on the run JSON, export dataset examples to find the path:
+
 ```bash
 ax datasets export DATASET_ID --stdout | python3 -c "import sys,json; ex=json.load(sys.stdin); print(json.dumps(ex[0], indent=2))"
 ```
@@ -492,6 +500,7 @@ Use `{input}`, `{output}`, and `{context}` — not names tied to a specific proj
 ### 2. Default to binary labels
 
 Use exactly two clear string labels (e.g. `hallucinated` / `factual`, `correct` / `incorrect`, `pass` / `fail`). Binary labels are:
+
 - Easiest for the judge model to produce consistently
 - Most common in the industry
 - Simplest to interpret in dashboards
@@ -503,11 +512,13 @@ If the user insists on more than two choices, that's fine — but recommend bina
 The template must tell the judge model to respond with **only** the label string — nothing else. The label strings in the prompt must **exactly match** the labels in `--classification-choices` (same spelling, same casing).
 
 Good:
+
 ```
 Respond with exactly one of these labels: hallucinated, factual
 ```
 
 Bad (too open-ended):
+
 ```
 Is this hallucinated? Answer yes or no.
 ```
@@ -540,28 +551,28 @@ The labels in `--classification-choices` must exactly match the labels reference
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `ax: command not found` | See references/ax-setup.md |
-| `401 Unauthorized` | API key may not have access to this space. Verify at https://app.arize.com/admin > API Keys |
-| `Evaluator not found` | `ax evaluators list --space-id SPACE_ID` |
-| `Integration not found` | `ax ai-integrations list --space-id SPACE_ID` |
-| `Task not found` | `ax tasks list --space-id SPACE_ID` |
-| `project-id and dataset-id are mutually exclusive` | Use only one when creating a task |
-| `experiment-ids required for dataset tasks` | Add `--experiment-ids` to `create` and `trigger-run` |
-| `sampling-rate only valid for project tasks` | Remove `--sampling-rate` from dataset tasks |
-| Validation error on `ax spans export` | Pass project ID (base64), not project name — look up via `ax projects list` |
-| Template validation errors | Use single-quoted `--template '...'` in bash; single braces `{var}`, not double `{{var}}` |
-| Run stuck in `pending` | `ax tasks get-run RUN_ID`; then `ax tasks cancel-run RUN_ID` |
-| Run `cancelled` ~1s | Integration credentials invalid — check AI integration |
-| Run `cancelled` ~3min | Found spans but LLM call failed — wrong model name or bad key |
-| Run `completed`, 0 spans | Widen time window; eval index may not cover older data |
-| No scores in UI | Fix `column_mappings` to match real paths on your spans/runs |
-| Scores look wrong | Add `--include-explanations` and inspect judge reasoning on a few samples |
-| Evaluator cancels on wrong span kind | Match `query_filter` and `column_mappings` to LLM vs CHAIN spans |
-| Time format error on `trigger-run` | Use `2026-03-21T09:00:00` — no trailing `Z` |
-| Run failed: "missing rails and classification choices" | Add `--classification-choices '{"label_a": 1, "label_b": 0}'` to `ax evaluators create` — labels must match the template |
-| Run `completed`, all spans skipped | Query filter matched spans but column mappings are wrong or template variables don't resolve — export a sample span and verify paths |
+| Problem                                                | Solution                                                                                                                             |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `ax: command not found`                                | See references/ax-setup.md                                                                                                           |
+| `401 Unauthorized`                                     | API key may not have access to this space. Verify at https://app.arize.com/admin > API Keys                                          |
+| `Evaluator not found`                                  | `ax evaluators list --space-id SPACE_ID`                                                                                             |
+| `Integration not found`                                | `ax ai-integrations list --space-id SPACE_ID`                                                                                        |
+| `Task not found`                                       | `ax tasks list --space-id SPACE_ID`                                                                                                  |
+| `project-id and dataset-id are mutually exclusive`     | Use only one when creating a task                                                                                                    |
+| `experiment-ids required for dataset tasks`            | Add `--experiment-ids` to `create` and `trigger-run`                                                                                 |
+| `sampling-rate only valid for project tasks`           | Remove `--sampling-rate` from dataset tasks                                                                                          |
+| Validation error on `ax spans export`                  | Pass project ID (base64), not project name — look up via `ax projects list`                                                          |
+| Template validation errors                             | Use single-quoted `--template '...'` in bash; single braces `{var}`, not double `{{var}}`                                            |
+| Run stuck in `pending`                                 | `ax tasks get-run RUN_ID`; then `ax tasks cancel-run RUN_ID`                                                                         |
+| Run `cancelled` ~1s                                    | Integration credentials invalid — check AI integration                                                                               |
+| Run `cancelled` ~3min                                  | Found spans but LLM call failed — wrong model name or bad key                                                                        |
+| Run `completed`, 0 spans                               | Widen time window; eval index may not cover older data                                                                               |
+| No scores in UI                                        | Fix `column_mappings` to match real paths on your spans/runs                                                                         |
+| Scores look wrong                                      | Add `--include-explanations` and inspect judge reasoning on a few samples                                                            |
+| Evaluator cancels on wrong span kind                   | Match `query_filter` and `column_mappings` to LLM vs CHAIN spans                                                                     |
+| Time format error on `trigger-run`                     | Use `2026-03-21T09:00:00` — no trailing `Z`                                                                                          |
+| Run failed: "missing rails and classification choices" | Add `--classification-choices '{"label_a": 1, "label_b": 0}'` to `ax evaluators create` — labels must match the template             |
+| Run `completed`, all spans skipped                     | Query filter matched spans but column mappings are wrong or template variables don't resolve — export a sample span and verify paths |
 
 ---
 

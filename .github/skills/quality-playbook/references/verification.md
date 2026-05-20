@@ -34,7 +34,7 @@ Scan your assertions. How many are presence checks vs. value checks? If more tha
 
 ### 6. Layer Correctness
 
-For each test, ask: "Am I testing the *requirement* or the *mechanism*?" If any test only asserts that a specific error type is raised without also verifying pipeline output, it's testing the mechanism. Rewrite to test the outcome.
+For each test, ask: "Am I testing the _requirement_ or the _mechanism_?" If any test only asserts that a specific error type is raised without also verifying pipeline output, it's testing the mechanism. Rewrite to test the outcome.
 
 ### 7. Mutation Validity
 
@@ -54,6 +54,7 @@ Run the test suite using the project's test runner:
 **Check for both failures AND errors.** Most test frameworks distinguish between test failures (assertion errors) and test errors (setup failures, missing fixtures, import/resolution errors, exceptions during initialization). Both are broken tests. A common mistake: generating tests that reference shared fixtures or helpers that don't exist. These show up as setup errors, not assertion failures — but they are just as broken.
 
 After running, check:
+
 - All tests passed — count must equal total test count
 - Zero failures
 - Zero errors/setup failures

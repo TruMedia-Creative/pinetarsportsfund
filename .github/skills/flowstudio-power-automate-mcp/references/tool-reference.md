@@ -11,11 +11,11 @@ Response shapes and behavioral notes for the FlowStudio Power Automate MCP serve
 
 ## Source of Truth
 
-| Priority | Source | Covers |
-|----------|--------|--------|
-| 1 | **Real API response** | Always trust what the server actually returns |
-| 2 | **`tools/list`** | Tool names, parameter names, types, required flags |
-| 3 | **This document** | Response shapes, behavioral notes, gotchas |
+| Priority | Source                | Covers                                             |
+| -------- | --------------------- | -------------------------------------------------- |
+| 1        | **Real API response** | Always trust what the server actually returns      |
+| 2        | **`tools/list`**      | Tool names, parameter names, types, required flags |
+| 3        | **This document**     | Response shapes, behavioral notes, gotchas         |
 
 > If this document disagrees with `tools/list` or real API behavior,
 > the API wins. Update this document accordingly.
@@ -27,6 +27,7 @@ Response shapes and behavioral notes for the FlowStudio Power Automate MCP serve
 ### `list_live_environments`
 
 Response: direct array of environments.
+
 ```json
 [
   {
@@ -56,6 +57,7 @@ Same shape as `list_live_environments` but read from cache (faster).
 ### `list_live_connections`
 
 Response: wrapper object with `connections` array.
+
 ```json
 {
   "connections": [
@@ -64,7 +66,7 @@ Response: wrapper object with `connections` array.
       "displayName": "user@contoso.com",
       "connectorName": "shared_office365",
       "createdBy": "User Name",
-      "statuses": [{"status": "Connected"}],
+      "statuses": [{ "status": "Connected" }],
       "createdTime": "2024-03-12T21:23:55.206815Z"
     }
   ],
@@ -95,6 +97,7 @@ Same connection data from cache.
 ### `list_live_flows`
 
 Response: wrapper object with `flows` array.
+
 ```json
 {
   "mode": "owner",
@@ -123,6 +126,7 @@ Response: wrapper object with `flows` array.
 ### `list_store_flows`
 
 Response: **direct array** (no wrapper).
+
 ```json
 [
   {
@@ -144,6 +148,7 @@ Response: **direct array** (no wrapper).
 ### `get_store_flow`
 
 Response: single flow metadata from cache (selected fields).
+
 ```json
 {
   "id": "<environmentId>.<flowId>",
@@ -178,6 +183,7 @@ Response: single flow metadata from cache (selected fields).
 ### `get_live_flow`
 
 Response: full flow definition from PA API.
+
 ```json
 {
   "name": "<flow-guid>",
@@ -201,6 +207,7 @@ Response: full flow definition from PA API.
 **Update mode**: Provide `flowName` --- PATCHes existing flow.
 
 Response:
+
 ```json
 {
   "created": false,
@@ -230,15 +237,18 @@ Migrates a non-solution flow into a solution. Returns error if already in a solu
 ### `get_live_flow_runs`
 
 Response: direct array of runs (newest first).
+
 ```json
-[{
-  "name": "<run-id>",
-  "status": "Succeeded|Failed|Running|Cancelled",
-  "startTime": "2026-02-25T06:13:38Z",
-  "endTime": "2026-02-25T06:14:02Z",
-  "triggerName": "Recurrence",
-  "error": null
-}]
+[
+  {
+    "name": "<run-id>",
+    "status": "Succeeded|Failed|Running|Cancelled",
+    "startTime": "2026-02-25T06:13:38Z",
+    "endTime": "2026-02-25T06:14:02Z",
+    "triggerName": "Recurrence",
+    "error": null
+  }
+]
 ```
 
 > `top` defaults to **30** and auto-paginates for higher values. Set `top: 300`
@@ -250,6 +260,7 @@ Response: direct array of runs (newest first).
 ### `get_live_flow_run_error`
 
 Response: structured error breakdown for a failed run.
+
 ```json
 {
   "runName": "08584296068667933411438594643CU15",
@@ -257,7 +268,7 @@ Response: structured error breakdown for a failed run.
     {
       "actionName": "Apply_to_each_prepare_workers",
       "status": "Failed",
-      "error": {"code": "ActionFailed", "message": "An action failed."},
+      "error": { "code": "ActionFailed", "message": "An action failed." },
       "code": "ActionFailed",
       "startTime": "2026-02-25T06:13:52Z",
       "endTime": "2026-02-25T06:15:24Z"
@@ -271,9 +282,9 @@ Response: structured error breakdown for a failed run.
     }
   ],
   "allActions": [
-    {"actionName": "Apply_to_each", "status": "Skipped"},
-    {"actionName": "Compose_WeekEnd", "status": "Succeeded"},
-    {"actionName": "HTTP_find_AD_User_by_Name", "status": "Failed"}
+    { "actionName": "Apply_to_each", "status": "Skipped" },
+    { "actionName": "Compose_WeekEnd", "status": "Succeeded" },
+    { "actionName": "HTTP_find_AD_User_by_Name", "status": "Failed" }
   ]
 }
 ```
@@ -284,6 +295,7 @@ Response: structured error breakdown for a failed run.
 ### `get_live_flow_run_action_outputs`
 
 Response: array of action detail objects.
+
 ```json
 [
   {
@@ -325,6 +337,7 @@ Cancels a `Running` flow run.
 ### `get_live_flow_http_schema`
 
 Response keys:
+
 ```
 flowKey            - Flow GUID
 displayName        - Flow display name
@@ -380,6 +393,7 @@ actually needed.
 Parameters: `environmentName`, `flowName`, `state` (`"Started"` | `"Stopped"`) — all required.
 
 Response:
+
 ```json
 {
   "flowName": "6321ab25-7eb0-42df-b977-e97d34bcb272",
@@ -400,12 +414,15 @@ to the Power Clarity cache. Same parameters as `set_live_flow_state` but require
 a Power Clarity workspace.
 
 Response (different shape from `set_live_flow_state`):
+
 ```json
 {
   "flowKey": "<environmentId>.<flowId>",
   "requestedState": "Stopped",
   "currentState": "Stopped",
-  "flow": { /* full gFlows record, same shape as get_store_flow */ }
+  "flow": {
+    /* full gFlows record, same shape as get_store_flow */
+  }
 }
 ```
 
@@ -424,6 +441,7 @@ Response (different shape from `set_live_flow_state`):
 ### `get_store_flow_summary`
 
 Response: aggregated run statistics.
+
 ```json
 {
   "totalRuns": 100,
@@ -467,11 +485,13 @@ Non-obvious behaviors discovered through real API usage. These are things
 `tools/list` cannot tell you.
 
 ### `get_live_flow_run_action_outputs`
+
 - **`actionName` is optional**: omit to get all actions, provide to get one.
   This changes the response from N elements to 1 element (still an array).
 - Outputs can be 50 MB+ for bulk-data actions --- always use 120s+ timeout.
 
 ### `update_live_flow`
+
 - `description` is **always required** (create and update modes).
 - `error` key is **always present** in response --- `null` means success.
   Do NOT check `if "error" in result`; check `result.get("error") is not None`.
@@ -480,20 +500,24 @@ Non-obvious behaviors discovered through real API usage. These are things
   connectionReferences. Use `set_live_flow_state` to start/stop a flow.
 
 ### `trigger_live_flow`
+
 - **Only works for HTTP Request triggers.** Returns error for Recurrence, connector,
   and other trigger types.
 - AAD-authenticated triggers are handled automatically (impersonated Bearer token).
 
 ### `get_live_flow_runs`
+
 - `top` defaults to **30** with automatic pagination for higher values.
 - Run ID field is `name`, not `runName`. Use this value as `runName` in other tools.
 - Runs are returned newest-first.
 
 ### Teams `PostMessageToConversation` (via `update_live_flow`)
+
 - **"Chat with Flow bot"**: `body/recipient` = `"user@domain.com;"` (string with trailing semicolon).
 - **"Channel"**: `body/recipient` = `{"groupId": "...", "channelId": "..."}` (object).
 - `poster`: `"Flow bot"` for Workflows bot identity, `"User"` for user identity.
 
 ### `list_live_connections`
+
 - `id` is the value you need for `connectionName` in `connectionReferences`.
 - `connectorName` maps to apiId: `"/providers/Microsoft.PowerApps/apis/" + connectorName`.

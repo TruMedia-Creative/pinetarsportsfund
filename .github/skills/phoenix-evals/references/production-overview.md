@@ -4,12 +4,12 @@ CI/CD evals vs production monitoring - complementary approaches.
 
 ## Two Evaluation Modes
 
-| Aspect | CI/CD Evals | Production Monitoring |
-| ------ | ----------- | -------------------- |
-| **When** | Pre-deployment | Post-deployment, ongoing |
-| **Data** | Fixed dataset | Sampled traffic |
-| **Goal** | Prevent regression | Detect drift |
-| **Response** | Block deploy | Alert & analyze |
+| Aspect       | CI/CD Evals        | Production Monitoring    |
+| ------------ | ------------------ | ------------------------ |
+| **When**     | Pre-deployment     | Post-deployment, ongoing |
+| **Data**     | Fixed dataset      | Sampled traffic          |
+| **Goal**     | Prevent regression | Detect drift             |
+| **Response** | Block deploy       | Alert & analyze          |
 
 ## CI/CD Evaluations
 

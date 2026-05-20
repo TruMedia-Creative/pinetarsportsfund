@@ -500,6 +500,7 @@ CRLF:           decodeUriComponent('%0d%0a')
 ```
 
 Example — multi-line Teams or email body via `concat()`:
+
 ```json
 "Compose_Message": {
   "type": "Compose",
@@ -508,6 +509,7 @@ Example — multi-line Teams or email body via `concat()`:
 ```
 
 Example — `join()` with newline separator:
+
 ```json
 "Compose_List": {
   "type": "Compose",

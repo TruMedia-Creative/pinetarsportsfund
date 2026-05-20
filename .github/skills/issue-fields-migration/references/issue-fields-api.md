@@ -80,12 +80,12 @@ echo '[
 
 ### Value format by field type
 
-| Field Type | value format | Example |
-|-----------|-------------|---------|
-| text | String | `"value": "Some text"` |
-| single_select | Option name (string) | `"value": "High"` |
-| number | Number | `"value": 42` |
-| date | ISO 8601 date string | `"value": "2025-03-15"` |
+| Field Type    | value format         | Example                 |
+| ------------- | -------------------- | ----------------------- |
+| text          | String               | `"value": "Some text"`  |
+| single_select | Option name (string) | `"value": "High"`       |
+| number        | Number               | `"value": 42`           |
+| date          | ISO 8601 date string | `"value": "2025-03-15"` |
 
 **Key**: for `single_select`, the REST API accepts the option **name** as a string. You do not need to look up option IDs.
 

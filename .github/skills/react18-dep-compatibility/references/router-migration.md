@@ -72,16 +72,16 @@ grep -rn "history\.push\|history\.replace\|history\.go" src/ --include="*.js" --
 
 ## v5 → v6 API Changes Summary
 
-| v5 | v6 | Notes |
-|---|---|---|
-| `<Switch>` | `<Routes>` | Direct replacement |
-| `<Route path="/" component={C}>` | `<Route path="/" element={<C />}>` | element prop, not component |
-| `<Route exact path="/">` | `<Route path="/">` | exact is default in v6 |
-| `<Redirect to="/new">` | `<Navigate to="/new" />` | Component rename |
-| `useHistory()` | `useNavigate()` | Returns a function, not an object |
-| `history.push('/path')` | `navigate('/path')` | Direct call |
-| `history.replace('/path')` | `navigate('/path', { replace: true })` | Options object |
-| `useRouteMatch()` | `useMatch()` | Different return shape |
-| `match.params` | `useParams()` | Hook instead of prop |
-| Nested routes inline | Nested routes in config | Layout routes concept |
-| `withRouter` HOC | `useNavigate` / `useParams` hooks | HOC removed |
+| v5                               | v6                                     | Notes                             |
+| -------------------------------- | -------------------------------------- | --------------------------------- |
+| `<Switch>`                       | `<Routes>`                             | Direct replacement                |
+| `<Route path="/" component={C}>` | `<Route path="/" element={<C />}>`     | element prop, not component       |
+| `<Route exact path="/">`         | `<Route path="/">`                     | exact is default in v6            |
+| `<Redirect to="/new">`           | `<Navigate to="/new" />`               | Component rename                  |
+| `useHistory()`                   | `useNavigate()`                        | Returns a function, not an object |
+| `history.push('/path')`          | `navigate('/path')`                    | Direct call                       |
+| `history.replace('/path')`       | `navigate('/path', { replace: true })` | Options object                    |
+| `useRouteMatch()`                | `useMatch()`                           | Different return shape            |
+| `match.params`                   | `useParams()`                          | Hook instead of prop              |
+| Nested routes inline             | Nested routes in config                | Layout routes concept             |
+| `withRouter` HOC                 | `useNavigate` / `useParams` hooks      | HOC removed                       |

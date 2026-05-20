@@ -8,10 +8,10 @@
 
 ## Key commands
 
-| Command | What it does |
-|---------|-------------|
-| `/mcp` | List connected MCP servers |
-| `/mcp add <name> <command>` | Add a new MCP server |
+| Command                     | What it does               |
+| --------------------------- | -------------------------- |
+| `/mcp`                      | List connected MCP servers |
+| `/mcp add <name> <command>` | Add a new MCP server       |
 
 ## Popular MCP servers
 
@@ -23,10 +23,10 @@
 
 ## Configuration
 
-| Level | File |
-|-------|------|
-| User | `~/.copilot/mcp-config.json` |
-| Project | `.github/mcp-config.json` |
+| Level   | File                         |
+| ------- | ---------------------------- |
+| User    | `~/.copilot/mcp-config.json` |
+| Project | `.github/mcp-config.json`    |
 
 ## Config file format
 

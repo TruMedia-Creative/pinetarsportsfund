@@ -7,7 +7,6 @@ description: "Diagnoses Qdrant production issues using metrics and observability
 
 First check optimizer status. Most production issues trace back to active optimizations competing for resources. If optimizer is clean, check memory, then request metrics.
 
-
 ## Optimizer Stuck or Too Slow
 
 Use when: optimizer running for hours, not finishing, or showing errors.
@@ -18,7 +17,6 @@ Use when: optimizer running for hours, not finishing, or showing errors.
 - Web UI has an Optimizations tab with timeline view and per-task duration metrics [Web UI](https://search.qdrant.tech/md/documentation/operations/optimizer/?s=web-ui)
 - If `optimizer_status` shows an error in collection info, check logs for disk full or corrupted segments
 - Large merges and HNSW rebuilds legitimately take hours on big datasets. Check progress before assuming it's stuck.
-
 
 ## Memory Seems Too High
 
@@ -31,7 +29,6 @@ Use when: memory exceeds expectations, node crashes with OOM, or memory keeps gr
 - Estimate expected memory: `num_vectors * dimensions * 4 bytes * 1.5` for vectors, plus payload and index overhead [Capacity planning](https://search.qdrant.tech/md/documentation/operations/capacity-planning/)
 - Common causes of unexpected growth: quantized vectors with `always_ram=true`, too many payload indexes, large `max_segment_size` during optimization
 
-
 ## Queries Are Slow
 
 Use when: queries slower than expected and you need to identify the cause.
@@ -42,7 +39,6 @@ Use when: queries slower than expected and you need to identify the cause.
 - Check optimizer status first. Active optimizations compete for CPU and I/O, degrading search latency.
 - Check segment count via collection info. Too many unmerged segments after bulk upload causes slower search.
 - Compare filtered vs unfiltered query times. Large gap means missing payload index. [Payload index](https://search.qdrant.tech/md/documentation/manage-data/indexing/?s=payload-index)
-
 
 ## What NOT to Do
 

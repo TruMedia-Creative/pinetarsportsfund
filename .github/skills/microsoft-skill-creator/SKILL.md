@@ -31,11 +31,11 @@ skill-name/
 
 ## Learn MCP Tools
 
-| Tool | Purpose | When to Use |
-|------|---------|-------------|
-| `microsoft_docs_search` | Search official docs | First pass discovery, finding topics |
-| `microsoft_docs_fetch` | Get full page content | Deep dive into important pages |
-| `microsoft_code_sample_search` | Find code examples | Get implementation patterns |
+| Tool                           | Purpose               | When to Use                          |
+| ------------------------------ | --------------------- | ------------------------------------ |
+| `microsoft_docs_search`        | Search official docs  | First pass discovery, finding topics |
+| `microsoft_docs_fetch`         | Get full page content | Deep dive into important pages       |
+| `microsoft_code_sample_search` | Find code examples    | Get implementation patterns          |
 
 ### CLI Alternative
 
@@ -50,11 +50,11 @@ npm install -g @microsoft/learn-cli
 mslearn search "semantic kernel overview"
 ```
 
-| MCP Tool | CLI Command |
-|----------|-------------|
-| `microsoft_docs_search(query: "...")` | `mslearn search "..."` |
+| MCP Tool                                                      | CLI Command                                |
+| ------------------------------------------------------------- | ------------------------------------------ |
+| `microsoft_docs_search(query: "...")`                         | `mslearn search "..."`                     |
 | `microsoft_code_sample_search(query: "...", language: "...")` | `mslearn code-search "..." --language ...` |
-| `microsoft_docs_fetch(url: "...")` | `mslearn fetch "..."` |
+| `microsoft_docs_fetch(url: "...")`                            | `mslearn fetch "..."`                      |
 
 Generated skills should include this same CLI fallback table so agents can use either path.
 
@@ -65,6 +65,7 @@ Generated skills should include this same CLI fallback table so agents can use e
 Build deep understanding using Learn MCP tools in three phases:
 
 **Phase 1 - Scope Discovery:**
+
 ```
 microsoft_docs_search(query="{technology} overview what is")
 microsoft_docs_search(query="{technology} concepts architecture")
@@ -72,12 +73,14 @@ microsoft_docs_search(query="{technology} getting started tutorial")
 ```
 
 **Phase 2 - Core Content:**
+
 ```
 microsoft_docs_fetch(url="...")  # Fetch pages from Phase 1
 microsoft_code_sample_search(query="{technology}", language="{lang}")
 ```
 
 **Phase 3 - Depth:**
+
 ```
 microsoft_docs_search(query="{technology} best practices")
 microsoft_docs_search(query="{technology} troubleshooting errors")
@@ -86,6 +89,7 @@ microsoft_docs_search(query="{technology} troubleshooting errors")
 #### Investigation Checklist
 
 After investigating, verify:
+
 - [ ] Can explain what the technology does in one paragraph
 - [ ] Identified 3-5 key concepts
 - [ ] Have working code for basic usage
@@ -95,6 +99,7 @@ After investigating, verify:
 ### Step 2: Clarify with User
 
 Present findings and ask:
+
 1. "I found these key areas: [list]. Which are most important?"
 2. "What tasks will agents primarily perform with this skill?"
 3. "Which programming language should code samples prioritize?"
@@ -103,12 +108,12 @@ Present findings and ask:
 
 Use the appropriate template from [skill-templates.md](references/skill-templates.md):
 
-| Technology Type | Template |
-|-----------------|----------|
-| Client library, NuGet/npm package | SDK/Library |
-| Azure resource | Azure Service |
-| App development framework | Framework/Platform |
-| REST API, protocol | API/Protocol |
+| Technology Type                   | Template           |
+| --------------------------------- | ------------------ |
+| Client library, NuGet/npm package | SDK/Library        |
+| Azure resource                    | Azure Service      |
+| App development framework         | Framework/Platform |
+| REST API, protocol                | API/Protocol       |
 
 #### Generated Skill Structure
 
@@ -124,12 +129,14 @@ Use the appropriate template from [skill-templates.md](references/skill-template
 ### Step 4: Balance Local vs Dynamic Content
 
 **Store locally when:**
+
 - Foundational (needed for any task)
 - Frequently accessed
 - Stable (won't change)
 - Hard to find via search
 
 **Keep dynamic when:**
+
 - Exhaustive reference (too large)
 - Version-specific
 - Situational (specific tasks only)
@@ -137,15 +144,15 @@ Use the appropriate template from [skill-templates.md](references/skill-template
 
 #### Content Guidelines
 
-| Content Type | Local | Dynamic |
-|--------------|-------|---------|
-| Core concepts (3-5) | ✅ Full | |
-| Hello world code | ✅ Full | |
-| Common patterns (3-5) | ✅ Full | |
-| Top API methods | Signature + example | Full docs via fetch |
-| Best practices | Top 5 bullets | Search for more |
-| Troubleshooting | | Search queries |
-| Full API reference | | Doc links |
+| Content Type          | Local               | Dynamic             |
+| --------------------- | ------------------- | ------------------- |
+| Core concepts (3-5)   | ✅ Full             |                     |
+| Hello world code      | ✅ Full             |                     |
+| Common patterns (3-5) | ✅ Full             |                     |
+| Top API methods       | Signature + example | Full docs via fetch |
+| Best practices        | Top 5 bullets       | Search for more     |
+| Troubleshooting       |                     | Search queries      |
+| Full API reference    |                     | Doc links           |
 
 ### Step 5: Validate
 
@@ -156,6 +163,7 @@ Use the appropriate template from [skill-templates.md](references/skill-template
 ## Common Investigation Patterns
 
 ### For SDKs/Libraries
+
 ```
 "{name} overview" → purpose, architecture
 "{name} getting started quickstart" → setup steps
@@ -165,6 +173,7 @@ Use the appropriate template from [skill-templates.md](references/skill-template
 ```
 
 ### For Azure Services
+
 ```
 "{service} overview features" → capabilities
 "{service} quickstart {language}" → setup code
@@ -174,6 +183,7 @@ Use the appropriate template from [skill-templates.md](references/skill-template
 ```
 
 ### For Frameworks/Platforms
+
 ```
 "{framework} architecture concepts" → mental model
 "{framework} project structure" → conventions
@@ -230,21 +240,21 @@ See [getting-started/hello-kernel.cs](sample_codes/getting-started/hello-kernel.
 
 ## Learn More
 
-| Topic | How to Find |
-|-------|-------------|
-| Plugin development | `microsoft_docs_search(query="semantic kernel plugins custom functions")` |
-| Planners | `microsoft_docs_search(query="semantic kernel planner")` |
-| Memory | `microsoft_docs_fetch(url="https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-memory")` |
+| Topic              | How to Find                                                                                                   |
+| ------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Plugin development | `microsoft_docs_search(query="semantic kernel plugins custom functions")`                                     |
+| Planners           | `microsoft_docs_search(query="semantic kernel planner")`                                                      |
+| Memory             | `microsoft_docs_fetch(url="https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-memory")` |
 
 ## CLI Alternative
 
 If the Learn MCP server is not available, use the `mslearn` CLI instead:
 
-| MCP Tool | CLI Command |
-|----------|-------------|
-| `microsoft_docs_search(query: "...")` | `mslearn search "..."` |
+| MCP Tool                                                      | CLI Command                                |
+| ------------------------------------------------------------- | ------------------------------------------ |
+| `microsoft_docs_search(query: "...")`                         | `mslearn search "..."`                     |
 | `microsoft_code_sample_search(query: "...", language: "...")` | `mslearn code-search "..." --language ...` |
-| `microsoft_docs_fetch(url: "...")` | `mslearn fetch "..."` |
+| `microsoft_docs_fetch(url: "...")`                            | `mslearn fetch "..."`                      |
 
 Run directly with `npx @microsoft/learn-cli <command>` or install globally with `npm install -g @microsoft/learn-cli`.
 ```

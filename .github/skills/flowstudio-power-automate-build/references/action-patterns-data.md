@@ -38,6 +38,7 @@ Result reference: `@body('Select_Needed_Columns')` — returns a direct array of
 > downstream expressions. Works on any array — SP results, HTTP responses, variables.
 >
 > **Tips:**
+>
 > - **Single-to-array coercion:** When an API returns a single object but you need
 >   Select (which requires an array), wrap it: `@array(body('Get_Employee')?['data'])`.
 >   The output is a 1-element array — access results via `?[0]?['field']`.
@@ -210,7 +211,7 @@ Then inside a loop: `@coalesce(outputs('Holiday_Dict')?[item()?['Date']], 'Stand
 
 ### union() for Changed-Field Detection
 
-When you need to find records where *any* of several fields has changed, run one
+When you need to find records where _any_ of several fields has changed, run one
 `Filter Array` per field and `union()` the results. This avoids a complex
 multi-condition filter and produces a clean deduplicated set:
 
@@ -383,7 +384,7 @@ zero nested loops, and the final loop only touches changed items.
 > **Why this beats nested loops**: the naive approach (for each dest item, scan source)
 > is O(n × m) and hits Power Automate's 100k-action run limit fast on large lists.
 > This pattern is O(n + m): one pass to build key arrays, one pass per filter.
-> The update loop in Step 6 only iterates *changed* records — often a tiny fraction
+> The update loop in Step 6 only iterates _changed_ records — often a tiny fraction
 > of the full collection. Run Steps 2/4/7 in **parallel Scopes** for further speed.
 
 ---
@@ -498,11 +499,13 @@ use in-line OAuth instead of a Bearer token variable:
 > and declare it in the flow's `parameters` block (type `securestring`). This
 > prevents the secret from appearing in run history or being readable via
 > `get_live_flow`. Declare the parameter like:
+>
 > ```json
 > "parameters": {
 >   "graphClientSecret": { "type": "securestring", "defaultValue": "" }
 > }
 > ```
+>
 > Then pass the real value via the flow's connections or environment variables
 > — never commit it to source control.
 

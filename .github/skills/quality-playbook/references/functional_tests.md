@@ -35,28 +35,34 @@ Before writing any test code, read 2–3 existing test files and identify how th
 Common patterns by language:
 
 **Python:**
+
 - `sys.path.insert(0, "src/")` then bare imports (`from module import func`)
 - Package imports (`from myproject.module import func`)
 - Relative imports with conftest.py path manipulation
 
 **Java:**
+
 - `import com.example.project.Module;` matching the package structure
 - Test source root must mirror main source root
 
 **Scala:**
+
 - `import com.example.project._` or `import com.example.project.{ClassA, ClassB}`
 - SBT project layout: `src/test/scala/` mirrors `src/main/scala/`
 
 **TypeScript/JavaScript:**
+
 - `import { func } from '../src/module'` with relative paths
 - Path aliases from `tsconfig.json` (e.g., `@/module`)
 
 **Go:**
+
 - Same package: test files in the same directory with `package mypackage`
 - Black-box testing: `package mypackage_test` with explicit imports
 - Internal packages may require specific import paths
 
 **Rust:**
+
 - `use crate::module::function;` for unit tests in the same crate
 - `use myproject::module::function;` for integration tests in `tests/`
 
@@ -100,8 +106,8 @@ void testConfigValidation(@TempDir Path tempDir) {
 
 ```typescript
 // TypeScript
-test('config validation', () => {
-    const config = { pipeline: { name: 'Test', steps: [] } };
+test("config validation", () => {
+  const config = { pipeline: { name: "Test", steps: [] } };
 });
 ```
 
@@ -147,6 +153,7 @@ Before writing a single test, build a function call map. For every function you 
 Walk each spec document section by section. For each section, ask: "What testable requirement does this state?" Then write a test.
 
 Each test should:
+
 1. **Set up** — Load a fixture, create test data, configure the system
 2. **Execute** — Call the function, run the pipeline, make the request
 3. **Assert specific properties** the spec requires
@@ -185,8 +192,8 @@ class SpecRequirements extends FlatSpec with Matchers {
 
 ```typescript
 // TypeScript (Jest)
-describe('Spec Requirements', () => {
-  test('[Req: formal — Design Doc §N] X should produce Y', () => {
+describe("Spec Requirements", () => {
+  test("[Req: formal — Design Doc §N] X should produce Y", () => {
     const result = process(fixture);
     expect(result.property).toBe(expectedValue);
   });
@@ -220,7 +227,7 @@ fn test_spec_requirement_section_n_x_produces_y() {
 - **Specific** — Checks a specific property, not just "something happened"
 - **Robust** — Uses real data (fixtures from the actual system), not synthetic data
 - **Cross-variant** — If the project handles multiple input types, test all of them
-- **Tests at the right layer** — Test the *behavior* you care about. If the requirement is "invalid data doesn't produce wrong output," test the pipeline output — don't just test that the schema validator rejects the input.
+- **Tests at the right layer** — Test the _behavior_ you care about. If the requirement is "invalid data doesn't produce wrong output," test the pipeline output — don't just test that the schema validator rejects the input.
 
 ## Cross-Variant Testing Strategy
 
@@ -258,10 +265,9 @@ Seq(variantA, variantB, variantC).foreach { variant =>
 
 ```typescript
 // TypeScript (Jest)
-test.each([variantA, variantB, variantC])(
-  'feature works for %s', (variant) => {
-    const output = process(variant.input);
-    expect(output).toHaveProperty('expectedProperty');
+test.each([variantA, variantB, variantC])("feature works for %s", (variant) => {
+  const output = process(variant.input);
+  expect(output).toHaveProperty("expectedProperty");
 });
 ```
 
@@ -295,7 +301,7 @@ fn test_feature_works_across_variants() {
 
 If parametrization doesn't fit, loop explicitly within a single test.
 
-**Which tests should be cross-variant?** Any test verifying a property that *should* hold regardless of input type: entity identity, structural properties, required links, temporal fields, domain-specific semantics.
+**Which tests should be cross-variant?** Any test verifying a property that _should_ hold regardless of input type: entity identity, structural properties, required links, temporal fields, domain-specific semantics.
 
 **After writing all tests, do a cross-variant audit.** Count cross-variant tests divided by total. If below 30%, convert more.
 
@@ -350,18 +356,18 @@ void testBadValueNotInOutput() {
 
 ```typescript
 // TypeScript — WRONG: tests the validation mechanism
-test('bad value rejected', () => {
-    fixture.field = 'invalid';  // Zod schema rejects this!
-    expect(() => process(fixture)).toThrow(ZodError);
-    // Tells you nothing about output
+test("bad value rejected", () => {
+  fixture.field = "invalid"; // Zod schema rejects this!
+  expect(() => process(fixture)).toThrow(ZodError);
+  // Tells you nothing about output
 });
 
 // TypeScript — RIGHT: tests the requirement
-test('bad value not in output', () => {
-    fixture.field = undefined;  // Schema accepts undefined for optional
-    const output = process(fixture);
-    expect(output).not.toContain(badProperty);  // Bad data absent
-    expect(output).toContain(expectedType);      // Rest still works
+test("bad value not in output", () => {
+  fixture.field = undefined; // Schema accepts undefined for optional
+  const output = process(fixture);
+  expect(output).not.toContain(badProperty); // Bad data absent
+  expect(output).toContain(expectedType); // Rest still works
 });
 ```
 
@@ -422,7 +428,7 @@ Always check your Step 5b schema map before choosing mutation values.
 
 ## Testing at the Right Layer
 
-Ask: "What does the *spec* say should happen?" The spec says "invalid data should not appear in output" — not "validation layer should reject it." Test the spec, not the implementation.
+Ask: "What does the _spec_ say should happen?" The spec says "invalid data should not appear in output" — not "validation layer should reject it." Test the spec, not the implementation.
 
 **Exception:** When a spec explicitly mandates a specific mechanism (e.g., "must fail-fast at the schema layer"), testing that mechanism is appropriate. But this is rare.
 
@@ -468,8 +474,8 @@ class FitnessScenariosTest {
 
 ```typescript
 // TypeScript (Jest)
-describe('Fitness Scenarios', () => {
-  test('[Req: formal — QUALITY.md Scenario 1] [Name]', () => {
+describe("Fitness Scenarios", () => {
+  test("[Req: formal — QUALITY.md Scenario 1] [Name]", () => {
     const result = process(fixture);
     expect(conditionThatPreventsFailure(result)).toBe(true);
   });
@@ -505,8 +511,8 @@ One test per defensive pattern from Step 5:
 
 ```typescript
 // TypeScript (Jest)
-describe('Boundaries and Edge Cases', () => {
-  test('[Req: inferred — from functionName() guard] guards against X', () => {
+describe("Boundaries and Edge Cases", () => {
+  test("[Req: inferred — from functionName() guard] guards against X", () => {
     const input = { ...validFixture, field: null };
     const result = process(input);
     expect(result).not.toContainBadOutput();
@@ -580,6 +586,7 @@ fn test_defensive_pattern_function_name_guards_against_x() {
 Use your Step 5b schema map when choosing mutation values. Every mutation must use a value the schema accepts.
 
 Systematic approach:
+
 - **Missing fields** — Optional field absent? Set to null.
 - **Wrong types** — Field gets different type? Use schema-valid alternative.
 - **Empty values** — Empty list? Empty string? Empty dict?

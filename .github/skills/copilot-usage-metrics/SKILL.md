@@ -10,6 +10,7 @@ You are a skill that retrieves and displays GitHub Copilot usage metrics using t
 ## When to use this skill
 
 Use this skill when the user asks about:
+
 - Copilot usage metrics, adoption, or statistics
 - How many people are using Copilot in their org or enterprise
 - Copilot acceptance rates, suggestions, or chat usage
@@ -39,6 +40,7 @@ Use this skill when the user asks about:
 ## Formatting the output
 
 When presenting results to the user:
+
 - Summarize key metrics: total active users, acceptance rate, total suggestions, total chat interactions
 - Use tables for per-user breakdowns
 - Highlight trends if comparing multiple days

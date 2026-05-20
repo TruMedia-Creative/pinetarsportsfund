@@ -171,39 +171,39 @@ FreeCAD.ActiveDocument.recompute()
 
 ### Numeric Properties
 
-| Type | Python | Notes |
-|---|---|---|
-| `App::PropertyInteger` | `int` | Standard integer |
-| `App::PropertyFloat` | `float` | Standard float |
-| `App::PropertyLength` | `float` | Length with units (mm) |
-| `App::PropertyDistance` | `float` | Distance (can be negative) |
-| `App::PropertyAngle` | `float` | Angle in degrees |
-| `App::PropertyArea` | `float` | Area with units |
-| `App::PropertyVolume` | `float` | Volume with units |
-| `App::PropertySpeed` | `float` | Speed with units |
-| `App::PropertyAcceleration` | `float` | Acceleration |
-| `App::PropertyForce` | `float` | Force |
-| `App::PropertyPressure` | `float` | Pressure |
-| `App::PropertyPercent` | `int` | 0-100 integer |
-| `App::PropertyQuantity` | `Quantity` | Generic unit-aware value |
-| `App::PropertyIntegerConstraint` | `(val,min,max,step)` | Bounded integer |
-| `App::PropertyFloatConstraint` | `(val,min,max,step)` | Bounded float |
+| Type                             | Python               | Notes                      |
+| -------------------------------- | -------------------- | -------------------------- |
+| `App::PropertyInteger`           | `int`                | Standard integer           |
+| `App::PropertyFloat`             | `float`              | Standard float             |
+| `App::PropertyLength`            | `float`              | Length with units (mm)     |
+| `App::PropertyDistance`          | `float`              | Distance (can be negative) |
+| `App::PropertyAngle`             | `float`              | Angle in degrees           |
+| `App::PropertyArea`              | `float`              | Area with units            |
+| `App::PropertyVolume`            | `float`              | Volume with units          |
+| `App::PropertySpeed`             | `float`              | Speed with units           |
+| `App::PropertyAcceleration`      | `float`              | Acceleration               |
+| `App::PropertyForce`             | `float`              | Force                      |
+| `App::PropertyPressure`          | `float`              | Pressure                   |
+| `App::PropertyPercent`           | `int`                | 0-100 integer              |
+| `App::PropertyQuantity`          | `Quantity`           | Generic unit-aware value   |
+| `App::PropertyIntegerConstraint` | `(val,min,max,step)` | Bounded integer            |
+| `App::PropertyFloatConstraint`   | `(val,min,max,step)` | Bounded float              |
 
 ### String/Path Properties
 
-| Type | Python | Notes |
-|---|---|---|
-| `App::PropertyString` | `str` | Text string |
-| `App::PropertyFont` | `str` | Font name |
-| `App::PropertyFile` | `str` | File path |
-| `App::PropertyFileIncluded` | `str` | Embedded file |
-| `App::PropertyPath` | `str` | Directory path |
+| Type                        | Python | Notes          |
+| --------------------------- | ------ | -------------- |
+| `App::PropertyString`       | `str`  | Text string    |
+| `App::PropertyFont`         | `str`  | Font name      |
+| `App::PropertyFile`         | `str`  | File path      |
+| `App::PropertyFileIncluded` | `str`  | Embedded file  |
+| `App::PropertyPath`         | `str`  | Directory path |
 
 ### Boolean and Enumeration
 
-| Type | Python | Notes |
-|---|---|---|
-| `App::PropertyBool` | `bool` | True/False |
+| Type                       | Python       | Notes                         |
+| -------------------------- | ------------ | ----------------------------- |
+| `App::PropertyBool`        | `bool`       | True/False                    |
 | `App::PropertyEnumeration` | `list`/`str` | Dropdown; set list then value |
 
 ```python
@@ -215,46 +215,46 @@ obj.Style = "Solid"                              # then set value
 
 ### Geometric Properties
 
-| Type | Python | Notes |
-|---|---|---|
-| `App::PropertyVector` | `FreeCAD.Vector` | 3D vector |
-| `App::PropertyVectorList` | `[Vector,...]` | List of vectors |
-| `App::PropertyPlacement` | `Placement` | Position + rotation |
-| `App::PropertyMatrix` | `Matrix` | 4x4 matrix |
-| `App::PropertyVectorDistance` | `Vector` | Vector with units |
-| `App::PropertyPosition` | `Vector` | Position with units |
-| `App::PropertyDirection` | `Vector` | Direction vector |
+| Type                          | Python           | Notes               |
+| ----------------------------- | ---------------- | ------------------- |
+| `App::PropertyVector`         | `FreeCAD.Vector` | 3D vector           |
+| `App::PropertyVectorList`     | `[Vector,...]`   | List of vectors     |
+| `App::PropertyPlacement`      | `Placement`      | Position + rotation |
+| `App::PropertyMatrix`         | `Matrix`         | 4x4 matrix          |
+| `App::PropertyVectorDistance` | `Vector`         | Vector with units   |
+| `App::PropertyPosition`       | `Vector`         | Position with units |
+| `App::PropertyDirection`      | `Vector`         | Direction vector    |
 
 ### Link Properties
 
-| Type | Python | Notes |
-|---|---|---|
-| `App::PropertyLink` | obj ref | Link to one object |
-| `App::PropertyLinkList` | `[obj,...]` | Link to multiple objects |
-| `App::PropertyLinkSub` | `(obj, [subs])` | Link with sub-elements |
-| `App::PropertyLinkSubList` | `[(obj,[subs]),...]` | Multiple link+subs |
-| `App::PropertyLinkChild` | obj ref | Claimed child link |
-| `App::PropertyLinkListChild` | `[obj,...]` | Multiple claimed children |
+| Type                         | Python               | Notes                     |
+| ---------------------------- | -------------------- | ------------------------- |
+| `App::PropertyLink`          | obj ref              | Link to one object        |
+| `App::PropertyLinkList`      | `[obj,...]`          | Link to multiple objects  |
+| `App::PropertyLinkSub`       | `(obj, [subs])`      | Link with sub-elements    |
+| `App::PropertyLinkSubList`   | `[(obj,[subs]),...]` | Multiple link+subs        |
+| `App::PropertyLinkChild`     | obj ref              | Claimed child link        |
+| `App::PropertyLinkListChild` | `[obj,...]`          | Multiple claimed children |
 
 ### Shape and Material
 
-| Type | Python | Notes |
-|---|---|---|
-| `Part::PropertyPartShape` | `Part.Shape` | Full shape |
-| `App::PropertyColor` | `(r,g,b)` | Color (0.0-1.0) |
-| `App::PropertyColorList` | `[(r,g,b),...]` | Color per element |
-| `App::PropertyMaterial` | `Material` | Material definition |
+| Type                      | Python          | Notes               |
+| ------------------------- | --------------- | ------------------- |
+| `Part::PropertyPartShape` | `Part.Shape`    | Full shape          |
+| `App::PropertyColor`      | `(r,g,b)`       | Color (0.0-1.0)     |
+| `App::PropertyColorList`  | `[(r,g,b),...]` | Color per element   |
+| `App::PropertyMaterial`   | `Material`      | Material definition |
 
 ### Container Properties
 
-| Type | Python | Notes |
-|---|---|---|
-| `App::PropertyPythonObject` | any | Serializable Python object |
-| `App::PropertyIntegerList` | `[int,...]` | List of integers |
-| `App::PropertyFloatList` | `[float,...]` | List of floats |
-| `App::PropertyStringList` | `[str,...]` | List of strings |
-| `App::PropertyBoolList` | `[bool,...]` | List of booleans |
-| `App::PropertyMap` | `{str:str}` | String dictionary |
+| Type                        | Python        | Notes                      |
+| --------------------------- | ------------- | -------------------------- |
+| `App::PropertyPythonObject` | any           | Serializable Python object |
+| `App::PropertyIntegerList`  | `[int,...]`   | List of integers           |
+| `App::PropertyFloatList`    | `[float,...]` | List of floats             |
+| `App::PropertyStringList`   | `[str,...]`   | List of strings            |
+| `App::PropertyBoolList`     | `[bool,...]`  | List of booleans           |
+| `App::PropertyMap`          | `{str:str}`   | String dictionary          |
 
 ## Object Dependency Tracking
 

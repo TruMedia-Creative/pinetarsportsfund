@@ -11,9 +11,12 @@ Complete flow definition templates ready to copy and customize.
   "triggers": {
     "Recurrence": {
       "type": "Recurrence",
-      "recurrence": { "frequency": "Day", "interval": 1,
-                       "startTime": "2026-01-01T08:00:00Z",
-                       "timeZone": "AUS Eastern Standard Time" }
+      "recurrence": {
+        "frequency": "Day",
+        "interval": 1,
+        "startTime": "2026-01-01T08:00:00Z",
+        "timeZone": "AUS Eastern Standard Time"
+      }
     }
   },
   "actions": {

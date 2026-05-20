@@ -21,12 +21,12 @@ The quality constitution defines what "quality" means for this specific project 
 
 ## Coverage Targets
 
-| Subsystem | Target | Why |
-|-----------|--------|-----|
-| [Most fragile module] | 90–95% | [Real edge case or past bug] |
-| [Core logic module] | 85–90% | [Concrete risk] |
-| [I/O or integration layer] | 80% | [Explain] |
-| [Configuration/utilities] | 75–80% | [Explain] |
+| Subsystem                  | Target | Why                          |
+| -------------------------- | ------ | ---------------------------- |
+| [Most fragile module]      | 90–95% | [Real edge case or past bug] |
+| [Core logic module]        | 85–90% | [Concrete risk]              |
+| [I/O or integration layer] | 80%    | [Explain]                    |
+| [Configuration/utilities]  | 75–80% | [Explain]                    |
 
 The rationale column is essential. It must reference specific risks or past failures.
 If you can't explain why a subsystem needs high coverage with a concrete example,
@@ -37,7 +37,8 @@ the target is arbitrary.
 [Define what constitutes a fake test for this project.]
 
 Generic examples that apply to most projects:
-- Asserting a function returned *something* without checking what
+
+- Asserting a function returned _something_ without checking what
 - Testing with synthetic data that lacks the quirks of real data
 - Asserting an import succeeded
 - Asserting mock returns what the mock was configured to return
@@ -54,7 +55,7 @@ For a compiler: "checking output compiles without checking behavior."]
 
 ### Scenario N: [Memorable Name]
 
-**Requirement tag:** [Req: formal — Spec §X] *(or `user-confirmed` / `inferred` — see SKILL.md Phase 1, Step 1 for tier definitions)*
+**Requirement tag:** [Req: formal — Spec §X] _(or `user-confirmed` / `inferred` — see SKILL.md Phase 1, Step 1 for tier definitions)_
 
 **What happened:** [The architectural vulnerability, edge case, or design decision.
 Reference actual code — function names, file names, line numbers. Frame as "this architecture permits the following failure mode."]
@@ -81,6 +82,7 @@ Include exact commands, test names, or assertions.]
 ## The Human Gate
 
 [List things that require human judgment:]
+
 - Output that "looks right" (requires domain knowledge)
 - UX and responsiveness
 - Documentation accuracy

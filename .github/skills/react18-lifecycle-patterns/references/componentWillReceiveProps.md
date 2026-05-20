@@ -25,8 +25,8 @@ class UserProfile extends React.Component {
     if (nextProps.userId !== this.props.userId) {
       this.setState({ loading: true, profile: null });
       fetchProfile(nextProps.userId)
-        .then(profile => this.setState({ profile, loading: false }))
-        .catch(err => this.setState({ error: err, loading: false }));
+        .then((profile) => this.setState({ profile, loading: false }))
+        .catch((err) => this.setState({ error: err, loading: false }));
     }
   }
 }
@@ -41,8 +41,8 @@ class UserProfile extends React.Component {
       // Use this.props (not nextProps - the update already happened)
       this.setState({ loading: true, profile: null });
       fetchProfile(this.props.userId)
-        .then(profile => this.setState({ profile, loading: false }))
-        .catch(err => this.setState({ error: err, loading: false }));
+        .then((profile) => this.setState({ profile, loading: false }))
+        .catch((err) => this.setState({ error: err, loading: false }));
     }
   }
 }
@@ -60,7 +60,7 @@ class UserProfile extends React.Component {
     if (prevProps.userId !== this.props.userId) {
       const requestId = ++this._requestId;
       this.setState({ loading: true });
-      fetchProfile(this.props.userId).then(profile => {
+      fetchProfile(this.props.userId).then((profile) => {
         // Ignore stale responses if userId changed again
         if (requestId === this._requestId) {
           this.setState({ profile, loading: false });
@@ -84,7 +84,9 @@ class SortedList extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.items !== this.props.items) {
       this.setState({
-        sortedItems: [...nextProps.items].sort((a, b) => a.name.localeCompare(b.name)),
+        sortedItems: [...nextProps.items].sort((a, b) =>
+          a.name.localeCompare(b.name),
+        ),
       });
     }
   }
@@ -99,7 +101,9 @@ class SortedList extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.items !== state.prevItems) {
       return {
-        sortedItems: [...props.items].sort((a, b) => a.name.localeCompare(b.name)),
+        sortedItems: [...props.items].sort((a, b) =>
+          a.name.localeCompare(b.name),
+        ),
         prevItems: props.items, // ← always store the prop you're comparing
       };
     }
@@ -109,7 +113,9 @@ class SortedList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortedItems: [...props.items].sort((a, b) => a.name.localeCompare(b.name)),
+      sortedItems: [...props.items].sort((a, b) =>
+        a.name.localeCompare(b.name),
+      ),
       prevItems: props.items, // ← initialize in constructor too
     };
   }

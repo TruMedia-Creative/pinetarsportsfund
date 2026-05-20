@@ -46,9 +46,9 @@ Answer (faithful/unfaithful):"""
 
 ## Common Mistakes
 
-| Mistake | Fix |
-| ------- | --- |
-| Vague criteria | Define each label exactly |
-| No examples | Include 2-4 cases |
-| Ambiguous format | Specify exact output |
-| No edge cases | Address ambiguity |
+| Mistake          | Fix                       |
+| ---------------- | ------------------------- |
+| Vague criteria   | Define each label exactly |
+| No examples      | Include 2-4 cases         |
+| Ambiguous format | Specify exact output      |
+| No edge cases    | Address ambiguity         |

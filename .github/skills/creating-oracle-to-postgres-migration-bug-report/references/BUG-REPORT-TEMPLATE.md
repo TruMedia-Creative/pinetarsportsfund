@@ -28,6 +28,7 @@ versus actual behavior (PostgreSQL). Be specific and factual.>
 ## Scenario
 
 <Ordered steps to reproduce the defect. Include:
+
 1. Prerequisites and seed data
 2. Exact operation or API call
 3. Expected result (Oracle)
@@ -47,6 +48,7 @@ are already applied or still needed.>
 ## Validation
 
 <Bullet list of passing tests or manual checks that confirm the fix:
+
 - Re-run reproduction steps on both Oracle and PostgreSQL
 - Compare row/column outputs
 - Check error handling parity>
@@ -54,6 +56,7 @@ are already applied or still needed.>
 ## Files Modified
 
 <Bullet list with relative file paths and short purpose for each change:
+
 - `src/DataAccess/FooRepository.cs` — Added explicit NULL check for empty string parameter>
 
 ## Notes / Next Steps
@@ -63,10 +66,10 @@ are already applied or still needed.>
 
 ## Status Values
 
-| Status | Meaning |
-|--------|---------|
-| ✅ RESOLVED | Defect has been fixed and verified |
-| ⛔ UNRESOLVED | Defect has not been addressed yet |
+| Status         | Meaning                                         |
+| -------------- | ----------------------------------------------- |
+| ✅ RESOLVED    | Defect has been fixed and verified              |
+| ⛔ UNRESOLVED  | Defect has not been addressed yet               |
 | ⏳ IN PROGRESS | Defect is being investigated or fix is underway |
 
 ## Style Rules

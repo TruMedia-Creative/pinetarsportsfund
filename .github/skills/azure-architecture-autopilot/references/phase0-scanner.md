@@ -26,6 +26,7 @@ az account list --output json
 ```
 
 Present the subscription list as `ask_user` choices. **Multiple subscriptions can be selected:**
+
 ```
 ask_user({
   question: "Please select the Azure subscription(s) to analyze. (You can add more one at a time for multiple selections)",
@@ -60,6 +61,7 @@ ask_user({
 - **Entire subscription** → `az group list` → Scan all RGs (warn if there are many resources that it may take time)
 
 **Combining multiple subscriptions + multiple RGs is supported:**
+
 - rg-prod from subscription A + rg-network from subscription B → Scan both and display in a single diagram
 
 ---
@@ -73,6 +75,7 @@ ask_user({
 Pass hierarchy information in the diagram JSON:
 
 **Add `subscription` and `resourceGroup` fields to the services JSON:**
+
 ```json
 {
   "id": "foundry",
@@ -85,11 +88,13 @@ Pass hierarchy information in the diagram JSON:
 ```
 
 **Pass hierarchy information via the `--hierarchy` parameter:**
+
 ```
 --hierarchy '[{"subscription":"sub-002","resourceGroups":["rg-prod","rg-dev"]},{"subscription":"sub-001","resourceGroups":["rg-network"]}]'
 ```
 
 Based on this information, the diagram script will:
+
 - Multiple RGs → Represent each RG as a cluster with a dashed boundary (label: RG name)
 - Multiple subscriptions → Nest RG boundaries inside larger subscription boundaries
 - VNet boundaries are displayed inside the RG to which the VNet belongs
@@ -99,6 +104,7 @@ Based on this information, the diagram script will:
 ## Step 2: Resource Scan
 
 **🚨 az CLI Output Principles:**
+
 - az CLI output must **always be saved to a file** and then read with `view`. Direct terminal output may be truncated.
 - Bundle **no more than 3 az commands** per PowerShell call. Bundling too many may cause timeouts.
 - Use `--query` JMESPath to extract only the required fields and reduce output size.
@@ -147,34 +153,34 @@ Do not use a hardcoded command list. Only execute commands for types that exist 
 
 **Type → Detailed Query Command Mapping:**
 
-| Type in resources.json | Detailed Query Command | Output File |
-|---|---|---|
-| `Microsoft.Network/virtualNetworks` | `az network vnet list -g "<RG>" --query "[].{name:name,addressSpace:addressSpace.addressPrefixes,subnets:subnets[].{name:name,prefix:addressPrefix,pePolicy:privateEndpointNetworkPolicies}}" -o json` | `vnets.json` |
-| `Microsoft.Network/privateEndpoints` | `az network private-endpoint list -g "<RG>" --query "[].{name:name,subnetId:subnet.id,targetId:privateLinkServiceConnections[0].privateLinkServiceId,groupIds:privateLinkServiceConnections[0].groupIds,state:provisioningState}" -o json` | `pe.json` |
-| `Microsoft.Network/networkSecurityGroups` | `az network nsg list -g "<RG>" --query "[].{name:name,location:location,subnets:subnets[].id,nics:networkInterfaces[].id}" -o json` | `nsg.json` |
-| `Microsoft.CognitiveServices/accounts` | `az cognitiveservices account list -g "<RG>" --query "[].{name:name,kind:kind,sku:sku.name,endpoint:properties.endpoint,publicAccess:properties.publicNetworkAccess,location:location}" -o json` | `cognitive.json` |
-| `Microsoft.Search/searchServices` | `az search service list -g "<RG>" --query "[].{name:name,sku:sku.name,publicAccess:properties.publicNetworkAccess,semanticSearch:properties.semanticSearch,location:location}" -o json 2>$null` | `search.json` |
-| `Microsoft.Compute/virtualMachines` | `az vm list -g "<RG>" --query "[].{name:name,size:hardwareProfile.vmSize,os:storageProfile.osDisk.osType,location:location,nicIds:networkProfile.networkInterfaces[].id}" -o json` | `vms.json` |
-| `Microsoft.Storage/storageAccounts` | `az storage account list -g "<RG>" --query "[].{name:name,sku:sku.name,kind:kind,hns:properties.isHnsEnabled,publicAccess:properties.publicNetworkAccess,location:location}" -o json` | `storage.json` |
-| `Microsoft.KeyVault/vaults` | `az keyvault list -g "<RG>" --query "[].{name:name,location:location}" -o json 2>$null` | `keyvault.json` |
-| `Microsoft.ContainerService/managedClusters` | `az aks list -g "<RG>" --query "[].{name:name,kubernetesVersion:kubernetesVersion,sku:sku,agentPoolProfiles:agentPoolProfiles[].{name:name,count:count,vmSize:vmSize},networkProfile:networkProfile.networkPlugin,location:location}" -o json` | `aks.json` |
-| `Microsoft.Web/sites` | `az webapp list -g "<RG>" --query "[].{name:name,kind:kind,sku:appServicePlan,state:state,defaultHostName:defaultHostName,httpsOnly:httpsOnly,location:location}" -o json` | `webapps.json` |
-| `Microsoft.Web/serverFarms` | `az appservice plan list -g "<RG>" --query "[].{name:name,sku:sku.name,tier:sku.tier,kind:kind,location:location}" -o json` | `appservice-plans.json` |
-| `Microsoft.DocumentDB/databaseAccounts` | `az cosmosdb list -g "<RG>" --query "[].{name:name,kind:kind,databaseAccountOfferType:databaseAccountOfferType,locations:locations[].locationName,publicAccess:publicNetworkAccess}" -o json` | `cosmosdb.json` |
-| `Microsoft.Sql/servers` | `az sql server list -g "<RG>" --query "[].{name:name,fullyQualifiedDomainName:fullyQualifiedDomainName,publicAccess:publicNetworkAccess,location:location}" -o json` | `sql-servers.json` |
-| `Microsoft.Databricks/workspaces` | `az databricks workspace list -g "<RG>" --query "[].{name:name,sku:sku.name,url:workspaceUrl,publicAccess:parameters.enableNoPublicIp.value,location:location}" -o json 2>$null` | `databricks.json` |
-| `Microsoft.Synapse/workspaces` | `az synapse workspace list -g "<RG>" --query "[].{name:name,sqlAdminLogin:sqlAdministratorLogin,publicAccess:publicNetworkAccess,location:location}" -o json 2>$null` | `synapse.json` |
-| `Microsoft.DataFactory/factories` | `az datafactory list -g "<RG>" --query "[].{name:name,publicAccess:publicNetworkAccess,location:location}" -o json 2>$null` | `adf.json` |
-| `Microsoft.EventHub/namespaces` | `az eventhubs namespace list -g "<RG>" --query "[].{name:name,sku:sku.name,location:location}" -o json` | `eventhub.json` |
-| `Microsoft.Cache/redis` | `az redis list -g "<RG>" --query "[].{name:name,sku:sku.name,port:port,sslPort:sslPort,publicAccess:publicNetworkAccess,location:location}" -o json` | `redis.json` |
-| `Microsoft.ContainerRegistry/registries` | `az acr list -g "<RG>" --query "[].{name:name,sku:sku.name,adminUserEnabled:adminUserEnabled,publicAccess:publicNetworkAccess,location:location}" -o json` | `acr.json` |
-| `Microsoft.MachineLearningServices/workspaces` | `az resource show --ids "<ID>" --query "{name:name,sku:sku,kind:kind,location:location,publicAccess:properties.publicNetworkAccess,hbiWorkspace:properties.hbiWorkspace,managedNetwork:properties.managedNetwork.isolationMode}" -o json` | `mlworkspace.json` |
-| `Microsoft.Insights/components` | `az monitor app-insights component show -g "<RG>" --app "<NAME>" --query "{name:name,kind:kind,instrumentationKey:instrumentationKey,workspaceResourceId:workspaceResourceId,location:location}" -o json 2>$null` | `appinsights-<NAME>.json` |
-| `Microsoft.OperationalInsights/workspaces` | `az monitor log-analytics workspace show -g "<RG>" -n "<NAME>" --query "{name:name,sku:sku.name,retentionInDays:retentionInDays,location:location}" -o json` | `log-analytics-<NAME>.json` |
-| `Microsoft.Network/applicationGateways` | `az network application-gateway list -g "<RG>" --query "[].{name:name,sku:sku,location:location}" -o json` | `appgateway.json` |
-| `Microsoft.Cdn/profiles` / `Microsoft.Network/frontDoors` | `az afd profile list -g "<RG>" --query "[].{name:name,sku:sku.name,location:location}" -o json 2>$null` | `frontdoor.json` |
-| `Microsoft.Network/azureFirewalls` | `az network firewall list -g "<RG>" --query "[].{name:name,sku:sku,threatIntelMode:threatIntelMode,location:location}" -o json` | `firewall.json` |
-| `Microsoft.Network/bastionHosts` | `az network bastion list -g "<RG>" --query "[].{name:name,sku:sku.name,location:location}" -o json` | `bastion.json` |
+| Type in resources.json                                    | Detailed Query Command                                                                                                                                                                                                                         | Output File                 |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| `Microsoft.Network/virtualNetworks`                       | `az network vnet list -g "<RG>" --query "[].{name:name,addressSpace:addressSpace.addressPrefixes,subnets:subnets[].{name:name,prefix:addressPrefix,pePolicy:privateEndpointNetworkPolicies}}" -o json`                                         | `vnets.json`                |
+| `Microsoft.Network/privateEndpoints`                      | `az network private-endpoint list -g "<RG>" --query "[].{name:name,subnetId:subnet.id,targetId:privateLinkServiceConnections[0].privateLinkServiceId,groupIds:privateLinkServiceConnections[0].groupIds,state:provisioningState}" -o json`     | `pe.json`                   |
+| `Microsoft.Network/networkSecurityGroups`                 | `az network nsg list -g "<RG>" --query "[].{name:name,location:location,subnets:subnets[].id,nics:networkInterfaces[].id}" -o json`                                                                                                            | `nsg.json`                  |
+| `Microsoft.CognitiveServices/accounts`                    | `az cognitiveservices account list -g "<RG>" --query "[].{name:name,kind:kind,sku:sku.name,endpoint:properties.endpoint,publicAccess:properties.publicNetworkAccess,location:location}" -o json`                                               | `cognitive.json`            |
+| `Microsoft.Search/searchServices`                         | `az search service list -g "<RG>" --query "[].{name:name,sku:sku.name,publicAccess:properties.publicNetworkAccess,semanticSearch:properties.semanticSearch,location:location}" -o json 2>$null`                                                | `search.json`               |
+| `Microsoft.Compute/virtualMachines`                       | `az vm list -g "<RG>" --query "[].{name:name,size:hardwareProfile.vmSize,os:storageProfile.osDisk.osType,location:location,nicIds:networkProfile.networkInterfaces[].id}" -o json`                                                             | `vms.json`                  |
+| `Microsoft.Storage/storageAccounts`                       | `az storage account list -g "<RG>" --query "[].{name:name,sku:sku.name,kind:kind,hns:properties.isHnsEnabled,publicAccess:properties.publicNetworkAccess,location:location}" -o json`                                                          | `storage.json`              |
+| `Microsoft.KeyVault/vaults`                               | `az keyvault list -g "<RG>" --query "[].{name:name,location:location}" -o json 2>$null`                                                                                                                                                        | `keyvault.json`             |
+| `Microsoft.ContainerService/managedClusters`              | `az aks list -g "<RG>" --query "[].{name:name,kubernetesVersion:kubernetesVersion,sku:sku,agentPoolProfiles:agentPoolProfiles[].{name:name,count:count,vmSize:vmSize},networkProfile:networkProfile.networkPlugin,location:location}" -o json` | `aks.json`                  |
+| `Microsoft.Web/sites`                                     | `az webapp list -g "<RG>" --query "[].{name:name,kind:kind,sku:appServicePlan,state:state,defaultHostName:defaultHostName,httpsOnly:httpsOnly,location:location}" -o json`                                                                     | `webapps.json`              |
+| `Microsoft.Web/serverFarms`                               | `az appservice plan list -g "<RG>" --query "[].{name:name,sku:sku.name,tier:sku.tier,kind:kind,location:location}" -o json`                                                                                                                    | `appservice-plans.json`     |
+| `Microsoft.DocumentDB/databaseAccounts`                   | `az cosmosdb list -g "<RG>" --query "[].{name:name,kind:kind,databaseAccountOfferType:databaseAccountOfferType,locations:locations[].locationName,publicAccess:publicNetworkAccess}" -o json`                                                  | `cosmosdb.json`             |
+| `Microsoft.Sql/servers`                                   | `az sql server list -g "<RG>" --query "[].{name:name,fullyQualifiedDomainName:fullyQualifiedDomainName,publicAccess:publicNetworkAccess,location:location}" -o json`                                                                           | `sql-servers.json`          |
+| `Microsoft.Databricks/workspaces`                         | `az databricks workspace list -g "<RG>" --query "[].{name:name,sku:sku.name,url:workspaceUrl,publicAccess:parameters.enableNoPublicIp.value,location:location}" -o json 2>$null`                                                               | `databricks.json`           |
+| `Microsoft.Synapse/workspaces`                            | `az synapse workspace list -g "<RG>" --query "[].{name:name,sqlAdminLogin:sqlAdministratorLogin,publicAccess:publicNetworkAccess,location:location}" -o json 2>$null`                                                                          | `synapse.json`              |
+| `Microsoft.DataFactory/factories`                         | `az datafactory list -g "<RG>" --query "[].{name:name,publicAccess:publicNetworkAccess,location:location}" -o json 2>$null`                                                                                                                    | `adf.json`                  |
+| `Microsoft.EventHub/namespaces`                           | `az eventhubs namespace list -g "<RG>" --query "[].{name:name,sku:sku.name,location:location}" -o json`                                                                                                                                        | `eventhub.json`             |
+| `Microsoft.Cache/redis`                                   | `az redis list -g "<RG>" --query "[].{name:name,sku:sku.name,port:port,sslPort:sslPort,publicAccess:publicNetworkAccess,location:location}" -o json`                                                                                           | `redis.json`                |
+| `Microsoft.ContainerRegistry/registries`                  | `az acr list -g "<RG>" --query "[].{name:name,sku:sku.name,adminUserEnabled:adminUserEnabled,publicAccess:publicNetworkAccess,location:location}" -o json`                                                                                     | `acr.json`                  |
+| `Microsoft.MachineLearningServices/workspaces`            | `az resource show --ids "<ID>" --query "{name:name,sku:sku,kind:kind,location:location,publicAccess:properties.publicNetworkAccess,hbiWorkspace:properties.hbiWorkspace,managedNetwork:properties.managedNetwork.isolationMode}" -o json`      | `mlworkspace.json`          |
+| `Microsoft.Insights/components`                           | `az monitor app-insights component show -g "<RG>" --app "<NAME>" --query "{name:name,kind:kind,instrumentationKey:instrumentationKey,workspaceResourceId:workspaceResourceId,location:location}" -o json 2>$null`                              | `appinsights-<NAME>.json`   |
+| `Microsoft.OperationalInsights/workspaces`                | `az monitor log-analytics workspace show -g "<RG>" -n "<NAME>" --query "{name:name,sku:sku.name,retentionInDays:retentionInDays,location:location}" -o json`                                                                                   | `log-analytics-<NAME>.json` |
+| `Microsoft.Network/applicationGateways`                   | `az network application-gateway list -g "<RG>" --query "[].{name:name,sku:sku,location:location}" -o json`                                                                                                                                     | `appgateway.json`           |
+| `Microsoft.Cdn/profiles` / `Microsoft.Network/frontDoors` | `az afd profile list -g "<RG>" --query "[].{name:name,sku:sku.name,location:location}" -o json 2>$null`                                                                                                                                        | `frontdoor.json`            |
+| `Microsoft.Network/azureFirewalls`                        | `az network firewall list -g "<RG>" --query "[].{name:name,sku:sku,threatIntelMode:threatIntelMode,location:location}" -o json`                                                                                                                | `firewall.json`             |
+| `Microsoft.Network/bastionHosts`                          | `az network bastion list -g "<RG>" --query "[].{name:name,sku:sku.name,location:location}" -o json`                                                                                                                                            | `bastion.json`              |
 
 **Dynamic Query Process:**
 
@@ -199,6 +205,7 @@ az network public-ip list -g "<RG>" --query "[].{name:name,ip:ipAddress,sku:sku.
 ```
 
 From the VNet:
+
 - `addressSpace.addressPrefixes` → CIDR
 - `subnets[].name`, `subnets[].addressPrefix` → Subnet information
 - `subnets[].privateEndpointNetworkPolicies` → PE policies
@@ -215,34 +222,35 @@ Automatically infer **relationships (connections)** between scanned resources to
 
 #### Confirmed Inference (Directly verifiable from resource IDs/properties)
 
-| Relationship Type | Inference Method | connection type |
-|---|---|---|
-| PE → Service | Extract service ID from PE's `privateLinkServiceId` | `private` |
-| PE → VNet | Extract VNet from PE's `subnet.id` | (Represented as VNet boundary) |
-| Foundry → Project | Parent resource of `accounts/projects` | `api` |
-| VM → NIC → Subnet | Infer VNet/Subnet from NIC's `subnet.id` | (VNet boundary) |
-| NSG → Subnet | Check connected subnets from NSG's `subnets[].id` | `network` |
-| NSG → NIC | Check connected VMs from NSG's `networkInterfaces[].id` | `network` |
-| NIC → Public IP | Check PIP from NIC's `publicIPAddress.id` | (Included in details) |
-| Databricks → VNet | Workspace's VNet injection configuration | (VNet boundary) |
+| Relationship Type | Inference Method                                        | connection type                |
+| ----------------- | ------------------------------------------------------- | ------------------------------ |
+| PE → Service      | Extract service ID from PE's `privateLinkServiceId`     | `private`                      |
+| PE → VNet         | Extract VNet from PE's `subnet.id`                      | (Represented as VNet boundary) |
+| Foundry → Project | Parent resource of `accounts/projects`                  | `api`                          |
+| VM → NIC → Subnet | Infer VNet/Subnet from NIC's `subnet.id`                | (VNet boundary)                |
+| NSG → Subnet      | Check connected subnets from NSG's `subnets[].id`       | `network`                      |
+| NSG → NIC         | Check connected VMs from NSG's `networkInterfaces[].id` | `network`                      |
+| NIC → Public IP   | Check PIP from NIC's `publicIPAddress.id`               | (Included in details)          |
+| Databricks → VNet | Workspace's VNet injection configuration                | (VNet boundary)                |
 
 #### Reasonable Inference (Common patterns between services within the same RG)
 
-| Relationship Type | Inference Condition | connection type |
-|---|---|---|
-| Foundry → AI Search | Both exist in the same RG → Infer RAG connection | `api` (label: "RAG Search") |
-| Foundry → Storage | Both exist in the same RG → Infer data connection | `data` (label: "Data") |
-| AI Search → Storage | Both exist in the same RG → Infer indexing connection | `data` (label: "Indexing") |
-| Service → Key Vault | Key Vault exists in the same RG → Infer secret management | `security` (label: "Secrets") |
-| VM → Foundry/Search | VM + AI services exist in the same RG → Infer API calls | `api` (label: "API") |
-| DI → Foundry | Document Intelligence + Foundry exist in the same RG → Infer OCR/extraction connection | `api` (label: "OCR/Extract") |
-| ADF → Storage | ADF + Storage exist in the same RG → Infer data pipeline | `data` (label: "Pipeline") |
-| ADF → SQL | ADF + SQL exist in the same RG → Infer data source | `data` (label: "Source") |
-| Databricks → Storage | Both exist in the same RG → Infer data lake connection | `data` (label: "Data Lake") |
+| Relationship Type    | Inference Condition                                                                    | connection type               |
+| -------------------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| Foundry → AI Search  | Both exist in the same RG → Infer RAG connection                                       | `api` (label: "RAG Search")   |
+| Foundry → Storage    | Both exist in the same RG → Infer data connection                                      | `data` (label: "Data")        |
+| AI Search → Storage  | Both exist in the same RG → Infer indexing connection                                  | `data` (label: "Indexing")    |
+| Service → Key Vault  | Key Vault exists in the same RG → Infer secret management                              | `security` (label: "Secrets") |
+| VM → Foundry/Search  | VM + AI services exist in the same RG → Infer API calls                                | `api` (label: "API")          |
+| DI → Foundry         | Document Intelligence + Foundry exist in the same RG → Infer OCR/extraction connection | `api` (label: "OCR/Extract")  |
+| ADF → Storage        | ADF + Storage exist in the same RG → Infer data pipeline                               | `data` (label: "Pipeline")    |
+| ADF → SQL            | ADF + SQL exist in the same RG → Infer data source                                     | `data` (label: "Source")      |
+| Databricks → Storage | Both exist in the same RG → Infer data lake connection                                 | `data` (label: "Data Lake")   |
 
 #### User Confirmation After Inference
 
 Show the inferred connection list to the user and request confirmation:
+
 ```
 > **⏳ Relationships between resources have been inferred** — Please verify if the following are correct.
 
@@ -275,34 +283,34 @@ Convert scan results into the input format for the built-in diagram engine.
 
 ### Resource Type → Diagram type Mapping
 
-| Azure Resource Type | Diagram type |
-|---|---|
-| `Microsoft.CognitiveServices/accounts` (kind: AIServices) | `ai_foundry` |
-| `Microsoft.CognitiveServices/accounts` (kind: OpenAI) | `openai` |
-| `Microsoft.CognitiveServices/accounts` (kind: FormRecognizer) | `document_intelligence` |
-| `Microsoft.CognitiveServices/accounts` (kind: TextAnalytics, etc.) | `ai_foundry` (default) |
-| `Microsoft.CognitiveServices/accounts/projects` | `ai_foundry` |
-| `Microsoft.Search/searchServices` | `search` |
-| `Microsoft.Storage/storageAccounts` | `storage` |
-| `Microsoft.KeyVault/vaults` | `keyvault` |
-| `Microsoft.Databricks/workspaces` | `databricks` |
-| `Microsoft.Sql/servers` | `sql_server` |
-| `Microsoft.Sql/servers/databases` | `sql_database` |
-| `Microsoft.DocumentDB/databaseAccounts` | `cosmos_db` |
-| `Microsoft.Web/sites` | `app_service` |
-| `Microsoft.ContainerService/managedClusters` | `aks` |
-| `Microsoft.Web/sites` (kind: functionapp) | `function_app` |
-| `Microsoft.Synapse/workspaces` | `synapse` |
-| `Microsoft.Fabric/capacities` | `fabric` |
-| `Microsoft.DataFactory/factories` | `adf` |
-| `Microsoft.Compute/virtualMachines` | `vm` |
-| `Microsoft.Network/privateEndpoints` | `pe` |
-| `Microsoft.Network/virtualNetworks` | (Represented as VNet boundary — not included in services) |
-| `Microsoft.Network/networkSecurityGroups` | `nsg` |
-| `Microsoft.Network/bastionHosts` | `bastion` |
-| `Microsoft.OperationalInsights/workspaces` | `log_analytics` |
-| `Microsoft.Insights/components` | `app_insights` |
-| Other | `default` |
+| Azure Resource Type                                                | Diagram type                                              |
+| ------------------------------------------------------------------ | --------------------------------------------------------- |
+| `Microsoft.CognitiveServices/accounts` (kind: AIServices)          | `ai_foundry`                                              |
+| `Microsoft.CognitiveServices/accounts` (kind: OpenAI)              | `openai`                                                  |
+| `Microsoft.CognitiveServices/accounts` (kind: FormRecognizer)      | `document_intelligence`                                   |
+| `Microsoft.CognitiveServices/accounts` (kind: TextAnalytics, etc.) | `ai_foundry` (default)                                    |
+| `Microsoft.CognitiveServices/accounts/projects`                    | `ai_foundry`                                              |
+| `Microsoft.Search/searchServices`                                  | `search`                                                  |
+| `Microsoft.Storage/storageAccounts`                                | `storage`                                                 |
+| `Microsoft.KeyVault/vaults`                                        | `keyvault`                                                |
+| `Microsoft.Databricks/workspaces`                                  | `databricks`                                              |
+| `Microsoft.Sql/servers`                                            | `sql_server`                                              |
+| `Microsoft.Sql/servers/databases`                                  | `sql_database`                                            |
+| `Microsoft.DocumentDB/databaseAccounts`                            | `cosmos_db`                                               |
+| `Microsoft.Web/sites`                                              | `app_service`                                             |
+| `Microsoft.ContainerService/managedClusters`                       | `aks`                                                     |
+| `Microsoft.Web/sites` (kind: functionapp)                          | `function_app`                                            |
+| `Microsoft.Synapse/workspaces`                                     | `synapse`                                                 |
+| `Microsoft.Fabric/capacities`                                      | `fabric`                                                  |
+| `Microsoft.DataFactory/factories`                                  | `adf`                                                     |
+| `Microsoft.Compute/virtualMachines`                                | `vm`                                                      |
+| `Microsoft.Network/privateEndpoints`                               | `pe`                                                      |
+| `Microsoft.Network/virtualNetworks`                                | (Represented as VNet boundary — not included in services) |
+| `Microsoft.Network/networkSecurityGroups`                          | `nsg`                                                     |
+| `Microsoft.Network/bastionHosts`                                   | `bastion`                                                 |
+| `Microsoft.OperationalInsights/workspaces`                         | `log_analytics`                                           |
+| `Microsoft.Insights/components`                                    | `app_insights`                                            |
+| Other                                                              | `default`                                                 |
 
 ### services JSON Construction Rules
 
@@ -318,6 +326,7 @@ Convert scan results into the input format for the built-in diagram engine.
 ```
 
 **Information to include in details:**
+
 - Endpoint URL
 - SKU/tier details
 - kind (AIServices, OpenAI, etc.)
@@ -328,6 +337,7 @@ Convert scan results into the input format for the built-in diagram engine.
 ### VNet Information → `--vnet-info` Parameter
 
 If a VNet is found, display it in the boundary label via `--vnet-info`:
+
 ```
 --vnet-info "10.0.0.0/16 | pe-subnet: 10.0.1.0/24 | <region>"
 ```
@@ -335,8 +345,14 @@ If a VNet is found, display it in the boundary label via `--vnet-info`:
 ### PE Node Generation
 
 If PEs are found, add each PE as a separate node and connect it to the corresponding service with a `private` type:
+
 ```json
-{"id": "pe_<serviceId>", "name": "PE: <serviceName>", "type": "pe", "details": ["groupId: <groupId>", "<status>"]}
+{
+  "id": "pe_<serviceId>",
+  "name": "PE: <serviceName>",
+  "type": "pe",
+  "details": ["groupId: <groupId>", "<status>"]
+}
 ```
 
 ---
@@ -346,6 +362,7 @@ If PEs are found, add each PE as a separate node and connect it to the correspon
 Diagram filename: `<project-name>/00_arch_current.html`
 
 Use the scanned RG name as the default project name:
+
 ```
 ask_user({
   question: "Please choose a project name. (This will be the folder name for scan results)",
@@ -354,6 +371,7 @@ ask_user({
 ```
 
 After generating the diagram, report:
+
 ```
 ## Current Azure Architecture
 
@@ -386,70 +404,71 @@ Ask clarifying questions to make the user's vague requests more specific:
 
 **🔧 Performance**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "It's slow" / "Response takes too long" | "Which service is slow? Should we upgrade the SKU or change the region?" |
-| "I want to increase throughput" | "Which service's throughput should we increase? Scale out? Increase DTU/RU?" |
-| "AI Search indexing is slow" | "Should we add partitions? Upgrade the SKU to S2?" |
+| User Request                            | Clarifying Question Example                                                  |
+| --------------------------------------- | ---------------------------------------------------------------------------- |
+| "It's slow" / "Response takes too long" | "Which service is slow? Should we upgrade the SKU or change the region?"     |
+| "I want to increase throughput"         | "Which service's throughput should we increase? Scale out? Increase DTU/RU?" |
+| "AI Search indexing is slow"            | "Should we add partitions? Upgrade the SKU to S2?"                           |
 
 **💰 Cost**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "I want to reduce costs" | "Which service's cost should we reduce? SKU downgrade? Clean up unused resources?" |
-| "How much does this cost?" | Look up pricing info from MS Docs and provide estimated cost based on current SKUs |
-| "It's a dev environment, so make it cheap" | "Should we switch to Free/Basic tiers? Which services?" |
+| User Request                               | Clarifying Question Example                                                        |
+| ------------------------------------------ | ---------------------------------------------------------------------------------- |
+| "I want to reduce costs"                   | "Which service's cost should we reduce? SKU downgrade? Clean up unused resources?" |
+| "How much does this cost?"                 | Look up pricing info from MS Docs and provide estimated cost based on current SKUs |
+| "It's a dev environment, so make it cheap" | "Should we switch to Free/Basic tiers? Which services?"                            |
 
 **🔒 Security**
 
-| User Request | Clarifying Question Example |
-|---|---|
+| User Request          | Clarifying Question Example                                                                    |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
 | "Harden the security" | "Should we add PEs to services that don't have them? Check RBAC? Disable publicNetworkAccess?" |
-| "Block public access" | "Should we apply PE + publicNetworkAccess: Disabled to all services?" |
-| "Manage the keys" | "Should we add Key Vault and connect it with Managed Identity?" |
+| "Block public access" | "Should we apply PE + publicNetworkAccess: Disabled to all services?"                          |
+| "Manage the keys"     | "Should we add Key Vault and connect it with Managed Identity?"                                |
 
 **🌐 Network**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "Add PE" | "To which service? Should we add them to all services at once?" |
-| "Separate the VNet" | "Which subnets should we separate? Should we also add NSGs?" |
-| "Add Bastion" | "Adding Azure Bastion for VM access. Please specify the subnet CIDR." |
+| User Request        | Clarifying Question Example                                           |
+| ------------------- | --------------------------------------------------------------------- |
+| "Add PE"            | "To which service? Should we add them to all services at once?"       |
+| "Separate the VNet" | "Which subnets should we separate? Should we also add NSGs?"          |
+| "Add Bastion"       | "Adding Azure Bastion for VM access. Please specify the subnet CIDR." |
 
 **➕ Add/Remove Resources**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "Add a VM" | "How many? What SKU? Same VNet? What OS?" |
-| "Add Fabric" | "What SKU? What's the admin email?" |
+| User Request  | Clarifying Question Example                                                            |
+| ------------- | -------------------------------------------------------------------------------------- |
+| "Add a VM"    | "How many? What SKU? Same VNet? What OS?"                                              |
+| "Add Fabric"  | "What SKU? What's the admin email?"                                                    |
 | "Delete this" | "Are you sure you want to remove [resource name]? Connected PEs will also be removed." |
 
 **📊 Monitoring/Operations**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "I want to see logs" | "Should we add a Log Analytics Workspace and connect Diagnostic Settings?" |
-| "Set up alerts" | "For which metrics? CPU? Error rate? Response time?" |
-| "Attach Application Insights" | "To which service? App Service? Function App?" |
+| User Request                  | Clarifying Question Example                                                |
+| ----------------------------- | -------------------------------------------------------------------------- |
+| "I want to see logs"          | "Should we add a Log Analytics Workspace and connect Diagnostic Settings?" |
+| "Set up alerts"               | "For which metrics? CPU? Error rate? Response time?"                       |
+| "Attach Application Insights" | "To which service? App Service? Function App?"                             |
 
 **🔄 Migration/Changes**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "Change the region" | "To which region? I'll verify that all services are available in that region." |
-| "Switch SQL to Cosmos" | "What Cosmos DB API type? (SQL/MongoDB/Cassandra) I can also provide a data migration guide." |
+| User Request            | Clarifying Question Example                                                                        |
+| ----------------------- | -------------------------------------------------------------------------------------------------- |
+| "Change the region"     | "To which region? I'll verify that all services are available in that region."                     |
+| "Switch SQL to Cosmos"  | "What Cosmos DB API type? (SQL/MongoDB/Cassandra) I can also provide a data migration guide."      |
 | "Switch Foundry to Hub" | "Hub is suitable only when ML training/open-source models are needed. Let me verify the use case." |
 
 **🤔 Diagnostics/Questions**
 
-| User Request | Clarifying Question Example |
-|---|---|
-| "What's wrong?" | Analyze current configuration (publicNetworkAccess open, PE not connected, inappropriate SKU, etc.) and suggest improvements |
-| "Is this architecture OK?" | Review against the Well-Architected Framework (security, reliability, performance, cost, operations) |
-| "Is the PE connected properly?" | Check connection status with `az network private-endpoint show` and report |
-| "Just give me the diagram" | Do not transition to Phase 1; provide the 00_arch_current.html path and finish |
+| User Request                    | Clarifying Question Example                                                                                                  |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| "What's wrong?"                 | Analyze current configuration (publicNetworkAccess open, PE not connected, inappropriate SKU, etc.) and suggest improvements |
+| "Is this architecture OK?"      | Review against the Well-Architected Framework (security, reliability, performance, cost, operations)                         |
+| "Is the PE connected properly?" | Check connection status with `az network private-endpoint show` and report                                                   |
+| "Just give me the diagram"      | Do not transition to Phase 1; provide the 00_arch_current.html path and finish                                               |
 
 Once modifications are finalized:
+
 1. Apply Phase 1's Delta Confirmation Rule
 2. Fact-check (cross-verify with MS Docs)
 3. Generate updated diagram (01_arch_diagram_draft.html)
@@ -470,6 +489,7 @@ Once modifications are finalized:
 ## Handling Unsupported Resources
 
 For resource types not in the diagram type mapping:
+
 - Display with `default` type (question mark icon)
 - Include the resource name and type in details
 - Show to the user, but do not attempt relationship inference

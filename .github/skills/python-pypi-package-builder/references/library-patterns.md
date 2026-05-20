@@ -1,6 +1,7 @@
 # Library Core Patterns, OOP/SOLID, and Type Hints
 
 ## Table of Contents
+
 1. [OOP & SOLID Principles](#1-oop--solid-principles)
 2. [Type Hints Best Practices](#2-type-hints-best-practices)
 3. [Core Class Design](#3-core-class-design)
@@ -477,6 +478,7 @@ __all__ = [
 ```
 
 Rules:
+
 - Only export what users are supposed to use. Internal helpers go in `_utils.py` or submodules.
 - Keep imports at the top level of `__init__.py` shallow — avoid importing heavy optional deps
   (like `redis`) at module level. Import them lazily inside the class or function that needs them.

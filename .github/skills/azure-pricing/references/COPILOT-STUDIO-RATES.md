@@ -12,17 +12,17 @@
 
 **IMPORTANT: Always prefer fetching live rates from the source URLs below. Use this table only as a fallback if web fetch is unavailable.**
 
-| Feature | Rate | Unit |
-|---|---|---|
-| Classic answer | 1 | per response |
-| Generative answer | 2 | per response |
-| Agent action | 5 | per action (triggers, deep reasoning, topic transitions, computer use) |
-| Tenant graph grounding | 10 | per message |
-| Agent flow actions | 13 | per 100 flow actions |
-| Text & gen AI tools (basic) | 1 | per 10 responses |
-| Text & gen AI tools (standard) | 15 | per 10 responses |
-| Text & gen AI tools (premium) | 100 | per 10 responses |
-| Content processing tools | 8 | per page |
+| Feature                        | Rate | Unit                                                                   |
+| ------------------------------ | ---- | ---------------------------------------------------------------------- |
+| Classic answer                 | 1    | per response                                                           |
+| Generative answer              | 2    | per response                                                           |
+| Agent action                   | 5    | per action (triggers, deep reasoning, topic transitions, computer use) |
+| Tenant graph grounding         | 10   | per message                                                            |
+| Agent flow actions             | 13   | per 100 flow actions                                                   |
+| Text & gen AI tools (basic)    | 1    | per 10 responses                                                       |
+| Text & gen AI tools (standard) | 15   | per 10 responses                                                       |
+| Text & gen AI tools (premium)  | 100  | per 10 responses                                                       |
+| Content processing tools       | 8    | per page                                                               |
 
 ### Notes
 
@@ -47,21 +47,21 @@ Example: A generative answer using a reasoning model costs **2 credits** (genera
 
 ### Inputs
 
-| Parameter | Description |
-|---|---|
-| `users` | Number of end users |
-| `interactions_per_month` | Average interactions per user per month |
-| `knowledge_pct` | % of responses from knowledge sources (0-100) |
-| `tenant_graph_pct` | Of knowledge responses, % using tenant graph grounding (0-100) |
-| `tool_prompt` | Average Prompt tool calls per session |
-| `tool_agent_flow` | Average Agent flow calls per session |
-| `tool_computer_use` | Average Computer use calls per session |
-| `tool_custom_connector` | Average Custom connector calls per session |
-| `tool_mcp` | Average MCP (Model Context Protocol) calls per session |
-| `tool_rest_api` | Average REST API calls per session |
-| `prompts_basic` | Average basic AI prompt uses per session |
-| `prompts_standard` | Average standard AI prompt uses per session |
-| `prompts_premium` | Average premium AI prompt uses per session |
+| Parameter                | Description                                                    |
+| ------------------------ | -------------------------------------------------------------- |
+| `users`                  | Number of end users                                            |
+| `interactions_per_month` | Average interactions per user per month                        |
+| `knowledge_pct`          | % of responses from knowledge sources (0-100)                  |
+| `tenant_graph_pct`       | Of knowledge responses, % using tenant graph grounding (0-100) |
+| `tool_prompt`            | Average Prompt tool calls per session                          |
+| `tool_agent_flow`        | Average Agent flow calls per session                           |
+| `tool_computer_use`      | Average Computer use calls per session                         |
+| `tool_custom_connector`  | Average Custom connector calls per session                     |
+| `tool_mcp`               | Average MCP (Model Context Protocol) calls per session         |
+| `tool_rest_api`          | Average REST API calls per session                             |
+| `prompts_basic`          | Average basic AI prompt uses per session                       |
+| `prompts_standard`       | Average standard AI prompt uses per session                    |
+| `prompts_premium`        | Average premium AI prompt uses per session                     |
 
 ### Calculation
 
@@ -114,10 +114,10 @@ cost_usd = total_credits × 0.01
 
 ## Employee vs Customer Agent Types
 
-| Agent Type | Included with M365 Copilot? |
-|---|---|
-| Employee-facing (BtoE) | Classic answers, generative answers, and tenant graph grounding are included at zero cost when the user has a Microsoft 365 Copilot license |
-| Customer/partner-facing | All usage is billed normally |
+| Agent Type              | Included with M365 Copilot?                                                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Employee-facing (BtoE)  | Classic answers, generative answers, and tenant graph grounding are included at zero cost when the user has a Microsoft 365 Copilot license |
+| Customer/partner-facing | All usage is billed normally                                                                                                                |
 
 ## Overage Enforcement
 

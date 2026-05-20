@@ -12,6 +12,7 @@ This file defines the structure and content of every output file produced by the
 ## Output Folder
 
 Create a timestamped folder at the start of analysis:
+
 - Format: `threat-model-YYYYMMDD-HHmmss` (UTC time)
 - Example: `threat-model-20260130-073845`
 - Write ALL output files to this folder
@@ -21,12 +22,14 @@ Create a timestamped folder at the start of analysis:
 ## File Content Formatting — CRITICAL RULE
 
 **NEVER wrap `.md` file content in code fences.** When using `create_file` or `edit_file`:
+
 - The tool writes raw content to disk. If you include ` ```markdown ` at the start, it becomes literal text in the file.
 - **WRONG**: Content starts with ` ```markdown ` — the file will contain the fence as literal text
 - **CORRECT**: Content starts directly with `# Heading` on line 1
 - This applies to ALL `.md` files: `0.1-architecture.md`, `0-assessment.md`, `1-threatmodel.md`, `2-stride-analysis.md`, `3-findings.md`
 
 **NEVER wrap `.mmd` file content in code fences.** The `.mmd` file is raw Mermaid source:
+
 - **WRONG**: Content starts with ` ```plaintext ` or ` ```mermaid `
 - **CORRECT**: Content starts with `%%{init:` on line 1, followed by `flowchart` or `graph` on line 2
 
@@ -36,17 +39,17 @@ Create a timestamped folder at the start of analysis:
 
 ## File List
 
-| File | Description | Always? |
-|------|-------------|---------|
-| `0-assessment.md` | Executive summary, risk rating, action plan, metadata | Yes |
-| `0.1-architecture.md` | Architecture overview, components, scenarios, tech stack | Yes |
-| `1-threatmodel.md` | Threat model DFD diagram + element/flow/boundary tables | Yes |
-| `1.1-threatmodel.mmd` | Pure Mermaid DFD (source of truth for detailed diagram) | Yes |
-| `1.2-threatmodel-summary.mmd` | Summary DFD (only if >15 elements or >4 boundaries) | Conditional |
-| `2-stride-analysis.md` | Full STRIDE-A analysis for all components | Yes |
-| `3-findings.md` | Prioritized security findings with remediation | Yes |
-| `threat-inventory.json` | Structured JSON inventory for comparison matching | Yes |
-| `incremental-comparison.html` | Visual HTML comparison report (incremental mode only) | Conditional |
+| File                          | Description                                              | Always?     |
+| ----------------------------- | -------------------------------------------------------- | ----------- |
+| `0-assessment.md`             | Executive summary, risk rating, action plan, metadata    | Yes         |
+| `0.1-architecture.md`         | Architecture overview, components, scenarios, tech stack | Yes         |
+| `1-threatmodel.md`            | Threat model DFD diagram + element/flow/boundary tables  | Yes         |
+| `1.1-threatmodel.mmd`         | Pure Mermaid DFD (source of truth for detailed diagram)  | Yes         |
+| `1.2-threatmodel-summary.mmd` | Summary DFD (only if >15 elements or >4 boundaries)      | Conditional |
+| `2-stride-analysis.md`        | Full STRIDE-A analysis for all components                | Yes         |
+| `3-findings.md`               | Prioritized security findings with remediation           | Yes         |
+| `threat-inventory.json`       | Structured JSON inventory for comparison matching        | Yes         |
+| `incremental-comparison.html` | Visual HTML comparison report (incremental mode only)    | Conditional |
 
 ---
 
@@ -64,47 +67,58 @@ Create a timestamped folder at the start of analysis:
 # Architecture Overview
 
 ## System Purpose
+
 <!-- 2-4 sentences: What is this system? What problem does it solve? Who are the users? -->
 
 ## Key Components
-| Component | Type | Description |
-|-----------|------|-------------|
-| [Name] | [Process / Data Store / External Service / External Interactor] | [One-line role description] |
+
+| Component | Type                                                            | Description                 |
+| --------- | --------------------------------------------------------------- | --------------------------- |
+| [Name]    | [Process / Data Store / External Service / External Interactor] | [One-line role description] |
 
 ## Component Diagram
+
 <!-- Architecture diagram using service/external/datastore classDef (NOT DFD circles). See diagram-conventions.md for styles. -->
 
 ## Top Scenarios
+
 <!-- 3-5 most important workflows. First 3 MUST include sequence diagrams. -->
 
 ### Scenario 1: [Name]
+
 [2-3 sentence description]
+
 <!-- Mermaid sequenceDiagram here -->
 
 ### Scenario 2: [Name]
+
 ### Scenario 3: [Name]
 
 ## Technology Stack
-| Layer | Technologies |
-|-------|--------------|
-| Languages | ... |
-| Frameworks | ... |
-| Data Stores | ... |
-| Infrastructure | ... |
-| Security | ... |
+
+| Layer          | Technologies |
+| -------------- | ------------ |
+| Languages      | ...          |
+| Frameworks     | ...          |
+| Data Stores    | ...          |
+| Infrastructure | ...          |
+| Security       | ...          |
 
 ## Deployment Model
+
 <!-- How deployed? On-prem, cloud, hybrid? Containers, VMs? -->
 
 ## Security Infrastructure Inventory
-| Component | Security Role | Configuration | Notes |
-|-----------|---------------|---------------|-------|
+
+| Component            | Security Role                | Configuration         | Notes                |
+| -------------------- | ---------------------------- | --------------------- | -------------------- |
 | [e.g., MISE Sidecar] | [e.g., Authentication proxy] | [e.g., Entra ID OIDC] | [e.g., All API pods] |
 
 ## Repository Structure
-| Directory | Purpose |
-|-----------|---------|
-| [path/] | [Contents] |
+
+| Directory | Purpose    |
+| --------- | ---------- |
+| [path/]   | [Contents] |
 ```
 
 ### Processing Rules
@@ -130,6 +144,7 @@ Create a timestamped folder at the start of analysis:
 ### Generation Steps
 
 **Step 1:** Create `1.1-threatmodel.mmd` (source of truth)
+
 - Pure Mermaid code, no markdown wrapper
 - Use DFD shapes and styles from `diagram-conventions.md`
 
@@ -139,36 +154,43 @@ Create a timestamped folder at the start of analysis:
 
 ### 1-threatmodel.md Content
 
-```markdown
+````markdown
 # Threat Model
 
 ## Data Flow Diagram
+
 <!-- Copy EXACT diagram from 1.1-threatmodel.mmd wrapped in ```mermaid fence -->
 
 ## Element Table
+
 | Element | Type | TMT Category | Description | Trust Boundary |
-|---------|------|--------------|-------------|----------------|
+| ------- | ---- | ------------ | ----------- | -------------- |
 
 - **Type** = high-level DFD category: `Process`, `External Interactor`, or `Data Store`
 - **TMT Category** = specific TMT ID from tmt-element-taxonomy.md §1 (e.g. `SE.P.TMCore.WebSvc`, `SE.EI.TMCore.Browser`, `SE.DS.TMCore.SQL`)
 - For Kubernetes-based applications where pods run sidecars, add an optional **Co-located Sidecars** column (e.g. `MISE, Dapr` or `—`)
 
 ## Data Flow Table
-| ID | Source | Target | Protocol | Description |
-|----|--------|--------|----------|-------------|
+
+| ID  | Source | Target | Protocol | Description |
+| --- | ------ | ------ | -------- | ----------- |
 
 ## Trust Boundary Table
+
 | Boundary | Description | Contains |
-|----------|-------------|----------|
+| -------- | ----------- | -------- |
 
 ## Summary View (only if summary diagram generated)
+
 <!-- Copy from 1.2-threatmodel-summary.mmd -->
 
 ## Summary to Detailed Mapping
+
 | Summary Element | Contains | Summary Flows | Maps to Detailed Flows |
-```
+````
 
 **Key rules:**
+
 - Diagram in `.mmd` and `.md` must be IDENTICAL (copy, don't regenerate)
 - Use `DF01`, `DF02` for detailed flows; `SDF01`, `SDF02` for summary flows
 
@@ -182,11 +204,12 @@ Create a timestamped folder at the start of analysis:
 
 1. Each component's threats **MUST be split into Tier 1, Tier 2, Tier 3 sub-sections** with separate tables
 2. Summary table **MUST include T1, T2, T3 columns**
-3. All three tier sub-sections appear for every component (even if empty — use "*No Tier N threats identified*")
+3. All three tier sub-sections appear for every component (even if empty — use "_No Tier N threats identified_")
 
 ### Anchor-Safe Headings (CRITICAL)
 
 Component `## ` headings become link targets from `3-findings.md`.
+
 - Use **only** letters, numbers, spaces, and hyphens
 - **FORBIDDEN in headings:** `&`, `/`, `(`, `)`, `.`, `:`, `'`, `"`, `+`, `@`, `!`
 - Replace: `&` → `and`, `/` → `-`, parentheses → remove
@@ -208,11 +231,11 @@ Component `## ` headings become link targets from `3-findings.md`.
 
 Threats are classified into three exploitability tiers based on the prerequisites an attacker needs:
 
-| Tier | Label | Prerequisites | Assignment Rule |
-|------|-------|---------------|----------------|
-| **Tier 1** | Direct Exposure | `None` | Exploitable by unauthenticated external attacker with NO prior access. The prerequisite field MUST say `None`. |
-| **Tier 2** | Conditional Risk | Single prerequisite: `Authenticated User`, `Privileged User`, `Internal Network`, or single `{Boundary} Access` | Requires exactly ONE form of access. The prerequisite field has ONE item. |
-| **Tier 3** | Defense-in-Depth | `Host/OS Access`, `Admin Credentials`, `{Component} Compromise`, `Physical Access`, or MULTIPLE prerequisites joined with `+` | Requires significant prior breach, infrastructure access, or multiple combined prerequisites. |
+| Tier       | Label            | Prerequisites                                                                                                                 | Assignment Rule                                                                                                |
+| ---------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Tier 1** | Direct Exposure  | `None`                                                                                                                        | Exploitable by unauthenticated external attacker with NO prior access. The prerequisite field MUST say `None`. |
+| **Tier 2** | Conditional Risk | Single prerequisite: `Authenticated User`, `Privileged User`, `Internal Network`, or single `{Boundary} Access`               | Requires exactly ONE form of access. The prerequisite field has ONE item.                                      |
+| **Tier 3** | Defense-in-Depth | `Host/OS Access`, `Admin Credentials`, `{Component} Compromise`, `Physical Access`, or MULTIPLE prerequisites joined with `+` | Requires significant prior breach, infrastructure access, or multiple combined prerequisites.                  |
 ```
 
 > **⛔ COPY THE TIERS TABLE VERBATIM.** The 4th column must be `Assignment Rule` (NOT `Example`, `Description`, `Criteria`, or any other name). The cell values must be the exact text above — do NOT replace them with deployment-specific examples. Do NOT add a "Deployment context affecting tier assignment" paragraph after the table — deployment context belongs in the individual component sections, not in the tier definitions.
@@ -224,8 +247,9 @@ Threats are classified into three exploitability tiers based on the prerequisite
 > The model frequently generates “Authorization” for the A column — this is WRONG. If you see “Authorization” anywhere as a STRIDE category label, replace it with “Abuse”. The Category column in threat rows MUST say “Abuse” (not “Authorization”). N/A entries must also say “Abuse — N/A” (not “Authorization — N/A”).
 
 ## Summary
-| Component | Link | S | T | R | I | D | E | A | Total | T1 | T2 | T3 | Risk |
-|-----------|------|---|---|---|---|---|---|---|-------|----|----|----|------|
+
+| Component | Link | S   | T   | R   | I   | D   | E   | A   | Total | T1  | T2  | T3  | Risk |
+| --------- | ---- | --- | --- | --- | --- | --- | --- | --- | ----- | --- | --- | --- | ---- |
 
 ---
 
@@ -241,15 +265,19 @@ Threats are classified into three exploitability tiers based on the prerequisite
 > **⛔ CATEGORY NAMING: The 7 STRIDE-A categories are: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, Abuse. The "A" category is ALWAYS "Abuse" — NEVER "Authorization". Authorization issues belong under Elevation of Privilege (E). This applies to N/A justification labels, threat table Category columns, and all prose.**
 
 #### Tier 1 — Direct Exposure (No Prerequisites)
-| ID | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
-|----|----------|--------|---------------|---------------|------------|--------|
+
+| ID  | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
+| --- | -------- | ------ | ------------- | ------------- | ---------- | ------ |
 
 #### Tier 2 — Conditional Risk
+
 | ID | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
 
 #### Tier 3 — Defense-in-Depth
+
 | ID | Category | Threat | Prerequisites | Affected Flow | Mitigation | Status |
-```
+
+````
 
 **⛔ STRIDE Status Column — Valid Values (must match Coverage table):**
 The `Status` column in each threat row MUST use exactly one of these values:
@@ -410,7 +438,7 @@ Add `[Authorize]` attribute to the controller class and configure JWT bearer aut
 #### Verification
 
 Send an unauthenticated GET request to `/api/v1/resources` — should return 401 Unauthorized.
-```
+````
 
 ### Related Threats Link Format
 
@@ -433,20 +461,22 @@ Send an unauthenticated GET request to `/api/v1/resources` — should return 401
 ```markdown
 ## Threat Coverage Verification
 
-| Threat ID | Finding ID | Status |
-|-----------|------------|--------|
-| T01.S | FIND-01 | ✅ Covered |
-| T01.T | FIND-05 | ✅ Mitigated (team implemented TLS) |
-| T02.I | — | 🔄 Mitigated by Platform (Azure AD) |
+| Threat ID | Finding ID | Status                              |
+| --------- | ---------- | ----------------------------------- |
+| T01.S     | FIND-01    | ✅ Covered                          |
+| T01.T     | FIND-05    | ✅ Mitigated (team implemented TLS) |
+| T02.I     | —          | 🔄 Mitigated by Platform (Azure AD) |
 ```
 
 Every threat from `2-stride-analysis.md` must appear in this table. Status is one of:
+
 - `✅ Covered (FIND-XX)` — finding documents a vulnerability that needs remediation
 - `✅ Mitigated (FIND-XX)` — finding documents an existing control the team built (gives credit for security work done)
 - `🔄 Mitigated by Platform` — external system handles it (only for genuinely external platforms)
 
 **⛔ THIS TABLE IS A FEEDBACK LOOP, NOT DOCUMENTATION:**
 The purpose of this table is to force you to check your work. After filling it out:
+
 1. If ANY threat has a `—` dash in the Finding ID column with status other than `🔄 Mitigated by Platform` → **you missed a finding. Go back and create one.**
 2. If Platform count > 20% of total threats → **you are overusing Platform as an escape hatch. Re-examine.**
 3. If any threat is listed as `⚠️ Accepted Risk` or `⚠️ Needs Review` → **VIOLATION. Create a finding or verify it's genuinely Platform.**
@@ -483,15 +513,15 @@ The Report Files table MUST list `0-assessment.md` (this file) as the FIRST row,
 ```markdown
 ## Report Files
 
-| File | Description |
-|------|-------------|
-| [0-assessment.md](0-assessment.md) | This document — executive summary, risk rating, action plan, metadata |
-| [0.1-architecture.md](0.1-architecture.md) | Architecture overview, components, scenarios, tech stack |
-| [1-threatmodel.md](1-threatmodel.md) | Threat model DFD diagram with element, flow, and boundary tables |
-| [1.1-threatmodel.mmd](1.1-threatmodel.mmd) | Pure Mermaid DFD source file |
-| [1.2-threatmodel-summary.mmd](1.2-threatmodel-summary.mmd) | Summary DFD (only if generated) |
-| [2-stride-analysis.md](2-stride-analysis.md) | Full STRIDE-A analysis for all components |
-| [3-findings.md](3-findings.md) | Prioritized security findings with remediation |
+| File                                                       | Description                                                           |
+| ---------------------------------------------------------- | --------------------------------------------------------------------- |
+| [0-assessment.md](0-assessment.md)                         | This document — executive summary, risk rating, action plan, metadata |
+| [0.1-architecture.md](0.1-architecture.md)                 | Architecture overview, components, scenarios, tech stack              |
+| [1-threatmodel.md](1-threatmodel.md)                       | Threat model DFD diagram with element, flow, and boundary tables      |
+| [1.1-threatmodel.mmd](1.1-threatmodel.mmd)                 | Pure Mermaid DFD source file                                          |
+| [1.2-threatmodel-summary.mmd](1.2-threatmodel-summary.mmd) | Summary DFD (only if generated)                                       |
+| [2-stride-analysis.md](2-stride-analysis.md)               | Full STRIDE-A analysis for all components                             |
+| [3-findings.md](3-findings.md)                             | Prioritized security findings with remediation                        |
 ```
 
 ⚠️ **`0-assessment.md` MUST be the first row.** The model consistently lists `0.1-architecture.md` first — that is WRONG. This file IS the front page of the report and lists itself first.
@@ -522,28 +552,30 @@ Include at end of Executive Summary:
 ```markdown
 ## Action Summary
 
-| Tier | Description | Threats | Findings | Priority |
-|------|-------------|---------|----------|----------|
-| Tier 1 | Directly exploitable | 5 | 3 | 🔴 Critical Risk |
-| Tier 2 | Requires authenticated access | 8 | 4 | 🟠 Elevated Risk |
-| Tier 3 | Requires prior compromise | 12 | 5 | 🟡 Moderate Risk |
-| **Total** | | **25** | **12** | |
+| Tier      | Description                   | Threats | Findings | Priority         |
+| --------- | ----------------------------- | ------- | -------- | ---------------- |
+| Tier 1    | Directly exploitable          | 5       | 3        | 🔴 Critical Risk |
+| Tier 2    | Requires authenticated access | 8       | 4        | 🟠 Elevated Risk |
+| Tier 3    | Requires prior compromise     | 12      | 5        | 🟡 Moderate Risk |
+| **Total** |                               | **25**  | **12**   |                  |
 ```
 
 > **⛔ EXACTLY 4 ROWS: The Action Summary table MUST have exactly 4 data rows: Tier 1, Tier 2, Tier 3, and Total. Do NOT add rows for "Mitigated", "Platform", "Fixed", "Accepted", or any other status. Mitigated threats are distributed across their respective tiers — they are NOT a separate tier. If you find yourself adding a "Mitigated" row, STOP and remove it.**
 
 ```markdown
-
 ### Quick Wins
+
 <!-- Tier 1 findings with Low remediation effort — high impact, quick fixes -->
-| Finding | Title | Why Quick |
-|---------|-------|-----------|
-| FIND-XX | [title] | [reason] |
+
+| Finding | Title   | Why Quick |
+| ------- | ------- | --------- |
+| FIND-XX | [title] | [reason]  |
 ```
 
 ⚠️ **Quick Wins is a REQUIRED subsection.** The `### Quick Wins` heading and table MUST appear after the tier summary table inside Action Summary. If no low-effort findings exist, write: `### Quick Wins\n\nNo low-effort findings identified. All findings require Medium or High effort.`
 
 **Processing Rules for Action Summary:**
+
 1. Populate the tier table with actual counts from `3-findings.md` (findings per tier) and `2-stride-analysis.md` (threats per tier from T1/T2/T3 columns in summary table)
 2. Quick Wins lists only Tier 1 findings with `Remediation Effort: Low` — highest-impact, lowest-effort items
 3. If no Tier 1 Low-effort findings exist, show Tier 2 Low-effort findings instead, with a note: "No Tier 1 quick wins identified. These Tier 2 items offer the best effort-to-impact ratio:"
@@ -554,6 +586,7 @@ Include at end of Executive Summary:
 ### ⛔ PROHIBITED Content in Action Summary and All Output Files
 
 **NEVER generate ANY of the following:**
+
 - `### Priority Remediation by Phase` or any phase-based remediation roadmap
 - Sprint references (`Sprint 1-2`, `Sprint 3-4`, etc.)
 - Time-based phases (`Phase 1 — Immediate`, `Phase 2 — Short-term`, `Phase 3 — Medium-term`, `Phase 4 — Long-term`, `Backlog`)
@@ -571,21 +604,24 @@ Include at end of Executive Summary:
 ## Analysis Context & Assumptions
 
 ### Analysis Scope
-| Constraint | Description |
-|------------|-------------|
-| Scope | [Full repo or specific area] |
-| Excluded | [What was excluded] |
-| Focus Areas | [Special focus if any] |
+
+| Constraint  | Description                  |
+| ----------- | ---------------------------- |
+| Scope       | [Full repo or specific area] |
+| Excluded    | [What was excluded]          |
+| Focus Areas | [Special focus if any]       |
 
 ### Infrastructure Context
+
 | Category | Discovered from Codebase | Findings Affected |
-|----------|--------------------------|-------------------|
+| -------- | ------------------------ | ----------------- |
 
 **Every entry in "Discovered from Codebase" MUST include a relative link to the source file or document from which the information was inferred.** Example:
-
 ```
+
 | Deployment Model | Air-gapped, single-admin workstation ([daemon.json](src/Container/Moby/daemon.json), [InstallAzureEdgeDiagnosticTool.ps1](src/Setup/InstallArtifacts/InstallAzureEdgeDiagnosticTool.ps1)) | All findings — no Tier 1 |
 | Network Exposure | All services bind to localhost:80 only ([KustoContainerHelper.psm1](src/Container/Kusto/KustoContainerHelper.psm1)) | FIND-01, FIND-03 |
+
 ```
 
 ### Needs Verification
@@ -611,23 +647,26 @@ Include at end of Executive Summary:
 ## References Consulted
 
 ### Security Standards
-| Standard | URL | How Used |
-|----------|-----|----------|
-| Microsoft SDL Bug Bar | https://www.microsoft.com/en-us/msrc/sdlbugbar | Severity classification |
-| OWASP Top 10:2025 | https://owasp.org/Top10/2025/ | Threat categorization |
-| CVSS 4.0 | https://www.first.org/cvss/v4.0/specification-document | Risk scoring |
-| CWE | https://cwe.mitre.org/ | Weakness classification |
-| STRIDE | https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats | Threat enumeration methodology |
-| NIST SP 800-53 Rev. 5 | https://csrc.nist.gov/pubs/sp/800-53/r5/upd1/final | Control mapping |
+
+| Standard              | URL                                                                                   | How Used                       |
+| --------------------- | ------------------------------------------------------------------------------------- | ------------------------------ |
+| Microsoft SDL Bug Bar | https://www.microsoft.com/en-us/msrc/sdlbugbar                                        | Severity classification        |
+| OWASP Top 10:2025     | https://owasp.org/Top10/2025/                                                         | Threat categorization          |
+| CVSS 4.0              | https://www.first.org/cvss/v4.0/specification-document                                | Risk scoring                   |
+| CWE                   | https://cwe.mitre.org/                                                                | Weakness classification        |
+| STRIDE                | https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats | Threat enumeration methodology |
+| NIST SP 800-53 Rev. 5 | https://csrc.nist.gov/pubs/sp/800-53/r5/upd1/final                                    | Control mapping                |
 
 ### Component Documentation
-| Component | Documentation URL | Relevant Section |
-|-----------|------------------|------------------|
-| [e.g., Dapr] | [e.g., https://docs.dapr.io/operations/security/] | [e.g., mTLS configuration] |
-| [e.g., Redis] | [e.g., https://redis.io/docs/management/security/] | [e.g., Authentication] |
+
+| Component     | Documentation URL                                  | Relevant Section           |
+| ------------- | -------------------------------------------------- | -------------------------- |
+| [e.g., Dapr]  | [e.g., https://docs.dapr.io/operations/security/]  | [e.g., mTLS configuration] |
+| [e.g., Redis] | [e.g., https://redis.io/docs/management/security/] | [e.g., Authentication]     |
 ```
 
 **Processing Rules:**
+
 1. Always include the Security Standards table — populate with actual standards consulted
 2. Every row MUST have a full URL (https://...) — never omit the URL column
 3. Populate Component Documentation with technologies actually consulted during analysis
@@ -640,22 +679,23 @@ Include at end of Executive Summary:
 ```markdown
 ## Report Metadata
 
-| Field | Value |
-|-------|-------|
-| Source Location | `[Full path]` |
-| Git Repository | `[Remote URL or "Unavailable"]` |
-| Git Branch | `[Branch name or "Unavailable"]` |
-| Git Commit | `[Short SHA]` (`[YYYY-MM-DD]` — run `git log -1 --format="%cs" [SHA]` to get commit date) |
-| Model | `[Model name — ask the system or state the model you are running as]` |
-| Machine Name | `[hostname]` |
-| Analysis Started | `[UTC timestamp from command]` |
-| Analysis Completed | `[UTC timestamp from command]` |
-| Duration | `[Computed difference between started and completed]` |
-| Output Folder | `[folder name]` |
-| Prompt | `[The user's prompt text that triggered this analysis]` |
+| Field              | Value                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| Source Location    | `[Full path]`                                                                             |
+| Git Repository     | `[Remote URL or "Unavailable"]`                                                           |
+| Git Branch         | `[Branch name or "Unavailable"]`                                                          |
+| Git Commit         | `[Short SHA]` (`[YYYY-MM-DD]` — run `git log -1 --format="%cs" [SHA]` to get commit date) |
+| Model              | `[Model name — ask the system or state the model you are running as]`                     |
+| Machine Name       | `[hostname]`                                                                              |
+| Analysis Started   | `[UTC timestamp from command]`                                                            |
+| Analysis Completed | `[UTC timestamp from command]`                                                            |
+| Duration           | `[Computed difference between started and completed]`                                     |
+| Output Folder      | `[folder name]`                                                                           |
+| Prompt             | `[The user's prompt text that triggered this analysis]`                                   |
 ```
 
 **Gathering rules:**
+
 - START_TIME: Run `Get-Date -Format "yyyy-MM-dd HH:mm:ss" -AsUTC` at workflow Step 1
 - END_TIME: Run again before writing 0-assessment.md
 - Git fields: `git remote get-url origin`, `git branch --show-current`, `git rev-parse --short HEAD`
@@ -667,6 +707,7 @@ Include at end of Executive Summary:
 ### Coverage Counts Consistency
 
 Before writing 0-assessment.md:
+
 - Count elements from `1-threatmodel.md` Element Table
 - Count findings from `3-findings.md`
 - Count threats from `2-stride-analysis.md` summary table
@@ -839,7 +880,15 @@ This file enables automated comparison between two threat model runs.
     "threats_by_tier": { "T1": 12, "T2": 53, "T3": 32 },
     "findings_by_tier": { "T1": 7, "T2": 7, "T3": 4 },
     "findings_by_severity": { "Critical": 4, "Important": 8, "Moderate": 6 },
-    "threats_by_stride": { "S": 14, "T": 19, "R": 8, "I": 20, "D": 15, "E": 14, "A": 7 }
+    "threats_by_stride": {
+      "S": 14,
+      "T": 19,
+      "R": 8,
+      "I": 20,
+      "D": 15,
+      "E": 14,
+      "A": 7
+    }
   }
 }
 ```
@@ -851,6 +900,7 @@ This file enables automated comparison between two threat model runs.
 When generating `threat-inventory.json` for an **incremental analysis** (see `incremental-orchestrator.md`), add these fields:
 
 **Top-level fields:**
+
 - `"incremental": true` — marks this as an incremental report
 - `"baseline_report": "threat-model-20260309-174425"` — path to baseline report folder
 - `"baseline_commit": "2dd84ab"` — the commit SHA of the baseline report
@@ -858,6 +908,7 @@ When generating `threat-inventory.json` for an **incremental analysis** (see `in
 - `"schema_version": "1.1"` — incremental reports use schema version 1.1
 
 **Per-component:** `"change_status"` — one of:
+
 - `"unchanged"` — source files identical or cosmetic-only changes
 - `"modified"` — security-relevant source file changes
 - `"restructured"` — files moved/renamed, same logical component
@@ -867,6 +918,7 @@ When generating `threat-inventory.json` for an **incremental analysis** (see `in
 - `"split_into:{id1},{id2}"` — split into multiple components
 
 **Per-threat:** `"change_status"` — one of:
+
 - `"still_present"` — threat exists in current code, same as before
 - `"fixed"` — vulnerability was remediated (must cite code change)
 - `"mitigated"` — partial remediation applied
@@ -877,6 +929,7 @@ When generating `threat-inventory.json` for an **incremental analysis** (see `in
 - `"removed_with_component"` — component was removed
 
 **Per-finding:** `"change_status"` — same values as per-threat, plus:
+
 - `"partially_mitigated"` — code changed partially, vulnerability partially remains
 
 **metrics.status_summary** — counts per `change_status` for components, threats, and findings. See `incremental-orchestrator.md` §4f for the full schema.
@@ -884,17 +937,20 @@ When generating `threat-inventory.json` for an **incremental analysis** (see `in
 ### Canonical Naming Rules
 
 **Component IDs** — Derived from actual class/file names, PascalCase:
+
 - `SupportabilityAgent.cs` → `SupportabilityAgent`
 - `PowerShellCommandExecutor.cs` → `PowerShellCommandExecutor`
 - "Redis State Store" → `RedisStateStore`
 - "Ingress-NGINX" → `IngressNginx`
 
 **Flow IDs** — Deterministic from endpoints:
+
 - Format: `DF_{Source}_to_{Target}`
 - `DF_Operator_to_TerminalUI`
 - `DF_InferencingFlow_to_RedisStateStore`
 
 **Identity Keys** — Each threat and finding gets a canonical identity key:
+
 - Threats: `component_id` + `stride_category` + `attack_surface` + `data_flow_id`
 - Findings: `component_id` + `vulnerability` (CWE) + `attack_surface`
 - These keys are independent of LLM-generated prose — they anchor to code artifacts
@@ -904,78 +960,85 @@ When generating `threat-inventory.json` for an **incremental analysis** (see `in
 Use these rules so repeated runs on unchanged code produce comparable inventories.
 
 1. **Canonical ID vs display name**
-  - `id` is stable identity; `display` is presentation text
-  - Never derive identity from prose wording in findings or diagram labels
+
+- `id` is stable identity; `display` is presentation text
+- Never derive identity from prose wording in findings or diagram labels
 
 2. **Alias capture**
-  - Every component and boundary must include an `aliases` array
-  - Include discovered synonyms from architecture/DFD/STRIDE/findings (deduplicated, sorted)
-  - Keep canonical `id` stable even if display wording changes across runs
+
+- Every component and boundary must include an `aliases` array
+- Include discovered synonyms from architecture/DFD/STRIDE/findings (deduplicated, sorted)
+- Keep canonical `id` stable even if display wording changes across runs
 
 3. **Boundary kind taxonomy (TMT-aligned)**
-  - Use `boundary_kind`/`kind` from this set — describes the NATURE of the trust transition, not what's inside:
-    - `MachineBoundary` — between different hosts/VMs (e.g., host ↔ guest, VM1 ↔ VM2)
-    - `NetworkBoundary` — between network zones (e.g., corporate LAN ↔ internet, DMZ ↔ internal)
-    - `ClusterBoundary` — between K8s/container cluster and outside (e.g., cluster ↔ external services)
-    - `ProcessBoundary` — between OS processes or containers on same host (e.g., sidecar ↔ main container)
-    - `PrivilegeBoundary` — between different privilege levels (e.g., user mode ↔ kernel, unprivileged ↔ admin)
-    - `SandboxBoundary` — between sandboxed and unsandboxed execution (e.g., browser sandbox, WASM)
-  - Each value answers: "what changes when you cross this line?" (different machine, network, cluster, process, privilege, sandbox)
-  - Do NOT use component-grouping labels (DataStorage, ApplicationCore, AgentExecution) as boundary kinds — those describe WHAT's inside, not the nature of the trust transition
+
+- Use `boundary_kind`/`kind` from this set — describes the NATURE of the trust transition, not what's inside:
+  - `MachineBoundary` — between different hosts/VMs (e.g., host ↔ guest, VM1 ↔ VM2)
+  - `NetworkBoundary` — between network zones (e.g., corporate LAN ↔ internet, DMZ ↔ internal)
+  - `ClusterBoundary` — between K8s/container cluster and outside (e.g., cluster ↔ external services)
+  - `ProcessBoundary` — between OS processes or containers on same host (e.g., sidecar ↔ main container)
+  - `PrivilegeBoundary` — between different privilege levels (e.g., user mode ↔ kernel, unprivileged ↔ admin)
+  - `SandboxBoundary` — between sandboxed and unsandboxed execution (e.g., browser sandbox, WASM)
+- Each value answers: "what changes when you cross this line?" (different machine, network, cluster, process, privilege, sandbox)
+- Do NOT use component-grouping labels (DataStorage, ApplicationCore, AgentExecution) as boundary kinds — those describe WHAT's inside, not the nature of the trust transition
 
 3b. **Boundary ID derivation** (MANDATORY — apply the same deterministic naming as components)
-  - Derive boundary IDs from deployment/infrastructure names, NOT abstract concepts:
-    - Docker host → `Docker` (never `DockerEnvironment` or `ContainerRuntime`)
-    - Kubernetes cluster → `K8sCluster` (never `KubernetesEnvironment`)
-    - Operator's machine → `OperatorWorkstation` (never `HostOS` or `LocalMachine`)
-    - External cloud services → `ExternalServices` (never `CloudBoundary`)
-    - Data storage grouped → `DataStorage` (never `DataLayer` or `PersistenceLayer`)
-    - Backend application services → `BackendServices` (never `AppBoundary` or `ApplicationCore`)
-    - ML/AI inference models → `MLModels` (never `InferenceModels` or `ModelBoundary`)
-    - DMZ/public zone → `PublicZone` (never `DMZBoundary` or `IngressZone`)
-    - Agent execution → `AgentExecution` (keep this exact ID)
-    - Tool execution → `ToolExecution` (keep this exact ID)
-  - Once a boundary ID is chosen in Step 1, use it EVERYWHERE (DFD, tables, JSON)
-  - Never restructure containment between runs on the same code (same component → same boundary)
+
+- Derive boundary IDs from deployment/infrastructure names, NOT abstract concepts:
+  - Docker host → `Docker` (never `DockerEnvironment` or `ContainerRuntime`)
+  - Kubernetes cluster → `K8sCluster` (never `KubernetesEnvironment`)
+  - Operator's machine → `OperatorWorkstation` (never `HostOS` or `LocalMachine`)
+  - External cloud services → `ExternalServices` (never `CloudBoundary`)
+  - Data storage grouped → `DataStorage` (never `DataLayer` or `PersistenceLayer`)
+  - Backend application services → `BackendServices` (never `AppBoundary` or `ApplicationCore`)
+  - ML/AI inference models → `MLModels` (never `InferenceModels` or `ModelBoundary`)
+  - DMZ/public zone → `PublicZone` (never `DMZBoundary` or `IngressZone`)
+  - Agent execution → `AgentExecution` (keep this exact ID)
+  - Tool execution → `ToolExecution` (keep this exact ID)
+- Once a boundary ID is chosen in Step 1, use it EVERYWHERE (DFD, tables, JSON)
+- Never restructure containment between runs on the same code (same component → same boundary)
 
 4. **Component fingerprint**
-  - `fingerprint` must be built from stable evidence:
-    - sorted `source_files` — full file paths to primary source files
-    - sorted `source_directories` — parent directory paths of source files (more stable than filenames across refactors)
-    - sorted `class_names` — primary class, struct, or interface names defined in the component's source files (e.g., `["HealthServer", "IHealthService"]`). For non-code components (datastores, external services), leave empty.
-    - `namespace` — the primary namespace/package (e.g., `"MCP.Core.Servers.Health"` for C#, `"ragapp.src.ingestflow"` for Python). Empty for non-code components.
-    - sorted `api_routes` — HTTP API endpoint patterns exposed by this component (e.g., `["/api/health", "/api/v1/chat"]`). Empty if not an HTTP service.
-    - sorted `config_keys` — environment variables and configuration keys consumed by this component (e.g., `["AZURE_OPENAI_ENDPOINT", "REDIS_HOST"]`). Extract from appsettings.json, .env files, Helm values, or code that reads env vars.
-    - sorted `dependencies` — external package/library dependencies specific to this component (e.g., `["Microsoft.SemanticKernel", "Azure.AI.OpenAI"]` for NuGet, `["pymilvus", "fastapi"]` for pip). Only include packages that are characteristic of this component, not framework-wide dependencies.
-    - sorted `inbound_from` and `outbound_to` component IDs
-    - sorted `protocols`
-    - `component_type` and `boundary_kind`
-  - Do not include mutable prose in the fingerprint
-  - **Deterministic matching priority:** `source_directories` > `class_names` > `namespace` > `api_routes` > `config_keys` are all highly stable signals that survive component renames. Two components sharing any of these are almost certainly the same real component.
 
-  **Fingerprint Field → Comparison Matching Signal Map:**
-  | Fingerprint Field | Comparison Signal | Max Points | Stability |
-  |---|---|---|---|
-  | `source_files` | Signal 2 — Source file/directory overlap | +30 | High (files rarely move) |
-  | `source_directories` | Signal 2 — Source file/directory overlap | +25 | Very High (directories almost never change) |
-  | `class_names` | Signal 3 — Class/Namespace match | +25 | Very High (classes rarely rename) |
-  | `namespace` | Signal 3 — Class/Namespace match | +20 | Very High (namespaces are structural) |
-  | `api_routes` | Signal 4 — API route / Config key overlap | +15 | High (API contracts are versioned) |
-  | `config_keys` | Signal 4 — API route / Config key overlap | +10 | High (config keys are stable) |
-  | `dependencies` | Signal 4 — API route / Config key overlap | +5 | Medium (packages change with upgrades) |
-  | `inbound_from` / `outbound_to` | Signal 5 — Topology overlap | +15 | Low (uses component IDs which may drift) |
-  | `component_type` + `boundary_kind` | Signal 6 — Type + boundary kind | +10 | Medium (boundary naming may vary) |
-  | `protocols` | (Not directly scored — used as tiebreaker) | — | Medium |
+- `fingerprint` must be built from stable evidence:
+  - sorted `source_files` — full file paths to primary source files
+  - sorted `source_directories` — parent directory paths of source files (more stable than filenames across refactors)
+  - sorted `class_names` — primary class, struct, or interface names defined in the component's source files (e.g., `["HealthServer", "IHealthService"]`). For non-code components (datastores, external services), leave empty.
+  - `namespace` — the primary namespace/package (e.g., `"MCP.Core.Servers.Health"` for C#, `"ragapp.src.ingestflow"` for Python). Empty for non-code components.
+  - sorted `api_routes` — HTTP API endpoint patterns exposed by this component (e.g., `["/api/health", "/api/v1/chat"]`). Empty if not an HTTP service.
+  - sorted `config_keys` — environment variables and configuration keys consumed by this component (e.g., `["AZURE_OPENAI_ENDPOINT", "REDIS_HOST"]`). Extract from appsettings.json, .env files, Helm values, or code that reads env vars.
+  - sorted `dependencies` — external package/library dependencies specific to this component (e.g., `["Microsoft.SemanticKernel", "Azure.AI.OpenAI"]` for NuGet, `["pymilvus", "fastapi"]` for pip). Only include packages that are characteristic of this component, not framework-wide dependencies.
+  - sorted `inbound_from` and `outbound_to` component IDs
+  - sorted `protocols`
+  - `component_type` and `boundary_kind`
+- Do not include mutable prose in the fingerprint
+- **Deterministic matching priority:** `source_directories` > `class_names` > `namespace` > `api_routes` > `config_keys` are all highly stable signals that survive component renames. Two components sharing any of these are almost certainly the same real component.
 
-  **Every field in this table MUST be populated during analysis (Step 8b).** Empty arrays `[]` are acceptable when the field genuinely doesn't apply (e.g., `api_routes` for a datastore). But `source_directories` and `class_names` must NEVER be empty for process-type components — these are the primary matching anchors.
+**Fingerprint Field → Comparison Matching Signal Map:**
+| Fingerprint Field | Comparison Signal | Max Points | Stability |
+|---|---|---|---|
+| `source_files` | Signal 2 — Source file/directory overlap | +30 | High (files rarely move) |
+| `source_directories` | Signal 2 — Source file/directory overlap | +25 | Very High (directories almost never change) |
+| `class_names` | Signal 3 — Class/Namespace match | +25 | Very High (classes rarely rename) |
+| `namespace` | Signal 3 — Class/Namespace match | +20 | Very High (namespaces are structural) |
+| `api_routes` | Signal 4 — API route / Config key overlap | +15 | High (API contracts are versioned) |
+| `config_keys` | Signal 4 — API route / Config key overlap | +10 | High (config keys are stable) |
+| `dependencies` | Signal 4 — API route / Config key overlap | +5 | Medium (packages change with upgrades) |
+| `inbound_from` / `outbound_to` | Signal 5 — Topology overlap | +15 | Low (uses component IDs which may drift) |
+| `component_type` + `boundary_kind` | Signal 6 — Type + boundary kind | +10 | Medium (boundary naming may vary) |
+| `protocols` | (Not directly scored — used as tiebreaker) | — | Medium |
+
+**Every field in this table MUST be populated during analysis (Step 8b).** Empty arrays `[]` are acceptable when the field genuinely doesn't apply (e.g., `api_routes` for a datastore). But `source_directories` and `class_names` must NEVER be empty for process-type components — these are the primary matching anchors.
 
 5. **Boundary containment fingerprint**
-  - `contains_fingerprint` = sorted `contains` joined with `|`
-  - Use this for boundary rename detection during comparison
+
+- `contains_fingerprint` = sorted `contains` joined with `|`
+- Use this for boundary rename detection during comparison
 
 6. **Deterministic ordering**
-  - Sort all arrays and nested list fields before writing JSON
-  - This makes diffs stable and prevents accidental churn
+
+- Sort all arrays and nested list fields before writing JSON
+- This makes diffs stable and prevents accidental churn
 
 ### Processing Rules
 
@@ -1005,6 +1068,7 @@ Use these rules so repeated runs on unchanged code produce comparable inventorie
 ⛔ **MANDATORY:** After writing each file, verify these checks and report results. Fix any ❌ before proceeding.
 
 ### After `2-stride-analysis.md`:
+
 - [ ] Summary table appears BEFORE individual component sections
 - [ ] 3 tier sub-sections per component (Tier 1, Tier 2, Tier 3)
 - [ ] Status column uses only: `Open`, `Mitigated`, `Platform` (no `Accepted Risk`, no `Needs Review`)
@@ -1012,6 +1076,7 @@ Use these rules so repeated runs on unchanged code produce comparable inventorie
 - [ ] Every threat has single-letter STRIDE category (S/T/R/I/D/E/A)
 
 ### After `3-findings.md`:
+
 - [ ] 3 tier headings: `## Tier 1`, `## Tier 2`, `## Tier 3` (all present)
 - [ ] Zero occurrences of "Accepted Risk" anywhere in the file
 - [ ] Every finding has CVSS 4.0 vector string
@@ -1019,6 +1084,7 @@ Use these rules so repeated runs on unchanged code produce comparable inventorie
 - [ ] 4th column header is "Assignment Rule" (not "Example")
 
 ### After `threat-inventory.json`:
+
 - [ ] `threats.length == metrics.total_threats` (zero tolerance)
 - [ ] `findings.length == metrics.total_findings` (zero tolerance)
 - [ ] If threats > 50, used sub-agent/Python/chunked — NOT single `create_file`
@@ -1027,6 +1093,7 @@ Use these rules so repeated runs on unchanged code produce comparable inventorie
 - [ ] **Field names match schema exactly:** components use `display` (NOT `display_name`), threats use `stride_category` (NOT `category`), threat→component link is inside `identity_key.component_id` (NOT top-level `component_id`), threats have BOTH `title` (short name) AND `description` (longer prose) — NOT just `description` alone
 
 ### After `0-assessment.md`:
+
 - [ ] Exactly 7 sections: Report Files, Executive Summary, Action Summary, Analysis Context & Assumptions, References Consulted, Report Metadata, Classification Reference
 - [ ] `---` horizontal rule between every pair of `##` sections
 
@@ -1055,6 +1122,7 @@ All reports MUST use these exact values. Do NOT abbreviate, substitute, or inven
 **Finding Change Status (incremental):** `Still Present` | `Fixed` | `New` | `New (Code)` | `New (Previously Unidentified)` | `Removed`
 
 **OWASP Top 10:2025 suffix:** Always `:2025` (e.g., `A01:2025 – Broken Access Control`)
+
 - [ ] Quick Wins, Needs Verification, Finding Overrides subsections present
 - [ ] Deployment pattern documented (K8s operator vs standalone)
 - [ ] All metadata values in backticks

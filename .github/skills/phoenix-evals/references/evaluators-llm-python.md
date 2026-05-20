@@ -31,12 +31,12 @@ helpfulness = ClassificationEvaluator(
 
 Use XML tags to wrap variables for clarity:
 
-| Variable | XML Tag |
-| -------- | ------- |
-| `{{input}}` | `<question>{{input}}</question>` |
-| `{{output}}` | `<response>{{output}}</response>` |
+| Variable        | XML Tag                                |
+| --------------- | -------------------------------------- |
+| `{{input}}`     | `<question>{{input}}</question>`       |
+| `{{output}}`    | `<response>{{output}}</response>`      |
 | `{{reference}}` | `<reference>{{reference}}</reference>` |
-| `{{context}}` | `<context>{{context}}</context>` |
+| `{{context}}`   | `<context>{{context}}</context>`       |
 
 ## create_classifier (Factory)
 

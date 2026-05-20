@@ -235,22 +235,22 @@ shape.isClosed()
 
 ## Sketcher Constraints Reference
 
-| Constraint | Syntax | Description |
-|---|---|---|
-| Coincident | `("Coincident", geo1, pt1, geo2, pt2)` | Points coincide |
-| Horizontal | `("Horizontal", geo)` | Line is horizontal |
-| Vertical | `("Vertical", geo)` | Line is vertical |
-| Parallel | `("Parallel", geo1, geo2)` | Lines are parallel |
-| Perpendicular | `("Perpendicular", geo1, geo2)` | Lines are perpendicular |
-| Tangent | `("Tangent", geo1, geo2)` | Curves are tangent |
-| Equal | `("Equal", geo1, geo2)` | Equal length/radius |
-| Symmetric | `("Symmetric", geo1, pt1, geo2, pt2, geoLine)` | Symmetric about line |
-| Distance | `("Distance", geo1, pt1, geo2, pt2, value)` | Distance between points |
-| DistanceX | `("DistanceX", geo, pt1, pt2, value)` | Horizontal distance |
-| DistanceY | `("DistanceY", geo, pt1, pt2, value)` | Vertical distance |
-| Radius | `("Radius", geo, value)` | Circle/arc radius |
-| Angle | `("Angle", geo1, geo2, value)` | Angle between lines |
-| Fixed | `("Fixed", geo)` | Lock geometry |
+| Constraint    | Syntax                                         | Description             |
+| ------------- | ---------------------------------------------- | ----------------------- |
+| Coincident    | `("Coincident", geo1, pt1, geo2, pt2)`         | Points coincide         |
+| Horizontal    | `("Horizontal", geo)`                          | Line is horizontal      |
+| Vertical      | `("Vertical", geo)`                            | Line is vertical        |
+| Parallel      | `("Parallel", geo1, geo2)`                     | Lines are parallel      |
+| Perpendicular | `("Perpendicular", geo1, geo2)`                | Lines are perpendicular |
+| Tangent       | `("Tangent", geo1, geo2)`                      | Curves are tangent      |
+| Equal         | `("Equal", geo1, geo2)`                        | Equal length/radius     |
+| Symmetric     | `("Symmetric", geo1, pt1, geo2, pt2, geoLine)` | Symmetric about line    |
+| Distance      | `("Distance", geo1, pt1, geo2, pt2, value)`    | Distance between points |
+| DistanceX     | `("DistanceX", geo, pt1, pt2, value)`          | Horizontal distance     |
+| DistanceY     | `("DistanceY", geo, pt1, pt2, value)`          | Vertical distance       |
+| Radius        | `("Radius", geo, value)`                       | Circle/arc radius       |
+| Angle         | `("Angle", geo1, geo2, value)`                 | Angle between lines     |
+| Fixed         | `("Fixed", geo)`                               | Lock geometry           |
 
 Point indices: `1` = start, `2` = end, `3` = center (circles/arcs).
 External geometry index: `-1` = X axis, `-2` = Y axis.

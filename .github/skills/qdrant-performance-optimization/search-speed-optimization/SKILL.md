@@ -7,11 +7,10 @@ description: "Diagnoses and fixes slow Qdrant search. Use when someone reports '
 
 There the multiple possible reasons for search performance degradation. The most common ones are:
 
-* Memory pressure: if the working set exceeds available RAM
-* Complex requests (e.g. high `hnsw_ef`, complex filters without payload index)
-* Competing background processes (e.g. optimizer still running after bulk upload)
-* Problem with the cluster (e.g. network issues, hardware degradation)
-
+- Memory pressure: if the working set exceeds available RAM
+- Complex requests (e.g. high `hnsw_ef`, complex filters without payload index)
+- Competing background processes (e.g. optimizer still running after bulk upload)
+- Problem with the cluster (e.g. network issues, hardware degradation)
 
 ## Single Query Too Slow (Latency)
 
@@ -31,7 +30,6 @@ Use when: individual queries take too long regardless of load.
 - Use oversampling + rescore for high-dimensional vectors [Search with quantization](https://search.qdrant.tech/md/documentation/manage-data/quantization/?s=searching-with-quantization)
 - Enable io_uring for disk-heavy workloads on Linux [io_uring](https://qdrant.tech/articles/io_uring/)
 
-
 ## Can't Handle Enough QPS (Throughput)
 
 Use when: system can't serve enough queries per second under load.
@@ -40,7 +38,6 @@ Use when: system can't serve enough queries per second under load.
 - Use batch search API instead of single queries [Batch search](https://search.qdrant.tech/md/documentation/search/search/?s=batch-search-api)
 - Enable quantization to reduce CPU cost [Scalar quantization](https://search.qdrant.tech/md/documentation/manage-data/quantization/?s=scalar-quantization)
 - Add replicas to distribute read load [Replication](https://search.qdrant.tech/md/documentation/operations/distributed_deployment/?s=replication)
-
 
 ## Filtered Search Is Slow
 
@@ -52,7 +49,6 @@ Use when: filtered search is significantly slower than unfiltered. Most common S
 - Avoid using `nested` filtering conditions as a primary filter. It might force qdrant to read raw payload values instead of using index.
 - If payload index was added after HNSW build, trigger re-index to create filterable subgraph links
 
-
 ## Optimize search performance with parallel updates
 
 ### Diagnostic steps
@@ -63,10 +59,9 @@ Use when: filtered search is significantly slower than unfiltered. Most common S
 ### Recommended configuration changes
 
 - reduce `optimizer_cpu_budget` to reserve more CPU for queries
-- Use `prevent_unoptimized=true` to prevent creating segments with a large amount of unindexed data for searches. Instead, once a segment reaches the so called indexing_threshold, all additional points will be added in ‘deferred state’. 
+- Use `prevent_unoptimized=true` to prevent creating segments with a large amount of unindexed data for searches. Instead, once a segment reaches the so called indexing_threshold, all additional points will be added in ‘deferred state’.
 
 Learn more [here](https://search.qdrant.tech/md/documentation/search/low-latency-search/?s=query-indexed-data-only)
-
 
 ## What NOT to Do
 

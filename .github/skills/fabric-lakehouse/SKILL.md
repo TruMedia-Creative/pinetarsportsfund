@@ -1,6 +1,6 @@
 ---
 name: fabric-lakehouse
-description: 'Use this skill to get context about Fabric Lakehouse and its features for software systems and AI-powered functions. It offers descriptions of Lakehouse data components, organization with schemas and shortcuts, access control, and code examples. This skill supports users in designing, building, and optimizing Lakehouse solutions using best practices.'
+description: "Use this skill to get context about Fabric Lakehouse and its features for software systems and AI-powered functions. It offers descriptions of Lakehouse data components, organization with schemas and shortcuts, access control, and code examples. This skill supports users in designing, building, and optimizing Lakehouse solutions using best practices."
 metadata:
   author: tedvilutis
   version: "1.0"
@@ -9,6 +9,7 @@ metadata:
 # When to Use This Skill
 
 Use this skill when you need to:
+
 - Generate a document or explanation that includes definition and context about Fabric Lakehouse and its capabilities.
 - Design, build, and optimize Lakehouse solutions using best practices.
 - Understand the core concepts and components of a Lakehouse in Microsoft Fabric.
@@ -69,14 +70,13 @@ Users can have workspace roles (Admin, Member, Contributor, Viewer) that provide
 
 For data access use OneLake security model, which is based on Microsoft Entra ID (formerly Azure Active Directory) and role-based access control (RBAC). Lakehouse data is stored in OneLake, so access to data is controlled through OneLake permissions. In addition to object-level permissions, Lakehouse also supports column-level and row-level security for tables, allowing fine-grained control over who can see specific columns or rows in a table.
 
-
 ## Lakehouse Shortcuts
 
 Shortcuts create virtual links to data without copying:
 
 ### Types of Shortcuts
 
-- **Internal**: Link to other Fabric Lakehouses/tables, cross-workspace data sharing 
+- **Internal**: Link to other Fabric Lakehouses/tables, cross-workspace data sharing
 - **ADLS Gen2**: Link to ADLS Gen2 containers in Azure
 - **Amazon S3**: AWS S3 buckets, cross-cloud data access
 - **Dataverse**: Microsoft Dataverse, business application data
@@ -103,4 +103,3 @@ See [PySpark code](references/pyspark.md) for details.
 ## Getting data into Lakehouse
 
 See [Get data](references/getdata.md) for details.
-

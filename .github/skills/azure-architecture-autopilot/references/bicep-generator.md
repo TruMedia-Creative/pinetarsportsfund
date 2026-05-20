@@ -8,6 +8,7 @@ Do not hardcode API versions in Bicep code.
 Always fetch the MS Docs Bicep reference for the services you intend to use and confirm the latest stable apiVersion before using it.
 
 ### Verification Steps
+
 1. Identify the list of services to be used
 2. Fetch the MS Docs URL for each service (using the web_fetch tool)
 3. Confirm the latest stable API version from the page
@@ -19,6 +20,7 @@ Verify that the model name specified by the user is actually deployable in the t
 Model availability varies by region and changes frequently — do not rely on static knowledge.
 
 **Verification Methods (in priority order):**
+
 1. Check the MS Docs model availability page: https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models
 2. Or query directly via Azure CLI:
    ```powershell
@@ -27,6 +29,7 @@ Model availability varies by region and changes frequently — do not rely on st
    (When the Foundry resource already exists)
 
 **If the model is not available in the target region:**
+
 - Inform the user and suggest available regions or alternative models
 - Do not substitute a different model or region without user approval
 
@@ -46,12 +49,14 @@ Reference files are located under the `.github/skills/azure-architecture-autopil
 ## Information Reference Principles (Stable vs Dynamic)
 
 ### Always Fetch (Dynamic)
+
 - API version → Fetch from URLs in `azure-dynamic-sources.md`
 - Model availability (name, version, region) → Fetch
 - SKU list/pricing → Fetch
 - Region availability → Fetch
 
 ### Reference First (Stable)
+
 - Required property patterns (`isHnsEnabled`, `allowProjectManagement`, etc.) → `service-gotchas.md`
 - PE groupId & DNS Zone mappings (major services) → `service-gotchas.md`
 - PE/security/naming common patterns → `azure-common-patterns.md`
@@ -104,11 +109,13 @@ The following information must be finalized upon completion of Phase 1:
 ## Module Responsibilities
 
 ### `network.bicep`
+
 - VNet — CIDR received as a parameter (to avoid conflicts with existing address spaces in the customer environment)
 - pe-subnet — `privateEndpointNetworkPolicies: 'Disabled'` required
 - Additional subnets handled via parameters as needed
 
 ### `ai.bicep`
+
 - **Microsoft Foundry resource** (`Microsoft.CognitiveServices/accounts`, `kind: 'AIServices'`) — Top-level AI resource
   - `customSubDomainName: foundryName` required — **Cannot be changed after creation. If omitted, the resource must be deleted and recreated**
   - `identity: { type: 'SystemAssigned' }` required
@@ -132,25 +139,30 @@ The following information must be finalized upon completion of Phase 1:
 - Hub-based (`Microsoft.MachineLearningServices/workspaces`) should only be considered when the user explicitly requests it or when ML training/open-source models are needed. For standard AI/RAG workloads, Foundry (AIServices) is the default choice
 
 **⛔ CognitiveServices Prohibited Properties:**
+
 - `apiProperties.statisticsEnabled` — This property does not exist. Never use it. Causes `ApiPropertiesInvalid` error during deployment
 - `apiProperties.qnaAzureSearchEndpointId` — QnA Maker only. Do not use with Foundry
 - Do not arbitrarily add unvalidated properties to `properties.apiProperties`
 
 ### `storage.bicep`
+
 - ADLS Gen2: `isHnsEnabled: true` ← **Never omit this**
 - Containers: raw, processed, curated (or as per requirements)
 - `allowBlobPublicAccess: false`, `minimumTlsVersion: 'TLS1_2'`
 
 ### `keyvault.bicep`
+
 - `enableRbacAuthorization: true` (do not use access policy model)
 - `enableSoftDelete: true`, `softDeleteRetentionInDays: 90`
 - `enablePurgeProtection: true`
 
 ### `monitoring.bicep`
+
 - Log Analytics Workspace
 - Application Insights (only needed for Hub-based configurations — not required for Foundry AIServices)
 
 ### `private-endpoints.bicep`
+
 - 3-piece set for each service:
   1. `Microsoft.Network/privateEndpoints` (placed in pe-subnet)
   2. `Microsoft.Network/privateDnsZones` + VNet Link (`registrationEnabled: false`)
@@ -158,6 +170,7 @@ The following information must be finalized upon completion of Phase 1:
 - For per-service DNS Zone mappings, refer to `references/service-gotchas.md`
 
 **⚠️ Foundry/AIServices PE DNS Rules:**
+
 - PE groupId: `account`
 - DNS Zone Group must include **2 zones**:
   1. `privatelink.cognitiveservices.azure.com`
@@ -165,6 +178,7 @@ The following information must be finalized upon completion of Phase 1:
 - Including only one causes DNS resolution failure for OpenAI API calls → connection error
 
 **⚠️ ADLS Gen2 (isHnsEnabled: true) PE Rules:**
+
 - 2 PEs required:
   1. `blob` → `privatelink.blob.core.windows.net`
   2. `dfs` → `privatelink.dfs.core.windows.net`
@@ -181,16 +195,16 @@ Omission will be reported as CRITICAL in Phase 3 review.
 
 - Required RBAC mappings:
 
-| Source Service | Target Service | Role | Role Definition ID |
-|------------|-----------|------|-------------------|
-| Foundry | Storage | `Storage Blob Data Contributor` | `ba92f5b4-2d11-453d-a403-e96b0029c9fe` |
-| Foundry | AI Search | `Search Index Data Contributor` | `8ebe5a00-799e-43f5-93ac-243d3dce84a7` |
-| Foundry | AI Search | `Search Service Contributor` | `7ca78c08-252a-4471-8644-bb5ff32d4ba0` |
-| App Service | Key Vault | `Key Vault Secrets User` | `4633458b-17de-408a-b874-0445c86b69e6` |
-| AKS (kubeletIdentity) | ACR | `AcrPull` | `7f951dda-4ed3-4680-a7ca-43fe172d538d` |
-| Data Factory | Storage | `Storage Blob Data Contributor` | `ba92f5b4-2d11-453d-a403-e96b0029c9fe` |
-| Data Factory | Key Vault | `Key Vault Secrets User` | `4633458b-17de-408a-b874-0445c86b69e6` |
-| Databricks | Storage | `Storage Blob Data Contributor` | `ba92f5b4-2d11-453d-a403-e96b0029c9fe` |
+| Source Service        | Target Service | Role                            | Role Definition ID                     |
+| --------------------- | -------------- | ------------------------------- | -------------------------------------- |
+| Foundry               | Storage        | `Storage Blob Data Contributor` | `ba92f5b4-2d11-453d-a403-e96b0029c9fe` |
+| Foundry               | AI Search      | `Search Index Data Contributor` | `8ebe5a00-799e-43f5-93ac-243d3dce84a7` |
+| Foundry               | AI Search      | `Search Service Contributor`    | `7ca78c08-252a-4471-8644-bb5ff32d4ba0` |
+| App Service           | Key Vault      | `Key Vault Secrets User`        | `4633458b-17de-408a-b874-0445c86b69e6` |
+| AKS (kubeletIdentity) | ACR            | `AcrPull`                       | `7f951dda-4ed3-4680-a7ca-43fe172d538d` |
+| Data Factory          | Storage        | `Storage Blob Data Contributor` | `ba92f5b4-2d11-453d-a403-e96b0029c9fe` |
+| Data Factory          | Key Vault      | `Key Vault Secrets User`        | `4633458b-17de-408a-b874-0445c86b69e6` |
+| Databricks            | Storage        | `Storage Blob Data Contributor` | `ba92f5b4-2d11-453d-a403-e96b0029c9fe` |
 
 > **AKS Special Rule**: AKS uses `identityProfile.kubeletidentity.objectId`, not `identity.principalId`.
 
@@ -208,6 +222,7 @@ resource foundryStorageRole 'Microsoft.Authorization/roleAssignments@2022-04-01'
 ```
 
 ### SQL Server Rules
+
 - **Password management**: Declare `@secure() param sqlAdminPassword string` in main.bicep and pass it to modules
   - Do not generate with `newGuid()` inside modules — the password changes on redeployment
   - Store as a Key Vault Secret so it can be retrieved after deployment
@@ -216,6 +231,7 @@ resource foundryStorageRole 'Microsoft.Authorization/roleAssignments@2022-04-01'
   - AAD-only authentication + Managed Identity is the most secure configuration
 
 ### Network Secret Handling
+
 - **VPN Gateway shared key**: `@secure() param vpnSharedKey string` — `@secure()` is mandatory
 - Never include plaintext VPN keys in `.bicepparam` — provide at deployment time or use Key Vault reference
 - This rule applies the same as for SQL passwords
@@ -223,6 +239,7 @@ resource foundryStorageRole 'Microsoft.Authorization/roleAssignments@2022-04-01'
 - Module params must also include the `@secure()` decorator
 
 ### ⚠️ Network Isolation Consistency Rules
+
 - When setting `publicNetworkAccess: 'Disabled'`, you **must** also create the corresponding PE for that service
 - Setting publicNetworkAccess to Disabled without a PE makes the service unreachable → unusable after deployment
 - The Phase 3 reviewer must report this inconsistency as **CRITICAL**
@@ -231,6 +248,7 @@ resource foundryStorageRole 'Microsoft.Authorization/roleAssignments@2022-04-01'
 ## Mandatory Coding Principles
 
 ### Naming Conventions
+
 ```bicep
 // Use uniqueString to prevent naming collisions — always required
 param foundryName string = 'foundry-${uniqueString(resourceGroup().id)}'
@@ -238,11 +256,13 @@ param searchName string = 'srch-${uniqueString(resourceGroup().id)}'
 param storageName string = 'st${uniqueString(resourceGroup().id)}'  // No special characters allowed
 param keyVaultName string = 'kv-${uniqueString(resourceGroup().id)}'
 ```
+
 > **⚠️ Resources requiring `customSubDomainName` (Foundry, Cognitive Services, etc.) must include `uniqueString()`.**
 > Static strings (e.g., `'my-rag-chatbot'`) may already be in use by another tenant, causing deployment failures.
 > The same applies to Foundry Project names — `'project-${uniqueString(resourceGroup().id)}'`
 
 ### Network Isolation
+
 ```bicep
 // Required for all services when using Private Endpoints
 publicNetworkAccess: 'Disabled'
@@ -254,6 +274,7 @@ networkAcls: {
 ```
 
 ### Dependency Management
+
 ```bicep
 // Use implicit dependencies via resource references instead of explicit dependsOn
 resource aiProject '...' = {
@@ -264,6 +285,7 @@ resource aiProject '...' = {
 ```
 
 ### Security
+
 ```bicep
 // Use Key Vault references for sensitive values — never store plaintext in parameter files
 @secure()
@@ -271,6 +293,7 @@ param adminPassword string  // Do not put plaintext values in main.bicepparam
 ```
 
 ### Code Comments
+
 ```bicep
 // Microsoft Foundry resource — kind: 'AIServices'
 // customSubDomainName: Required, globally unique. Cannot be changed after creation — if omitted, resource must be deleted and recreated
@@ -289,16 +312,19 @@ resource foundry 'Microsoft.CognitiveServices/accounts@<version fetched in Step 
 ### ⚠️ Bicep Code Quality Validation (Required After Generation)
 
 **Module Declaration Validation:**
+
 - Verify that the `name:` property in each module block is not duplicated
 - Correct example: `name: 'deploy-sql'`
 - Incorrect example: `name: 'name: 'deploy-sql'` (duplicated name: → compilation error)
 
 **Duplicate Property Prevention:**
+
 - If the same property name appears more than once within a single resource block, it causes a compilation error
 - Especially common in complex resources like VPN Gateway (`gatewayType`), Firewall, AKS, etc.
 - Check for `BCP025: The property "xxx" is declared multiple times` in the `az bicep build` output
 
 **`az bicep build` Must Be Run:**
+
 - After generating all Bicep files, always run `az bicep build --file main.bicep`
 - Fix errors and recompile
 - Warnings (BCP081, etc.) can be ignored after verifying the API version in MS Docs
@@ -399,23 +425,24 @@ Therefore, `@secure()` parameters must follow these rules:
 
 The full checklist is in `references/service-gotchas.md`. Key summary:
 
-| Item | ❌ Incorrect | ✅ Correct |
-|------|--------|----------|
-| ADLS Gen2 | `isHnsEnabled` omitted | `isHnsEnabled: true` |
-| PE Subnet | Policy not set | `privateEndpointNetworkPolicies: 'Disabled'` |
-| PE Configuration | PE only created | PE + DNS Zone + VNet Link + DNS Zone Group |
-| Foundry | `kind: 'OpenAI'` | `kind: 'AIServices'` + `allowProjectManagement: true` |
-| Foundry | `customSubDomainName` omitted | `customSubDomainName: foundryName` — cannot be changed after creation |
-| Foundry Project | Not created | Must always be created as a set with the Foundry resource |
-| Hub Usage | Used for standard AI | Only when explicitly requested by user or ML/open-source models needed |
-| Public Network | Not configured | `publicNetworkAccess: 'Disabled'` |
-| Storage Name | Contains hyphens | Lowercase + digits only, `uniqueString()` recommended |
-| API version | Copied from previous value | Fetch from MS Docs (Dynamic) |
-| Region | Hardcoded | Parameter + verify availability in MS Docs (Dynamic) |
+| Item             | ❌ Incorrect                  | ✅ Correct                                                             |
+| ---------------- | ----------------------------- | ---------------------------------------------------------------------- |
+| ADLS Gen2        | `isHnsEnabled` omitted        | `isHnsEnabled: true`                                                   |
+| PE Subnet        | Policy not set                | `privateEndpointNetworkPolicies: 'Disabled'`                           |
+| PE Configuration | PE only created               | PE + DNS Zone + VNet Link + DNS Zone Group                             |
+| Foundry          | `kind: 'OpenAI'`              | `kind: 'AIServices'` + `allowProjectManagement: true`                  |
+| Foundry          | `customSubDomainName` omitted | `customSubDomainName: foundryName` — cannot be changed after creation  |
+| Foundry Project  | Not created                   | Must always be created as a set with the Foundry resource              |
+| Hub Usage        | Used for standard AI          | Only when explicitly requested by user or ML/open-source models needed |
+| Public Network   | Not configured                | `publicNetworkAccess: 'Disabled'`                                      |
+| Storage Name     | Contains hyphens              | Lowercase + digits only, `uniqueString()` recommended                  |
+| API version      | Copied from previous value    | Fetch from MS Docs (Dynamic)                                           |
+| Region           | Hardcoded                     | Parameter + verify availability in MS Docs (Dynamic)                   |
 
 ## After Generation Is Complete
 
 When Bicep generation is complete:
+
 1. Provide the user with a summary report of the generated file list and each file's role
 2. Immediately transition to Phase 3 (Bicep Reviewer)
 3. The reviewer proceeds with automated review and corrections following the `references/bicep-reviewer.md` guidelines

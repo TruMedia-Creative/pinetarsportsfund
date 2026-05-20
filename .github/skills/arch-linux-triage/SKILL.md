@@ -1,6 +1,6 @@
 ---
 name: arch-linux-triage
-description: 'Triage and resolve Arch Linux issues with pacman, systemd, and rolling-release best practices.'
+description: "Triage and resolve Arch Linux issues with pacman, systemd, and rolling-release best practices."
 ---
 
 # Arch Linux Triage

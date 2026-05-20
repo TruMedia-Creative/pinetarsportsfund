@@ -1,6 +1,6 @@
 ---
 name: mcp-create-adaptive-cards
-description: 'Skill converted from mcp-create-adaptive-cards.prompt.md'
+description: "Skill converted from mcp-create-adaptive-cards.prompt.md"
 ---
 
 ````prompt

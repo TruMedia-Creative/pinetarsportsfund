@@ -6,26 +6,26 @@ RETRIEVER spans represent document/context retrieval operations (vector DB queri
 
 ## Required Attributes
 
-| Attribute | Type | Description | Required |
-|-----------|------|-------------|----------|
-| `openinference.span.kind` | String | Must be "RETRIEVER" | Yes |
+| Attribute                 | Type   | Description         | Required |
+| ------------------------- | ------ | ------------------- | -------- |
+| `openinference.span.kind` | String | Must be "RETRIEVER" | Yes      |
 
 ## Attribute Reference
 
 ### Query
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
+| Attribute     | Type   | Description       |
+| ------------- | ------ | ----------------- |
 | `input.value` | String | Search query text |
 
 ### Document Schema
 
-| Attribute Pattern | Type | Description |
-|-------------------|------|-------------|
-| `retrieval.documents.{i}.document.id` | String | Unique document identifier |
-| `retrieval.documents.{i}.document.content` | String | Document text content |
-| `retrieval.documents.{i}.document.score` | Float | Relevance score (0-1 or distance) |
-| `retrieval.documents.{i}.document.metadata` | String (JSON) | Document metadata |
+| Attribute Pattern                           | Type          | Description                       |
+| ------------------------------------------- | ------------- | --------------------------------- |
+| `retrieval.documents.{i}.document.id`       | String        | Unique document identifier        |
+| `retrieval.documents.{i}.document.content`  | String        | Document text content             |
+| `retrieval.documents.{i}.document.score`    | Float         | Relevance score (0-1 or distance) |
+| `retrieval.documents.{i}.document.metadata` | String (JSON) | Document metadata                 |
 
 ### Flattening Pattern for Documents
 
@@ -58,6 +58,7 @@ Common metadata fields (stored as JSON string):
 ```
 
 **Example with metadata:**
+
 ```json
 {
   "retrieval.documents.0.document.id": "doc_123",
@@ -70,6 +71,7 @@ Common metadata fields (stored as JSON string):
 ### Ordering
 
 Documents are ordered by index (0, 1, 2, ...). Typically:
+
 - Index 0 = highest scoring document
 - Index 1 = second highest
 - etc.
@@ -79,6 +81,7 @@ Preserve retrieval order in your flattened attributes.
 ### Large Document Handling
 
 For very long documents:
+
 - Consider truncating `document.content` to first N characters
 - Store full content in separate document store
 - Use `document.id` to reference full content

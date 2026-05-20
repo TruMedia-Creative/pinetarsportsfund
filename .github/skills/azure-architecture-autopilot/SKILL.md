@@ -34,13 +34,13 @@ Use only the structure as reference, and adapt text to the user's language.
 
 ## Tool Usage Guide (GHCP Environment)
 
-| Feature | Tool Name | Notes |
-|---------|-----------|-------|
-| Fetch URL content | `web_fetch` | For MS Docs lookups, etc. |
-| Web search | `web_search` | URL discovery |
-| Ask user | `ask_user` | `choices` must be a string array |
-| Sub-agents | `task` | explore/task/general-purpose |
-| Shell command execution | `powershell` | Windows PowerShell |
+| Feature                 | Tool Name    | Notes                            |
+| ----------------------- | ------------ | -------------------------------- |
+| Fetch URL content       | `web_fetch`  | For MS Docs lookups, etc.        |
+| Web search              | `web_search` | URL discovery                    |
+| Ask user                | `ask_user`   | `choices` must be a string array |
+| Sub-agents              | `task`       | explore/task/general-purpose     |
+| Shell command execution | `powershell` | Windows PowerShell               |
 
 > All sub-agents (explore/task/general-purpose) cannot use `web_fetch` or `web_search`.
 > Fact-checking that requires MS Docs lookups must be performed **directly by the main agent**.
@@ -54,6 +54,7 @@ Use only the structure as reference, and adapt text to the user's language.
 > Direct filesystem discovery (`$env:LOCALAPPDATA\Programs\Python`) takes priority.
 
 az CLI path:
+
 ```powershell
 $azCmd = $null
 if (Get-Command az -ErrorAction SilentlyContinue) { $azCmd = 'az' }
@@ -68,6 +69,7 @@ Python path + embedded diagram engine: refer to the diagram generation section i
 ## Progress Updates Required
 
 Use blockquote + emoji + bold format:
+
 ```markdown
 > **⏳ [Action]** — [Reason]
 > **✅ [Complete]** — [Result]
@@ -79,12 +81,12 @@ Use blockquote + emoji + bold format:
 
 While waiting for user input via `ask_user`, preload information needed for the next step in parallel.
 
-| ask_user Question | Preload Simultaneously |
-|---|---|
+| ask_user Question         | Preload Simultaneously                                                                |
+| ------------------------- | ------------------------------------------------------------------------------------- |
 | Project name / scan scope | Reference files, MS Docs, Python path discovery, **diagram module path verification** |
-| Model/SKU selection | MS Docs for next question choices |
-| Architecture confirmation | `az account show/list`, `az group list` |
-| Subscription selection | `az group list` |
+| Model/SKU selection       | MS Docs for next question choices                                                     |
+| Architecture confirmation | `az account show/list`, `az group list`                                               |
+| Subscription selection    | `az group list`                                                                       |
 
 ---
 
@@ -93,6 +95,7 @@ While waiting for user input via `ask_user`, preload information needed for the 
 ### Path A: New Design (New Build)
 
 **Trigger**: "create", "set up", "deploy", "build", etc.
+
 ```
 Phase 1 (references/phase1-advisor.md) — Interactive architecture design + diagram
     ↓
@@ -106,6 +109,7 @@ Phase 4 (references/phase4-deployer.md) — validate → what-if → deploy
 ### Path B: Existing Analysis + Modification (Analyze & Modify)
 
 **Trigger**: "analyze", "current resources", "scan", "draw a diagram", "show my infrastructure", etc.
+
 ```
 Phase 0 (references/phase0-scanner.md) — Existing resource scan + diagram
     ↓
@@ -119,6 +123,7 @@ Phase 2~4 — Same as above
 ### When Path Determination Is Ambiguous
 
 Ask the user directly:
+
 ```
 ask_user({
   question: "What would you like to do?",
@@ -142,29 +147,31 @@ ask_user({
 ## Service Coverage & Fallback
 
 ### Optimized Services
+
 Microsoft Foundry, Azure OpenAI, AI Search, ADLS Gen2, Key Vault, Microsoft Fabric, Azure Data Factory, VNet/Private Endpoint, AML/AI Hub
 
 ### Other Azure Services
+
 All supported — MS Docs are automatically consulted to generate at the same quality standard.
 **Do not send messages that cause user anxiety such as "out of scope" or "best-effort".**
 
 ### Stable vs Dynamic Information Handling
 
-| Category | Handling Method | Examples |
-|----------|----------------|---------|
-| **Stable** | Reference files first | `isHnsEnabled: true`, PE triple set |
+| Category    | Handling Method          | Examples                                     |
+| ----------- | ------------------------ | -------------------------------------------- |
+| **Stable**  | Reference files first    | `isHnsEnabled: true`, PE triple set          |
 | **Dynamic** | **Always fetch MS Docs** | API version, model availability, SKU, region |
 
 ## Quick Reference
 
-| File | Role |
-|------|------|
-| `references/phase0-scanner.md` | Existing resource scan + relationship inference + diagram |
-| `references/phase1-advisor.md` | Interactive architecture design + fact checking |
-| `references/bicep-generator.md` | Bicep code generation rules |
-| `references/bicep-reviewer.md` | Code review checklist |
-| `references/phase4-deployer.md` | validate → what-if → deploy |
-| `references/service-gotchas.md` | Required properties, PE mappings |
-| `references/azure-dynamic-sources.md` | MS Docs URL registry |
-| `references/azure-common-patterns.md` | PE/security/naming patterns |
-| `references/ai-data.md` | AI/Data service guide |
+| File                                  | Role                                                      |
+| ------------------------------------- | --------------------------------------------------------- |
+| `references/phase0-scanner.md`        | Existing resource scan + relationship inference + diagram |
+| `references/phase1-advisor.md`        | Interactive architecture design + fact checking           |
+| `references/bicep-generator.md`       | Bicep code generation rules                               |
+| `references/bicep-reviewer.md`        | Code review checklist                                     |
+| `references/phase4-deployer.md`       | validate → what-if → deploy                               |
+| `references/service-gotchas.md`       | Required properties, PE mappings                          |
+| `references/azure-dynamic-sources.md` | MS Docs URL registry                                      |
+| `references/azure-common-patterns.md` | PE/security/naming patterns                               |
+| `references/ai-data.md`               | AI/Data service guide                                     |

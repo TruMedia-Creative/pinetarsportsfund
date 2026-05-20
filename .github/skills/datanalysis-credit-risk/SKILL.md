@@ -30,25 +30,26 @@ The data cleaning pipeline consists of the following 11 steps, each executed ind
 
 ## Core Functions
 
-| Function | Purpose | Module |
-|------|------|----------|
-| `get_dataset()` | Load and format data | references.func |
-| `org_analysis()` | Organization sample analysis | references.func |
-| `missing_check()` | Calculate missing rate | references.func |
-| `drop_abnormal_ym()` | Filter abnormal months | references.analysis |
-| `drop_highmiss_features()` | Drop high missing rate features | references.analysis |
-| `drop_lowiv_features()` | Drop low IV features | references.analysis |
-| `drop_highpsi_features()` | Drop high PSI features | references.analysis |
-| `drop_highnoise_features()` | Null Importance denoising | references.analysis |
-| `drop_highcorr_features()` | Drop high correlation features | references.analysis |
-| `iv_distribution_by_org()` | IV distribution statistics | references.analysis |
-| `psi_distribution_by_org()` | PSI distribution statistics | references.analysis |
+| Function                            | Purpose                             | Module              |
+| ----------------------------------- | ----------------------------------- | ------------------- |
+| `get_dataset()`                     | Load and format data                | references.func     |
+| `org_analysis()`                    | Organization sample analysis        | references.func     |
+| `missing_check()`                   | Calculate missing rate              | references.func     |
+| `drop_abnormal_ym()`                | Filter abnormal months              | references.analysis |
+| `drop_highmiss_features()`          | Drop high missing rate features     | references.analysis |
+| `drop_lowiv_features()`             | Drop low IV features                | references.analysis |
+| `drop_highpsi_features()`           | Drop high PSI features              | references.analysis |
+| `drop_highnoise_features()`         | Null Importance denoising           | references.analysis |
+| `drop_highcorr_features()`          | Drop high correlation features      | references.analysis |
+| `iv_distribution_by_org()`          | IV distribution statistics          | references.analysis |
+| `psi_distribution_by_org()`         | PSI distribution statistics         | references.analysis |
 | `value_ratio_distribution_by_org()` | Value ratio distribution statistics | references.analysis |
-| `export_cleaning_report()` | Export cleaning report | references.analysis |
+| `export_cleaning_report()`          | Export cleaning report              | references.analysis |
 
 ## Parameter Description
 
 ### Data Loading Parameters
+
 - `DATA_PATH`: Data file path (best are parquet format)
 - `DATE_COL`: Date column name
 - `Y_COL`: Label column name
@@ -56,31 +57,38 @@ The data cleaning pipeline consists of the following 11 steps, each executed ind
 - `KEY_COLS`: Primary key column name list
 
 ### OOS Organization Configuration
+
 - `OOS_ORGS`: Out-of-sample organization list
 
 ### Abnormal Month Filtering Parameters
+
 - `min_ym_bad_sample`: Minimum bad sample count per month (default 10)
 - `min_ym_sample`: Minimum total sample count per month (default 500)
 
 ### Missing Rate Parameters
+
 - `missing_ratio`: Overall missing rate threshold (default 0.6)
 
 ### IV Parameters
+
 - `overall_iv_threshold`: Overall IV threshold (default 0.1)
 - `org_iv_threshold`: Single organization IV threshold (default 0.1)
 - `max_org_threshold`: Maximum tolerated low IV organization count (default 2)
 
 ### PSI Parameters
+
 - `psi_threshold`: PSI threshold (default 0.1)
 - `max_months_ratio`: Maximum unstable month ratio (default 1/3)
 - `max_orgs`: Maximum unstable organization count (default 6)
 
 ### Null Importance Parameters
+
 - `n_estimators`: Number of trees (default 100)
 - `max_depth`: Maximum tree depth (default 5)
 - `gain_threshold`: Gain difference threshold (default 50)
 
 ### High Correlation Parameters
+
 - `max_corr`: Correlation threshold (default 0.9)
 - `top_n_keep`: Keep top N features by original gain ranking (default 20)
 

@@ -16,17 +16,17 @@ tracer = tracer_provider.get_tracer(__name__)
 
 ## Quick Reference
 
-| Span Kind | Decorator | Use Case |
-|-----------|-----------|----------|
-| CHAIN | `@tracer.chain` | Orchestration, workflows, pipelines |
-| RETRIEVER | `@tracer.retriever` | Vector search, document retrieval |
-| TOOL | `@tracer.tool` | External API calls, function execution |
-| AGENT | `@tracer.agent` | Multi-step reasoning, planning |
-| LLM | `@tracer.llm` | LLM API calls (manual only) |
-| EMBEDDING | `@tracer.embedding` | Embedding generation |
-| RERANKER | `@tracer.reranker` | Document re-ranking |
-| GUARDRAIL | `@tracer.guardrail` | Safety checks, content moderation |
-| EVALUATOR | `@tracer.evaluator` | LLM evaluation, quality checks |
+| Span Kind | Decorator           | Use Case                               |
+| --------- | ------------------- | -------------------------------------- |
+| CHAIN     | `@tracer.chain`     | Orchestration, workflows, pipelines    |
+| RETRIEVER | `@tracer.retriever` | Vector search, document retrieval      |
+| TOOL      | `@tracer.tool`      | External API calls, function execution |
+| AGENT     | `@tracer.agent`     | Multi-step reasoning, planning         |
+| LLM       | `@tracer.llm`       | LLM API calls (manual only)            |
+| EMBEDDING | `@tracer.embedding` | Embedding generation                   |
+| RERANKER  | `@tracer.reranker`  | Document re-ranking                    |
+| GUARDRAIL | `@tracer.guardrail` | Safety checks, content moderation      |
+| EVALUATOR | `@tracer.evaluator` | LLM evaluation, quality checks         |
 
 ## Decorator Approach (Recommended)
 
@@ -97,7 +97,7 @@ def retrieve_with_metadata(query: str):
 
 Decorators automatically capture input arguments and return values:
 
-```python  theme={null}
+```python theme={null}
 @tracer.chain
 def handle_query(user_input: str) -> str:
     result = agent.generate(user_input)
@@ -113,7 +113,7 @@ def handle_query(user_input: str) -> str:
 
 Use `set_input()` and `set_output()` for simple I/O capture:
 
-```python  theme={null}
+```python theme={null}
 from opentelemetry.trace import Status, StatusCode
 
 def handle_query(user_input: str) -> str:
@@ -143,6 +143,7 @@ def handle_query(user_input: str) -> str:
 ```
 
 **Why this matters:**
+
 - Phoenix evaluators require `input.value` and `output.value`
 - Phoenix UI displays I/O prominently for debugging
 - Enables exporting data for fine-tuning datasets
@@ -151,7 +152,7 @@ def handle_query(user_input: str) -> str:
 
 Use `set_attribute()` for custom attributes alongside I/O:
 
-```python  theme={null}
+```python theme={null}
 def process_query(query: str):
     with tracer.start_as_current_span(
         "query.process",

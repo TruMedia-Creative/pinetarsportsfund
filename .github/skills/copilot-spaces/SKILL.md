@@ -11,10 +11,10 @@ Use Copilot Spaces to bring curated, project-specific context into conversations
 
 ### MCP Tools (Read-only)
 
-| Tool | Purpose |
-|------|---------|
+| Tool                               | Purpose                                        |
+| ---------------------------------- | ---------------------------------------------- |
 | `mcp__github__list_copilot_spaces` | List all spaces accessible to the current user |
-| `mcp__github__get_copilot_space` | Load a space's full context by owner and name |
+| `mcp__github__get_copilot_space`   | Load a space's full context by owner and name  |
 
 ### REST API via `gh api` (Full CRUD)
 
@@ -22,12 +22,12 @@ The Spaces REST API supports creating, updating, deleting spaces, and managing c
 
 **User Spaces:**
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| `POST` | `/users/{username}/copilot-spaces` | Create a space |
-| `GET` | `/users/{username}/copilot-spaces` | List spaces |
-| `GET` | `/users/{username}/copilot-spaces/{number}` | Get a space |
-| `PUT` | `/users/{username}/copilot-spaces/{number}` | Update a space |
+| Method   | Endpoint                                    | Purpose        |
+| -------- | ------------------------------------------- | -------------- |
+| `POST`   | `/users/{username}/copilot-spaces`          | Create a space |
+| `GET`    | `/users/{username}/copilot-spaces`          | List spaces    |
+| `GET`    | `/users/{username}/copilot-spaces/{number}` | Get a space    |
+| `PUT`    | `/users/{username}/copilot-spaces/{number}` | Update a space |
 | `DELETE` | `/users/{username}/copilot-spaces/{number}` | Delete a space |
 
 **Organization Spaces:** Same pattern under `/orgs/{org}/copilot-spaces/...`
@@ -75,6 +75,7 @@ This returns the space's full content: attached documentation, code context, cus
 ### 3. Follow the Breadcrumbs
 
 Space content often references external resources: GitHub issues, dashboards, repos, discussions, or other tools. Proactively fetch these using other MCP tools to gather complete context. For example:
+
 - A space references an initiative tracking issue. Use `issue_read` to get the latest comments.
 - A space links to a project board. Use project tools to check current status.
 - A space mentions a repo's masterplan. Use `get_file_contents` to read it.
@@ -84,11 +85,13 @@ Space content often references external resources: GitHub issues, dashboards, re
 Once loaded, use the space content based on what it contains:
 
 **If the space contains reference material** (docs, code, standards):
+
 - Answer questions about the project's architecture, patterns, or standards
 - Generate code that follows the team's conventions
 - Debug issues using project-specific knowledge
 
 **If the space contains workflow instructions** (templates, step-by-step processes):
+
 - Follow the workflow as defined, step by step
 - Gather data from the sources the workflow specifies
 - Produce output in the format the workflow defines
@@ -99,6 +102,7 @@ Once loaded, use the space content based on what it contains:
 When a user wants to create, update, or delete a space, use `gh api`. First, find the space number from the list endpoint.
 
 **Update a space's instructions:**
+
 ```bash
 gh api users/{username}/copilot-spaces/{number} \
   -X PUT \
@@ -106,6 +110,7 @@ gh api users/{username}/copilot-spaces/{number} \
 ```
 
 **Update name, description, or instructions together:**
+
 ```bash
 gh api users/{username}/copilot-spaces/{number} \
   -X PUT \
@@ -115,6 +120,7 @@ gh api users/{username}/copilot-spaces/{number} \
 ```
 
 **Create a new space:**
+
 ```bash
 gh api users/{username}/copilot-spaces \
   -X POST \
@@ -124,17 +130,28 @@ gh api users/{username}/copilot-spaces \
 ```
 
 **Attach resources (replaces entire resource list):**
+
 ```json
 {
   "resources_attributes": [
-    { "resource_type": "free_text", "metadata": { "name": "Notes", "text": "Content here" } },
-    { "resource_type": "github_issue", "metadata": { "repository_id": 12345, "number": 42 } },
-    { "resource_type": "github_file", "metadata": { "repository_id": 12345, "file_path": "docs/guide.md" } }
+    {
+      "resource_type": "free_text",
+      "metadata": { "name": "Notes", "text": "Content here" }
+    },
+    {
+      "resource_type": "github_issue",
+      "metadata": { "repository_id": 12345, "number": 42 }
+    },
+    {
+      "resource_type": "github_file",
+      "metadata": { "repository_id": 12345, "file_path": "docs/guide.md" }
+    }
   ]
 }
 ```
 
 **Delete a space:**
+
 ```bash
 gh api users/{username}/copilot-spaces/{number} -X DELETE
 ```
@@ -148,6 +165,7 @@ gh api users/{username}/copilot-spaces/{number} -X DELETE
 **User**: "Load the Accessibility copilot space"
 
 **Action**:
+
 1. Call `mcp__github__get_copilot_space` with owner `"github"`, name `"Accessibility"`
 2. Use the returned context to answer questions about accessibility standards, MAS grades, compliance processes, etc.
 
@@ -156,6 +174,7 @@ gh api users/{username}/copilot-spaces/{number} -X DELETE
 **User**: "What copilot spaces are available for our team?"
 
 **Action**:
+
 1. Call `mcp__github__list_copilot_spaces`
 2. Filter/present spaces relevant to the user's org or interests
 3. Offer to load any space they're interested in
@@ -165,6 +184,7 @@ gh api users/{username}/copilot-spaces/{number} -X DELETE
 **User**: "Using the security space, what's our policy on secret scanning?"
 
 **Action**:
+
 1. Call `mcp__github__get_copilot_space` with the appropriate owner and name
 2. Find the relevant policy in the space content
 3. Answer based on the actual internal documentation
@@ -174,6 +194,7 @@ gh api users/{username}/copilot-spaces/{number} -X DELETE
 **User**: "Write my weekly update using the PM Weekly Updates space"
 
 **Action**:
+
 1. Call `mcp__github__get_copilot_space` to load the space. It contains a template format and step-by-step instructions.
 2. Follow the space's workflow: pull data from attached initiative issues, gather metrics, draft each section.
 3. Fetch external resources referenced by the space (tracking issues, dashboards) using other MCP tools.
@@ -185,10 +206,12 @@ gh api users/{username}/copilot-spaces/{number} -X DELETE
 **User**: "Update my PM Weekly Updates space to include a new writing guideline"
 
 **Action**:
+
 1. Call `mcp__github__list_copilot_spaces` and find the space number (e.g., 19).
 2. Call `mcp__github__get_copilot_space` to read current instructions.
 3. Modify the instructions text as requested.
 4. Push the update:
+
 ```bash
 gh api users/labudis/copilot-spaces/19 -X PUT -f general_instructions="updated instructions..."
 ```

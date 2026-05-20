@@ -59,6 +59,7 @@ Use when: you can provide positive and negative example points to steer search c
 - Discovery API: context pairs (positive/negative) to constrain search regions without a request target [Discovery](https://search.qdrant.tech/md/documentation/search/explore/?s=discovery-api)
 
 ## Have Business Logic Behind Relevance
+
 Use when: results should be additionally ranked according to some business logic based on data, like recency or distance.
 
 Check how to set up in [Score Boosting docs](https://search.qdrant.tech/md/documentation/search/search-relevance/?s=score-boosting)

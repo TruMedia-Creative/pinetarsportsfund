@@ -4,21 +4,21 @@ Validate LLM judges against human labels before deploying. Target >80% agreement
 
 ## Requirements
 
-| Requirement | Target |
-| ----------- | ------ |
-| Test set size | 100+ examples |
-| Balance | ~50/50 pass/fail |
-| Accuracy | >80% |
-| TPR/TNR | Both >70% |
+| Requirement   | Target           |
+| ------------- | ---------------- |
+| Test set size | 100+ examples    |
+| Balance       | ~50/50 pass/fail |
+| Accuracy      | >80%             |
+| TPR/TNR       | Both >70%        |
 
 ## Metrics
 
-| Metric | Formula | Use When |
-| ------ | ------- | -------- |
-| **Accuracy** | (TP+TN) / Total | General |
-| **TPR (Recall)** | TP / (TP+FN) | Quality assurance |
-| **TNR (Specificity)** | TN / (TN+FP) | Safety-critical |
-| **Cohen's Kappa** | Agreement beyond chance | Comparing evaluators |
+| Metric                | Formula                 | Use When             |
+| --------------------- | ----------------------- | -------------------- |
+| **Accuracy**          | (TP+TN) / Total         | General              |
+| **TPR (Recall)**      | TP / (TP+FN)            | Quality assurance    |
+| **TNR (Specificity)** | TN / (TN+FP)            | Safety-critical      |
+| **Cohen's Kappa**     | Agreement beyond chance | Comparing evaluators |
 
 ## Quick Validation
 

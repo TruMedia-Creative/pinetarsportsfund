@@ -1,6 +1,7 @@
 # Arize Link Examples
 
 Placeholders used throughout:
+
 - `{org_id}` — base64-encoded org ID
 - `{space_id}` — base64-encoded space ID
 - `{project_id}` — base64-encoded project ID

@@ -18,12 +18,12 @@ Query → Retriever → Docs     Docs + Query → LLM → Answer
 
 Use traditional information retrieval metrics:
 
-| Metric | What It Measures |
-| ------ | ---------------- |
-| Recall@k | Of all relevant docs, how many in top k? |
-| Precision@k | Of k retrieved docs, how many relevant? |
-| MRR | How high is first relevant doc? |
-| NDCG | Quality weighted by position |
+| Metric      | What It Measures                         |
+| ----------- | ---------------------------------------- |
+| Recall@k    | Of all relevant docs, how many in top k? |
+| Precision@k | Of k retrieved docs, how many relevant?  |
+| MRR         | How high is first relevant doc?          |
+| NDCG        | Quality weighted by position             |
 
 ```python
 # Requires query-document relevance labels
@@ -55,11 +55,11 @@ def generate_retrieval_test(documents):
 
 Use LLM judges for qualities code can't measure:
 
-| Eval | Question |
-| ---- | -------- |
+| Eval             | Question                                       |
+| ---------------- | ---------------------------------------------- |
 | **Faithfulness** | Are all claims supported by retrieved context? |
-| **Relevance** | Does answer address the question? |
-| **Completeness** | Does answer cover key points from context? |
+| **Relevance**    | Does answer address the question?              |
+| **Completeness** | Does answer cover key points from context?     |
 
 ```python
 from phoenix.evals import ClassificationEvaluator, LLM

@@ -1,6 +1,6 @@
 ---
 name: winmd-api-search
-description: 'Find and explore Windows desktop APIs. Use when building features that need platform capabilities — camera, file access, notifications, UI controls, AI/ML, sensors, networking, etc. Discovers the right API for a task and retrieves full type details (methods, properties, events, enumeration values).'
+description: "Find and explore Windows desktop APIs. Use when building features that need platform capabilities — camera, file access, notifications, UI controls, AI/ML, sensors, networking, etc. Discovers the right API for a task and retrieves full type details (methods, properties, events, enumeration values)."
 license: Complete terms in LICENSE.txt
 ---
 
@@ -44,13 +44,13 @@ Cache is stored at `Generated Files\winmd-cache\`, deduplicated per-package+vers
 
 ### What gets indexed
 
-| Source | When available |
-|--------|----------------|
-| Windows Platform SDK | Always (reads from local SDK install) |
-| WinAppSDK (latest) | Always (bundled as baseline in cache generator) |
-| WinAppSDK Runtime | When installed on the system (detected via `Get-AppxPackage`) |
-| Project NuGet packages | After `dotnet restore` or with `packages.config` |
-| Project-output `.winmd` | After project build (class libraries that produce WinMD) |
+| Source                  | When available                                                |
+| ----------------------- | ------------------------------------------------------------- |
+| Windows Platform SDK    | Always (reads from local SDK install)                         |
+| WinAppSDK (latest)      | Always (bundled as baseline in cache generator)               |
+| WinAppSDK Runtime       | When installed on the system (detected via `Get-AppxPackage`) |
+| Project NuGet packages  | After `dotnet restore` or with `packages.config`              |
+| Project-output `.winmd` | After project build (class libraries that produce WinMD)      |
 
 > **Note:** This cache directory should be in `.gitignore` — it's generated, not source.
 
@@ -72,14 +72,14 @@ If the cache hasn't been generated yet, run `Update-WinMdCache.ps1` first — se
 
 Map the user's daily language to programming terms. Try multiple variations:
 
-| User says | Search keywords to try (in order) |
-|-----------|-----------------------------------|
-| "take a picture" | `camera`, `capture`, `photo`, `MediaCapture` |
-| "load from disk" | `file open`, `picker`, `FileOpen`, `StorageFile` |
-| "describe what's in it" | `image description`, `Vision`, `Recognition` |
-| "show a popup" | `dialog`, `flyout`, `popup`, `ContentDialog` |
-| "drag and drop" | `drag`, `drop`, `DragDrop` |
-| "save settings" | `settings`, `ApplicationData`, `LocalSettings` |
+| User says               | Search keywords to try (in order)                |
+| ----------------------- | ------------------------------------------------ |
+| "take a picture"        | `camera`, `capture`, `photo`, `MediaCapture`     |
+| "load from disk"        | `file open`, `picker`, `FileOpen`, `StorageFile` |
+| "describe what's in it" | `image description`, `Vision`, `Recognition`     |
+| "show a popup"          | `dialog`, `flyout`, `popup`, `ContentDialog`     |
+| "drag and drop"         | `drag`, `drop`, `DragDrop`                       |
+| "save settings"         | `settings`, `ApplicationData`, `LocalSettings`   |
 
 Start with simple everyday words. If results are weak or irrelevant, try the more technical variation.
 
@@ -109,9 +109,9 @@ Read and decide which types and members fit the user's requirement.
 
 The cache contains only signatures — no descriptions or usage guidance. For explanations, examples, and remarks, look up the type on Microsoft Learn:
 
-| Namespace prefix | Documentation base URL |
-|-----------------|----------------------|
-| `Windows.*` | `https://learn.microsoft.com/uwp/api/{fully.qualified.typename}` |
+| Namespace prefix          | Documentation base URL                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
+| `Windows.*`               | `https://learn.microsoft.com/uwp/api/{fully.qualified.typename}`                           |
 | `Microsoft.*` (WinAppSDK) | `https://learn.microsoft.com/windows/windows-app-sdk/api/winrt/{fully.qualified.typename}` |
 
 For example, `Microsoft.UI.Xaml.Controls.NavigationView` maps to:
@@ -164,27 +164,27 @@ If you need full detail beyond what `-Action members` shows, use `-Action search
 
 The search ranks type names and member names against your query:
 
-| Score | Match type | Example |
-|-------|-----------|---------|
-| 100 | Exact name | `Button` → `Button` |
-| 80 | Starts with | `Navigation` → `NavigationView` |
-| 60 | Contains | `Dialog` → `ContentDialog` |
-| 50 | PascalCase initials | `ASB` → `AutoSuggestBox` |
-| 40 | Multi-keyword AND | `navigation item` → `NavigationViewItem` |
-| 20 | Fuzzy character match | `NavVw` → `NavigationView` |
+| Score | Match type            | Example                                  |
+| ----- | --------------------- | ---------------------------------------- |
+| 100   | Exact name            | `Button` → `Button`                      |
+| 80    | Starts with           | `Navigation` → `NavigationView`          |
+| 60    | Contains              | `Dialog` → `ContentDialog`               |
+| 50    | PascalCase initials   | `ASB` → `AutoSuggestBox`                 |
+| 40    | Multi-keyword AND     | `navigation item` → `NavigationViewItem` |
+| 20    | Fuzzy character match | `NavVw` → `NavigationView`               |
 
 Results are grouped by namespace. Higher-scored namespaces appear first.
 
 ## Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| "Cache not found" | Run `Update-WinMdCache.ps1` |
-| "Multiple projects cached" | Add `-Project <name>` |
-| "Namespace not found" | Use `-Action namespaces` to list available ones |
-| "Type not found" | Use fully qualified name (e.g., `Microsoft.UI.Xaml.Controls.Button`) |
-| Stale after NuGet update | Re-run `Update-WinMdCache.ps1` |
-| Cache in git history | Add `Generated Files/` to `.gitignore` |
+| Issue                      | Fix                                                                  |
+| -------------------------- | -------------------------------------------------------------------- |
+| "Cache not found"          | Run `Update-WinMdCache.ps1`                                          |
+| "Multiple projects cached" | Add `-Project <name>`                                                |
+| "Namespace not found"      | Use `-Action namespaces` to list available ones                      |
+| "Type not found"           | Use fully qualified name (e.g., `Microsoft.UI.Xaml.Controls.Button`) |
+| Stale after NuGet update   | Re-run `Update-WinMdCache.ps1`                                       |
+| Cache in git history       | Add `Generated Files/` to `.gitignore`                               |
 
 ## References
 

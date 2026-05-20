@@ -37,7 +37,7 @@ export function use[Name]() {
 
 ```jsx
 // src/contexts/AuthContext.js
-import React from 'react';
+import React from "react";
 
 const defaultValue = {
   user: null,
@@ -47,7 +47,7 @@ const defaultValue = {
 };
 
 export const AuthContext = React.createContext(defaultValue);
-AuthContext.displayName = 'AuthContext';
+AuthContext.displayName = "AuthContext";
 
 export function useAuth() {
   return React.useContext(AuthContext);
@@ -58,15 +58,15 @@ export function useAuth() {
 
 ```jsx
 // src/contexts/ThemeContext.js
-import React from 'react';
+import React from "react";
 
 const defaultValue = {
-  theme: 'light',
+  theme: "light",
   toggleTheme: () => {},
 };
 
 export const ThemeContext = React.createContext(defaultValue);
-ThemeContext.displayName = 'ThemeContext';
+ThemeContext.displayName = "ThemeContext";
 
 export function useTheme() {
   return React.useContext(ThemeContext);
@@ -97,8 +97,8 @@ Context providers wrap the components that need access. Place as low in the tree
 
 ```jsx
 // App.js
-import { ThemeProvider } from './ThemeProvider';
-import { AuthProvider } from './AuthProvider';
+import { ThemeProvider } from "./ThemeProvider";
+import { AuthProvider } from "./AuthProvider";
 
 function App() {
   return (

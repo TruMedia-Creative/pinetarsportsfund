@@ -1,6 +1,6 @@
 ---
 name: containerize-aspnetcore
-description: 'Containerize an ASP.NET Core project by creating Dockerfile and .dockerfile files customized for the project.'
+description: "Containerize an ASP.NET Core project by creating Dockerfile and .dockerfile files customized for the project."
 ---
 
 # ASP.NET Core Docker Containerization Prompt
@@ -18,7 +18,8 @@ This section of the prompt contains the specific settings and configurations req
 Any settings that are not specified will be set to default values. The default values are provided in `[square brackets]`.
 
 ### Basic Project Information
-1. Project to containerize: 
+
+1. Project to containerize:
    - `[ProjectName (provide path to .csproj file)]`
 
 2. .NET version to use:
@@ -31,9 +32,10 @@ Any settings that are not specified will be set to default values. The default v
    - `[Specify base image to use for build stage (Default None)]`
 
 5. Custom base image for the run stage of the Docker image ("None" to use standard Microsoft base image):
-   - `[Specify base image to use for run stage (Default None)]`   
+   - `[Specify base image to use for run stage (Default None)]`
 
 ### Container Configuration
+
 1. Ports that must be exposed in the container image:
    - Primary HTTP port: `[e.g., 8080]`
    - Additional ports: `[List any additional ports, or "None"]`
@@ -45,6 +47,7 @@ Any settings that are not specified will be set to default values. The default v
    - `[Specify ASPNETCORE_URLS, or default to "http://+:8080"]`
 
 ### Build configuration
+
 1. Custom build steps that must be performed before building the container image:
    - `[List any specific build steps, or "None"]`
 
@@ -55,6 +58,7 @@ Any settings that are not specified will be set to default values. The default v
    - `[List any private NuGet feeds with authentication details, or "None"]`
 
 ### Dependencies
+
 1. System packages that must be installed in the container image:
    - `[Package names for the chosen Linux distribution, or "None"]`
 
@@ -65,10 +69,12 @@ Any settings that are not specified will be set to default values. The default v
    - `[Tool names and versions, or "None"]`
 
 ### System Configuration
+
 1. Environment variables that must be set in the container image:
    - `[Variable names and values, or "Use defaults"]`
 
 ### File System
+
 1. Files/directories that need to be copied to the container image:
    - `[Paths relative to project root, or "None"]`
    - Target location in container: `[Container paths, or "Not applicable"]`
@@ -80,10 +86,12 @@ Any settings that are not specified will be set to default values. The default v
    - `[Volume paths for persistent data, or "None"]`
 
 ### .dockerignore Configuration
+
 1. Patterns to include in the `.dockerignore` file (.dockerignore will already have common defaults; these are additional patterns):
    - Additional patterns: `[List any additional patterns, or "None"]`
 
 ### Health Check Configuration
+
 1. Health check endpoint:
    - `[Health check URL path, or "None"]`
 
@@ -91,6 +99,7 @@ Any settings that are not specified will be set to default values. The default v
    - `[Interval and timeout values, or "Use defaults"]`
 
 ### Additional Instructions
+
 1. Other instructions that must be followed to containerize the project:
    - `[Specific requirements, or "None"]`
 
@@ -117,9 +126,9 @@ Any settings that are not specified will be set to default values. The default v
    - The Linux distribution specified in containerization settings (Alpine, Ubuntu, Chiseled, or Azure Linux (Mariner))
    - If the user does not request specific base images in the containerization settings, then the base images MUST be valid mcr.microsoft.com/dotnet images with a tag as shown in the example Dockerfile, below, or in documentation
    - Official Microsoft .NET images for build and runtime stages:
-      - SDK image tags (for build stage): https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md
-      - ASP.NET Core runtime image tags: https://github.com/dotnet/dotnet-docker/blob/main/README.aspnet.md
-      - .NET runtime image tags: https://github.com/dotnet/dotnet-docker/blob/main/README.runtime.md
+     - SDK image tags (for build stage): https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md
+     - ASP.NET Core runtime image tags: https://github.com/dotnet/dotnet-docker/blob/main/README.aspnet.md
+     - .NET runtime image tags: https://github.com/dotnet/dotnet-docker/blob/main/README.runtime.md
 5. Create a Dockerfile in the root of the project directory to containerize the application
    - The Dockerfile should use multiple stages:
      - Build stage: Use a .NET SDK image to build the application
@@ -130,7 +139,7 @@ Any settings that are not specified will be set to default values. The default v
      - Final stage: Use the selected .NET runtime image to run the application
        - Set the working directory to /app
        - Set the user as directed (by default, to a non-root user (e.g., `$APP_UID`))
-         - Unless directed otherwise in containerization settings, a new user does *not* need to be created. Use the `$APP_UID` variable to specify the user account.
+         - Unless directed otherwise in containerization settings, a new user does _not_ need to be created. Use the `$APP_UID` variable to specify the user account.
        - Copy the published output from the build stage to the final image
    - Be sure to consider all requirements in the containerization settings:
      - .NET version and Linux distribution
@@ -153,11 +162,11 @@ Any settings that are not specified will be set to default values. The default v
    - .github/
    - .vs/
    - .vscode/
-   - **/node_modules/
-   - *.user
-   - *.suo
-   - **/.DS_Store
-   - **/Thumbs.db
+   - \*\*/node_modules/
+   - \*.user
+   - \*.suo
+   - \*\*/.DS_Store
+   - \*\*/Thumbs.db
    - Any additional patterns specified in the containerization settings
 7. Configure health checks if specified in the containerization settings:
    - Add HEALTHCHECK instruction to Dockerfile if health check endpoint is provided
@@ -178,18 +187,22 @@ If the build fails, review the error messages and make necessary adjustments to 
 ## Progress Tracking
 
 Maintain a `progress.md` file with the following structure:
+
 ```markdown
 # Containerization Progress
 
 ## Environment Detection
-- [ ] .NET version detection (version: ___)
-- [ ] Linux distribution selection (distribution: ___)
+
+- [ ] .NET version detection (version: \_\_\_)
+- [ ] Linux distribution selection (distribution: \_\_\_)
 
 ## Configuration Changes
+
 - [ ] Application configuration verification for environment variable support
 - [ ] NuGet package source configuration (if applicable)
 
 ## Containerization
+
 - [ ] Dockerfile creation
 - [ ] .dockerignore file creation
 - [ ] Build stage created with SDK image
@@ -202,6 +215,7 @@ Maintain a `progress.md` file with the following structure:
 - [ ] Special requirements implementation
 
 ## Verification
+
 - [ ] Review containerization settings and make sure that all requirements are met
 - [ ] Docker build success
 ```
@@ -348,6 +362,7 @@ When adapting this example Dockerfile:
 ## Linux Distribution Variations
 
 ### Alpine Linux
+
 For smaller image sizes, you can use Alpine Linux:
 
 ```dockerfile
@@ -360,6 +375,7 @@ RUN apk update && apk add --no-cache curl ca-certificates
 ```
 
 ### Ubuntu Chiseled
+
 For minimal attack surface, consider using chiseled images:
 
 ```dockerfile
@@ -368,6 +384,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled AS final
 ```
 
 ### Azure Linux (Mariner)
+
 For Azure-optimized containers:
 
 ```dockerfile

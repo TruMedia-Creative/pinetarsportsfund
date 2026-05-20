@@ -1,6 +1,6 @@
 ---
 name: legacy-circuit-mockups
-description: 'Generate breadboard circuit mockups and visual diagrams using HTML5 Canvas drawing techniques. Use when asked to create circuit layouts, visualize electronic component placements, draw breadboard diagrams, mockup 6502 builds, generate retro computer schematics, or design vintage electronics projects. Supports 555 timers, W65C02S microprocessors, 28C256 EEPROMs, W65C22 VIA chips, 7400-series logic gates, LEDs, resistors, capacitors, switches, buttons, crystals, and wires.'
+description: "Generate breadboard circuit mockups and visual diagrams using HTML5 Canvas drawing techniques. Use when asked to create circuit layouts, visualize electronic component placements, draw breadboard diagrams, mockup 6502 builds, generate retro computer schematics, or design vintage electronics projects. Supports 555 timers, W65C02S microprocessors, 28C256 EEPROMs, W65C22 VIA chips, 7400-series logic gates, LEDs, resistors, capacitors, switches, buttons, crystals, and wires."
 ---
 
 # Legacy Circuit Mockups
@@ -27,36 +27,36 @@ A skill for creating breadboard circuit mockups and visual diagrams for retro co
 
 ### Microprocessors & Memory
 
-| Component | Pins | Description |
-|-----------|------|-------------|
-| W65C02S | 40-pin DIP | 8-bit microprocessor with 16-bit address bus |
-| 28C256 | 28-pin DIP | 32KB parallel EEPROM |
-| W65C22 | 40-pin DIP | Versatile Interface Adapter (VIA) |
-| 62256 | 28-pin DIP | 32KB static RAM |
+| Component | Pins       | Description                                  |
+| --------- | ---------- | -------------------------------------------- |
+| W65C02S   | 40-pin DIP | 8-bit microprocessor with 16-bit address bus |
+| 28C256    | 28-pin DIP | 32KB parallel EEPROM                         |
+| W65C22    | 40-pin DIP | Versatile Interface Adapter (VIA)            |
+| 62256     | 28-pin DIP | 32KB static RAM                              |
 
 ### Logic & Timer ICs
 
-| Component | Pins | Description |
-|-----------|------|-------------|
-| NE555 | 8-pin DIP | Timer IC for timing and oscillation |
-| 7400 | 14-pin DIP | Quad 2-input NAND gate |
-| 7402 | 14-pin DIP | Quad 2-input NOR gate |
-| 7404 | 14-pin DIP | Hex inverter (NOT gate) |
-| 7408 | 14-pin DIP | Quad 2-input AND gate |
-| 7432 | 14-pin DIP | Quad 2-input OR gate |
+| Component | Pins       | Description                         |
+| --------- | ---------- | ----------------------------------- |
+| NE555     | 8-pin DIP  | Timer IC for timing and oscillation |
+| 7400      | 14-pin DIP | Quad 2-input NAND gate              |
+| 7402      | 14-pin DIP | Quad 2-input NOR gate               |
+| 7404      | 14-pin DIP | Hex inverter (NOT gate)             |
+| 7408      | 14-pin DIP | Quad 2-input AND gate               |
+| 7432      | 14-pin DIP | Quad 2-input OR gate                |
 
 ### Passive & Active Components
 
-| Component | Description |
-|-----------|-------------|
-| LED | Light emitting diode (various colors) |
-| Resistor | Current limiting (configurable values) |
-| Capacitor | Filtering and timing (ceramic/electrolytic) |
-| Crystal | Clock oscillator |
-| Switch | Toggle switch (latching) |
-| Button | Momentary push button |
-| Potentiometer | Variable resistor |
-| Photoresistor | Light-dependent resistor |
+| Component     | Description                                 |
+| ------------- | ------------------------------------------- |
+| LED           | Light emitting diode (various colors)       |
+| Resistor      | Current limiting (configurable values)      |
+| Capacitor     | Filtering and timing (ceramic/electrolytic) |
+| Crystal       | Clock oscillator                            |
+| Switch        | Toggle switch (latching)                    |
+| Button        | Momentary push button                       |
+| Potentiometer | Variable resistor                           |
+| Photoresistor | Light-dependent resistor                    |
 
 ### Grid System
 
@@ -128,40 +128,40 @@ const cellY = Math.floor(y / gridSize) * gridSize;
 
 ### 555 Timer (8-pin DIP)
 
-| Pin | Name | Function |
-|:---:|:-----|:---------|
-| 1 | GND | Ground (0V) |
-| 2 | TRIG | Trigger (< 1/3 Vcc starts timing) |
-| 3 | OUT | Output (source/sink 200mA) |
-| 4 | RESET | Active-low reset |
-| 5 | CTRL | Control voltage (bypass with 10nF) |
-| 6 | THR | Threshold (> 2/3 Vcc resets) |
-| 7 | DIS | Discharge (open collector) |
-| 8 | Vcc | Supply (+4.5V to +16V) |
+| Pin | Name  | Function                           |
+| :-: | :---- | :--------------------------------- |
+|  1  | GND   | Ground (0V)                        |
+|  2  | TRIG  | Trigger (< 1/3 Vcc starts timing)  |
+|  3  | OUT   | Output (source/sink 200mA)         |
+|  4  | RESET | Active-low reset                   |
+|  5  | CTRL  | Control voltage (bypass with 10nF) |
+|  6  | THR   | Threshold (> 2/3 Vcc resets)       |
+|  7  | DIS   | Discharge (open collector)         |
+|  8  | Vcc   | Supply (+4.5V to +16V)             |
 
 ### W65C02S (40-pin DIP) - Key Pins
 
-| Pin | Name | Function |
-|:---:|:-----|:---------|
-| 8 | VDD | Power supply |
-| 21 | VSS | Ground |
-| 37 | PHI2 | System clock input |
-| 40 | RESB | Active-low reset |
-| 34 | RWB | Read/Write signal |
-| 9-25 | A0-A15 | Address bus |
-| 26-33 | D0-D7 | Data bus |
+|  Pin  | Name   | Function           |
+| :---: | :----- | :----------------- |
+|   8   | VDD    | Power supply       |
+|  21   | VSS    | Ground             |
+|  37   | PHI2   | System clock input |
+|  40   | RESB   | Active-low reset   |
+|  34   | RWB    | Read/Write signal  |
+| 9-25  | A0-A15 | Address bus        |
+| 26-33 | D0-D7  | Data bus           |
 
 ### 28C256 EEPROM (28-pin DIP) - Key Pins
 
-| Pin | Name | Function |
-|:---:|:-----|:---------|
-| 14 | GND | Ground |
-| 28 | VCC | Power supply |
-| 20 | CE | Chip enable (active-low) |
-| 22 | OE | Output enable (active-low) |
-| 27 | WE | Write enable (active-low) |
-| 1-10, 21-26 | A0-A14 | Address inputs |
-| 11-19 | I/O0-I/O7 | Data bus |
+|     Pin     | Name      | Function                   |
+| :---------: | :-------- | :------------------------- |
+|     14      | GND       | Ground                     |
+|     28      | VCC       | Power supply               |
+|     20      | CE        | Chip enable (active-low)   |
+|     22      | OE        | Output enable (active-low) |
+|     27      | WE        | Write enable (active-low)  |
+| 1-10, 21-26 | A0-A14    | Address inputs             |
+|    11-19    | I/O0-I/O7 | Data bus                   |
 
 ## Formulas Reference
 
@@ -193,25 +193,25 @@ const cellY = Math.floor(y / gridSize) * gridSize;
 
 ### Wire Colors
 
-| Color | Purpose |
-|-------|---------|
-| Red | +5V / Power |
-| Black | Ground |
-| Yellow | Clock / Timing |
-| Blue | Address bus |
-| Green | Data bus |
+| Color  | Purpose         |
+| ------ | --------------- |
+| Red    | +5V / Power     |
+| Black  | Ground          |
+| Yellow | Clock / Timing  |
+| Blue   | Address bus     |
+| Green  | Data bus        |
 | Orange | Control signals |
-| White | General purpose |
+| White  | General purpose |
 
 ### LED Colors
 
-| Color | Forward Voltage |
-|-------|-----------------|
-| Red | 1.8V - 2.2V |
-| Green | 2.0V - 2.2V |
-| Yellow | 2.0V - 2.2V |
-| Blue | 3.0V - 3.5V |
-| White | 3.0V - 3.5V |
+| Color  | Forward Voltage |
+| ------ | --------------- |
+| Red    | 1.8V - 2.2V     |
+| Green  | 2.0V - 2.2V     |
+| Yellow | 2.0V - 2.2V     |
+| Blue   | 3.0V - 3.5V     |
+| White  | 3.0V - 3.5V     |
 
 ## Build Examples
 
@@ -242,13 +242,13 @@ const cellY = Math.floor(y / gridSize) * gridSize;
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| LED doesn't light | Check polarity (anode to +, cathode to -) |
-| Circuit doesn't power | Verify power rail connections |
-| IC not working | Check VCC and GND pin connections |
-| 555 not oscillating | Verify threshold/trigger capacitor wiring |
-| Microprocessor stuck | Check RESB is HIGH after reset pulse |
+| Issue                 | Solution                                  |
+| --------------------- | ----------------------------------------- |
+| LED doesn't light     | Check polarity (anode to +, cathode to -) |
+| Circuit doesn't power | Verify power rail connections             |
+| IC not working        | Check VCC and GND pin connections         |
+| 555 not oscillating   | Verify threshold/trigger capacitor wiring |
+| Microprocessor stuck  | Check RESB is HIGH after reset pulse      |
 
 ## References
 

@@ -97,6 +97,7 @@ print(f"Generated manifest: {manifest['file_count']} files, "
 ```
 
 **Output (`INTEGRITY.json`):**
+
 ```json
 {
   "plugin_name": "my-plugin",
@@ -165,6 +166,7 @@ else:
 ```
 
 **Output on tampered plugin:**
+
 ```
 FAILED: 3 issue(s)
   MODIFIED: skills/search/SKILL.md
@@ -320,14 +322,14 @@ Add to your GitHub Actions workflow:
 
 ## Best Practices
 
-| Practice | Rationale |
-|----------|-----------|
-| **Generate manifest after code review** | Ensures reviewed code matches production code |
-| **Include manifest in the PR** | Reviewers can verify what was hashed |
-| **Verify in CI before deploy** | Catches post-review modifications |
-| **Chain hash for tamper evidence** | Single hash represents entire plugin state |
-| **Exclude build artifacts** | Only hash source files — .git, __pycache__, node_modules excluded |
-| **Pin all dependency versions** | Unpinned deps = different code on every install |
+| Practice                                | Rationale                                                         |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| **Generate manifest after code review** | Ensures reviewed code matches production code                     |
+| **Include manifest in the PR**          | Reviewers can verify what was hashed                              |
+| **Verify in CI before deploy**          | Catches post-review modifications                                 |
+| **Chain hash for tamper evidence**      | Single hash represents entire plugin state                        |
+| **Exclude build artifacts**             | Only hash source files — .git, **pycache**, node_modules excluded |
+| **Pin all dependency versions**         | Unpinned deps = different code on every install                   |
 
 ---
 

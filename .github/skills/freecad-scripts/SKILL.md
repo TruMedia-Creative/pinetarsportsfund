@@ -1,6 +1,6 @@
 ---
 name: freecad-scripts
-description: 'Expert skill for writing FreeCAD Python scripts, macros, and automation. Use when asked to create FreeCAD models, parametric objects, Part/Mesh/Sketcher scripts, workbench tools, GUI dialogs with PySide, Coin3D scenegraph manipulation, or any FreeCAD Python API task. Covers FreeCAD scripting basics, geometry creation, FeaturePython objects, interface tools, and macro development.'
+description: "Expert skill for writing FreeCAD Python scripts, macros, and automation. Use when asked to create FreeCAD models, parametric objects, Part/Mesh/Sketcher scripts, workbench tools, GUI dialogs with PySide, Coin3D scenegraph manipulation, or any FreeCAD Python API task. Covers FreeCAD scripting basics, geometry creation, FeaturePython objects, interface tools, and macro development."
 ---
 
 # FreeCAD Scripts
@@ -232,30 +232,37 @@ solid = Part.makeSolid(shape)
 ### Sketcher Module
 
 # Create a sketch on XY plane
+
 sketch = doc.addObject("Sketcher::SketchObject", "MySketch")
 sketch.Placement = FreeCAD.Placement(
-    FreeCAD.Vector(0, 0, 0),
-    FreeCAD.Rotation(0, 0, 0, 1)
+FreeCAD.Vector(0, 0, 0),
+FreeCAD.Rotation(0, 0, 0, 1)
 )
 
 # Add geometry (returns geometry index)
+
 idx_line = sketch.addGeometry(Part.LineSegment(
-    FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(10, 0, 0)))
+FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(10, 0, 0)))
 idx_circle = sketch.addGeometry(Part.Circle(
-    FreeCAD.Vector(5, 5, 0), FreeCAD.Vector(0, 0, 1), 3))
+FreeCAD.Vector(5, 5, 0), FreeCAD.Vector(0, 0, 1), 3))
 
 # Add constraints
+
 sketch.addConstraint(Sketcher.Constraint("Coincident", 0, 2, 1, 1))
 sketch.addConstraint(Sketcher.Constraint("Horizontal", 0))
 sketch.addConstraint(Sketcher.Constraint("DistanceX", 0, 1, 0, 2, 10.0))
 sketch.addConstraint(Sketcher.Constraint("Radius", 1, 3.0))
 sketch.addConstraint(Sketcher.Constraint("Fixed", 0, 1))
+
 # Constraint types: Coincident, Horizontal, Vertical, Parallel, Perpendicular,
-#   Tangent, Equal, Symmetric, Distance, DistanceX, DistanceY, Radius, Angle,
-#   Fixed (Block), InternalAlignment
+
+# Tangent, Equal, Symmetric, Distance, DistanceX, DistanceY, Radius, Angle,
+
+# Fixed (Block), InternalAlignment
 
 doc.recompute()
-```
+
+````
 
 ### Draft Module
 
@@ -278,7 +285,7 @@ scaled = Draft.scale(obj, FreeCAD.Vector(2,2,2), center=FreeCAD.Vector(0,0,0),
 offset = Draft.offset(obj, FreeCAD.Vector(1,0,0))
 array = Draft.makeArray(obj, FreeCAD.Vector(15,0,0),
                          FreeCAD.Vector(0,15,0), 3, 3)
-```
+````
 
 ## Creating Parametric Objects (FeaturePython)
 
@@ -350,22 +357,22 @@ doc.recompute()
 
 ### Common Property Types
 
-| Property Type | Python Type | Description |
-|---|---|---|
-| `App::PropertyBool` | `bool` | Boolean |
-| `App::PropertyInteger` | `int` | Integer |
-| `App::PropertyFloat` | `float` | Float |
-| `App::PropertyString` | `str` | String |
-| `App::PropertyLength` | `float` (units) | Length with units |
-| `App::PropertyAngle` | `float` (deg) | Angle in degrees |
-| `App::PropertyVector` | `FreeCAD.Vector` | 3D vector |
-| `App::PropertyPlacement` | `FreeCAD.Placement` | Position + rotation |
-| `App::PropertyLink` | object ref | Link to another object |
-| `App::PropertyLinkList` | list of refs | Links to multiple objects |
-| `App::PropertyEnumeration` | `list`/`str` | Dropdown selection |
-| `App::PropertyFile` | `str` | File path |
-| `App::PropertyColor` | `tuple` | RGB color (0.0-1.0) |
-| `App::PropertyPythonObject` | any | Serializable Python object |
+| Property Type               | Python Type         | Description                |
+| --------------------------- | ------------------- | -------------------------- |
+| `App::PropertyBool`         | `bool`              | Boolean                    |
+| `App::PropertyInteger`      | `int`               | Integer                    |
+| `App::PropertyFloat`        | `float`             | Float                      |
+| `App::PropertyString`       | `str`               | String                     |
+| `App::PropertyLength`       | `float` (units)     | Length with units          |
+| `App::PropertyAngle`        | `float` (deg)       | Angle in degrees           |
+| `App::PropertyVector`       | `FreeCAD.Vector`    | 3D vector                  |
+| `App::PropertyPlacement`    | `FreeCAD.Placement` | Position + rotation        |
+| `App::PropertyLink`         | object ref          | Link to another object     |
+| `App::PropertyLinkList`     | list of refs        | Links to multiple objects  |
+| `App::PropertyEnumeration`  | `list`/`str`        | Dropdown selection         |
+| `App::PropertyFile`         | `str`               | File path                  |
+| `App::PropertyColor`        | `tuple`             | RGB color (0.0-1.0)        |
+| `App::PropertyPythonObject` | any                 | Serializable Python object |
 
 ## Creating GUI Tools
 

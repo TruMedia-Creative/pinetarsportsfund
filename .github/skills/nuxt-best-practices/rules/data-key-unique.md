@@ -54,24 +54,24 @@ const { data: orders } = await useAsyncData(
 ```vue
 <script setup>
 // List with pagination
-const page = ref(1)
-const { data } = await useFetch('/api/items', {
+const page = ref(1);
+const { data } = await useFetch("/api/items", {
   key: `items-page-${page.value}`,
-  query: { page }
-})
+  query: { page },
+});
 
 // Detail page
-const route = useRoute()
+const route = useRoute();
 const { data } = await useFetch(`/api/items/${route.params.id}`, {
-  key: `item-${route.params.id}`
-})
+  key: `item-${route.params.id}`,
+});
 
 // Filtered data
-const filters = reactive({ status: 'active', category: 'tech' })
-const { data } = await useFetch('/api/items', {
+const filters = reactive({ status: "active", category: "tech" });
+const { data } = await useFetch("/api/items", {
   key: computed(() => `items-${JSON.stringify(filters)}`),
-  query: filters
-})
+  query: filters,
+});
 </script>
 ```
 
@@ -79,17 +79,17 @@ const { data } = await useFetch('/api/items', {
 
 ```vue
 <script setup>
-const selectedId = ref('123')
+const selectedId = ref("123");
 
 // Automatically refetches when key changes
-const { data } = await useFetch(() => `/api/items/${selectedId.value}`)
+const { data } = await useFetch(() => `/api/items/${selectedId.value}`);
 
 // Or use watch option with explicit key
-const { data } = await useFetch('/api/items', {
+const { data } = await useFetch("/api/items", {
   key: () => `item-${selectedId.value}`,
   query: { id: selectedId },
-  watch: [selectedId]
-})
+  watch: [selectedId],
+});
 </script>
 ```
 
@@ -98,16 +98,16 @@ const { data } = await useFetch('/api/items', {
 ```vue
 <script setup>
 // BAD: Creates many parallel requests
-const items = ref(['a', 'b', 'c'])
+const items = ref(["a", "b", "c"]);
 // Don't do this in a loop!
 for (const id of items.value) {
-  await useFetch(`/api/items/${id}`) // Anti-pattern
+  await useFetch(`/api/items/${id}`); // Anti-pattern
 }
 
 // GOOD: Fetch all at once
-const { data } = await useFetch('/api/items', {
-  query: { ids: items.value.join(',') }
-})
+const { data } = await useFetch("/api/items", {
+  query: { ids: items.value.join(",") },
+});
 </script>
 ```
 

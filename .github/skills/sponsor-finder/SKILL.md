@@ -26,15 +26,15 @@ When the user types `/sponsor {owner/repo}` or provides a repository in `owner/r
 
 Use `get_file_contents` to fetch the manifest from the target repo. Determine the ecosystem and extract the package name + latest version:
 
-| File | Ecosystem | Package name from | Version from |
-|------|-----------|-------------------|--------------|
-| `package.json` | NPM | `name` field | `version` field |
-| `requirements.txt` | PYPI | list of package names | use latest (omit version in deps.dev call) |
-| `pyproject.toml` | PYPI | `[project.dependencies]` | use latest |
-| `Cargo.toml` | CARGO | `[package] name` | `[package] version` |
-| `go.mod` | GO | `module` path | extract from go.mod |
-| `Gemfile` | RUBYGEMS | gem names | use latest |
-| `pom.xml` | MAVEN | `groupId:artifactId` | `version` |
+| File               | Ecosystem | Package name from        | Version from                               |
+| ------------------ | --------- | ------------------------ | ------------------------------------------ |
+| `package.json`     | NPM       | `name` field             | `version` field                            |
+| `requirements.txt` | PYPI      | list of package names    | use latest (omit version in deps.dev call) |
+| `pyproject.toml`   | PYPI      | `[project.dependencies]` | use latest                                 |
+| `Cargo.toml`       | CARGO     | `[package] name`         | `[package] version`                        |
+| `go.mod`           | GO        | `module` path            | extract from go.mod                        |
+| `Gemfile`          | RUBYGEMS  | gem names                | use latest                                 |
+| `pom.xml`          | MAVEN     | `groupId:artifactId`     | `version`                                  |
 
 ---
 
@@ -47,11 +47,13 @@ https://api.deps.dev/v3/systems/{ECOSYSTEM}/packages/{PACKAGE}/versions/{VERSION
 ```
 
 For example:
+
 ```
 https://api.deps.dev/v3/systems/npm/packages/express/versions/5.2.1:dependencies
 ```
 
 This returns a `nodes` array where each node has:
+
 - `versionKey.name` — package name
 - `versionKey.version` — resolved version
 - `relation` — `"SELF"`, `"DIRECT"`, or `"INDIRECT"`
@@ -59,11 +61,14 @@ This returns a `nodes` array where each node has:
 **This single call gives you the entire dependency tree** — both direct and transitive — with exact resolved versions. No need to parse lockfiles.
 
 ### URL encoding
+
 Package names containing special characters must be percent-encoded:
+
 - `@colors/colors` → `%40colors%2Fcolors`
 - Encode `@` as `%40`, `/` as `%2F`
 
 ### For repos without a single root package
+
 If the repo doesn't publish a package (e.g., it's an app not a library), fall back to reading `package.json` dependencies directly and calling deps.dev `GetVersion` for each.
 
 ---
@@ -77,12 +82,14 @@ https://api.deps.dev/v3/systems/{ECOSYSTEM}/packages/{NAME}/versions/{VERSION}
 ```
 
 From the response, extract:
+
 - **`relatedProjects`** → look for `relationType: "SOURCE_REPO"` → `projectKey.id` gives `github.com/{owner}/{repo}`
 - **`links`** → look for `label: "SOURCE_REPO"` → `url` field
 
 This works across **all ecosystems** — npm, PyPI, Cargo, Go, RubyGems, Maven, NuGet — with the same field structure.
 
 ### Efficiency rules
+
 - Process in batches of **10 at a time**.
 - Deduplicate — multiple packages may map to the same repo.
 - Skip deps where no GitHub project is found (count as "unresolvable").
@@ -98,17 +105,20 @@ https://api.deps.dev/v3/projects/github.com%2F{owner}%2F{repo}
 ```
 
 From the response, extract:
+
 - **`scorecard.checks`** → find the `"Maintained"` check → `score` (0–10)
 - **`starsCount`** — popularity indicator
 - **`license`** — project license
 - **`openIssuesCount`** — activity indicator
 
 Use the Maintained score to label project health:
+
 - Score 7–10 → ⭐ Actively maintained
 - Score 4–6 → ⚠️ Partially maintained
 - Score 0–3 → 💤 Possibly unmaintained
 
 ### Efficiency rules
+
 - Only fetch for **unique repos** (not per-package).
 - Process in batches of **10 at a time**.
 - This step is optional — skip if rate-limited and note in output.
@@ -120,7 +130,9 @@ Use the Maintained score to label project health:
 For each unique GitHub repo, check for funding information using three sources in order:
 
 ### 5a: npm `funding` field (npm ecosystem only)
+
 Use `web_fetch` on `https://registry.npmjs.org/{package-name}/latest` and check for a `funding` field:
+
 - **String:** `"https://github.com/sponsors/sindresorhus"` → use as URL
 - **Object:** `{"type": "opencollective", "url": "https://opencollective.com/express"}` → use `url`
 - **Array:** collect all URLs
@@ -139,6 +151,7 @@ GitHub supports a [default community health files](https://docs.github.com/en/co
 Only look up each unique `{owner}/.github` repo **once** — reuse the result for all repos under that owner. Process in batches of **10 owners at a time**.
 
 Parse the YAML (same for both 5b-i and 5b-ii):
+
 - `github: [username]` → `https://github.com/sponsors/{username}`
 - `open_collective: slug` → `https://opencollective.com/{slug}`
 - `ko_fi: username` → `https://ko-fi.com/{username}`
@@ -147,13 +160,17 @@ Parse the YAML (same for both 5b-i and 5b-ii):
 - `custom: [urls]` → use as-is
 
 ### 5c: Web search fallback
+
 For the **top 10 unfunded dependencies** (by number of transitive dependents), use `web_search`:
+
 ```
 "{package name}" github sponsors OR open collective OR funding
 ```
+
 Skip packages known to be corporate-maintained (React/Meta, TypeScript/Microsoft, @types/DefinitelyTyped).
 
 ### Efficiency rules
+
 - **Check 5a and 5b for all deps.** Only use 5c for top unfunded ones.
 - Skip npm registry calls for non-npm ecosystems.
 - Deduplicate repos — check each repo only once.
@@ -167,6 +184,7 @@ Skip packages known to be corporate-maintained (React/Meta, TypeScript/Microsoft
 **Before including ANY funding link, verify it exists.**
 
 Use `web_fetch` on each funding URL:
+
 - **Valid page** → ✅ Include
 - **404 / "not found" / "not enrolled"** → ❌ Exclude
 - **Redirect to valid page** → ✅ Include final URL
@@ -180,6 +198,7 @@ Verify in batches of **5 at a time**. Never present unverified links.
 ### Output discipline
 
 **Minimize intermediate output during data gathering.** Do NOT announce each batch ("Batch 3 of 7…", "Now checking funding…"). Instead:
+
 - Show **one brief status line** when starting each major phase (e.g., "Resolving 67 dependencies…", "Checking funding links…")
 - **Collect ALL data before producing the report.** Never drip-feed partial tables.
 - Output the final report as a **single cohesive block** at the end.

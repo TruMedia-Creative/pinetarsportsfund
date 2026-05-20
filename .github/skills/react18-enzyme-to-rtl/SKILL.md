@@ -1,6 +1,6 @@
 ---
 name: react18-enzyme-to-rtl
-description: 'Provides exact Enzyme → React Testing Library migration patterns for React 18 upgrades. Use this skill whenever Enzyme tests need to be rewritten - shallow, mount, wrapper.find(), wrapper.simulate(), wrapper.prop(), wrapper.state(), wrapper.instance(), Enzyme configure/Adapter calls, or any test file that imports from enzyme. This skill covers the full API mapping and the philosophy shift from implementation testing to behavior testing. Always read this skill before rewriting Enzyme tests - do not translate Enzyme APIs 1:1, that produces brittle RTL tests.'
+description: "Provides exact Enzyme → React Testing Library migration patterns for React 18 upgrades. Use this skill whenever Enzyme tests need to be rewritten - shallow, mount, wrapper.find(), wrapper.simulate(), wrapper.prop(), wrapper.state(), wrapper.instance(), Enzyme configure/Adapter calls, or any test file that imports from enzyme. This skill covers the full API mapping and the philosophy shift from implementation testing to behavior testing. Always read this skill before rewriting Enzyme tests - do not translate Enzyme APIs 1:1, that produces brittle RTL tests."
 ---
 
 # React 18 Enzyme → RTL Migration
@@ -13,13 +13,13 @@ Enzyme tests implementation. RTL tests behavior.
 
 ```jsx
 // Enzyme: tests that the component has the right internal state
-expect(wrapper.state('count')).toBe(3);
+expect(wrapper.state("count")).toBe(3);
 expect(wrapper.instance().handleClick).toBeDefined();
-expect(wrapper.find('Button').prop('disabled')).toBe(true);
+expect(wrapper.find("Button").prop("disabled")).toBe(true);
 
 // RTL: tests what the user actually sees and can do
-expect(screen.getByText('Count: 3')).toBeInTheDocument();
-expect(screen.getByRole('button', { name: /submit/i })).toBeDisabled();
+expect(screen.getByText("Count: 3")).toBeInTheDocument();
+expect(screen.getByRole("button", { name: /submit/i })).toBeDisabled();
 ```
 
 This is not a 1:1 translation. Enzyme tests that verify internal state or instance methods don't have RTL equivalents - because RTL intentionally doesn't expose internals. **Rewrite the test to assert the visible outcome instead.**
@@ -27,6 +27,7 @@ This is not a 1:1 translation. Enzyme tests that verify internal state or instan
 ## API Map
 
 For complete before/after code for each Enzyme API, read:
+
 - **`references/enzyme-api-map.md`** - full mapping: shallow, mount, find, simulate, prop, state, instance, configure
 - **`references/async-patterns.md`** - waitFor, findBy, act(), Apollo MockedProvider, loading states, error states
 
@@ -34,23 +35,23 @@ For complete before/after code for each Enzyme API, read:
 
 ```jsx
 // Every Enzyme test rewrites to this shape:
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import MyComponent from './MyComponent';
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import MyComponent from "./MyComponent";
 
-describe('MyComponent', () => {
-  it('does the thing', async () => {
+describe("MyComponent", () => {
+  it("does the thing", async () => {
     // 1. Render (replaces shallow/mount)
     render(<MyComponent prop="value" />);
 
     // 2. Query (replaces wrapper.find())
-    const button = screen.getByRole('button', { name: /submit/i });
+    const button = screen.getByRole("button", { name: /submit/i });
 
     // 3. Interact (replaces simulate())
     await userEvent.setup().click(button);
 
     // 4. Assert on visible output (replaces wrapper.state() / wrapper.prop())
-    expect(screen.getByText('Submitted!')).toBeInTheDocument();
+    expect(screen.getByText("Submitted!")).toBeInTheDocument();
   });
 });
 ```
@@ -77,17 +78,17 @@ const wrapper = mount(
     <ThemeProvider theme={theme}>
       <MyComponent />
     </ThemeProvider>
-  </ApolloProvider>
+  </ApolloProvider>,
 );
 
 // RTL equivalent (use your project's customRender or wrap inline):
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
 render(
   <MockedProvider mocks={mocks} addTypename={false}>
     <ThemeProvider theme={theme}>
       <MyComponent />
     </ThemeProvider>
-  </MockedProvider>
+  </MockedProvider>,
 );
 // Or use the project's customRender helper if it wraps providers
 ```

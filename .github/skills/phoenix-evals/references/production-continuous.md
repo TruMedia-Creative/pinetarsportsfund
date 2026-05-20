@@ -4,14 +4,15 @@ Capability vs regression evals and the ongoing feedback loop.
 
 ## Two Types of Evals
 
-| Type | Pass Rate Target | Purpose | Update |
-| ---- | ---------------- | ------- | ------ |
-| **Capability** | 50-80% | Measure improvement | Add harder cases |
-| **Regression** | 95-100% | Catch breakage | Add fixed bugs |
+| Type           | Pass Rate Target | Purpose             | Update           |
+| -------------- | ---------------- | ------------------- | ---------------- |
+| **Capability** | 50-80%           | Measure improvement | Add harder cases |
+| **Regression** | 95-100%          | Catch breakage      | Add fixed bugs   |
 
 ## Saturation
 
 When capability evals hit >95% pass rate, they're saturated:
+
 1. Graduate passing cases to regression suite
 2. Add new challenging cases to capability suite
 
@@ -82,8 +83,8 @@ const { spans } = await getSpans({
 const results = await Promise.all(
   spans.map(async (span) => ({
     spanId: span.context.span_id,
-    ...await runEvaluators(span, [qualityEval, safetyEval]),
-  }))
+    ...(await runEvaluators(span, [qualityEval, safetyEval])),
+  })),
 );
 
 // 3. Upload results as annotations
@@ -124,11 +125,11 @@ const { traces } = await getTraces({
 
 ## Alerting
 
-| Condition | Severity | Action |
-| --------- | -------- | ------ |
-| Regression < 98% | Critical | Page oncall |
-| Capability declining | Warning | Slack notify |
-| Capability > 95% for 7d | Info | Schedule review |
+| Condition               | Severity | Action          |
+| ----------------------- | -------- | --------------- |
+| Regression < 98%        | Critical | Page oncall     |
+| Capability declining    | Warning  | Slack notify    |
+| Capability > 95% for 7d | Info     | Schedule review |
 
 ## Key Principles
 

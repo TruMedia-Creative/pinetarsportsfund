@@ -8,35 +8,35 @@ Don't skim — grep the codebase methodically. The exact patterns depend on the 
 
 **Null/nil guards:**
 
-| Language | Grep pattern |
-|---|---|
-| Python | `None`, `is None`, `is not None` |
-| Java | `null`, `Optional`, `Objects.requireNonNull` |
-| Scala | `Option`, `None`, `.getOrElse`, `.isEmpty` |
-| TypeScript | `undefined`, `null`, `??`, `?.` |
-| Go | `== nil`, `!= nil`, `if err != nil` |
-| Rust | `Option`, `unwrap`, `.is_none()`, `?` |
+| Language   | Grep pattern                                 |
+| ---------- | -------------------------------------------- |
+| Python     | `None`, `is None`, `is not None`             |
+| Java       | `null`, `Optional`, `Objects.requireNonNull` |
+| Scala      | `Option`, `None`, `.getOrElse`, `.isEmpty`   |
+| TypeScript | `undefined`, `null`, `??`, `?.`              |
+| Go         | `== nil`, `!= nil`, `if err != nil`          |
+| Rust       | `Option`, `unwrap`, `.is_none()`, `?`        |
 
 **Exception/error handling:**
 
-| Language | Grep pattern |
-|---|---|
-| Python | `except`, `try:`, `raise` |
-| Java | `catch`, `throws`, `try {` |
-| Scala | `Try`, `catch`, `recover`, `Failure` |
-| TypeScript | `catch`, `throw`, `.catch(` |
-| Go | `if err != nil`, `errors.New`, `fmt.Errorf` |
-| Rust | `Result`, `Err(`, `unwrap_or`, `match` |
+| Language   | Grep pattern                                |
+| ---------- | ------------------------------------------- |
+| Python     | `except`, `try:`, `raise`                   |
+| Java       | `catch`, `throws`, `try {`                  |
+| Scala      | `Try`, `catch`, `recover`, `Failure`        |
+| TypeScript | `catch`, `throw`, `.catch(`                 |
+| Go         | `if err != nil`, `errors.New`, `fmt.Errorf` |
+| Rust       | `Result`, `Err(`, `unwrap_or`, `match`      |
 
 **Internal/private helpers (often defensive):**
 
-| Language | Grep pattern |
-|---|---|
-| Python | `def _`, `__` |
-| Java/Scala | `private`, `protected` |
-| TypeScript | `private`, `#` (private fields) |
-| Go | lowercase function names (unexported) |
-| Rust | `pub(crate)`, non-`pub` functions |
+| Language   | Grep pattern                          |
+| ---------- | ------------------------------------- |
+| Python     | `def _`, `__`                         |
+| Java/Scala | `private`, `protected`                |
+| TypeScript | `private`, `#` (private fields)       |
+| Go         | lowercase function names (unexported) |
+| Rust       | `pub(crate)`, non-`pub` functions     |
 
 **Sentinel values, fallbacks, boundary checks:** Search for `== 0`, `< 0`, `default`, `fallback`, `else`, `match`, `switch` — these are language-agnostic.
 
@@ -57,7 +57,7 @@ The answer becomes a fitness-to-purpose scenario:
 ```markdown
 ### Scenario N: [Memorable Name]
 
-**Requirement tag:** [Req: inferred — from function_name() behavior] *(use the canonical `[Req: tier — source]` format from SKILL.md Phase 1, Step 1)*
+**Requirement tag:** [Req: inferred — from function_name() behavior] _(use the canonical `[Req: tier — source]` format from SKILL.md Phase 1, Step 1)_
 
 **What happened:** [The failure mode this code prevents. Reference the actual function, file, and line. Frame as a vulnerability analysis, not a fabricated incident.]
 
@@ -101,10 +101,10 @@ void testDefensivePatternName() {
 
 ```typescript
 // TypeScript (Jest)
-test('[Req: inferred — from functionName() guard] guards against X', () => {
-    const input = { ...fixture, field: null };  // Trigger defensive code path
-    const result = process(input);
-    expect(result).toBeDefined();  // Assert graceful handling
+test("[Req: inferred — from functionName() guard] guards against X", () => {
+  const input = { ...fixture, field: null }; // Trigger defensive code path
+  const result = process(input);
+  expect(result).toBeDefined(); // Assert graceful handling
 });
 ```
 
@@ -139,14 +139,14 @@ State machines are a special category of defensive pattern. When you find status
 
 **How to find state machines:**
 
-| Language | Grep pattern |
-|---|---|
-| Python | `status`, `state`, `phase`, `mode`, `== "running"`, `== "pending"` |
-| Java | `enum.*Status`, `enum.*State`, `.getStatus()`, `switch.*status` |
-| Scala | `sealed trait.*State`, `case object`, `status match` |
-| TypeScript | `status:`, `state:`, `Status =`, `switch.*status` |
-| Go | `Status`, `State`, `type.*Phase`, `switch.*status` |
-| Rust | `enum.*State`, `enum.*Status`, `match.*state` |
+| Language   | Grep pattern                                                       |
+| ---------- | ------------------------------------------------------------------ |
+| Python     | `status`, `state`, `phase`, `mode`, `== "running"`, `== "pending"` |
+| Java       | `enum.*Status`, `enum.*State`, `.getStatus()`, `switch.*status`    |
+| Scala      | `sealed trait.*State`, `case object`, `status match`               |
+| TypeScript | `status:`, `state:`, `Status =`, `switch.*status`                  |
+| Go         | `Status`, `State`, `type.*Phase`, `switch.*status`                 |
+| Rust       | `enum.*State`, `enum.*Status`, `match.*state`                      |
 
 **For each state machine found:**
 
@@ -173,12 +173,12 @@ State machines are a special category of defensive pattern. When you find status
 
 Search for operations that commit the user to expensive, irreversible, or long-running work without adequate preview or confirmation:
 
-| Pattern | What to look for |
-|---|---|
+| Pattern                    | What to look for                                                                                                      |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | Pre-commit information gap | Operations that start batch jobs, fan-out expansions, or API calls without showing estimated cost, scope, or duration |
-| Silent expansion | Fan-out or multiplication steps where the final work count isn't known until runtime, with no warning shown |
-| No termination condition | Polling loops, watchers, or daemon processes that check for new work but never check whether all work is done |
-| Retry without backoff | Error handling that retries immediately or on a fixed interval without exponential backoff, risking rate limit floods |
+| Silent expansion           | Fan-out or multiplication steps where the final work count isn't known until runtime, with no warning shown           |
+| No termination condition   | Polling loops, watchers, or daemon processes that check for new work but never check whether all work is done         |
+| Retry without backoff      | Error handling that retries immediately or on a fixed interval without exponential backoff, risking rate limit floods |
 
 **Converting missing safeguards to scenarios:**
 

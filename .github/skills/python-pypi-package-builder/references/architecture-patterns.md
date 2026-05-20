@@ -1,6 +1,7 @@
 # Architecture Patterns — Backend System, Config, Transport, CLI
 
 ## Table of Contents
+
 1. [Backend System (Plugin/Strategy Pattern)](#1-backend-system-pluginstrategy-pattern)
 2. [Config Layer (Settings Dataclass)](#2-config-layer-settings-dataclass)
 3. [Transport Layer (HTTP Client Abstraction)](#3-transport-layer-http-client-abstraction)

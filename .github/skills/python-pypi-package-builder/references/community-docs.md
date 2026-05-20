@@ -1,6 +1,7 @@
 # Community Docs, PR Checklist, Anti-patterns, and Release Checklist
 
 ## Table of Contents
+
 1. [README.md required sections](#1-readmemd-required-sections)
 2. [Docstrings — Google style](#2-docstrings--google-style)
 3. [CONTRIBUTING.md template](#3-contributingmd)
@@ -33,6 +34,7 @@ to use your library based on the README.
 pip install your-package
 
 # With Redis backend:
+
 pip install "your-package[redis]"
 
 ## Quick Start
@@ -160,7 +162,7 @@ and a minimal reproducible example.
 ## Supported Versions
 
 | Version | Supported |
-|---|---|
+| ------- | --------- |
 | 1.x.x   | Yes       |
 | < 1.0   | No        |
 
@@ -172,6 +174,7 @@ Report via: GitHub private security reporting (preferred)
 or email: security@yourdomain.com
 
 Include:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -186,7 +189,7 @@ We aim to acknowledge within 48 hours and resolve within 14 days.
 
 ### `.github/ISSUE_TEMPLATE/bug_report.md`
 
-```markdown
+````markdown
 ---
 name: Bug Report
 about: Report a reproducible bug
@@ -199,14 +202,17 @@ labels: bug
 **Describe the bug:**
 
 **Minimal reproducible example:**
+
 ```python
 # paste code here
 ```
+````
 
 **Expected behavior:**
 
 **Actual behavior:**
-```
+
+````
 
 ### `.github/ISSUE_TEMPLATE/feature_request.md`
 
@@ -222,7 +228,7 @@ labels: enhancement
 **Proposed solution:**
 
 **Alternatives considered:**
-```
+````
 
 ---
 
@@ -231,6 +237,7 @@ labels: enhancement
 All items must be checked before requesting review. CI must be fully green.
 
 ### Code Quality Gates
+
 ```
 [ ] ruff check . — zero errors
 [ ] black . --check — zero formatting issues
@@ -242,6 +249,7 @@ All items must be checked before requesting review. CI must be fully green.
 ```
 
 ### Structure
+
 ```
 [ ] pyproject.toml: name, dynamic/version, description, requires-python, license, authors,
     keywords (10+), classifiers, dependencies, all [project.urls] filled in
@@ -256,6 +264,7 @@ All items must be checked before requesting review. CI must be fully green.
 ```
 
 ### Testing
+
 ```
 [ ] conftest.py has shared fixtures for client and backend
 [ ] Core happy path tested
@@ -267,6 +276,7 @@ All items must be checked before requesting review. CI must be fully green.
 ```
 
 ### Optional Backend (if applicable)
+
 ```
 [ ] BaseBackend abstract class defines the interface
 [ ] MemoryBackend works with zero extra deps
@@ -277,6 +287,7 @@ All items must be checked before requesting review. CI must be fully green.
 ```
 
 ### Changelog & Docs
+
 ```
 [ ] CHANGELOG.md updated under [Unreleased]
 [ ] README has: description, install, quick start, config table, badges, license
@@ -288,6 +299,7 @@ All items must be checked before requesting review. CI must be fully green.
 ```
 
 ### CI/CD
+
 ```
 [ ] ci.yml: lint + mypy + test matrix (all supported Python versions)
 [ ] ci.yml: separate job for Redis backend with redis service
@@ -301,31 +313,31 @@ All items must be checked before requesting review. CI must be fully green.
 
 ## 7. Anti-patterns to Avoid
 
-| Anti-pattern | Why it's bad | Correct approach |
-|---|---|---|
-| `__version__ = "1.0.0"` hardcoded with setuptools_scm | Goes stale after first git tag | Use `importlib.metadata.version()` |
-| Missing `fetch-depth: 0` in CI checkout | setuptools_scm can't find tags → version = `0.0.0+dev` | Add `fetch-depth: 0` to **every** checkout step |
-| `local_scheme` not set | `+g<hash>` suffix breaks PyPI uploads (local versions rejected) | `local_scheme = "no-local-version"` |
-| Missing `py.typed` file | IDEs and mypy don't see package as typed | Create empty `py.typed` in package root |
-| `py.typed` not in `package-data` | File missing from installed wheel — useless | Add to `[tool.setuptools.package-data]` |
-| Importing optional dep at module top | `ImportError` on `import your_package` for all users | Lazy import inside the function/class that needs it |
-| Duplicating metadata in `setup.py` | Conflicts with `pyproject.toml`; drifts | Keep `setup.py` as 3-line shim only |
-| No `fail_under` in coverage config | Coverage regressions go unnoticed | Set `fail_under = 80` |
-| No mypy in CI | Type errors silently accumulate | Add mypy step to `ci.yml` |
-| API tokens in GitHub Secrets for PyPI | Security risk, rotation burden | Use Trusted Publishing (OIDC) |
-| Committing directly to `main`/`master` | Bypasses CI checks | Enforce via `no-commit-to-branch` pre-commit hook |
-| Missing `[Unreleased]` section in CHANGELOG | Changes pile up and get forgotten at release time | Keep `[Unreleased]` updated every PR |
-| Pinning exact dep versions in a library | Breaks dependency resolution for users | Use `>=` lower bounds only; avoid `==` |
-| No `__all__` in `__init__.py` | Users can accidentally import internal helpers | Declare `__all__` with every public symbol |
-| `from your_package import *` in tests | Tests pass even when imports are broken | Always use explicit imports |
-| No `SECURITY.md` | No path for responsible vulnerability disclosure | Add file with response timeline |
-| `Any` everywhere in type hints | Defeats mypy entirely | Use `object` for truly arbitrary values |
-| `Union` return types | Forces every caller to write `isinstance()` checks | Return concrete types; use overloads |
-| `setup.cfg` + `pyproject.toml` both active | Conflicts and confusing for contributors | Migrate everything to `pyproject.toml` |
-| Releasing on untagged commits | Version number is meaningless | Always tag before release |
-| Not testing on all supported Python versions | Breakage discovered by users, not you | Matrix test in CI |
-| `license = {text = "MIT"}` (old form) | Deprecated; PEP 639 uses SPDX strings | `license = "MIT"` |
-| No issue templates | Bug reports are inconsistent | Add `bug_report.md` + `feature_request.md` |
+| Anti-pattern                                          | Why it's bad                                                    | Correct approach                                    |
+| ----------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------- |
+| `__version__ = "1.0.0"` hardcoded with setuptools_scm | Goes stale after first git tag                                  | Use `importlib.metadata.version()`                  |
+| Missing `fetch-depth: 0` in CI checkout               | setuptools_scm can't find tags → version = `0.0.0+dev`          | Add `fetch-depth: 0` to **every** checkout step     |
+| `local_scheme` not set                                | `+g<hash>` suffix breaks PyPI uploads (local versions rejected) | `local_scheme = "no-local-version"`                 |
+| Missing `py.typed` file                               | IDEs and mypy don't see package as typed                        | Create empty `py.typed` in package root             |
+| `py.typed` not in `package-data`                      | File missing from installed wheel — useless                     | Add to `[tool.setuptools.package-data]`             |
+| Importing optional dep at module top                  | `ImportError` on `import your_package` for all users            | Lazy import inside the function/class that needs it |
+| Duplicating metadata in `setup.py`                    | Conflicts with `pyproject.toml`; drifts                         | Keep `setup.py` as 3-line shim only                 |
+| No `fail_under` in coverage config                    | Coverage regressions go unnoticed                               | Set `fail_under = 80`                               |
+| No mypy in CI                                         | Type errors silently accumulate                                 | Add mypy step to `ci.yml`                           |
+| API tokens in GitHub Secrets for PyPI                 | Security risk, rotation burden                                  | Use Trusted Publishing (OIDC)                       |
+| Committing directly to `main`/`master`                | Bypasses CI checks                                              | Enforce via `no-commit-to-branch` pre-commit hook   |
+| Missing `[Unreleased]` section in CHANGELOG           | Changes pile up and get forgotten at release time               | Keep `[Unreleased]` updated every PR                |
+| Pinning exact dep versions in a library               | Breaks dependency resolution for users                          | Use `>=` lower bounds only; avoid `==`              |
+| No `__all__` in `__init__.py`                         | Users can accidentally import internal helpers                  | Declare `__all__` with every public symbol          |
+| `from your_package import *` in tests                 | Tests pass even when imports are broken                         | Always use explicit imports                         |
+| No `SECURITY.md`                                      | No path for responsible vulnerability disclosure                | Add file with response timeline                     |
+| `Any` everywhere in type hints                        | Defeats mypy entirely                                           | Use `object` for truly arbitrary values             |
+| `Union` return types                                  | Forces every caller to write `isinstance()` checks              | Return concrete types; use overloads                |
+| `setup.cfg` + `pyproject.toml` both active            | Conflicts and confusing for contributors                        | Migrate everything to `pyproject.toml`              |
+| Releasing on untagged commits                         | Version number is meaningless                                   | Always tag before release                           |
+| Not testing on all supported Python versions          | Breakage discovered by users, not you                           | Matrix test in CI                                   |
+| `license = {text = "MIT"}` (old form)                 | Deprecated; PEP 639 uses SPDX strings                           | `license = "MIT"`                                   |
+| No issue templates                                    | Bug reports are inconsistent                                    | Add `bug_report.md` + `feature_request.md`          |
 
 ---
 
@@ -334,6 +346,7 @@ All items must be checked before requesting review. CI must be fully green.
 Run through every item before pushing a release tag. CI must be fully green.
 
 ### Code Quality
+
 ```
 [ ] ruff check . — zero errors
 [ ] ruff format . --check — zero formatting issues
@@ -344,6 +357,7 @@ Run through every item before pushing a release tag. CI must be fully green.
 ```
 
 ### Project Structure
+
 ```
 [ ] pyproject.toml — name, description, requires-python, license (SPDX string), authors,
     keywords (10+), classifiers (Python versions + Typing :: Typed), urls (all 5 fields)
@@ -358,6 +372,7 @@ Run through every item before pushing a release tag. CI must be fully green.
 ```
 
 ### Testing
+
 ```
 [ ] conftest.py has shared fixtures for client and backend
 [ ] Core happy path tested
@@ -368,6 +383,7 @@ Run through every item before pushing a release tag. CI must be fully green.
 ```
 
 ### CHANGELOG and Docs
+
 ```
 [ ] CHANGELOG.md: [Unreleased] entries moved to [x.y.z] - YYYY-MM-DD
 [ ] README has: description, install commands, quick start, config table, badges
@@ -377,6 +393,7 @@ Run through every item before pushing a release tag. CI must be fully green.
 ```
 
 ### Versioning
+
 ```
 [ ] All CI checks pass on the commit you plan to tag
 [ ] CHANGELOG.md updated and committed
@@ -385,6 +402,7 @@ Run through every item before pushing a release tag. CI must be fully green.
 ```
 
 ### CI/CD
+
 ```
 [ ] ci.yml: lint + mypy + test matrix (all supported Python versions)
 [ ] publish.yml: triggered on v*.*.* tags, uses Trusted Publishing (OIDC)
@@ -393,6 +411,7 @@ Run through every item before pushing a release tag. CI must be fully green.
 ```
 
 ### The Release Command Sequence
+
 ```bash
 # 1. Run full local validation
 ruff check . ; ruff format . --check ; mypy src/your_package/ ; pytest

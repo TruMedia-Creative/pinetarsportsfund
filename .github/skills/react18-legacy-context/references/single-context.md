@@ -11,7 +11,7 @@ This covers the most common pattern - one context with one provider and multiple
 **ThemeProvider.js (provider):**
 
 ```jsx
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class ThemeProvider extends React.Component {
   static childContextTypes = {
@@ -19,10 +19,10 @@ class ThemeProvider extends React.Component {
     toggleTheme: PropTypes.func,
   };
 
-  state = { theme: 'light' };
+  state = { theme: "light" };
 
   toggleTheme = () => {
-    this.setState(s => ({ theme: s.theme === 'light' ? 'dark' : 'light' }));
+    this.setState((s) => ({ theme: s.theme === "light" ? "dark" : "light" }));
   };
 
   getChildContext() {
@@ -41,7 +41,7 @@ class ThemeProvider extends React.Component {
 **ThemedButton.js (class consumer):**
 
 ```jsx
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class ThemedButton extends React.Component {
   static contextTypes = {
@@ -74,11 +74,11 @@ class ThemedButton extends React.Component {
 **src/contexts/ThemeContext.js (new file):**
 
 ```jsx
-import React from 'react';
+import React from "react";
 
 // Default value matches the shape of getChildContext() return
 export const ThemeContext = React.createContext({
-  theme: 'light',
+  theme: "light",
   toggleTheme: () => {},
 });
 
@@ -92,14 +92,14 @@ export const ThemeContext = React.createContext({
 **ThemeProvider.js (after):**
 
 ```jsx
-import React from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
+import React from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 class ThemeProvider extends React.Component {
-  state = { theme: 'light' };
+  state = { theme: "light" };
 
   toggleTheme = () => {
-    this.setState(s => ({ theme: s.theme === 'light' ? 'dark' : 'light' }));
+    this.setState((s) => ({ theme: s.theme === "light" ? "dark" : "light" }));
   };
 
   render() {
@@ -130,8 +130,8 @@ export default ThemeProvider;
 **ThemedButton.js (after):**
 
 ```jsx
-import React from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
+import React from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 class ThemedButton extends React.Component {
   // singular contextType (not contextTypes)
@@ -164,8 +164,8 @@ export default ThemedButton;
 **ThemedHeader.js (after - now straightforward with hooks):**
 
 ```jsx
-import { useContext } from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 function ThemedHeader({ title }) {
   const { theme } = useContext(ThemeContext);
@@ -180,8 +180,8 @@ function ThemedHeader({ title }) {
 If a class component consumed more than one legacy context, it gets complex. Class components can only have one `static contextType`. For multiple contexts, use the render prop form:
 
 ```jsx
-import { ThemeContext } from '../contexts/ThemeContext';
-import { AuthContext } from '../contexts/AuthContext';
+import { ThemeContext } from "../contexts/ThemeContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 class Dashboard extends React.Component {
   render() {
@@ -190,9 +190,7 @@ class Dashboard extends React.Component {
         {({ theme }) => (
           <AuthContext.Consumer>
             {({ user }) => (
-              <div className={`dashboard-${theme}`}>
-                Welcome, {user.name}
-              </div>
+              <div className={`dashboard-${theme}`}>Welcome, {user.name}</div>
             )}
           </AuthContext.Consumer>
         )}

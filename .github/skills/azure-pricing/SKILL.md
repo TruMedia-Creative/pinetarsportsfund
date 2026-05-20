@@ -1,6 +1,6 @@
 ---
 name: azure-pricing
-description: 'Fetches real-time Azure retail pricing using the Azure Retail Prices API (prices.azure.com) and estimates Copilot Studio agent credit consumption. Use when the user asks about the cost of any Azure service, wants to compare SKU prices, needs pricing data for a cost estimate, mentions Azure pricing, Azure costs, Azure billing, or asks about Copilot Studio pricing, Copilot Credits, or agent usage estimation. Covers compute, storage, networking, databases, AI, Copilot Studio, and all other Azure service families.'
+description: "Fetches real-time Azure retail pricing using the Azure Retail Prices API (prices.azure.com) and estimates Copilot Studio agent credit consumption. Use when the user asks about the cost of any Azure service, wants to compare SKU prices, needs pricing data for a cost estimate, mentions Azure pricing, Azure costs, Azure billing, or asks about Copilot Studio pricing, Copilot Credits, or agent usage estimation. Covers compute, storage, networking, databases, AI, Copilot Studio, and all other Azure service families."
 compatibility: Requires internet access to prices.azure.com and learn.microsoft.com. No authentication needed.
 metadata:
   author: anthonychu
@@ -42,15 +42,15 @@ If anything is unclear about the user's request, ask clarifying questions to ide
 
 ## Filterable Fields
 
-| Field | Type | Example |
-|---|---|---|
-| `serviceName` | string (exact, case-sensitive) | `'Functions'`, `'Virtual Machines'`, `'Storage'` |
+| Field           | Type                           | Example                                                            |
+| --------------- | ------------------------------ | ------------------------------------------------------------------ |
+| `serviceName`   | string (exact, case-sensitive) | `'Functions'`, `'Virtual Machines'`, `'Storage'`                   |
 | `serviceFamily` | string (exact, case-sensitive) | `'Compute'`, `'Storage'`, `'Databases'`, `'AI + Machine Learning'` |
-| `armRegionName` | string (exact, lowercase) | `'eastus'`, `'westeurope'`, `'southeastasia'` |
-| `armSkuName` | string (exact) | `'Standard_D4s_v5'`, `'Standard_LRS'` |
-| `skuName` | string (contains supported) | `'D4s v5'` |
-| `priceType` | string | `'Consumption'`, `'Reservation'`, `'DevTestConsumption'` |
-| `meterName` | string (contains supported) | `'Spot'` |
+| `armRegionName` | string (exact, lowercase)      | `'eastus'`, `'westeurope'`, `'southeastasia'`                      |
+| `armSkuName`    | string (exact)                 | `'Standard_D4s_v5'`, `'Standard_LRS'`                              |
+| `skuName`       | string (contains supported)    | `'D4s v5'`                                                         |
+| `priceType`     | string                         | `'Consumption'`, `'Reservation'`, `'DevTestConsumption'`           |
+| `meterName`     | string (contains supported)    | `'Spot'`                                                           |
 
 Use `eq` for equality, `and` to combine, and `contains(field, 'value')` for partial matches.
 
@@ -106,7 +106,7 @@ URL-encode spaces as `%20` and quotes as `%27` when constructing the URL.
       "isPrimaryMeterRegion": true,
       "savingsPlan": [
         { "unitPrice": 0.000012, "term": "1 Year" },
-        { "unitPrice": 0.000010, "term": "3 Years" }
+        { "unitPrice": 0.00001, "term": "3 Years" }
       ]
     }
   ],
@@ -133,13 +133,13 @@ Only use items where `isPrimaryMeterRegion` is `true` unless the user specifical
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Empty results | Broaden the filter — remove `priceType` or `armRegionName` first |
-| Wrong service name | Use `serviceFamily` filter to discover valid `serviceName` values |
-| Missing savings plan data | Ensure `api-version=2023-01-01-preview` is in the URL |
-| URL errors | Check URL encoding — spaces as `%20`, quotes as `%27` |
-| Too many results | Add more filter fields (region, SKU, priceType) to narrow down |
+| Issue                     | Solution                                                          |
+| ------------------------- | ----------------------------------------------------------------- |
+| Empty results             | Broaden the filter — remove `priceType` or `armRegionName` first  |
+| Wrong service name        | Use `serviceFamily` filter to discover valid `serviceName` values |
+| Missing savings plan data | Ensure `api-version=2023-01-01-preview` is in the URL             |
+| URL errors                | Check URL encoding — spaces as `%20`, quotes as `%27`             |
+| Too many results          | Add more filter fields (region, SKU, priceType) to narrow down    |
 
 ---
 
@@ -179,10 +179,10 @@ Use this section when the user asks about Copilot Studio pricing, Copilot Credit
 
 When answering Copilot Studio pricing questions, fetch the latest content from these URLs to use as context:
 
-| URL | Content |
-|---|---|
-| https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management | Billing rates table, billing examples, overage enforcement rules |
-| https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing | Licensing options, M365 Copilot inclusions, prepaid vs pay-as-you-go |
+| URL                                                                                         | Content                                                              |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management | Billing rates table, billing examples, overage enforcement rules     |
+| https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing                | Licensing options, M365 Copilot inclusions, prepaid vs pay-as-you-go |
 
 Fetch at least the first URL (billing rates) before calculating. The second URL provides supplementary context for licensing questions.
 

@@ -2,9 +2,10 @@
 
 > **⛔ ALWAYS evaluate this skeleton after creating `1.1-threatmodel.mmd`.**
 > Count elements (nodes with `(("..."))`, `[("...")]`, `["..."]`) and boundaries (`subgraph`) in the detailed DFD.
+>
 > - If elements > 15 OR boundaries > 4 → this file is **REQUIRED**. Fill the template below.
 > - If elements ≤ 15 AND boundaries ≤ 4 → **SKIP** this file. Proceed to `1-threatmodel.md`.
-> **⛔ This is a raw Mermaid file. The template below is shown inside a code fence for readability only — do NOT include the fence in the output file. The `.mmd` file must start with `%%{init:` on line 1.**
+>   **⛔ This is a raw Mermaid file. The template below is shown inside a code fence for readability only — do NOT include the fence in the output file. The `.mmd` file must start with `%%{init:` on line 1.**
 
 ---
 
@@ -52,11 +53,12 @@ flowchart LR
 ## Required in `1-threatmodel.md`
 
 When this file is generated, `1-threatmodel.md` MUST include:
+
 - A `## Summary View` section with this diagram in a ` ```mermaid ` fence
 - A `## Summary to Detailed Mapping` table:
 
 ```markdown
-| Summary Element | Contains | Summary Flows | Maps to Detailed Flows |
-|----------------|----------|---------------|------------------------|
-| [FILL] | [FILL: list of detailed elements] | [FILL: SDF##] | [FILL: DF## list] |
+| Summary Element | Contains                          | Summary Flows | Maps to Detailed Flows |
+| --------------- | --------------------------------- | ------------- | ---------------------- |
+| [FILL]          | [FILL: list of detailed elements] | [FILL: SDF##] | [FILL: DF## list]      |
 ```

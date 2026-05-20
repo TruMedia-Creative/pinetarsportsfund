@@ -190,13 +190,13 @@ if out.get("inputs"):
 
 ### What the action outputs reveal (that error codes don't)
 
-| Error code from `get_live_flow_run_error` | What `get_live_flow_run_action_outputs` reveals |
-|---|---|
-| `ActionFailed` | Which nested action actually failed and its HTTP response |
-| `NotSpecified` | The HTTP status code + response body with the real error |
-| `InternalServerError` | The server's error message, stack trace, or API error JSON |
-| `InvalidTemplate` | The exact expression that failed and the null/wrong-type value |
-| `BadRequest` | The request body that was sent and why the server rejected it |
+| Error code from `get_live_flow_run_error` | What `get_live_flow_run_action_outputs` reveals                |
+| ----------------------------------------- | -------------------------------------------------------------- |
+| `ActionFailed`                            | Which nested action actually failed and its HTTP response      |
+| `NotSpecified`                            | The HTTP status code + response body with the real error       |
+| `InternalServerError`                     | The server's error message, stack trace, or API error JSON     |
+| `InvalidTemplate`                         | The exact expression that failed and the null/wrong-type value |
+| `BadRequest`                              | The request body that was sent and why the server rejected it  |
 
 ### Example: HTTP action returning 500
 
@@ -269,7 +269,9 @@ for action_name in [root_action, "Compose_WeekEnd", "HTTP_Get_Data"]:
 ## Step 7 — Pinpoint the Root Cause
 
 ### Expression Errors (e.g. `split` on null)
+
 If the error mentions `InvalidTemplate` or a function name:
+
 1. Find the action in the definition
 2. Check what upstream action/expression it reads
 3. **Inspect that upstream action's output** for null / missing fields
@@ -288,16 +290,20 @@ print(f"{len(nulls)} records with null Name")
 ```
 
 ### Wrong Field Path
+
 Expression `triggerBody()?['fieldName']` returns null → `fieldName` is wrong.
 **Inspect the trigger output** to see the actual field names:
+
 ```python
 result = mcp("get_live_flow_run_action_outputs", ..., actionName="<trigger-action-name>")
 print(json.dumps(result[0].get("outputs"), indent=2)[:500])
 ```
 
 ### HTTP Actions Returning Errors
+
 The error code says `InternalServerError` or `NotSpecified` — **always inspect
 the action outputs** to get the actual HTTP status and response body:
+
 ```python
 result = mcp("get_live_flow_run_action_outputs", ..., actionName="HTTP_Get_Data")
 out = result[0]
@@ -306,6 +312,7 @@ print(json.dumps(out['outputs']['body'], indent=2)[:500])
 ```
 
 ### Connection / Auth Failures
+
 Look for `ConnectionAuthorizationFailed` — the connection owner must match the
 service account running the flow. Cannot fix via API; fix in PA designer.
 
@@ -314,6 +321,7 @@ service account running the flow. Cannot fix via API; fix in PA designer.
 ## Step 8 — Apply the Fix
 
 **For expression/data issues**:
+
 ```python
 defn = mcp("get_live_flow", environmentName=ENV, flowName=FLOW_ID)
 acts = defn["properties"]["definition"]["actions"]
@@ -363,13 +371,13 @@ print(new_runs[0]["status"])   # Succeeded = done
 
 ### When to use resubmit vs trigger
 
-| Scenario | Use | Why |
-|---|---|---|
-| **Testing a fix** on any flow | `resubmit_live_flow_run` | Replays the exact trigger payload that caused the failure — best way to verify |
-| Recurrence / scheduled flow | `resubmit_live_flow_run` | Cannot be triggered on demand any other way |
-| SharePoint / connector trigger | `resubmit_live_flow_run` | Cannot be triggered without creating a real SP item |
-| HTTP trigger with **custom** test payload | `trigger_live_flow` | When you need to send different data than the original run |
-| Brand-new flow, never run | `trigger_live_flow` (HTTP only) | No prior run exists to resubmit |
+| Scenario                                  | Use                             | Why                                                                            |
+| ----------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------ |
+| **Testing a fix** on any flow             | `resubmit_live_flow_run`        | Replays the exact trigger payload that caused the failure — best way to verify |
+| Recurrence / scheduled flow               | `resubmit_live_flow_run`        | Cannot be triggered on demand any other way                                    |
+| SharePoint / connector trigger            | `resubmit_live_flow_run`        | Cannot be triggered without creating a real SP item                            |
+| HTTP trigger with **custom** test payload | `trigger_live_flow`             | When you need to send different data than the original run                     |
+| Brand-new flow, never run                 | `trigger_live_flow` (HTTP only) | No prior run exists to resubmit                                                |
 
 ### Testing HTTP-Triggered Flows with custom payloads
 
@@ -398,15 +406,15 @@ print(f"Status: {result['responseStatus']}, Body: {result.get('responseBody')}")
 
 ## Quick-Reference Diagnostic Decision Tree
 
-| Symptom | First Tool | Then ALWAYS Call | What to Look For |
-|---|---|---|---|
-| Flow shows as Failed | `get_live_flow_run_error` | `get_live_flow_run_action_outputs` on the failing action | HTTP status + response body in `outputs` |
-| Error code is generic (`ActionFailed`, `NotSpecified`) | — | `get_live_flow_run_action_outputs` | The `outputs.body` contains the real error message, stack trace, or API error |
-| HTTP action returns 500 | — | `get_live_flow_run_action_outputs` | `outputs.statusCode` + `outputs.body` with server error detail |
-| Expression crash | — | `get_live_flow_run_action_outputs` on prior action | null / wrong-type fields in output body |
-| Flow never starts | `get_live_flow` | — | check `properties.state` = "Started" |
-| Action returns wrong data | `get_live_flow_run_action_outputs` | — | actual output body vs expected |
-| Fix applied but still fails | `get_live_flow_runs` after resubmit | — | new run `status` field |
+| Symptom                                                | First Tool                          | Then ALWAYS Call                                         | What to Look For                                                              |
+| ------------------------------------------------------ | ----------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Flow shows as Failed                                   | `get_live_flow_run_error`           | `get_live_flow_run_action_outputs` on the failing action | HTTP status + response body in `outputs`                                      |
+| Error code is generic (`ActionFailed`, `NotSpecified`) | —                                   | `get_live_flow_run_action_outputs`                       | The `outputs.body` contains the real error message, stack trace, or API error |
+| HTTP action returns 500                                | —                                   | `get_live_flow_run_action_outputs`                       | `outputs.statusCode` + `outputs.body` with server error detail                |
+| Expression crash                                       | —                                   | `get_live_flow_run_action_outputs` on prior action       | null / wrong-type fields in output body                                       |
+| Flow never starts                                      | `get_live_flow`                     | —                                                        | check `properties.state` = "Started"                                          |
+| Action returns wrong data                              | `get_live_flow_run_action_outputs`  | —                                                        | actual output body vs expected                                                |
+| Fix applied but still fails                            | `get_live_flow_runs` after resubmit | —                                                        | new run `status` field                                                        |
 
 > **Rule: never diagnose from error codes alone.** `get_live_flow_run_error`
 > identifies the failing action. `get_live_flow_run_action_outputs` reveals

@@ -9,7 +9,6 @@ Qdrant does NOT build HNSW indexes immediately. Small segments use brute-force u
 
 - Understand the indexing optimizer [Indexing optimizer](https://search.qdrant.tech/md/documentation/operations/optimizer/?s=indexing-optimizer)
 
-
 ## Uploads/Ingestion Too Slow
 
 Use when: upload or upsert API calls are slow.
@@ -34,7 +33,6 @@ Careful, fast unindexed upload might temporarily use more RAM and degrade search
 
 See https://search.qdrant.tech/md/documentation/tutorials-develop/bulk-upload/
 
-
 ## Optimizer Stuck or Taking Too Long
 
 Use when: optimizer running for hours, not finishing.
@@ -43,7 +41,6 @@ Use when: optimizer running for hours, not finishing.
 - Large merges and HNSW rebuilds legitimately take hours on big datasets
 - Check CPU and disk I/O (HNSW is CPU-bound, merging is I/O-bound, HDD is not viable)
 - If `optimizer_status` shows an error, check logs for disk full or corrupted segments
-
 
 ## HNSW Build Time Too High
 
@@ -72,9 +69,8 @@ Read more about disabling extra HNSW links in [documentation](https://search.qdr
 
 Read more about ACORN in [documentation](https://search.qdrant.tech/md/documentation/search/search/?s=acorn-search-algorithm)
 
-
 ## What NOT to Do
 
 - Do not create payload indexes AFTER HNSW is built (breaks filterable vector index)
-- Do not use `m=0` for bulk uploads into an existing collection, it might drop the existing HNSW and cause long reindexing 
+- Do not use `m=0` for bulk uploads into an existing collection, it might drop the existing HNSW and cause long reindexing
 - Do not upload one point at a time (per-request overhead dominates)

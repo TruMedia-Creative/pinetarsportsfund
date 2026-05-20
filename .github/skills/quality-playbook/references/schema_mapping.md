@@ -8,18 +8,18 @@ Consider this common mistake:
 
 ```typescript
 // TypeScript — WRONG: tests the validation mechanism, not the requirement
-test('bad value rejected', () => {
-    fixture.field = 'invalid';  // Zod schema rejects this before processing!
-    expect(() => process(fixture)).toThrow(ZodError);
-    // Tells you nothing about the output
+test("bad value rejected", () => {
+  fixture.field = "invalid"; // Zod schema rejects this before processing!
+  expect(() => process(fixture)).toThrow(ZodError);
+  // Tells you nothing about the output
 });
 
 // TypeScript — RIGHT: tests the requirement using a schema-valid mutation
-test('bad value not in output', () => {
-    fixture.field = undefined;  // Schema accepts undefined for optional fields
-    const output = process(fixture);
-    expect(output).not.toContain(badProperty);  // Bad data absent
-    expect(output).toContain(expectedType);      // Rest still works
+test("bad value not in output", () => {
+  fixture.field = undefined; // Schema accepts undefined for optional fields
+  const output = process(fixture);
+  expect(output).not.toContain(badProperty); // Bad data absent
+  expect(output).toContain(expectedType); // Rest still works
 });
 ```
 
@@ -115,12 +115,12 @@ The WRONG tests fail with a validation/decoding error because the mutation value
 
 For every field you found a defensive pattern for in Step 5, record:
 
-| Field | Schema Type | Accepts | Rejects |
-|-------|-----------|---------|---------|
-| `metadata` | optional object (`Optional[MetadataObject]` / `MetadataObject?` / `MetadataObject \| null`) | valid object, `null`/`undefined` | `string`, `number`, `array` |
-| `count_field` | optional integer (`Optional[int]` / `number?` / `Integer`) | integer, `null` | `string`, `object` |
-| `child_list` | array of objects (`List[Child]` / `Child[]` / `Seq[Child]`) | array of objects, `[]` | `[null, "invalid"]`, `null` |
-| `optional_object` | optional object | `{"key": value}`, `null` | `"bad"`, `[1,2]` |
+| Field             | Schema Type                                                                                 | Accepts                          | Rejects                     |
+| ----------------- | ------------------------------------------------------------------------------------------- | -------------------------------- | --------------------------- |
+| `metadata`        | optional object (`Optional[MetadataObject]` / `MetadataObject?` / `MetadataObject \| null`) | valid object, `null`/`undefined` | `string`, `number`, `array` |
+| `count_field`     | optional integer (`Optional[int]` / `number?` / `Integer`)                                  | integer, `null`                  | `string`, `object`          |
+| `child_list`      | array of objects (`List[Child]` / `Child[]` / `Seq[Child]`)                                 | array of objects, `[]`           | `[null, "invalid"]`, `null` |
+| `optional_object` | optional object                                                                             | `{"key": value}`, `null`         | `"bad"`, `[1,2]`            |
 
 ## Rules for Choosing Mutation Values
 

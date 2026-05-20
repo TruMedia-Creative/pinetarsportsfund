@@ -8,11 +8,11 @@
 
 ## Skill locations
 
-| Level | Location |
-|-------|----------|
-| User | `~/.copilot/skills/<name>/SKILL.md` |
-| Repo | `.github/skills/<name>/SKILL.md` |
-| Org | Shared via org-level config |
+| Level | Location                            |
+| ----- | ----------------------------------- |
+| User  | `~/.copilot/skills/<name>/SKILL.md` |
+| Repo  | `.github/skills/<name>/SKILL.md`    |
+| Org   | Shared via org-level config         |
 
 ## Creating a custom skill
 

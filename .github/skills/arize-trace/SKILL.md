@@ -26,6 +26,7 @@ Use `ax spans export` to download individual spans, or `ax traces export` to dow
 Proceed directly with the task — run the `ax` command you need. Do NOT check versions, env vars, or profiles upfront.
 
 If an `ax` command fails, troubleshoot based on the error:
+
 - `command not found` or version error → see references/ax-setup.md
 - `401 Unauthorized` / missing API key → run `ax profiles show` to inspect the current profile. If the profile is missing or the API key is wrong: check `.env` for `ARIZE_API_KEY` and use it to create/update the profile via references/ax-profiles.md. If `.env` has no key either, ask the user for their Arize API key (https://app.arize.com/admin > API Keys)
 - Space ID unknown → check `.env` for `ARIZE_SPACE_ID`, or run `ax spaces list -o json`, or ask the user
@@ -59,20 +60,20 @@ ax spans export PROJECT_ID --session-id SESSION_ID --output-dir .arize-tmp-trace
 
 ### Flags
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `PROJECT` (positional) | `$ARIZE_DEFAULT_PROJECT` | Project name or base64 ID |
-| `--trace-id` | — | Filter by `context.trace_id` (mutex with other ID flags) |
-| `--span-id` | — | Filter by `context.span_id` (mutex with other ID flags) |
-| `--session-id` | — | Filter by `attributes.session.id` (mutex with other ID flags) |
-| `--filter` | — | SQL-like filter; combinable with any ID flag |
-| `--limit, -l` | 500 | Max spans (REST); ignored with `--all` |
-| `--space-id` | — | Required when `PROJECT` is a name, or with `--all` |
-| `--days` | 30 | Lookback window; ignored if `--start-time`/`--end-time` set |
-| `--start-time` / `--end-time` | — | ISO 8601 time range override |
-| `--output-dir` | `.arize-tmp-traces` | Output directory |
-| `--stdout` | false | Print JSON to stdout instead of file |
-| `--all` | false | Unlimited bulk export via Arrow Flight (see below) |
+| Flag                          | Default                  | Description                                                   |
+| ----------------------------- | ------------------------ | ------------------------------------------------------------- |
+| `PROJECT` (positional)        | `$ARIZE_DEFAULT_PROJECT` | Project name or base64 ID                                     |
+| `--trace-id`                  | —                        | Filter by `context.trace_id` (mutex with other ID flags)      |
+| `--span-id`                   | —                        | Filter by `context.span_id` (mutex with other ID flags)       |
+| `--session-id`                | —                        | Filter by `attributes.session.id` (mutex with other ID flags) |
+| `--filter`                    | —                        | SQL-like filter; combinable with any ID flag                  |
+| `--limit, -l`                 | 500                      | Max spans (REST); ignored with `--all`                        |
+| `--space-id`                  | —                        | Required when `PROJECT` is a name, or with `--all`            |
+| `--days`                      | 30                       | Lookback window; ignored if `--start-time`/`--end-time` set   |
+| `--start-time` / `--end-time` | —                        | ISO 8601 time range override                                  |
+| `--output-dir`                | `.arize-tmp-traces`      | Output directory                                              |
+| `--stdout`                    | false                    | Print JSON to stdout instead of file                          |
+| `--all`                       | false                    | Unlimited bulk export via Arrow Flight (see below)            |
 
 Output is a JSON array of span objects. File naming: `{type}_{id}_{timestamp}/spans.json`.
 
@@ -91,6 +92,7 @@ ax spans export PROJECT_ID --space-id SPACE_ID --filter "status_code = 'ERROR'" 
 ```
 
 **When to use `--all`:**
+
 - Exporting more than 500 spans
 - Downloading full traces with many child spans
 - Large time-range exports
@@ -98,6 +100,7 @@ ax spans export PROJECT_ID --space-id SPACE_ID --filter "status_code = 'ERROR'" 
 **Agent auto-escalation rule:** If an export returns exactly the number of spans requested by `-l` (or 500 if no limit was set), the result is likely truncated. Increase `-l` or re-run with `--all` to get the full dataset — but only when the user asks or the task requires more data.
 
 **Decision tree:**
+
 ```
 Do you have a --trace-id, --span-id, or --session-id?
 ├─ YES: count is bounded → omit --all. If result is exactly 500, re-run with --all.
@@ -110,6 +113,7 @@ Do you have a --trace-id, --span-id, or --session-id?
 ```
 
 **Check span count first:** Before a large exploratory export, check how many spans match your filter:
+
 ```bash
 # Count matching spans without downloading them
 ax spans export PROJECT_ID --filter "status_code = 'ERROR'" -l 1 --stdout | jq 'length'
@@ -118,11 +122,13 @@ ax spans export PROJECT_ID --filter "status_code = 'ERROR'" -l 1 --stdout | jq '
 ```
 
 **Requirements for `--all`:**
+
 - `--space-id` is required (Flight uses `space_id` + `project_name`, not `project_id`)
 - `--limit` is ignored when `--all` is set
 
 **Networking notes for `--all`:**
 Arrow Flight connects to `flight.arize.com:443` via gRPC+TLS -- this is a different host from the REST API (`api.arize.com`). On internal or private networks, the Flight endpoint may use a different host/port. Configure via:
+
 - ax profile: `flight_host`, `flight_port`, `flight_scheme`
 - Environment variables: `ARIZE_FLIGHT_HOST`, `ARIZE_FLIGHT_PORT`, `ARIZE_FLIGHT_SCHEME`
 
@@ -148,19 +154,19 @@ ax traces export PROJECT_ID --space-id SPACE_ID --filter "status_code = 'ERROR'"
 
 ### Flags
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `PROJECT` | string | required | Project name or base64 ID (positional arg) |
-| `--filter` | string | none | Filter expression for phase-1 span lookup |
-| `--space-id` | string | none | Space ID; required when `PROJECT` is a name or when using `--all` (Arrow Flight) |
-| `--limit, -l` | int | 50 | Max number of traces to export |
-| `--days` | int | 30 | Lookback window in days |
-| `--start-time` | string | none | Override start (ISO 8601) |
-| `--end-time` | string | none | Override end (ISO 8601) |
-| `--output-dir` | string | `.` | Output directory |
-| `--stdout` | bool | false | Print JSON to stdout instead of file |
-| `--all` | bool | false | Use Arrow Flight for both phases (see spans `--all` docs above) |
-| `-p, --profile` | string | default | Configuration profile |
+| Flag            | Type   | Default  | Description                                                                      |
+| --------------- | ------ | -------- | -------------------------------------------------------------------------------- |
+| `PROJECT`       | string | required | Project name or base64 ID (positional arg)                                       |
+| `--filter`      | string | none     | Filter expression for phase-1 span lookup                                        |
+| `--space-id`    | string | none     | Space ID; required when `PROJECT` is a name or when using `--all` (Arrow Flight) |
+| `--limit, -l`   | int    | 50       | Max number of traces to export                                                   |
+| `--days`        | int    | 30       | Lookback window in days                                                          |
+| `--start-time`  | string | none     | Override start (ISO 8601)                                                        |
+| `--end-time`    | string | none     | Override end (ISO 8601)                                                          |
+| `--output-dir`  | string | `.`      | Output directory                                                                 |
+| `--stdout`      | bool   | false    | Print JSON to stdout instead of file                                             |
+| `--all`         | bool   | false    | Use Arrow Flight for both phases (see spans `--all` docs above)                  |
+| `-p, --profile` | string | default  | Configuration profile                                                            |
 
 ### How it differs from `ax spans export`
 
@@ -173,22 +179,22 @@ SQL-like expressions passed to `--filter`.
 
 ### Common filterable columns
 
-| Column | Type | Description | Example Values |
-|--------|------|-------------|----------------|
-| `name` | string | Span name | `'ChatCompletion'`, `'retrieve_docs'` |
-| `status_code` | string | Status | `'OK'`, `'ERROR'`, `'UNSET'` |
-| `latency_ms` | number | Duration in ms | `100`, `5000` |
-| `parent_id` | string | Parent span ID | null for root spans |
-| `context.trace_id` | string | Trace ID | |
-| `context.span_id` | string | Span ID | |
-| `attributes.session.id` | string | Session ID | |
-| `attributes.openinference.span.kind` | string | Span kind | `'LLM'`, `'CHAIN'`, `'TOOL'`, `'AGENT'`, `'RETRIEVER'`, `'RERANKER'`, `'EMBEDDING'`, `'GUARDRAIL'`, `'EVALUATOR'` |
-| `attributes.llm.model_name` | string | LLM model | `'gpt-4o'`, `'claude-3'` |
-| `attributes.input.value` | string | Span input | |
-| `attributes.output.value` | string | Span output | |
-| `attributes.error.type` | string | Error type | `'ValueError'`, `'TimeoutError'` |
-| `attributes.error.message` | string | Error message | |
-| `event.attributes` | string | Error tracebacks | Use CONTAINS (not exact match) |
+| Column                               | Type   | Description      | Example Values                                                                                                    |
+| ------------------------------------ | ------ | ---------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `name`                               | string | Span name        | `'ChatCompletion'`, `'retrieve_docs'`                                                                             |
+| `status_code`                        | string | Status           | `'OK'`, `'ERROR'`, `'UNSET'`                                                                                      |
+| `latency_ms`                         | number | Duration in ms   | `100`, `5000`                                                                                                     |
+| `parent_id`                          | string | Parent span ID   | null for root spans                                                                                               |
+| `context.trace_id`                   | string | Trace ID         |                                                                                                                   |
+| `context.span_id`                    | string | Span ID          |                                                                                                                   |
+| `attributes.session.id`              | string | Session ID       |                                                                                                                   |
+| `attributes.openinference.span.kind` | string | Span kind        | `'LLM'`, `'CHAIN'`, `'TOOL'`, `'AGENT'`, `'RETRIEVER'`, `'RERANKER'`, `'EMBEDDING'`, `'GUARDRAIL'`, `'EVALUATOR'` |
+| `attributes.llm.model_name`          | string | LLM model        | `'gpt-4o'`, `'claude-3'`                                                                                          |
+| `attributes.input.value`             | string | Span input       |                                                                                                                   |
+| `attributes.output.value`            | string | Span output      |                                                                                                                   |
+| `attributes.error.type`              | string | Error type       | `'ValueError'`, `'TimeoutError'`                                                                                  |
+| `attributes.error.message`           | string | Error message    |                                                                                                                   |
+| `event.attributes`                   | string | Error tracebacks | Use CONTAINS (not exact match)                                                                                    |
 
 ### Operators
 
@@ -240,53 +246,52 @@ ax spans export PROJECT_ID --trace-id TRACE_ID --stdout | jq '.[]'
 - If a user-provided `--space-id` is rejected by the CLI but the API key still lists projects without it, report the mismatch instead of silently swapping identifiers.
 - If exporter verification is the goal and the CLI path is unreliable, use the app's runtime/exporter logs plus the latest local `trace_id` to distinguish local instrumentation success from Arize-side ingestion failure.
 
-
 ## Span Column Reference (OpenInference Semantic Conventions)
 
 ### Core Identity and Timing
 
-| Column | Description |
-|--------|-------------|
-| `name` | Span operation name (e.g., `ChatCompletion`, `retrieve_docs`) |
-| `context.trace_id` | Trace ID -- all spans in a trace share this |
-| `context.span_id` | Unique span ID |
-| `parent_id` | Parent span ID. `null` for root spans (= traces) |
-| `start_time` | When the span started (ISO 8601) |
-| `end_time` | When the span ended |
-| `latency_ms` | Duration in milliseconds |
-| `status_code` | `OK`, `ERROR`, `UNSET` |
-| `status_message` | Optional message (usually set on errors) |
+| Column                               | Description                                                                                     |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| `name`                               | Span operation name (e.g., `ChatCompletion`, `retrieve_docs`)                                   |
+| `context.trace_id`                   | Trace ID -- all spans in a trace share this                                                     |
+| `context.span_id`                    | Unique span ID                                                                                  |
+| `parent_id`                          | Parent span ID. `null` for root spans (= traces)                                                |
+| `start_time`                         | When the span started (ISO 8601)                                                                |
+| `end_time`                           | When the span ended                                                                             |
+| `latency_ms`                         | Duration in milliseconds                                                                        |
+| `status_code`                        | `OK`, `ERROR`, `UNSET`                                                                          |
+| `status_message`                     | Optional message (usually set on errors)                                                        |
 | `attributes.openinference.span.kind` | `LLM`, `CHAIN`, `TOOL`, `AGENT`, `RETRIEVER`, `RERANKER`, `EMBEDDING`, `GUARDRAIL`, `EVALUATOR` |
 
 ### Where to Find Prompts and LLM I/O
 
 **Generic input/output (all span kinds):**
 
-| Column | What it contains |
-|--------|-----------------|
-| `attributes.input.value` | The input to the operation. For LLM spans, often the full prompt or serialized messages JSON. For chain/agent spans, the user's question. |
-| `attributes.input.mime_type` | Format hint: `text/plain` or `application/json` |
-| `attributes.output.value` | The output. For LLM spans, the model's response. For chain/agent spans, the final answer. |
-| `attributes.output.mime_type` | Format hint for output |
+| Column                        | What it contains                                                                                                                          |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `attributes.input.value`      | The input to the operation. For LLM spans, often the full prompt or serialized messages JSON. For chain/agent spans, the user's question. |
+| `attributes.input.mime_type`  | Format hint: `text/plain` or `application/json`                                                                                           |
+| `attributes.output.value`     | The output. For LLM spans, the model's response. For chain/agent spans, the final answer.                                                 |
+| `attributes.output.mime_type` | Format hint for output                                                                                                                    |
 
 **LLM-specific message arrays (structured chat format):**
 
-| Column | What it contains |
-|--------|-----------------|
-| `attributes.llm.input_messages` | Structured input messages array (system, user, assistant, tool). **Where chat prompts live** in role-based format. |
-| `attributes.llm.input_messages.roles` | Array of roles: `system`, `user`, `assistant`, `tool` |
-| `attributes.llm.input_messages.contents` | Array of message content strings |
-| `attributes.llm.output_messages` | Structured output messages from the model |
-| `attributes.llm.output_messages.contents` | Model response content |
-| `attributes.llm.output_messages.tool_calls.function.names` | Tool calls the model wants to make |
-| `attributes.llm.output_messages.tool_calls.function.arguments` | Arguments for those tool calls |
+| Column                                                         | What it contains                                                                                                   |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `attributes.llm.input_messages`                                | Structured input messages array (system, user, assistant, tool). **Where chat prompts live** in role-based format. |
+| `attributes.llm.input_messages.roles`                          | Array of roles: `system`, `user`, `assistant`, `tool`                                                              |
+| `attributes.llm.input_messages.contents`                       | Array of message content strings                                                                                   |
+| `attributes.llm.output_messages`                               | Structured output messages from the model                                                                          |
+| `attributes.llm.output_messages.contents`                      | Model response content                                                                                             |
+| `attributes.llm.output_messages.tool_calls.function.names`     | Tool calls the model wants to make                                                                                 |
+| `attributes.llm.output_messages.tool_calls.function.arguments` | Arguments for those tool calls                                                                                     |
 
 **Prompt templates:**
 
-| Column | What it contains |
-|--------|-----------------|
-| `attributes.llm.prompt_template.template` | The prompt template with variable placeholders (e.g., `"Answer {question} using {context}"`) |
-| `attributes.llm.prompt_template.variables` | Template variable values (JSON object) |
+| Column                                     | What it contains                                                                             |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| `attributes.llm.prompt_template.template`  | The prompt template with variable placeholders (e.g., `"Answer {question} using {context}"`) |
+| `attributes.llm.prompt_template.variables` | Template variable values (JSON object)                                                       |
 
 **Finding prompts by span kind:**
 
@@ -296,89 +301,89 @@ ax spans export PROJECT_ID --trace-id TRACE_ID --stdout | jq '.[]'
 
 ### LLM Model and Cost
 
-| Column | Description |
-|--------|-------------|
-| `attributes.llm.model_name` | Model identifier (e.g., `gpt-4o`, `claude-3-opus-20240229`) |
-| `attributes.llm.invocation_parameters` | Model parameters JSON (temperature, max_tokens, top_p, etc.) |
-| `attributes.llm.token_count.prompt` | Input token count |
-| `attributes.llm.token_count.completion` | Output token count |
-| `attributes.llm.token_count.total` | Total tokens |
-| `attributes.llm.cost.prompt` | Input cost in USD |
-| `attributes.llm.cost.completion` | Output cost in USD |
-| `attributes.llm.cost.total` | Total cost in USD |
+| Column                                  | Description                                                  |
+| --------------------------------------- | ------------------------------------------------------------ |
+| `attributes.llm.model_name`             | Model identifier (e.g., `gpt-4o`, `claude-3-opus-20240229`)  |
+| `attributes.llm.invocation_parameters`  | Model parameters JSON (temperature, max_tokens, top_p, etc.) |
+| `attributes.llm.token_count.prompt`     | Input token count                                            |
+| `attributes.llm.token_count.completion` | Output token count                                           |
+| `attributes.llm.token_count.total`      | Total tokens                                                 |
+| `attributes.llm.cost.prompt`            | Input cost in USD                                            |
+| `attributes.llm.cost.completion`        | Output cost in USD                                           |
+| `attributes.llm.cost.total`             | Total cost in USD                                            |
 
 ### Tool Spans
 
-| Column | Description |
-|--------|-------------|
-| `attributes.tool.name` | Tool/function name |
-| `attributes.tool.description` | Tool description |
-| `attributes.tool.parameters` | Tool parameter schema (JSON) |
+| Column                        | Description                  |
+| ----------------------------- | ---------------------------- |
+| `attributes.tool.name`        | Tool/function name           |
+| `attributes.tool.description` | Tool description             |
+| `attributes.tool.parameters`  | Tool parameter schema (JSON) |
 
 ### Retriever Spans
 
-| Column | Description |
-|--------|-------------|
-| `attributes.retrieval.documents` | Retrieved documents array |
-| `attributes.retrieval.documents.ids` | Document IDs |
-| `attributes.retrieval.documents.scores` | Relevance scores |
-| `attributes.retrieval.documents.contents` | Document text content |
-| `attributes.retrieval.documents.metadatas` | Document metadata |
+| Column                                     | Description               |
+| ------------------------------------------ | ------------------------- |
+| `attributes.retrieval.documents`           | Retrieved documents array |
+| `attributes.retrieval.documents.ids`       | Document IDs              |
+| `attributes.retrieval.documents.scores`    | Relevance scores          |
+| `attributes.retrieval.documents.contents`  | Document text content     |
+| `attributes.retrieval.documents.metadatas` | Document metadata         |
 
 ### Reranker Spans
 
-| Column | Description |
-|--------|-------------|
-| `attributes.reranker.query` | The query being reranked |
-| `attributes.reranker.model_name` | Reranker model |
-| `attributes.reranker.top_k` | Number of results |
-| `attributes.reranker.input_documents.*` | Input documents (ids, scores, contents, metadatas) |
-| `attributes.reranker.output_documents.*` | Reranked output documents |
+| Column                                   | Description                                        |
+| ---------------------------------------- | -------------------------------------------------- |
+| `attributes.reranker.query`              | The query being reranked                           |
+| `attributes.reranker.model_name`         | Reranker model                                     |
+| `attributes.reranker.top_k`              | Number of results                                  |
+| `attributes.reranker.input_documents.*`  | Input documents (ids, scores, contents, metadatas) |
+| `attributes.reranker.output_documents.*` | Reranked output documents                          |
 
 ### Session, User, and Custom Metadata
 
-| Column | Description |
-|--------|-------------|
-| `attributes.session.id` | Session/conversation ID -- groups traces into multi-turn sessions |
-| `attributes.user.id` | End-user identifier |
+| Column                  | Description                                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `attributes.session.id` | Session/conversation ID -- groups traces into multi-turn sessions                                                          |
+| `attributes.user.id`    | End-user identifier                                                                                                        |
 | `attributes.metadata.*` | Custom key-value metadata. Any key under this prefix is user-defined (e.g., `attributes.metadata.user_email`). Filterable. |
 
 ### Errors and Exceptions
 
-| Column | Description |
-|--------|-------------|
-| `attributes.exception.type` | Exception class name (e.g., `ValueError`, `TimeoutError`) |
-| `attributes.exception.message` | Exception message text |
-| `event.attributes` | Error tracebacks and detailed event data. Use `CONTAINS` for filtering. |
+| Column                         | Description                                                             |
+| ------------------------------ | ----------------------------------------------------------------------- |
+| `attributes.exception.type`    | Exception class name (e.g., `ValueError`, `TimeoutError`)               |
+| `attributes.exception.message` | Exception message text                                                  |
+| `event.attributes`             | Error tracebacks and detailed event data. Use `CONTAINS` for filtering. |
 
 ### Evaluations and Annotations
 
-| Column | Description |
-|--------|-------------|
+| Column                    | Description                                             |
+| ------------------------- | ------------------------------------------------------- |
 | `annotation.<name>.label` | Human or auto-eval label (e.g., `correct`, `incorrect`) |
-| `annotation.<name>.score` | Numeric score (e.g., `0.95`) |
-| `annotation.<name>.text` | Freeform annotation text |
+| `annotation.<name>.score` | Numeric score (e.g., `0.95`)                            |
+| `annotation.<name>.text`  | Freeform annotation text                                |
 
 ### Embeddings
 
-| Column | Description |
-|--------|-------------|
-| `attributes.embedding.model_name` | Embedding model name |
-| `attributes.embedding.texts` | Text chunks that were embedded |
+| Column                            | Description                    |
+| --------------------------------- | ------------------------------ |
+| `attributes.embedding.model_name` | Embedding model name           |
+| `attributes.embedding.texts`      | Text chunks that were embedded |
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `ax: command not found` | See references/ax-setup.md |
-| `SSL: CERTIFICATE_VERIFY_FAILED` | macOS: `export SSL_CERT_FILE=/etc/ssl/cert.pem`. Linux: `export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt`. Windows: `$env:SSL_CERT_FILE = (python -c "import certifi; print(certifi.where())")` |
-| `No such command` on a subcommand that should exist | The installed `ax` is outdated. Reinstall: `uv tool install --force --reinstall arize-ax-cli` (requires shell access to install packages) |
-| `No profile found` | No profile is configured. See references/ax-profiles.md to create one. |
-| `401 Unauthorized` with valid API key | You are likely using a project name without `--space-id`. Add `--space-id SPACE_ID`, or resolve to a base64 project ID first: `ax projects list --space-id SPACE_ID -l 100 -o json` and use the project's `id`. If the key itself is wrong or expired, fix the profile using references/ax-profiles.md. |
-| `No spans found` | Expand `--days` (default 30), verify project ID |
-| `Filter error` or `invalid filter expression` | Check column name spelling (e.g., `attributes.openinference.span.kind` not `span_kind`), wrap string values in single quotes, use `CONTAINS` for free-text fields |
-| `unknown attribute` in filter | The attribute path is wrong or not indexed. Try browsing a small sample first to see actual column names: `ax spans export PROJECT_ID -l 5 --stdout \| jq '.[0] \| keys'` |
-| `Timeout on large export` | Use `--days 7` to narrow the time range |
+| Problem                                             | Solution                                                                                                                                                                                                                                                                                                |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ax: command not found`                             | See references/ax-setup.md                                                                                                                                                                                                                                                                              |
+| `SSL: CERTIFICATE_VERIFY_FAILED`                    | macOS: `export SSL_CERT_FILE=/etc/ssl/cert.pem`. Linux: `export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt`. Windows: `$env:SSL_CERT_FILE = (python -c "import certifi; print(certifi.where())")`                                                                                                 |
+| `No such command` on a subcommand that should exist | The installed `ax` is outdated. Reinstall: `uv tool install --force --reinstall arize-ax-cli` (requires shell access to install packages)                                                                                                                                                               |
+| `No profile found`                                  | No profile is configured. See references/ax-profiles.md to create one.                                                                                                                                                                                                                                  |
+| `401 Unauthorized` with valid API key               | You are likely using a project name without `--space-id`. Add `--space-id SPACE_ID`, or resolve to a base64 project ID first: `ax projects list --space-id SPACE_ID -l 100 -o json` and use the project's `id`. If the key itself is wrong or expired, fix the profile using references/ax-profiles.md. |
+| `No spans found`                                    | Expand `--days` (default 30), verify project ID                                                                                                                                                                                                                                                         |
+| `Filter error` or `invalid filter expression`       | Check column name spelling (e.g., `attributes.openinference.span.kind` not `span_kind`), wrap string values in single quotes, use `CONTAINS` for free-text fields                                                                                                                                       |
+| `unknown attribute` in filter                       | The attribute path is wrong or not indexed. Try browsing a small sample first to see actual column names: `ax spans export PROJECT_ID -l 5 --stdout \| jq '.[0] \| keys'`                                                                                                                               |
+| `Timeout on large export`                           | Use `--days 7` to narrow the time range                                                                                                                                                                                                                                                                 |
 
 ## Related Skills
 

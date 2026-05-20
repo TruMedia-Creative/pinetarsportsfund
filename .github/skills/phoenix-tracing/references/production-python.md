@@ -4,11 +4,11 @@
 
 ## Metadata
 
-| Attribute | Value |
-|-----------|-------|
-| Priority | Critical - production readiness |
-| Impact | Security, Performance |
-| Setup Time | 5-15 min |
+| Attribute  | Value                           |
+| ---------- | ------------------------------- |
+| Priority   | Critical - production readiness |
+| Impact     | Security, Performance           |
+| Setup Time | 5-15 min                        |
 
 ## Batch Processing
 

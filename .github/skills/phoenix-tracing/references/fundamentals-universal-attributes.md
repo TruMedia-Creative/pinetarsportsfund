@@ -18,6 +18,7 @@ These attributes can be used on **any span kind** to provide additional context,
 ### Why Capture I/O?
 
 **Always capture input/output for evaluation-ready spans:**
+
 - Phoenix evaluators (faithfulness, relevance, Q&A correctness) require `input.value` and `output.value`
 - Phoenix UI displays I/O prominently in trace views for debugging
 - Enables exporting I/O for creating fine-tuning datasets
@@ -36,6 +37,7 @@ These attributes can be used on **any span kind** to provide additional context,
 ```
 
 **See language-specific implementation:**
+
 - TypeScript: `instrumentation-manual-typescript.md`
 - Python: `instrumentation-manual-python.md`
 
@@ -58,9 +60,9 @@ These attributes can be used on **any span kind** to provide additional context,
 
 ## Metadata
 
-| Attribute  | Type   | Description                                |
-| ---------- | ------ | ------------------------------------------ |
-| `metadata` | string | JSON-serialized object of key-value pairs  |
+| Attribute  | Type   | Description                               |
+| ---------- | ------ | ----------------------------------------- |
+| `metadata` | string | JSON-serialized object of key-value pairs |
 
 **Example:**
 

@@ -1,6 +1,6 @@
 ---
 name: python-pypi-package-builder
-description: 'End-to-end skill for building, testing, linting, versioning, and publishing a production-grade Python library to PyPI. Covers all four build backends (setuptools+setuptools_scm, hatchling, flit, poetry), PEP 440 versioning, semantic versioning, dynamic git-tag versioning, OOP/SOLID design, type hints (PEP 484/526/544/561), Trusted Publishing (OIDC), and the full PyPA packaging flow. Use for: creating Python packages, pip-installable SDKs, CLI tools, framework plugins, pyproject.toml setup, py.typed, setuptools_scm, semver, mypy, pre-commit, GitHub Actions CI/CD, or PyPI publishing.'
+description: "End-to-end skill for building, testing, linting, versioning, and publishing a production-grade Python library to PyPI. Covers all four build backends (setuptools+setuptools_scm, hatchling, flit, poetry), PEP 440 versioning, semantic versioning, dynamic git-tag versioning, OOP/SOLID design, type hints (PEP 484/526/544/561), Trusted Publishing (OIDC), and the full PyPA packaging flow. Use for: creating Python packages, pip-installable SDKs, CLI tools, framework plugins, pyproject.toml setup, py.typed, setuptools_scm, semver, mypy, pre-commit, GitHub Actions CI/CD, or PyPI publishing."
 ---
 
 # Python PyPI Package Builder Skill
@@ -18,27 +18,27 @@ release.
 
 ## Quick Navigation
 
-| Section in this file | What it covers |
-|---|---|
-| [1. Skill Trigger](#1-skill-trigger) | When to load this skill |
-| [2. Package Type Decision](#2-package-type-decision) | Identify what you are building |
-| [3. Folder Structure Decision](#3-folder-structure-decision) | src/ vs flat vs monorepo |
-| [4. Build Backend Decision](#4-build-backend-decision) | setuptools / hatchling / flit / poetry |
-| [5. PyPA Packaging Flow](#5-pypa-packaging-flow) | The canonical publish pipeline |
-| [6. Project Structure Templates](#6-project-structure-templates) | Full layouts for every option |
-| [7. Versioning Strategy](#7-versioning-strategy) | PEP 440, semver, dynamic vs static |
+| Section in this file                                             | What it covers                         |
+| ---------------------------------------------------------------- | -------------------------------------- |
+| [1. Skill Trigger](#1-skill-trigger)                             | When to load this skill                |
+| [2. Package Type Decision](#2-package-type-decision)             | Identify what you are building         |
+| [3. Folder Structure Decision](#3-folder-structure-decision)     | src/ vs flat vs monorepo               |
+| [4. Build Backend Decision](#4-build-backend-decision)           | setuptools / hatchling / flit / poetry |
+| [5. PyPA Packaging Flow](#5-pypa-packaging-flow)                 | The canonical publish pipeline         |
+| [6. Project Structure Templates](#6-project-structure-templates) | Full layouts for every option          |
+| [7. Versioning Strategy](#7-versioning-strategy)                 | PEP 440, semver, dynamic vs static     |
 
-| Reference file | What it covers |
-|---|---|
-| `references/pyproject-toml.md` | All four backend templates, `setuptools_scm`, `py.typed`, tool configs |
-| `references/library-patterns.md` | OOP/SOLID, type hints, core class design, factory, protocols, CLI |
-| `references/testing-quality.md` | `conftest.py`, unit/backend/async tests, ruff/mypy/pre-commit |
-| `references/ci-publishing.md` | `ci.yml`, `publish.yml`, Trusted Publishing, TestPyPI, CHANGELOG, release checklist |
-| `references/community-docs.md` | README, docstrings, CONTRIBUTING, SECURITY, anti-patterns, master checklist |
+| Reference file                        | What it covers                                                                          |
+| ------------------------------------- | --------------------------------------------------------------------------------------- |
+| `references/pyproject-toml.md`        | All four backend templates, `setuptools_scm`, `py.typed`, tool configs                  |
+| `references/library-patterns.md`      | OOP/SOLID, type hints, core class design, factory, protocols, CLI                       |
+| `references/testing-quality.md`       | `conftest.py`, unit/backend/async tests, ruff/mypy/pre-commit                           |
+| `references/ci-publishing.md`         | `ci.yml`, `publish.yml`, Trusted Publishing, TestPyPI, CHANGELOG, release checklist     |
+| `references/community-docs.md`        | README, docstrings, CONTRIBUTING, SECURITY, anti-patterns, master checklist             |
 | `references/architecture-patterns.md` | Backend system (plugin/strategy), config layer, transport layer, CLI, backend injection |
-| `references/versioning-strategy.md` | PEP 440, SemVer, pre-release, setuptools_scm deep-dive, flit static, decision engine |
-| `references/release-governance.md` | Branch strategy, branch protection, OIDC, tag author validation, prevent invalid tags |
-| `references/tooling-ruff.md` | Ruff-only setup (replaces black/isort), mypy config, pre-commit, asyncio_mode=auto |
+| `references/versioning-strategy.md`   | PEP 440, SemVer, pre-release, setuptools_scm deep-dive, flit static, decision engine    |
+| `references/release-governance.md`    | Branch strategy, branch protection, OIDC, tag author validation, prevent invalid tags   |
+| `references/tooling-ruff.md`          | Ruff-only setup (replaces black/isort), mypy config, pre-commit, asyncio_mode=auto      |
 
 **Scaffold script:** run `python skills/python-pypi-package-builder/scripts/scaffold.py --name your-package-name`
 to generate the entire directory layout, stub files, and `pyproject.toml` in one command.
@@ -72,14 +72,14 @@ Identify what the user is building **before** writing any code. Each type has di
 
 ### Decision Table
 
-| Type | Core Pattern | Entry Point | Key Deps | Example Packages |
-|---|---|---|---|---|
-| **Utility library** | Module of pure functions + helpers | Import API only | Minimal | `arrow`, `humanize`, `boltons`, `more-itertools` |
-| **API client / SDK** | Class with methods, auth, retry logic | Import API only | `httpx` or `requests` | `boto3`, `stripe-python`, `openai` |
-| **CLI tool** | Command functions + argument parser | `[project.scripts]` or `[project.entry-points]` | `click` or `typer` | `black`, `ruff`, `httpie`, `rich` |
-| **Framework plugin** | Plugin class, hook registration | `[project.entry-points."framework.plugin"]` | Framework dep | `pytest-*`, `django-*`, `flask-*` |
-| **Data processing library** | Classes + functional pipeline | Import API only | Optional: `numpy`, `pandas` | `pydantic`, `marshmallow`, `cerberus` |
-| **Mixed / generic** | Combination of above | Varies | Varies | Many real-world packages |
+| Type                        | Core Pattern                          | Entry Point                                     | Key Deps                    | Example Packages                                 |
+| --------------------------- | ------------------------------------- | ----------------------------------------------- | --------------------------- | ------------------------------------------------ |
+| **Utility library**         | Module of pure functions + helpers    | Import API only                                 | Minimal                     | `arrow`, `humanize`, `boltons`, `more-itertools` |
+| **API client / SDK**        | Class with methods, auth, retry logic | Import API only                                 | `httpx` or `requests`       | `boto3`, `stripe-python`, `openai`               |
+| **CLI tool**                | Command functions + argument parser   | `[project.scripts]` or `[project.entry-points]` | `click` or `typer`          | `black`, `ruff`, `httpie`, `rich`                |
+| **Framework plugin**        | Plugin class, hook registration       | `[project.entry-points."framework.plugin"]`     | Framework dep               | `pytest-*`, `django-*`, `flask-*`                |
+| **Data processing library** | Classes + functional pipeline         | Import API only                                 | Optional: `numpy`, `pandas` | `pydantic`, `marshmallow`, `cerberus`            |
+| **Mixed / generic**         | Combination of above                  | Varies                                          | Varies                      | Many real-world packages                         |
 
 **Decision Rule:** Ask the user if unclear. A package can combine types (e.g., SDK with a CLI
 entry point) — use the primary type for structural decisions and add secondary type patterns on top.
@@ -115,13 +115,13 @@ Does the package have 5+ internal modules OR multiple contributors OR complex su
 
 ### Quick Rule Summary
 
-| Situation | Use |
-|---|---|
-| New project, unknown future size | `src/` layout (safest default) |
-| Single-purpose, 1–4 modules | Flat layout |
-| Large library, many contributors | `src/` layout |
-| Multiple packages in one repo | Namespace / monorepo |
-| Migrating old flat project | Keep flat; migrate to `src/` at next major version |
+| Situation                        | Use                                                |
+| -------------------------------- | -------------------------------------------------- |
+| New project, unknown future size | `src/` layout (safest default)                     |
+| Single-purpose, 1–4 modules      | Flat layout                                        |
+| Large library, many contributors | `src/` layout                                      |
+| Multiple packages in one repo    | Namespace / monorepo                               |
+| Migrating old flat project       | Keep flat; migrate to `src/` at next major version |
 
 ---
 
@@ -150,12 +150,12 @@ Does the package have C/Cython/Fortran extensions?
 
 ### Backend Comparison
 
-| Backend | Version source | Config | C extensions | Best for |
-|---|---|---|---|---|
-| `setuptools` + `setuptools_scm` | git tags (automatic) | `pyproject.toml` + optional `setup.py` shim | Yes | Projects with git-tag releases; any complexity |
-| `hatchling` | manual or plugin | `pyproject.toml` only | No | New pure-Python projects; fast, modern |
-| `flit` | `__version__` in `__init__.py` | `pyproject.toml` only | No | Very simple, single-module packages |
-| `poetry` | `pyproject.toml` field | `pyproject.toml` only | No | Teams wanting integrated dep management |
+| Backend                         | Version source                 | Config                                      | C extensions | Best for                                       |
+| ------------------------------- | ------------------------------ | ------------------------------------------- | ------------ | ---------------------------------------------- |
+| `setuptools` + `setuptools_scm` | git tags (automatic)           | `pyproject.toml` + optional `setup.py` shim | Yes          | Projects with git-tag releases; any complexity |
+| `hatchling`                     | manual or plugin               | `pyproject.toml` only                       | No           | New pure-Python projects; fast, modern         |
+| `flit`                          | `__version__` in `__init__.py` | `pyproject.toml` only                       | No           | Very simple, single-module packages            |
+| `poetry`                        | `pyproject.toml` field         | `pyproject.toml` only                       | No           | Teams wanting integrated dep management        |
 
 For all four complete `pyproject.toml` templates, see `references/pyproject-toml.md`.
 
@@ -196,14 +196,14 @@ This is the canonical end-to-end flow from source code to user install.
 
 ### Key PyPA Concepts
 
-| Concept | What it means |
-|---|---|
-| **sdist** | Source distribution — your source + metadata; used when no wheel is available |
-| **wheel (.whl)** | Pre-built binary — pip extracts directly into site-packages; no build step |
-| **PEP 517/518** | Standard build system interface via `pyproject.toml [build-system]` table |
-| **PEP 621** | Standard `[project]` table in `pyproject.toml`; all modern backends support it |
-| **PEP 639** | `license` key as SPDX string (e.g., `"MIT"`, `"Apache-2.0"`) — not `{text = "MIT"}` |
-| **PEP 561** | `py.typed` empty marker file — tells mypy/IDEs this package ships type information |
+| Concept          | What it means                                                                       |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| **sdist**        | Source distribution — your source + metadata; used when no wheel is available       |
+| **wheel (.whl)** | Pre-built binary — pip extracts directly into site-packages; no build step          |
+| **PEP 517/518**  | Standard build system interface via `pyproject.toml [build-system]` table           |
+| **PEP 621**      | Standard `[project]` table in `pyproject.toml`; all modern backends support it      |
+| **PEP 639**      | `license` key as SPDX string (e.g., `"MIT"`, `"Apache-2.0"`) — not `{text = "MIT"}` |
+| **PEP 561**      | `py.typed` empty marker file — tells mypy/IDEs this package ships type information  |
 
 For complete CI workflow and publishing setup, see `references/ci-publishing.md`.
 
@@ -299,19 +299,19 @@ implicit namespace packages (no `__init__.py` in the namespace root).
 
 ### Internal Module Guidelines
 
-| File | Purpose | When to include |
-|---|---|---|
-| `__init__.py` | Public API surface; re-exports; `__version__` | Always |
-| `py.typed` | PEP 561 typed-package marker (empty) | Always |
-| `core.py` | Primary class / main logic | Always |
-| `config.py` | Settings dataclass or Pydantic model | When configurable |
-| `exceptions.py` | Exception hierarchy (`YourBaseError` → specifics) | Always |
-| `models.py` | Data models / DTOs / TypedDicts | When data-heavy |
-| `utils.py` | Internal helpers (not part of public API) | As needed |
-| `types.py` | Shared `TypeVar`, `TypeAlias`, `Protocol` definitions | When complex typing |
-| `cli.py` | CLI entry points (click/typer) | CLI type only |
-| `backends/` | Plugin/strategy pattern | When swappable implementations |
-| `_compat.py` | Python version compatibility shims | When 3.9–3.13 compat needed |
+| File            | Purpose                                               | When to include                |
+| --------------- | ----------------------------------------------------- | ------------------------------ |
+| `__init__.py`   | Public API surface; re-exports; `__version__`         | Always                         |
+| `py.typed`      | PEP 561 typed-package marker (empty)                  | Always                         |
+| `core.py`       | Primary class / main logic                            | Always                         |
+| `config.py`     | Settings dataclass or Pydantic model                  | When configurable              |
+| `exceptions.py` | Exception hierarchy (`YourBaseError` → specifics)     | Always                         |
+| `models.py`     | Data models / DTOs / TypedDicts                       | When data-heavy                |
+| `utils.py`      | Internal helpers (not part of public API)             | As needed                      |
+| `types.py`      | Shared `TypeVar`, `TypeAlias`, `Protocol` definitions | When complex typing            |
+| `cli.py`        | CLI entry points (click/typer)                        | CLI type only                  |
+| `backends/`     | Plugin/strategy pattern                               | When swappable implementations |
+| `_compat.py`    | Python version compatibility shims                    | When 3.9–3.13 compat needed    |
 
 ---
 
@@ -358,6 +358,7 @@ except PackageNotFoundError:
 ```
 
 Required `pyproject.toml` config:
+
 ```toml
 [tool.setuptools_scm]
 version_scheme = "post-release"

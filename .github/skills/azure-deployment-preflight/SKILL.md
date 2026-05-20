@@ -1,6 +1,6 @@
 ---
 name: azure-deployment-preflight
-description: 'Performs comprehensive preflight validation of Bicep deployments to Azure, including template syntax validation, what-if analysis, and permission checks. Use this skill before any deployment to Azure to preview changes, identify potential issues, and ensure the deployment will succeed. Activate when users mention deploying to Azure, validating Bicep files, checking deployment permissions, previewing infrastructure changes, running what-if, or preparing for azd provision.'
+description: "Performs comprehensive preflight validation of Bicep deployments to Azure, including template syntax validation, what-if analysis, and permission checks. Use this skill before any deployment to Azure to preview changes, identify potential issues, and ensure the deployment will succeed. Activate when users mention deploying to Azure, validating Bicep files, checking deployment permissions, previewing infrastructure changes, running what-if, or preparing for azd provision."
 ---
 
 # Azure Deployment Preflight Validation
@@ -45,11 +45,13 @@ bicep build <bicep-file> --stdout
 ```
 
 **What to capture:**
+
 - Syntax errors with line/column numbers
 - Warning messages
 - Build success/failure status
 
 **If Bicep CLI is not installed:**
+
 - Note the issue in the report
 - Continue to Step 3 (Azure will validate syntax during what-if)
 
@@ -66,6 +68,7 @@ azd provision --preview
 ```
 
 If an environment is specified or multiple environments exist:
+
 ```bash
 azd provision --preview --environment <env-name>
 ```
@@ -74,12 +77,12 @@ azd provision --preview --environment <env-name>
 
 Determine the deployment scope from the Bicep file's `targetScope` declaration:
 
-| Target Scope | Command |
-|--------------|---------|
-| `resourceGroup` (default) | `az deployment group what-if` |
-| `subscription` | `az deployment sub what-if` |
-| `managementGroup` | `az deployment mg what-if` |
-| `tenant` | `az deployment tenant what-if` |
+| Target Scope              | Command                        |
+| ------------------------- | ------------------------------ |
+| `resourceGroup` (default) | `az deployment group what-if`  |
+| `subscription`            | `az deployment sub what-if`    |
+| `managementGroup`         | `az deployment mg what-if`     |
+| `tenant`                  | `az deployment tenant what-if` |
 
 **Run with Provider validation level first:**
 
@@ -131,25 +134,27 @@ Note the fallback in the report—the user may lack full deployment permissions.
 
 Parse the what-if output to categorize resource changes:
 
-| Change Type | Symbol | Meaning |
-|-------------|--------|---------|
-| Create | `+` | New resource will be created |
-| Delete | `-` | Resource will be deleted |
-| Modify | `~` | Resource properties will change |
-| NoChange | `=` | Resource unchanged |
-| Ignore | `*` | Resource not analyzed (limits reached) |
-| Deploy | `!` | Resource will be deployed (changes unknown) |
+| Change Type | Symbol | Meaning                                     |
+| ----------- | ------ | ------------------------------------------- |
+| Create      | `+`    | New resource will be created                |
+| Delete      | `-`    | Resource will be deleted                    |
+| Modify      | `~`    | Resource properties will change             |
+| NoChange    | `=`    | Resource unchanged                          |
+| Ignore      | `*`    | Resource not analyzed (limits reached)      |
+| Deploy      | `!`    | Resource will be deployed (changes unknown) |
 
 For modified resources, capture the specific property changes.
 
 ### Step 5: Generate Report
 
 Create a Markdown report file in the **project root** named:
+
 - `preflight-report.md`
 
 Use the template structure from [references/REPORT-TEMPLATE.md](references/REPORT-TEMPLATE.md).
 
 **Report sections:**
+
 1. **Summary** - Overall status, timestamp, files validated, target scope
 2. **Tools Executed** - Commands run, versions, validation levels used
 3. **Issues** - All errors and warnings with severity and remediation
@@ -160,12 +165,12 @@ Use the template structure from [references/REPORT-TEMPLATE.md](references/REPOR
 
 Before running validation, gather:
 
-| Information | Required For | How to Obtain |
-|-------------|--------------|---------------|
+| Information    | Required For          | How to Obtain                               |
+| -------------- | --------------------- | ------------------------------------------- |
 | Resource Group | `az deployment group` | Ask user or check existing `.azure/` config |
-| Subscription | All deployments | `az account show` or ask user |
-| Location | Sub/MG/Tenant scope | Ask user or use default from config |
-| Environment | azd projects | `azd env list` or ask user |
+| Subscription   | All deployments       | `az account show` or ask user               |
+| Location       | Sub/MG/Tenant scope   | Ask user or use default from config         |
+| Environment    | azd projects          | `azd env list` or ask user                  |
 
 If required information is missing, prompt the user before proceeding.
 
@@ -175,13 +180,13 @@ See [references/ERROR-HANDLING.md](references/ERROR-HANDLING.md) for detailed er
 
 **Key principle:** Continue validation even when errors occur. Capture all issues in the final report.
 
-| Error Type | Action |
-|------------|--------|
-| Not logged in | Note in report, suggest `az login` or `azd auth login` |
-| Permission denied | Fall back to `ProviderNoRbac`, note in report |
-| Bicep syntax error | Include all errors, continue to other files |
-| Tool not installed | Note in report, skip that validation step |
-| Resource group not found | Note in report, suggest creating it |
+| Error Type               | Action                                                 |
+| ------------------------ | ------------------------------------------------------ |
+| Not logged in            | Note in report, suggest `az login` or `azd auth login` |
+| Permission denied        | Fall back to `ProviderNoRbac`, note in report          |
+| Bicep syntax error       | Include all errors, continue to other files            |
+| Tool not installed       | Note in report, skip that validation step              |
+| Resource group not found | Note in report, suggest creating it                    |
 
 ## Tool Requirements
 
@@ -193,6 +198,7 @@ This skill uses the following tools:
 - **Azure MCP Tools** - For documentation lookups and best practices
 
 Check tool availability before starting:
+
 ```bash
 az --version
 azd version

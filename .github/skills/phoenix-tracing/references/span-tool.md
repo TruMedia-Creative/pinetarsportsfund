@@ -15,13 +15,13 @@ TOOL spans represent external tool or function invocations (API calls, database 
 
 ### Tool Execution Attributes
 
-| Attribute          | Type          | Description                                |
-| ------------------ | ------------- | ------------------------------------------ |
-| `tool.name`        | String        | Tool/function name                         |
-| `tool.description` | String        | Tool purpose/description                   |
-| `tool.parameters`  | String (JSON) | JSON schema defining the tool's parameters |
-| `input.value`      | String (JSON) | Actual input values passed to the tool     |
-| `output.value`     | String        | Tool output/result                         |
+| Attribute          | Type          | Description                                    |
+| ------------------ | ------------- | ---------------------------------------------- |
+| `tool.name`        | String        | Tool/function name                             |
+| `tool.description` | String        | Tool purpose/description                       |
+| `tool.parameters`  | String (JSON) | JSON schema defining the tool's parameters     |
+| `input.value`      | String (JSON) | Actual input values passed to the tool         |
+| `output.value`     | String        | Tool output/result                             |
 | `output.mime_type` | String        | Result content type (e.g., "application/json") |
 
 ## Examples

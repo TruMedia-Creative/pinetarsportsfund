@@ -49,13 +49,13 @@ gh api graphql -f query='
 
 ### Field Data Types
 
-| dataType | Description | Migrates to |
-|----------|-------------|-------------|
-| TEXT | Free-form text | `text` issue field |
-| SINGLE_SELECT | Dropdown with options | `single_select` issue field |
-| NUMBER | Numeric value | `number` issue field |
-| DATE | Date value | `date` issue field |
-| ITERATION | Sprint/iteration cycles | No equivalent (skip) |
+| dataType      | Description             | Migrates to                 |
+| ------------- | ----------------------- | --------------------------- |
+| TEXT          | Free-form text          | `text` issue field          |
+| SINGLE_SELECT | Dropdown with options   | `single_select` issue field |
+| NUMBER        | Numeric value           | `number` issue field        |
+| DATE          | Date value              | `date` issue field          |
+| ITERATION     | Sprint/iteration cycles | No equivalent (skip)        |
 
 ## List Project Items (with field values)
 
@@ -70,6 +70,7 @@ mcp__github__projects_list(
 ```
 
 Returns paginated results. Each item includes:
+
 - Item type (ISSUE, DRAFT_ISSUE, PULL_REQUEST)
 - Content reference (repo owner, repo name, issue number)
 - Field values for all project fields

@@ -1,6 +1,6 @@
 ---
 name: typespec-api-operations
-description: 'Add GET, POST, PATCH, and DELETE operations to a TypeSpec API plugin with proper routing, parameters, and adaptive cards'
+description: "Add GET, POST, PATCH, and DELETE operations to a TypeSpec API plugin with proper routing, parameters, and adaptive cards"
 ---
 
 # Add TypeSpec API Operations
@@ -10,6 +10,7 @@ Add RESTful operations to an existing TypeSpec API plugin for Microsoft 365 Copi
 ## Adding GET Operations
 
 ### Simple GET - List All Items
+
 ```typescript
 /**
  * List all items.
@@ -19,6 +20,7 @@ Add RESTful operations to an existing TypeSpec API plugin for Microsoft 365 Copi
 ```
 
 ### GET with Query Parameter - Filter Results
+
 ```typescript
 /**
  * List items filtered by criteria.
@@ -29,6 +31,7 @@ Add RESTful operations to an existing TypeSpec API plugin for Microsoft 365 Copi
 ```
 
 ### GET with Path Parameter - Get Single Item
+
 ```typescript
 /**
  * Get a specific item by ID.
@@ -39,6 +42,7 @@ Add RESTful operations to an existing TypeSpec API plugin for Microsoft 365 Copi
 ```
 
 ### GET with Adaptive Card
+
 ```typescript
 /**
  * List items with adaptive card visualization.
@@ -53,6 +57,7 @@ Add RESTful operations to an existing TypeSpec API plugin for Microsoft 365 Copi
 ```
 
 **Create the Adaptive Card** (`appPackage/item-card.json`):
+
 ```json
 {
   "type": "AdaptiveCard",
@@ -89,6 +94,7 @@ Add RESTful operations to an existing TypeSpec API plugin for Microsoft 365 Copi
 ## Adding POST Operations
 
 ### Simple POST - Create Item
+
 ```typescript
 /**
  * Create a new item.
@@ -105,6 +111,7 @@ model CreateItemRequest {
 ```
 
 ### POST with Confirmation
+
 ```typescript
 /**
  * Create a new item with confirmation.
@@ -128,6 +135,7 @@ op createItem(@body item: CreateItemRequest): Item;
 ## Adding PATCH Operations
 
 ### Simple PATCH - Update Item
+
 ```typescript
 /**
  * Update an existing item.
@@ -148,6 +156,7 @@ model UpdateItemRequest {
 ```
 
 ### PATCH with Confirmation
+
 ```typescript
 /**
  * Update an item with confirmation.
@@ -174,6 +183,7 @@ op updateItem(
 ## Adding DELETE Operations
 
 ### Simple DELETE
+
 ```typescript
 /**
  * Delete an item.
@@ -184,6 +194,7 @@ op updateItem(
 ```
 
 ### DELETE with Confirmation
+
 ```typescript
 /**
  * Delete an item with confirmation.
@@ -206,6 +217,7 @@ op deleteItem(@path id: integer): void;
 ## Complete CRUD Example
 
 ### Define the Service and Models
+
 ```typescript
 @service
 @server("https://api.example.com")
@@ -215,20 +227,20 @@ op deleteItem(@path id: integer): void;
   descriptionForModel: "Read, create, update, and delete items"
 })
 namespace ItemsAPI {
-  
+
   // Models
   model Item {
     @visibility(Lifecycle.Read)
     id: integer;
-    
+
     userId: integer;
     title: string;
     description?: string;
     status: "active" | "completed" | "archived";
-    
+
     @format("date-time")
     createdAt: utcDateTime;
-    
+
     @format("date-time")
     updatedAt?: utcDateTime;
   }
@@ -292,6 +304,7 @@ namespace ItemsAPI {
 ## Advanced Features
 
 ### Multiple Query Parameters
+
 ```typescript
 @route("/items")
 @get op listItems(
@@ -309,6 +322,7 @@ model ItemList {
 ```
 
 ### Header Parameters
+
 ```typescript
 @route("/items")
 @get op listItems(
@@ -318,6 +332,7 @@ model ItemList {
 ```
 
 ### Custom Response Models
+
 ```typescript
 @route("/items/{id}")
 @delete op deleteItem(@path id: integer): DeleteResponse;
@@ -330,6 +345,7 @@ model DeleteResponse {
 ```
 
 ### Error Responses
+
 ```typescript
 model ErrorResponse {
   error: {
@@ -348,52 +364,62 @@ model ErrorResponse {
 After adding operations, test with these prompts:
 
 **GET Operations:**
+
 - "List all items and show them in a table"
 - "Show me items for user ID 1"
 - "Get the details of item 42"
 
 **POST Operations:**
+
 - "Create a new item with title 'My Task' for user 1"
 - "Add an item: title 'New Feature', description 'Add login'"
 
 **PATCH Operations:**
+
 - "Update item 10 with title 'Updated Title'"
 - "Change the status of item 5 to completed"
 
 **DELETE Operations:**
+
 - "Delete item 99"
 - "Remove the item with ID 15"
 
 ## Best Practices
 
 ### Parameter Naming
+
 - Use descriptive parameter names: `userId` not `uid`
 - Be consistent across operations
 - Use optional parameters (`?`) for filters
 
 ### Documentation
+
 - Add JSDoc comments to all operations
 - Describe what each parameter does
 - Document expected responses
 
 ### Models
+
 - Use `@visibility(Lifecycle.Read)` for read-only fields like `id`
 - Use `@format("date-time")` for date fields
 - Use union types for enums: `"active" | "completed"`
 - Make optional fields explicit with `?`
 
 ### Confirmations
+
 - Always add confirmations to destructive operations (DELETE, PATCH)
 - Show key details in confirmation body
 - Use warning emoji (⚠️) for irreversible actions
 
 ### Adaptive Cards
+
 - Keep cards simple and focused
 - Use conditional rendering with `${if(..., ..., 'N/A')}`
 - Include action buttons for common next steps
 - Test data binding with actual API responses
 
 ### Routing
+
 - Use RESTful conventions:
   - `GET /items` - List
   - `GET /items/{id}` - Get one
@@ -406,13 +432,17 @@ After adding operations, test with these prompts:
 ## Common Issues
 
 ### Issue: Parameter not showing in Copilot
+
 **Solution**: Check parameter is properly decorated with `@query`, `@path`, or `@body`
 
 ### Issue: Adaptive card not rendering
+
 **Solution**: Verify file path in `@card` decorator and check JSON syntax
 
 ### Issue: Confirmation not appearing
+
 **Solution**: Ensure `@capabilities` decorator is properly formatted with confirmation object
 
 ### Issue: Model property not appearing in response
+
 **Solution**: Check if property needs `@visibility(Lifecycle.Read)` or remove it if it should be writable

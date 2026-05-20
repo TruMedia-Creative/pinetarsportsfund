@@ -21,11 +21,11 @@ The user must have:
 
 Collect these values before proceeding:
 
-| Value | How to get it |
-|---|---|
+| Value                        | How to get it                                                                  |
+| ---------------------------- | ------------------------------------------------------------------------------ |
 | **Foundry project endpoint** | Azure Portal → AI Foundry project → Overview → Endpoint, or `az resource show` |
-| **Subscription ID** | `az account show --query id -o tsv` |
-| **Model deployment name** | The model name deployed in the Foundry project (e.g. `gpt-5-4`) |
+| **Subscription ID**          | `az account show --query id -o tsv`                                            |
+| **Model deployment name**    | The model name deployed in the Foundry project (e.g. `gpt-5-4`)                |
 
 ## Manifest Format
 
@@ -43,11 +43,11 @@ The manifest is a JSON array where each entry defines one agent. Look for it at 
 
 ### Field Reference
 
-| Field | Required | Description |
-|---|---|---|
-| `useCaseId` | Yes | Kebab-case identifier; used to build the agent name (`{prefix}-{useCaseId}`) |
-| `description` | Yes | Human-readable description stored as agent metadata |
-| `baseInstruction` | Yes | System prompt / base instructions for the agent |
+| Field             | Required | Description                                                                  |
+| ----------------- | -------- | ---------------------------------------------------------------------------- |
+| `useCaseId`       | Yes      | Kebab-case identifier; used to build the agent name (`{prefix}-{useCaseId}`) |
+| `description`     | Yes      | Human-readable description stored as agent metadata                          |
+| `baseInstruction` | Yes      | System prompt / base instructions for the agent                              |
 
 ## Sync Script
 
@@ -115,6 +115,7 @@ For automated deployment via `Microsoft.Resources/deploymentScripts`, use a bash
 To run the sync automatically during infrastructure deployment:
 
 1. **Load the manifest** at compile time:
+
    ```bicep
    var agentDefinitions = loadJsonContent('foundry-agents.json')
    ```
@@ -137,6 +138,7 @@ Search the repo for `foundry-agents.json`. If it doesn't exist, ask the user wha
 ### Step 2 — Locate or scaffold the sync script
 
 Search for `sync-foundry-agents.ps1` or `foundry-agent-sync.sh`. If missing, create the PowerShell script using the template above, adapting:
+
 - `$AgentNamePrefix` to match the project name
 - `$ModelName` to the user's deployed model
 - `$ManifestPath` to the actual manifest location
@@ -144,6 +146,7 @@ Search for `sync-foundry-agents.ps1` or `foundry-agent-sync.sh`. If missing, cre
 ### Step 3 — Collect parameters
 
 Ask the user for:
+
 - Foundry project endpoint
 - Subscription ID
 - Model deployment name (default: `gpt-5-4`)
@@ -174,12 +177,12 @@ Invoke-RestMethod -Uri "$endpoint/agents?api-version=2025-11-15-preview" `
 
 ## REST API Reference
 
-| Operation | Method | URL |
-|---|---|---|
-| Create/update agent | POST | `{projectEndpoint}/agents/{agentName}?api-version=2025-11-15-preview` |
-| List agents | GET | `{projectEndpoint}/agents?api-version=2025-11-15-preview` |
-| Get agent | GET | `{projectEndpoint}/agents/{agentName}?api-version=2025-11-15-preview` |
-| Delete agent | DELETE | `{projectEndpoint}/agents/{agentName}?api-version=2025-11-15-preview` |
+| Operation           | Method | URL                                                                   |
+| ------------------- | ------ | --------------------------------------------------------------------- |
+| Create/update agent | POST   | `{projectEndpoint}/agents/{agentName}?api-version=2025-11-15-preview` |
+| List agents         | GET    | `{projectEndpoint}/agents?api-version=2025-11-15-preview`             |
+| Get agent           | GET    | `{projectEndpoint}/agents/{agentName}?api-version=2025-11-15-preview` |
+| Delete agent        | DELETE | `{projectEndpoint}/agents/{agentName}?api-version=2025-11-15-preview` |
 
 ### Create/Update Payload
 
@@ -200,10 +203,10 @@ Invoke-RestMethod -Uri "$endpoint/agents?api-version=2025-11-15-preview" `
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---|---|---|
+| Symptom            | Cause                           | Fix                                                                   |
+| ------------------ | ------------------------------- | --------------------------------------------------------------------- |
 | `401 Unauthorized` | Token expired or wrong audience | Re-run `az account get-access-token --resource https://ai.azure.com/` |
-| `403 Forbidden` | Missing Azure AI User role | Assign the role on the Foundry project scope |
-| `404 Not Found` | Wrong project endpoint | Verify endpoint includes `/api/projects/{projectName}` |
-| Model not found | Model not deployed in project | Deploy the model in AI Foundry portal first |
-| Empty definitions | Manifest path wrong | Check `-ManifestPath` points to the JSON file |
+| `403 Forbidden`    | Missing Azure AI User role      | Assign the role on the Foundry project scope                          |
+| `404 Not Found`    | Wrong project endpoint          | Verify endpoint includes `/api/projects/{projectName}`                |
+| Model not found    | Model not deployed in project   | Deploy the model in AI Foundry portal first                           |
+| Empty definitions  | Manifest path wrong             | Check `-ManifestPath` points to the JSON file                         |

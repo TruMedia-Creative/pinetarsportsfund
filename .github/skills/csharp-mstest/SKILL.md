@@ -1,6 +1,6 @@
 ---
 name: csharp-mstest
-description: 'Get best practices for MSTest 3.x/4.x unit testing, including modern assertion APIs and data-driven tests'
+description: "Get best practices for MSTest 3.x/4.x unit testing, including modern assertion APIs and data-driven tests"
 ---
 
 # MSTest Best Practices (MSTest 3.x/4.x)
@@ -423,6 +423,7 @@ public void BugFix_Issue42_IsResolved() { }
 ```
 
 Work item associations appear in test results and can be used for:
+
 - Tracing test coverage to requirements
 - Linking bug fixes to regression tests
 - Generating traceability reports in CI/CD pipelines

@@ -50,12 +50,12 @@ def build_review_queue(spans_df, max_traces=100):
 
 ## Sample Size Guidelines
 
-| Purpose | Size |
-| ------- | ---- |
-| Initial exploration | 50-100 |
-| Error analysis | 100+ (until saturation) |
-| Golden dataset | 100-500 |
-| Judge calibration | 100+ per class |
+| Purpose             | Size                    |
+| ------------------- | ----------------------- |
+| Initial exploration | 50-100                  |
+| Error analysis      | 100+ (until saturation) |
+| Golden dataset      | 100-500                 |
+| Judge calibration   | 100+ per class          |
 
 **Saturation:** Stop when new traces show the same failure patterns.
 

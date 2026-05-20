@@ -1,6 +1,6 @@
 ---
 name: power-bi-report-design-consultation
-description: 'Power BI report visualization design prompt for creating effective, user-friendly, and accessible reports with optimal chart selection and layout design.'
+description: "Power BI report visualization design prompt for creating effective, user-friendly, and accessible reports with optimal chart selection and layout design."
 ---
 
 # Power BI Report Visualization Designer
@@ -39,6 +39,7 @@ Technical Requirements:
 ### **Chart Selection Methodology**
 
 #### **Data Relationship Analysis**
+
 ```
 Comparison Analysis:
 ✅ Bar/Column Charts: Comparing categories, ranking items
@@ -66,6 +67,7 @@ Distribution Analysis:
 ```
 
 #### **Audience-Specific Design Patterns**
+
 ```
 Executive Dashboard Design:
 - High-level KPIs prominently displayed
@@ -92,6 +94,7 @@ Operational Report Design:
 ## Visualization Design Process
 
 ### **Phase 1: Information Architecture**
+
 ```
 Content Prioritization:
 1. Critical Metrics: Most important KPIs and measures
@@ -106,7 +109,7 @@ Layout Strategy:
 │ Primary Insight Area                    │
 │ ┌─────────────┐  ┌─────────────────────┐│
 │ │   Main      │  │   Supporting        ││
-│ │   Visual    │  │   Context           ││  
+│ │   Visual    │  │   Context           ││
 │ │             │  │   (2-3 smaller      ││
 │ │             │  │    visuals)         ││
 │ └─────────────┘  └─────────────────────┘│
@@ -120,6 +123,7 @@ Layout Strategy:
 ### **Phase 2: Visual Design Specifications**
 
 #### **Color Strategy Design**
+
 ```
 Semantic Color Mapping:
 - Green (#2E8B57): Positive performance, on-target, growth
@@ -143,6 +147,7 @@ Brand Integration Guidelines:
 ```
 
 #### **Typography Hierarchy**
+
 ```
 Text Size and Weight Guidelines:
 - Report Title: 20-24pt, Bold, Brand Font
@@ -163,6 +168,7 @@ Readability Optimization:
 ### **Phase 3: Interactive Design**
 
 #### **Navigation Design Patterns**
+
 ```
 Tab Navigation:
 Best for: Related content areas, different time periods
@@ -182,7 +188,7 @@ Implementation:
 
 Button Navigation:
 Best for: Guided workflows, external links
-Implementation:  
+Implementation:
 - Action-oriented button labels
 - Consistent styling and sizing
 - Appropriate visual hierarchy
@@ -190,6 +196,7 @@ Implementation:
 ```
 
 #### **Filter and Slicer Design**
+
 ```
 Slicer Optimization:
 ✅ Logical grouping and positioning
@@ -208,6 +215,7 @@ Filter Strategy:
 ### **Phase 4: Mobile and Responsive Design**
 
 #### **Mobile Layout Strategy**
+
 ```
 Mobile-First Considerations:
 - Portrait orientation as primary design
@@ -219,7 +227,7 @@ Mobile-First Considerations:
 Responsive Visual Selection:
 Mobile-Friendly:
 ✅ Card visuals for KPIs
-✅ Simple bar and column charts  
+✅ Simple bar and column charts
 ✅ Line charts with minimal data points
 ✅ Large gauge and KPI visuals
 
@@ -233,11 +241,12 @@ Mobile-Challenging:
 ## Design Review and Validation
 
 ### **Design Quality Checklist**
+
 ```
 Visual Clarity:
 □ Clear visual hierarchy with appropriate emphasis
 □ Sufficient contrast and readability
-□ Logical flow and eye movement patterns  
+□ Logical flow and eye movement patterns
 □ Minimal cognitive load for interpretation
 □ Appropriate use of white space
 
@@ -257,6 +266,7 @@ Accessibility Compliance:
 ```
 
 ### **User Testing Framework**
+
 ```
 Usability Testing Protocol:
 
@@ -270,7 +280,7 @@ Test Scenarios:
 1. Initial impression and orientation (30 seconds)
 2. Finding specific information (2 minutes)
 3. Comparing data points (3 minutes)
-4. Drilling down for details (2 minutes)  
+4. Drilling down for details (2 minutes)
 5. Mobile usage simulation (5 minutes)
 
 Success Criteria:
@@ -284,6 +294,7 @@ Success Criteria:
 ## Visualization Recommendations Output
 
 ### **Design Specification Template**
+
 ```
 Visualization Design Recommendations
 
@@ -300,9 +311,9 @@ Page 1: Dashboard Overview
 ├─ Supporting Visuals: [2-3 context charts]
 └─ Filter Panel: [Key filter controls]
 
-Page 2: Detailed Analysis  
+Page 2: Detailed Analysis
 ├─ Comparative Analysis: [Chart selection]
-├─ Trend Analysis: [Time-based visuals]  
+├─ Trend Analysis: [Time-based visuals]
 ├─ Distribution Analysis: [Statistical charts]
 └─ Navigation: Drill-through to operational data
 
@@ -314,6 +325,7 @@ Interaction Design:
 ```
 
 ### **Implementation Guidelines**
+
 ```
 Development Priority:
 Phase 1 (Week 1): Core dashboard with KPIs and primary visual
@@ -324,7 +336,7 @@ Phase 4 (Week 4): Mobile optimization and final polish
 Quality Assurance:
 □ Visual accuracy validation
 □ Interaction testing across browsers
-□ Mobile device testing  
+□ Mobile device testing
 □ Accessibility compliance check
 □ Performance validation
 □ User acceptance testing
@@ -341,8 +353,9 @@ Success Metrics:
 
 **Usage Instructions:**
 To get visualization design recommendations, provide:
+
 - Business context and report objectives
-- Target audience and usage scenarios  
+- Target audience and usage scenarios
 - Data description and key metrics
 - Technical constraints and requirements
 - Brand guidelines and accessibility needs

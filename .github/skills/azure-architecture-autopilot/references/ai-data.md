@@ -222,6 +222,7 @@ resource hub 'Microsoft.MachineLearningServices/workspaces@<fetch>' = {
 ### AI Hub Dependencies
 
 Additional resources needed when using Hub:
+
 - Storage Account
 - Key Vault
 - Application Insights + Log Analytics Workspace

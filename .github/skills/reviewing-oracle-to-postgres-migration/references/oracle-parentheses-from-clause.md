@@ -141,7 +141,7 @@ StrSQL = "SELECT employee_id, NAME " _
        & "WHERE e.department_id = 10"
 ```
 
-### C #
+### C
 
 ```csharp
 // Before (Oracle)

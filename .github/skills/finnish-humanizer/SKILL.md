@@ -27,9 +27,11 @@ Ennen kuin korjaat yhtään patternia, sisäistä miten suomalainen kirjoittaja 
 ### Esimerkki: sieluton vs. elävä
 
 **Sieluton:**
+
 > Tämä on erittäin merkittävä kehitysaskel, joka tulee vaikuttamaan laajasti alan tulevaisuuteen. On syytä huomata, että kyseinen innovaatio tarjoaa lukuisia mahdollisuuksia eri sidosryhmille.
 
 **Elävä:**
+
 > Iso juttu alalle. Tästä hyötyvät monet.
 
 ### Persoonallisuuden lisääminen
@@ -40,7 +42,7 @@ AI-tunnusmerkkien poistaminen ei yksin riitä — teksti tarvitsee myös persoon
 - **Monimutkaisuuden tunnustaminen.** Asiat voivat olla ristiriitaisia, epäselviä tai keskeneräisiä. AI yrittää ratkaista kaiken siististi.
 - **Konkreettiset yksityiskohdat.** Korvaa yleistykset yksityiskohdilla. "Monet yritykset" → "Kolme suurinta kilpailijaa".
 - **Harkittu epätäydellisyys.** Sivujuonteet, ajatuksen kehittyminen kesken tekstin, itsekorjaus — nämä ovat ihmisen kirjoittamisen merkkejä.
-</finnish_voice>
+  </finnish_voice>
 
 <process>
 ## Prosessi
@@ -57,11 +59,12 @@ AI-tunnusmerkkien poistaminen ei yksin riitä — teksti tarvitsee myös persoon
 Käsittele suoraan. Palauta luonnollistettu teksti + muutosyhteenveto.
 
 **Pitkä teksti (yli 500 sanaa):**
+
 1. Analysoi ensin — listaa löydetyt AI-patternit ja niiden esiintymät
 2. Esitä löydökset käyttäjälle
 3. Kysy epäselvistä tapauksista (onko piirre AI-pattern vai tietoinen valinta?)
 4. Toteuta luonnollistaminen
-</process>
+   </process>
 
 <examples>
 ## Esimerkkipatternit
@@ -116,6 +119,7 @@ Jälkeen: Ymmärrä alustan arkkitehtuuri ennen käyttöönottoa.
 </examples>
 
 <output_format>
+
 ## Tulostusformaatti
 
 Kun olet luonnollistanut tekstin, palauta:
@@ -137,7 +141,7 @@ Jos käyttäjä pyytää vain tekstiä ilman selityksiä, jätä muutosyhteenvet
 - **Jo luonnollinen teksti.** Jos teksti on jo luonnollista, ilmoita se äläkä tee turhia muutoksia.
 - **Koodiesimerkkit ja tekninen sanasto.** Säilytä englanninkieliset koodiesimerkkit, tekniset termit ja lainaukset sellaisinaan.
 - **Sekateksti (fi/en).** Käsittele vain suomenkieliset osat. Jätä englanninkieliset osiot koskematta.
-</constraints>
+  </constraints>
 
 ## References
 

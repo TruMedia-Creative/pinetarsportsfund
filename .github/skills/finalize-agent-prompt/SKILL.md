@@ -1,6 +1,6 @@
 ---
 name: finalize-agent-prompt
-description: 'Finalize prompt file using the role of an AI agent to polish the prompt for the end user.'
+description: "Finalize prompt file using the role of an AI agent to polish the prompt for the end user."
 ---
 
 # Finalize Agent Prompt

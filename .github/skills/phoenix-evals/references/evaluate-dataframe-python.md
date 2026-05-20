@@ -39,10 +39,10 @@ results_df = evaluate_dataframe(
 
 For each evaluator named `"foo"`, two columns are added:
 
-| Column | Type | Contents |
-| ------ | ---- | -------- |
-| `foo_score` | `dict` | `{"name": "foo", "score": 1.0, "label": "True", "explanation": "...", "metadata": {...}, "kind": "code", "direction": "maximize"}` |
-| `foo_execution_details` | `dict` | `{"status": "success", "exceptions": [], "execution_seconds": 0.001}` |
+| Column                  | Type   | Contents                                                                                                                           |
+| ----------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `foo_score`             | `dict` | `{"name": "foo", "score": 1.0, "label": "True", "explanation": "...", "metadata": {...}, "kind": "code", "direction": "maximize"}` |
+| `foo_execution_details` | `dict` | `{"status": "success", "exceptions": [], "execution_seconds": 0.001}`                                                              |
 
 Only non-None fields appear in the score dict.
 
@@ -131,6 +131,7 @@ results_df = await async_evaluate_dataframe(dataframe=df, evaluators=[eval1])
 ```
 
 Key differences:
+
 - `run_evals` returns a **list** of DataFrames (one per evaluator)
 - `async_evaluate_dataframe` returns a **single** DataFrame with all results merged
 - `async_evaluate_dataframe` uses `{name}_score` dict column format

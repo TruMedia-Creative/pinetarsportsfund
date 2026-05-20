@@ -9,12 +9,12 @@ Create professional, user-centered designs in Penpot using the `penpot/penpot-mc
 
 ## Available MCP Tools
 
-| Tool | Purpose |
-| ---- | ------- |
-| `mcp__penpot__execute_code` | Run JavaScript in Penpot plugin context to create/modify designs |
-| `mcp__penpot__export_shape` | Export shapes as PNG/SVG for visual inspection |
-| `mcp__penpot__import_image` | Import images (icons, photos, logos) into designs |
-| `mcp__penpot__penpot_api_info` | Retrieve Penpot API documentation |
+| Tool                           | Purpose                                                          |
+| ------------------------------ | ---------------------------------------------------------------- |
+| `mcp__penpot__execute_code`    | Run JavaScript in Penpot plugin context to create/modify designs |
+| `mcp__penpot__export_shape`    | Export shapes as PNG/SVG for visual inspection                   |
+| `mcp__penpot__import_image`    | Import images (icons, photos, logos) into designs                |
+| `mcp__penpot__penpot_api_info` | Retrieve Penpot API documentation                                |
 
 ## MCP Server Setup
 
@@ -27,6 +27,7 @@ The Penpot MCP tools require the `penpot/penpot-mcp` server running locally. For
 1. **Try calling a tool first**: Attempt `mcp__penpot__penpot_api_info` - if it succeeds, the server is running and connected. No setup needed.
 
 2. **If the tool fails**, ask the user:
+
    > "The Penpot MCP server doesn't appear to be connected. Is the server already installed and running? If so, I can help troubleshoot. If not, I can guide you through the setup."
 
 3. **Only proceed with setup instructions if the user confirms the server is not installed.**
@@ -44,6 +45,7 @@ npm run bootstrap
 ```
 
 Then in Penpot:
+
 1. Open a design file
 2. Go to **Plugins** → **Load plugin from URL**
 3. Enter: `http://localhost:4400/manifest.json`
@@ -52,6 +54,7 @@ Then in Penpot:
 ### VS Code Configuration
 
 Add to `settings.json`:
+
 ```json
 {
   "mcp": {
@@ -66,22 +69,22 @@ Add to `settings.json`:
 
 ### Troubleshooting (If Server Is Installed But Not Working)
 
-| Issue | Solution |
-| ----- | -------- |
-| Plugin won't connect | Check servers are running (`npm run start:all` in penpot-mcp dir) |
-| Browser blocks localhost | Allow local network access prompt, or disable Brave Shield, or try Firefox |
-| Tools not appearing in client | Restart VS Code/Claude completely after config changes |
-| Tool execution fails/times out | Ensure Penpot plugin UI is open and shows "Connected" |
-| "WebSocket connection failed" | Check firewall allows ports 4400, 4401, 4402 |
+| Issue                          | Solution                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------- |
+| Plugin won't connect           | Check servers are running (`npm run start:all` in penpot-mcp dir)          |
+| Browser blocks localhost       | Allow local network access prompt, or disable Brave Shield, or try Firefox |
+| Tools not appearing in client  | Restart VS Code/Claude completely after config changes                     |
+| Tool execution fails/times out | Ensure Penpot plugin UI is open and shows "Connected"                      |
+| "WebSocket connection failed"  | Check firewall allows ports 4400, 4401, 4402                               |
 
 ## Quick Reference
 
-| Task | Reference File |
-| ---- | -------------- |
+| Task                                      | Reference File                                                  |
+| ----------------------------------------- | --------------------------------------------------------------- |
 | MCP server installation & troubleshooting | [setup-troubleshooting.md](references/setup-troubleshooting.md) |
-| Component specs (buttons, forms, nav) | [component-patterns.md](references/component-patterns.md) |
-| Accessibility (contrast, touch targets) | [accessibility.md](references/accessibility.md) |
-| Screen sizes & platform specs | [platform-guidelines.md](references/platform-guidelines.md) |
+| Component specs (buttons, forms, nav)     | [component-patterns.md](references/component-patterns.md)       |
+| Accessibility (contrast, touch targets)   | [accessibility.md](references/accessibility.md)                 |
+| Screen sizes & platform specs             | [platform-guidelines.md](references/platform-guidelines.md)     |
 
 ## Core Design Principles
 
@@ -123,14 +126,14 @@ const allShapes = penpotUtils.findShapes(() => true, penpot.root);
 
 // Find existing colors in use
 const colors = new Set();
-allShapes.forEach(s => {
-  if (s.fills) s.fills.forEach(f => colors.add(f.fillColor));
+allShapes.forEach((s) => {
+  if (s.fills) s.fills.forEach((f) => colors.add(f.fillColor));
 });
 
 // Find existing text styles (font sizes, weights)
 const textStyles = allShapes
-  .filter(s => s.type === 'text')
-  .map(s => ({ fontSize: s.fontSize, fontWeight: s.fontWeight }));
+  .filter((s) => s.type === "text")
+  .map((s) => ({ fontSize: s.fontSize, fontWeight: s.fontWeight }));
 
 // Find existing components
 const components = penpot.library.local.components;
@@ -164,13 +167,13 @@ return { colors: [...colors], textStyles, componentCount: components.length };
 
 ```javascript
 // Find all existing boards and calculate next position
-const boards = penpotUtils.findShapes(s => s.type === 'board', penpot.root);
+const boards = penpotUtils.findShapes((s) => s.type === "board", penpot.root);
 let nextX = 0;
 const gap = 100; // Space between boards
 
 if (boards.length > 0) {
   // Find rightmost board edge
-  boards.forEach(b => {
+  boards.forEach((b) => {
     const rightEdge = b.x + b.width;
     if (rightEdge + gap > nextX) {
       nextX = rightEdge + gap;
@@ -198,37 +201,37 @@ newBoard.resize(375, 812);
 
 ### Spacing Scale (8px base)
 
-| Token | Value | Usage |
-| ----- | ----- | ----- |
-| `spacing-xs` | 4px | Tight inline elements |
-| `spacing-sm` | 8px | Related elements |
-| `spacing-md` | 16px | Default padding |
-| `spacing-lg` | 24px | Section spacing |
-| `spacing-xl` | 32px | Major sections |
-| `spacing-2xl` | 48px | Page-level spacing |
+| Token         | Value | Usage                 |
+| ------------- | ----- | --------------------- |
+| `spacing-xs`  | 4px   | Tight inline elements |
+| `spacing-sm`  | 8px   | Related elements      |
+| `spacing-md`  | 16px  | Default padding       |
+| `spacing-lg`  | 24px  | Section spacing       |
+| `spacing-xl`  | 32px  | Major sections        |
+| `spacing-2xl` | 48px  | Page-level spacing    |
 
 ### Typography Scale
 
-| Level | Size | Weight | Usage |
-| ----- | ---- | ------ | ----- |
-| Display | 48-64px | Bold | Hero headlines |
-| H1 | 32-40px | Bold | Page titles |
-| H2 | 24-28px | Semibold | Section headers |
-| H3 | 20-22px | Semibold | Subsections |
-| Body | 16px | Regular | Main content |
-| Small | 14px | Regular | Secondary text |
-| Caption | 12px | Regular | Labels, hints |
+| Level   | Size    | Weight   | Usage           |
+| ------- | ------- | -------- | --------------- |
+| Display | 48-64px | Bold     | Hero headlines  |
+| H1      | 32-40px | Bold     | Page titles     |
+| H2      | 24-28px | Semibold | Section headers |
+| H3      | 20-22px | Semibold | Subsections     |
+| Body    | 16px    | Regular  | Main content    |
+| Small   | 14px    | Regular  | Secondary text  |
+| Caption | 12px    | Regular  | Labels, hints   |
 
 ### Color Usage
 
-| Purpose | Recommendation |
-| ------- | -------------- |
-| Primary | Main brand color, CTAs |
-| Secondary | Supporting actions |
-| Success | #22C55E range (confirmations) |
-| Warning | #F59E0B range (caution) |
-| Error | #EF4444 range (errors) |
-| Neutral | Gray scale for text/borders |
+| Purpose   | Recommendation                |
+| --------- | ----------------------------- |
+| Primary   | Main brand color, CTAs        |
+| Secondary | Supporting actions            |
+| Success   | #22C55E range (confirmations) |
+| Warning   | #F59E0B range (caution)       |
+| Error     | #EF4444 range (errors)        |
+| Neutral   | Gray scale for text/borders   |
 
 ## Common Layouts
 
@@ -319,12 +322,12 @@ Before finalizing any design:
 
 Use these validation approaches with `mcp__penpot__execute_code`:
 
-| Check | Method |
-| ----- | ------ |
+| Check                   | Method                                                    |
+| ----------------------- | --------------------------------------------------------- |
 | Elements outside bounds | `penpotUtils.analyzeDescendants()` with `isContainedIn()` |
-| Text too small (<12px) | `penpotUtils.findShapes()` filtering by `fontSize` |
-| Missing contrast | Call `mcp__penpot__export_shape` and visually inspect |
-| Hierarchy structure | `penpotUtils.shapeStructure()` to review nesting |
+| Text too small (<12px)  | `penpotUtils.findShapes()` filtering by `fontSize`        |
+| Missing contrast        | Call `mcp__penpot__export_shape` and visually inspect     |
+| Hierarchy structure     | `penpotUtils.shapeStructure()` to review nesting          |
 
 ### Export CSS
 

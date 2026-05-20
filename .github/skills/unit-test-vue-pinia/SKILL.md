@@ -1,7 +1,7 @@
 ---
 name: unit-test-vue-pinia
 category: testing
-description: 'Write and review unit tests for Vue 3 + TypeScript + Vitest + Pinia codebases. Use when creating or updating tests for components, composables, and stores; mocking Pinia with createTestingPinia; applying Vue Test Utils patterns; and enforcing black-box assertions over implementation details.'
+description: "Write and review unit tests for Vue 3 + TypeScript + Vitest + Pinia codebases. Use when creating or updating tests for components, composables, and stores; mocking Pinia with createTestingPinia; applying Vue Test Utils patterns; and enforcing black-box assertions over implementation details."
 ---
 
 # unit-test-vue-pinia
@@ -37,13 +37,13 @@ Prefer `createSpy: vi.fn` as the default for consistency and easier action-spy a
 
 ```ts
 const wrapper = mount(ComponentUnderTest, {
-	global: {
-		plugins: [
-			createTestingPinia({
-				createSpy: vi.fn,
-			}),
-		],
-	},
+  global: {
+    plugins: [
+      createTestingPinia({
+        createSpy: vi.fn,
+      }),
+    ],
+  },
 });
 ```
 
@@ -66,14 +66,14 @@ Use `stubActions: false` only when the test must validate the action's real beha
 
 ```ts
 const wrapper = mount(ComponentUnderTest, {
-	global: {
-		plugins: [
-			createTestingPinia({
-				createSpy: vi.fn,
-				stubActions: false,
-			}),
-		],
-	},
+  global: {
+    plugins: [
+      createTestingPinia({
+        createSpy: vi.fn,
+        stubActions: false,
+      }),
+    ],
+  },
 });
 ```
 
@@ -81,17 +81,17 @@ const wrapper = mount(ComponentUnderTest, {
 
 ```ts
 const wrapper = mount(ComponentUnderTest, {
-	global: {
-		plugins: [
-			createTestingPinia({
-				createSpy: vi.fn,
-				initialState: {
-					counter: { n: 20 },
-					user: { name: "Leia Organa" },
-				},
-			}),
-		],
-	},
+  global: {
+    plugins: [
+      createTestingPinia({
+        createSpy: vi.fn,
+        initialState: {
+          counter: { n: 20 },
+          user: { name: "Leia Organa" },
+        },
+      }),
+    ],
+  },
 });
 ```
 
@@ -99,14 +99,14 @@ const wrapper = mount(ComponentUnderTest, {
 
 ```ts
 const wrapper = mount(ComponentUnderTest, {
-	global: {
-		plugins: [
-			createTestingPinia({
-				createSpy: vi.fn,
-				plugins: [myPiniaPlugin],
-			}),
-		],
-	},
+  global: {
+    plugins: [
+      createTestingPinia({
+        createSpy: vi.fn,
+        plugins: [myPiniaPlugin],
+      }),
+    ],
+  },
 });
 ```
 
@@ -127,13 +127,13 @@ Prefer pure store tests with `createPinia()` when the goal is to validate store 
 
 ```ts
 beforeEach(() => {
-	setActivePinia(createPinia());
+  setActivePinia(createPinia());
 });
 
 it("increments", () => {
-	const counter = useCounterStore();
-	counter.increment();
-	expect(counter.n).toBe(1);
+  const counter = useCounterStore();
+  counter.increment();
+  expect(counter.n).toBe(1);
 });
 ```
 

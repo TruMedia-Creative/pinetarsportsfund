@@ -13,17 +13,17 @@ Nuxt's data fetching composables handle SSR, caching, deduplication, and hydrati
 
 ```vue
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
-const users = ref([])
-const loading = ref(true)
+const users = ref([]);
+const loading = ref(true);
 
 // BAD: Raw fetch causes hydration mismatch and duplicate requests
 onMounted(async () => {
-  const response = await fetch('/api/users')
-  users.value = await response.json()
-  loading.value = false
-})
+  const response = await fetch("/api/users");
+  users.value = await response.json();
+  loading.value = false;
+});
 </script>
 
 <template>
@@ -39,7 +39,7 @@ onMounted(async () => {
 ```vue
 <script setup>
 // GOOD: useFetch handles SSR, caching, and hydration
-const { data: users, status, error } = await useFetch('/api/users')
+const { data: users, status, error } = await useFetch("/api/users");
 </script>
 
 <template>
@@ -56,11 +56,11 @@ const { data: users, status, error } = await useFetch('/api/users')
 ```vue
 <script setup>
 // useAsyncData for non-fetch async operations
-const { data: config } = await useAsyncData('config', async () => {
-  const settings = await loadSettings()
-  const features = await getFeatureFlags()
-  return { settings, features }
-})
+const { data: config } = await useAsyncData("config", async () => {
+  const settings = await loadSettings();
+  const features = await getFeatureFlags();
+  return { settings, features };
+});
 </script>
 ```
 
@@ -68,18 +68,18 @@ const { data: config } = await useAsyncData('config', async () => {
 
 ```vue
 <script setup>
-const { data, refresh, clear, status } = await useFetch('/api/users', {
+const { data, refresh, clear, status } = await useFetch("/api/users", {
   // Transform response
   transform: (response) => response.users,
   // Pick specific fields (reduces payload)
-  pick: ['id', 'name', 'email'],
+  pick: ["id", "name", "email"],
   // Default value
   default: () => [],
   // Watch for reactive dependencies
   watch: [page, filters],
   // Custom key for caching
-  key: `users-${page.value}`
-})
+  key: `users-${page.value}`,
+});
 </script>
 ```
 
@@ -88,10 +88,10 @@ const { data, refresh, clear, status } = await useFetch('/api/users', {
 ```vue
 <script setup>
 // useLazyFetch doesn't block navigation
-const { data: recommendations, status } = useLazyFetch('/api/recommendations')
+const { data: recommendations, status } = useLazyFetch("/api/recommendations");
 
 // Or with lazy option
-const { data: stats } = await useFetch('/api/stats', { lazy: true })
+const { data: stats } = await useFetch("/api/stats", { lazy: true });
 </script>
 ```
 

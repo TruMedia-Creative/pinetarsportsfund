@@ -39,12 +39,12 @@ def rag_task(example):
 
 ## Evaluator Parameters
 
-| Parameter | Access |
-| --------- | ------ |
-| `output` | Task output |
+| Parameter  | Access                  |
+| ---------- | ----------------------- |
+| `output`   | Task output             |
 | `expected` | Example expected output |
-| `input` | Example input |
-| `metadata` | Example metadata |
+| `input`    | Example input           |
+| `metadata` | Example metadata        |
 
 ## Options
 

@@ -43,6 +43,7 @@ Dictionary of action definitions keyed by unique action name.
 Key names may not contain spaces — use underscores.
 
 Each action must include:
+
 - `type` — action type identifier
 - `runAfter` — map of upstream action names → status conditions array
 - `inputs` — action-specific input configuration
@@ -54,15 +55,16 @@ and [action-patterns-connectors.md](action-patterns-connectors.md) for templates
 
 Beyond the required `type`, `runAfter`, and `inputs`, actions can include:
 
-| Property | Purpose |
-|---|---|
-| `runtimeConfiguration` | Pagination, concurrency, secure data, chunked transfer |
-| `operationOptions` | `"Sequential"` for Foreach, `"DisableAsyncPattern"` for HTTP |
-| `limit` | Timeout override (e.g. `{"timeout": "PT2H"}`) |
+| Property               | Purpose                                                      |
+| ---------------------- | ------------------------------------------------------------ |
+| `runtimeConfiguration` | Pagination, concurrency, secure data, chunked transfer       |
+| `operationOptions`     | `"Sequential"` for Foreach, `"DisableAsyncPattern"` for HTTP |
+| `limit`                | Timeout override (e.g. `{"timeout": "PT2H"}`)                |
 
 #### `runtimeConfiguration` Variants
 
 **Pagination** (SharePoint Get Items with large lists):
+
 ```json
 "runtimeConfiguration": {
   "paginationPolicy": {
@@ -70,10 +72,12 @@ Beyond the required `type`, `runAfter`, and `inputs`, actions can include:
   }
 }
 ```
+
 > Without this, Get Items silently caps at 256 results. Set `minimumItemCount`
 > to the maximum rows you expect. Required for any SharePoint list over 256 items.
 
 **Concurrency** (parallel Foreach):
+
 ```json
 "runtimeConfiguration": {
   "concurrency": {
@@ -83,6 +87,7 @@ Beyond the required `type`, `runAfter`, and `inputs`, actions can include:
 ```
 
 **Secure inputs/outputs** (mask values in run history):
+
 ```json
 "runtimeConfiguration": {
   "secureData": {
@@ -90,10 +95,12 @@ Beyond the required `type`, `runAfter`, and `inputs`, actions can include:
   }
 }
 ```
+
 > Use on actions that handle credentials, tokens, or PII. Masked values show
 > as `"<redacted>"` in the flow run history UI and API responses.
 
 **Chunked transfer** (large HTTP payloads):
+
 ```json
 "runtimeConfiguration": {
   "contentTransfer": {
@@ -101,6 +108,7 @@ Beyond the required `type`, `runAfter`, and `inputs`, actions can include:
   }
 }
 ```
+
 > Enable on HTTP actions sending or receiving bodies >100 KB (e.g. parent→child
 > flow calls with large arrays).
 
@@ -121,6 +129,7 @@ Subsequent actions declare their dependency:
 ```
 
 Multiple upstream dependencies:
+
 ```json
 "runAfter": {
   "Action_A": ["Succeeded"],
@@ -129,6 +138,7 @@ Multiple upstream dependencies:
 ```
 
 Error-handling action (runs when upstream failed):
+
 ```json
 "Log_Error": {
   "runAfter": {

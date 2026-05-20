@@ -20,13 +20,13 @@ registerPhoenix({ projectName: "my-app", autoInstrument: true });
 
 ## Essential Attributes
 
-| Attribute | Why It Matters |
-| --------- | -------------- |
-| `input.value` | User's request |
-| `output.value` | Response to evaluate |
-| `retrieval.documents` | Context for faithfulness |
-| `tool.name`, `tool.parameters` | Agent evaluation |
-| `llm.model_name` | Track by model |
+| Attribute                      | Why It Matters           |
+| ------------------------------ | ------------------------ |
+| `input.value`                  | User's request           |
+| `output.value`                 | Response to evaluate     |
+| `retrieval.documents`          | Context for faithfulness |
+| `tool.name`, `tool.parameters` | Agent evaluation         |
+| `llm.model_name`               | Track by model           |
 
 ## Custom Attributes for Evals
 

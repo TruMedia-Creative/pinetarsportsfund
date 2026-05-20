@@ -71,16 +71,16 @@ function validateQuery(query: string): boolean {
 
 ## When to Use
 
-| Use Synthetic | Use Real Data |
-| ------------- | ------------- |
-| Limited production data | Sufficient traces |
-| Testing edge cases | Validating actual behavior |
-| Pre-launch evals | Post-launch monitoring |
+| Use Synthetic           | Use Real Data              |
+| ----------------------- | -------------------------- |
+| Limited production data | Sufficient traces          |
+| Testing edge cases      | Validating actual behavior |
+| Pre-launch evals        | Post-launch monitoring     |
 
 ## Sample Sizes
 
-| Purpose | Size |
-| ------- | ---- |
-| Initial exploration | 50-100 |
-| Comprehensive eval | 100-500 |
-| Per-dimension | 10-20 per combination |
+| Purpose             | Size                  |
+| ------------------- | --------------------- |
+| Initial exploration | 50-100                |
+| Comprehensive eval  | 100-500               |
+| Per-dimension       | 10-20 per combination |

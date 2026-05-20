@@ -1,6 +1,6 @@
 ---
 name: salesforce-flow-design
-description: 'Salesforce Flow architecture decisions, flow type selection, bulk safety validation, and fault handling standards. Use this skill when designing or reviewing Record-Triggered, Screen, Autolaunched, Scheduled, or Platform Event flows to ensure correct type selection, no DML/Get Records in loops, proper fault connectors on all data-changing elements, and appropriate automation density checks before deployment.'
+description: "Salesforce Flow architecture decisions, flow type selection, bulk safety validation, and fault handling standards. Use this skill when designing or reviewing Record-Triggered, Screen, Autolaunched, Scheduled, or Platform Event flows to ensure correct type selection, no DML/Get Records in loops, proper fault connectors on all data-changing elements, and appropriate automation density checks before deployment."
 ---
 
 # Salesforce Flow Design and Validation
@@ -11,27 +11,27 @@ Apply these checks to every Flow you design, build, or review.
 
 Before designing a Flow, verify that a lighter-weight declarative option cannot solve the problem:
 
-| Requirement | Best tool |
-|---|---|
-| Calculate a field value with no side effects | Formula field |
-| Prevent a bad record save with a user message | Validation rule |
-| Sum or count child records on a parent | Roll-up Summary field |
+| Requirement                                          | Best tool                           |
+| ---------------------------------------------------- | ----------------------------------- |
+| Calculate a field value with no side effects         | Formula field                       |
+| Prevent a bad record save with a user message        | Validation rule                     |
+| Sum or count child records on a parent               | Roll-up Summary field               |
 | Complex multi-object logic, callouts, or high volume | Apex (Queueable / Batch) — not Flow |
-| Everything else | Flow ✓ |
+| Everything else                                      | Flow ✓                              |
 
 If you are building a Flow that could be replaced by a formula field or validation rule, ask the user to confirm the requirement is genuinely more complex.
 
 ## Step 2 — Select the Correct Flow Type
 
-| Use case | Flow type | Key constraint |
-|---|---|---|
+| Use case                                             | Flow type                    | Key constraint                                               |
+| ---------------------------------------------------- | ---------------------------- | ------------------------------------------------------------ |
 | Update a field on the same record before it is saved | Before-save Record-Triggered | Cannot send emails, make callouts, or change related records |
-| Create/update related records, emails, callouts | After-save Record-Triggered | Runs after commit — avoid recursion traps |
-| Guide a user through a multi-step UI process | Screen Flow | Cannot be triggered by a record event automatically |
-| Reusable background logic called from another Flow | Autolaunched (Subflow) | Input/output variables define the contract |
-| Logic invoked from Apex `@InvocableMethod` | Autolaunched (Invocable) | Must declare input/output variables |
-| Time-based batch processing | Scheduled Flow | Runs in batch context — respect governor limits |
-| Respond to events (Platform Events / CDC) | Platform Event–Triggered | Runs asynchronously — eventual consistency |
+| Create/update related records, emails, callouts      | After-save Record-Triggered  | Runs after commit — avoid recursion traps                    |
+| Guide a user through a multi-step UI process         | Screen Flow                  | Cannot be triggered by a record event automatically          |
+| Reusable background logic called from another Flow   | Autolaunched (Subflow)       | Input/output variables define the contract                   |
+| Logic invoked from Apex `@InvocableMethod`           | Autolaunched (Invocable)     | Must declare input/output variables                          |
+| Time-based batch processing                          | Scheduled Flow               | Runs in batch context — respect governor limits              |
+| Respond to events (Platform Events / CDC)            | Platform Event–Triggered     | Runs asynchronously — eventual consistency                   |
 
 **Decision rule**: choose before-save when you only need to change the triggering record's own fields. Move to after-save the moment you need to touch related records, send emails, or make callouts.
 
@@ -67,6 +67,7 @@ Get Records — collect all records in one query
 ```
 
 ### Transform vs Loop
+
 When the goal is reshaping a collection (e.g. mapping field values from one object to another), use the **Transform** element instead of a Loop + Assignment pattern. Transform is bulk-safe by design and produces cleaner Flow graphs.
 
 ## Step 4 — Fault Path Requirements
@@ -74,6 +75,7 @@ When the goal is reshaping a collection (e.g. mapping field values from one obje
 Every element that can fail at runtime must have a fault connector. Flows without fault paths surface raw system errors to users.
 
 ### Elements That Require Fault Connectors
+
 - Create Records
 - Update Records
 - Delete Records
@@ -84,6 +86,7 @@ Every element that can fail at runtime must have a fault connector. Flows withou
 - Subflow (if the subflow can throw a fault)
 
 ### Fault Handler Pattern
+
 ```
 Fault connector → Log Error (Create Records on a logging object or fire a Platform Event)
                → Screen element with user-friendly message (Screen Flows)
@@ -124,12 +127,12 @@ Deploy as Draft    →   Test with 1 record   →   Test with 200+ records   →
 
 ## Quick Reference — Flow Anti-Patterns Summary
 
-| Anti-pattern | Risk | Fix |
-|---|---|---|
-| DML element inside a Loop | Governor limit exception | Move DML outside the loop |
-| Get Records inside a Loop | SOQL governor limit exception | Query before the loop |
-| No fault connector on DML/email/callout element | Unhandled exception surfaced to user | Add fault path to every such element |
-| Updating the triggering record in an after-save flow with no recursion guard | Infinite trigger loops | Add an entry condition or recursion guard variable |
-| Looping directly on `$Record` collection | Incorrect behaviour at scale | Assign to a collection variable first, then loop |
-| Process Builder still active alongside a new Flow | Double-execution, unexpected ordering | Deactivate Process Builder before activating the Flow |
-| Screen Flow with no End element on all branches | Runtime error or stuck user | Ensure every branch resolves to an End element |
+| Anti-pattern                                                                 | Risk                                  | Fix                                                   |
+| ---------------------------------------------------------------------------- | ------------------------------------- | ----------------------------------------------------- |
+| DML element inside a Loop                                                    | Governor limit exception              | Move DML outside the loop                             |
+| Get Records inside a Loop                                                    | SOQL governor limit exception         | Query before the loop                                 |
+| No fault connector on DML/email/callout element                              | Unhandled exception surfaced to user  | Add fault path to every such element                  |
+| Updating the triggering record in an after-save flow with no recursion guard | Infinite trigger loops                | Add an entry condition or recursion guard variable    |
+| Looping directly on `$Record` collection                                     | Incorrect behaviour at scale          | Assign to a collection variable first, then loop      |
+| Process Builder still active alongside a new Flow                            | Double-execution, unexpected ordering | Deactivate Process Builder before activating the Flow |
+| Screen Flow with no End element on all branches                              | Runtime error or stuck user           | Ensure every branch resolves to an End element        |

@@ -4,10 +4,10 @@ Setup Phoenix tracing in TypeScript/JavaScript with `@arizeai/phoenix-otel`.
 
 ## Metadata
 
-| Attribute | Value |
-|-----------|-------|
-| Priority | Critical - required for all tracing |
-| Setup Time | <5 min |
+| Attribute  | Value                               |
+| ---------- | ----------------------------------- |
+| Priority   | Critical - required for all tracing |
+| Setup Time | <5 min                              |
 
 ## Quick Start
 
@@ -31,7 +31,7 @@ register({
   projectName: "my-app",
   url: "http://localhost:6006",
   apiKey: process.env.PHOENIX_API_KEY,
-  batch: true
+  batch: true,
 });
 ```
 
@@ -108,12 +108,12 @@ const provider = register({
 
 async function main() {
   await doWork();
-  await provider.shutdown();  // Flush spans before exit
+  await provider.shutdown(); // Flush spans before exit
 }
 
 main().catch(async (error) => {
   console.error(error);
-  await provider.shutdown();  // Flush on error too
+  await provider.shutdown(); // Flush on error too
   process.exit(1);
 });
 ```
@@ -150,16 +150,19 @@ register({
 ## Troubleshooting
 
 **No traces:**
+
 - Verify `PHOENIX_COLLECTOR_ENDPOINT` is correct
 - Set `PHOENIX_API_KEY` for Phoenix Cloud
 - For ESM: Ensure `manuallyInstrument()` is called
 - **With `batch: true`:** Call `provider.shutdown()` before exit to flush queued spans (see Flushing Spans section)
 
 **Traces missing:**
+
 - With `batch: true`: Call `await provider.shutdown()` before process exit to flush queued spans
 - Alternative: Set `batch: false` for immediate export (no shutdown needed)
 
 **Missing attributes:**
+
 - Check instrumentation is registered (ESM requires manual setup)
 - See `instrumentation-auto-typescript.md`
 

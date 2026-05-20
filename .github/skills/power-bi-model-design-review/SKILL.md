@@ -1,6 +1,6 @@
 ---
 name: power-bi-model-design-review
-description: 'Comprehensive Power BI data model design review prompt for evaluating model architecture, relationships, and optimization opportunities.'
+description: "Comprehensive Power BI data model design review prompt for evaluating model architecture, relationships, and optimization opportunities."
 ---
 
 # Power BI Data Model Design Review
@@ -14,10 +14,11 @@ You are a Power BI data modeling expert conducting comprehensive design reviews.
 When reviewing a Power BI data model, conduct analysis across these key dimensions:
 
 #### 1. **Schema Architecture Review**
+
 ```
 Star Schema Compliance:
 □ Clear separation of fact and dimension tables
-□ Proper grain consistency within fact tables  
+□ Proper grain consistency within fact tables
 □ Dimension tables contain descriptive attributes
 □ Minimal snowflaking (justified when present)
 □ Appropriate use of bridge tables for many-to-many
@@ -31,6 +32,7 @@ Table Design Quality:
 ```
 
 #### 2. **Relationship Design Evaluation**
+
 ```
 Relationship Quality Assessment:
 □ Correct cardinality settings (1:*, *:*, 1:1)
@@ -48,6 +50,7 @@ Performance Considerations:
 ```
 
 #### 3. **Storage Mode Strategy Review**
+
 ```
 Storage Mode Optimization:
 □ Import mode used appropriately for small-medium datasets
@@ -68,6 +71,7 @@ Performance Alignment:
 ### **Phase 1: Model Architecture Analysis**
 
 #### A. **Schema Design Assessment**
+
 ```
 Evaluate Model Structure:
 
@@ -78,7 +82,7 @@ Fact Table Analysis:
 - Size and growth projections
 - Historical data management
 
-Dimension Table Analysis:  
+Dimension Table Analysis:
 - Attribute completeness and quality
 - Hierarchy design and implementation
 - Slowly changing dimension handling
@@ -93,6 +97,7 @@ Relationship Network Analysis:
 ```
 
 #### B. **Data Quality and Integrity Review**
+
 ```
 Data Quality Assessment:
 
@@ -118,6 +123,7 @@ Accuracy:
 ### **Phase 2: Performance and Scalability Review**
 
 #### A. **Model Size and Efficiency Analysis**
+
 ```
 Size Optimization Assessment:
 
@@ -141,6 +147,7 @@ Scalability Considerations:
 ```
 
 #### B. **Query Performance Analysis**
+
 ```
 Performance Pattern Review:
 
@@ -167,6 +174,7 @@ Indexing and Aggregation:
 ### **Phase 3: Maintainability and Governance Review**
 
 #### A. **Model Maintainability Assessment**
+
 ```
 Maintainability Factors:
 
@@ -192,6 +200,7 @@ Change Management:
 ```
 
 #### B. **Security and Compliance Review**
+
 ```
 Security Implementation:
 
@@ -213,6 +222,7 @@ Data Protection:
 ## Review Output Structure
 
 ### **Executive Summary Template**
+
 ```
 Data Model Review Summary
 
@@ -224,7 +234,7 @@ Model Overview:
 
 Key Findings:
 - Critical issues requiring immediate attention
-- Performance optimization opportunities  
+- Performance optimization opportunities
 - Best practice compliance assessment
 - Security and governance status
 
@@ -235,13 +245,14 @@ Priority Recommendations:
 
 Implementation Roadmap:
 - Quick wins (1-2 weeks)
-- Short-term improvements (1-3 months)  
+- Short-term improvements (1-3 months)
 - Long-term strategic enhancements (3-12 months)
 ```
 
 ### **Detailed Review Report**
 
 #### **Schema Architecture Section**
+
 ```
 1. Table Design Analysis
    □ Fact table evaluation and recommendations
@@ -250,7 +261,7 @@ Implementation Roadmap:
    □ Naming convention compliance
    □ Data type optimization suggestions
 
-2. Performance Architecture  
+2. Performance Architecture
    □ Storage mode strategy evaluation
    □ Size optimization recommendations
    □ Query performance enhancement opportunities
@@ -266,6 +277,7 @@ Implementation Roadmap:
 ```
 
 #### **Specific Recommendations**
+
 ```
 For Each Issue Identified:
 
@@ -292,6 +304,7 @@ Implementation Guidance:
 ## Review Checklist Templates
 
 ### **Quick Assessment Checklist** (30-minute review)
+
 ```
 □ Model follows star schema principles
 □ Appropriate storage modes selected
@@ -306,10 +319,11 @@ Implementation Guidance:
 ```
 
 ### **Comprehensive Review Checklist** (4-8 hour review)
+
 ```
 Architecture & Design:
 □ Complete schema architecture analysis
-□ Detailed relationship design review  
+□ Detailed relationship design review
 □ Storage mode strategy evaluation
 □ Performance optimization assessment
 □ Scalability planning review
@@ -339,11 +353,12 @@ Governance & Security:
 ## Specialized Review Types
 
 ### **Pre-Production Review**
+
 ```
 Focus Areas:
 - Functionality completeness
 - Performance validation
-- Security implementation  
+- Security implementation
 - User acceptance criteria
 - Go-live readiness assessment
 
@@ -356,6 +371,7 @@ Deliverables:
 ```
 
 ### **Performance Optimization Review**
+
 ```
 Focus Areas:
 - Performance bottleneck identification
@@ -373,6 +389,7 @@ Deliverables:
 ```
 
 ### **Modernization Assessment**
+
 ```
 Focus Areas:
 - Current state vs. best practices gap analysis
@@ -393,6 +410,7 @@ Deliverables:
 
 **Usage Instructions:**
 To request a data model review, provide:
+
 - Model description and business purpose
 - Current architecture overview (tables, relationships)
 - Performance requirements and constraints

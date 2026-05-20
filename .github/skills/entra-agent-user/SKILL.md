@@ -1,6 +1,6 @@
 ---
 name: entra-agent-user
-description: 'Create Agent Users in Microsoft Entra ID from Agent Identities, enabling AI agents to act as digital workers with user identity capabilities in Microsoft 365 and Azure environments.'
+description: "Create Agent Users in Microsoft Entra ID from Agent Identities, enabling AI agents to act as digital workers with user identity capabilities in Microsoft 365 and Azure environments."
 ---
 
 # SKILL: Creating Agent Users in Microsoft Entra Agent ID
@@ -39,10 +39,10 @@ Agent Identity Blueprint (application template)
     └── Agent Identity Blueprint Principal (service principal in tenant)
 ```
 
-| Component | Type | Token Claim | Purpose |
-|---|---|---|---|
-| Agent Identity | Service Principal | `idtyp=app` | Backend/API operations |
-| Agent User | User (`agentUser`) | `idtyp=user` | Act as a digital worker in M365 |
+| Component      | Type               | Token Claim  | Purpose                         |
+| -------------- | ------------------ | ------------ | ------------------------------- |
+| Agent Identity | Service Principal  | `idtyp=app`  | Backend/API operations          |
+| Agent User     | User (`agentUser`) | `idtyp=user` | Act as a digital worker in M365 |
 
 ---
 
@@ -56,6 +56,7 @@ Authorization: Bearer <token>
 ```
 
 Verify the response contains:
+
 ```json
 {
   "@odata.type": "#microsoft.graph.agentIdentity",
@@ -96,13 +97,13 @@ Authorization: Bearer <token>
 
 ### Required Properties
 
-| Property | Type | Description |
-|---|---|---|
-| `accountEnabled` | Boolean | `true` to enable the account |
-| `displayName` | String | Human-friendly name |
-| `mailNickname` | String | Mail alias (no spaces/special chars) |
-| `userPrincipalName` | String | UPN — must be unique in the tenant (`alias@verified-domain`) |
-| `identityParentId` | String | Object ID of the parent agent identity |
+| Property            | Type    | Description                                                  |
+| ------------------- | ------- | ------------------------------------------------------------ |
+| `accountEnabled`    | Boolean | `true` to enable the account                                 |
+| `displayName`       | String  | Human-friendly name                                          |
+| `mailNickname`      | String  | Mail alias (no spaces/special chars)                         |
+| `userPrincipalName` | String  | UPN — must be unique in the tenant (`alias@verified-domain`) |
+| `identityParentId`  | String  | Object ID of the parent agent identity                       |
 
 ### PowerShell
 
@@ -218,13 +219,13 @@ Invoke-MgGraphRequest -Method POST `
 
 ## Provisioning Times
 
-| Service | Estimated Time |
-|---|---|
-| Exchange mailbox | 5–30 minutes |
-| Teams availability | 15 min – 24 hours |
+| Service                   | Estimated Time    |
+| ------------------------- | ----------------- |
+| Exchange mailbox          | 5–30 minutes      |
+| Teams availability        | 15 min – 24 hours |
 | Org chart / People search | Up to 24–48 hours |
-| SharePoint / OneDrive | 5–30 minutes |
-| Global Address List | Up to 24 hours |
+| SharePoint / OneDrive     | 5–30 minutes      |
+| Global Address List       | Up to 24 hours    |
 
 ---
 
@@ -250,12 +251,12 @@ Invoke-MgGraphRequest -Method POST `
 
 ## Troubleshooting
 
-| Error | Cause | Fix |
-|---|---|---|
-| `Agent user IdentityParent does not exist` | `identityParentId` points to a non-existent or non-agent-identity object | Verify the ID is an `agentIdentity` service principal, not a regular app |
-| `400 Bad Request` (identityParentId already linked) | The agent identity already has an agent user | Each agent identity supports only one agent user |
-| `409 Conflict` on UPN | The `userPrincipalName` is already taken | Use a unique UPN |
-| License assignment fails | Usage location not set | Set `usageLocation` before assigning licenses |
+| Error                                               | Cause                                                                    | Fix                                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| `Agent user IdentityParent does not exist`          | `identityParentId` points to a non-existent or non-agent-identity object | Verify the ID is an `agentIdentity` service principal, not a regular app |
+| `400 Bad Request` (identityParentId already linked) | The agent identity already has an agent user                             | Each agent identity supports only one agent user                         |
+| `409 Conflict` on UPN                               | The `userPrincipalName` is already taken                                 | Use a unique UPN                                                         |
+| License assignment fails                            | Usage location not set                                                   | Set `usageLocation` before assigning licenses                            |
 
 ---
 

@@ -26,11 +26,9 @@ RAM is the most critical resource for latency. If working set exceeds available 
 - Set `optimizer_cpu_budget` to limit background optimization CPUs
 - Schedule indexing: set high `indexing_threshold` during peak hours
 
-
 ## Vertical Scaling for Latency
 
 More RAM and faster CPU directly reduce latency. See [Vertical Scaling](../scaling-data-volume/vertical-scaling/SKILL.md) for node sizing guidelines.
-
 
 ## What NOT to Do
 

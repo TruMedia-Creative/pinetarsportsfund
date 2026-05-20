@@ -1,6 +1,6 @@
 ---
 name: nano-banana-pro-openrouter
-description: 'Generate or edit images via OpenRouter with the Gemini 3 Pro Image model. Use for prompt-only image generation, image edits, and multi-image compositing; supports 1K/2K/4K output.'
+description: "Generate or edit images via OpenRouter with the Gemini 3 Pro Image model. Use for prompt-only image generation, image edits, and multi-image compositing; supports 1K/2K/4K output."
 metadata:
   emoji: 🍌
   requires:
@@ -10,7 +10,6 @@ metadata:
       - OPENROUTER_API_KEY
   primaryEnv: OPENROUTER_API_KEY
 ---
-
 
 # Nano Banana Pro OpenRouter
 
@@ -65,10 +64,10 @@ The skill reads an optional system prompt from `assets/SYSTEM_TEMPLATE`. This al
 
 If the script exits non-zero, check stderr against these common blockers:
 
-| Symptom | Resolution |
-|---------|------------|
-| `OPENROUTER_API_KEY is not set` | Ask the user to set it. PowerShell: `$env:OPENROUTER_API_KEY = "sk-or-..."` / bash: `export OPENROUTER_API_KEY="sk-or-..."` |
+| Symptom                                   | Resolution                                                                                                                                                                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OPENROUTER_API_KEY is not set`           | Ask the user to set it. PowerShell: `$env:OPENROUTER_API_KEY = "sk-or-..."` / bash: `export OPENROUTER_API_KEY="sk-or-..."`                                                                                               |
 | `uv: command not found` or not recognized | macOS/Linux: <code>curl -LsSf https://astral.sh/uv/install.sh &#124; sh</code>. Windows: <code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 &#124; iex"</code>. Then restart the terminal. |
-| `AuthenticationError` / HTTP 401 | Key is invalid or has no credits. Verify at <https://openrouter.ai/settings/keys>. |
+| `AuthenticationError` / HTTP 401          | Key is invalid or has no credits. Verify at <https://openrouter.ai/settings/keys>.                                                                                                                                        |
 
 For transient errors (HTTP 429, network timeouts), retry once after 30 seconds. Do not retry the same error more than twice — surface the issue to the user instead.

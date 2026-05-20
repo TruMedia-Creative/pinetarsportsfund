@@ -27,8 +27,8 @@ const { datasetId } = await createDataset({
 
 ```typescript
 interface DatasetExample {
-  input: Record<string, unknown>;    // Task input
-  output?: Record<string, unknown>;  // Expected output
+  input: Record<string, unknown>; // Task input
+  output?: Record<string, unknown>; // Expected output
   metadata?: Record<string, unknown>; // Additional context
 }
 ```

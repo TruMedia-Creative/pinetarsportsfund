@@ -21,7 +21,7 @@ Generate a complete quality system tailored to a specific codebase. Unlike test 
 
 ## Why This Exists
 
-Most software projects have tests, but few have a quality *system*. Tests check whether code works. A quality system answers harder questions: what does "working correctly" mean for this specific project? What are the ways it could fail that wouldn't be caught by tests? What should every developer (human or AI) know before touching this code?
+Most software projects have tests, but few have a quality _system_. Tests check whether code works. A quality system answers harder questions: what does "working correctly" mean for this specific project? What are the ways it could fail that wouldn't be caught by tests? What should every developer (human or AI) know before touching this code?
 
 Without a quality playbook, every new contributor (and every new AI session) starts from scratch — guessing at what matters, writing tests that look good but don't catch real bugs, and rediscovering failure modes that were already found and fixed months ago. A quality playbook makes the bar explicit, persistent, and inherited.
 
@@ -29,14 +29,14 @@ Without a quality playbook, every new contributor (and every new AI session) sta
 
 Six files that together form a repeatable quality system:
 
-| File | Purpose | Why It Matters | Executes Code? |
-|------|---------|----------------|----------------|
-| `quality/QUALITY.md` | Quality constitution — coverage targets, fitness-to-purpose scenarios, theater prevention | Every AI session reads this first. It tells them what "good enough" means so they don't guess. | No |
-| `quality/test_functional.*` | Automated functional tests derived from specifications | The safety net. Tests tied to what the spec says should happen, not just what the code does. Use the project's language: `test_functional.py` (Python), `FunctionalSpec.scala` (Scala), `functional.test.ts` (TypeScript), `FunctionalTest.java` (Java), etc. | **Yes** |
-| `quality/RUN_CODE_REVIEW.md` | Code review protocol with guardrails that prevent hallucinated findings | AI code reviews without guardrails produce confident but wrong findings. The guardrails (line numbers, grep before claiming, read bodies) often improve accuracy. | No |
-| `quality/RUN_INTEGRATION_TESTS.md` | Integration test protocol — end-to-end pipeline across all variants | Unit tests pass, but does the system actually work end-to-end with real external services? | **Yes** |
-| `quality/RUN_SPEC_AUDIT.md` | Council of Three multi-model spec audit protocol | No single AI model catches everything. Three independent models with different blind spots catch defects that any one alone would miss. | No |
-| `AGENTS.md` | Bootstrap context for any AI session working on this project | The "read this first" file. Without it, AI sessions waste their first hour figuring out what's going on. | No |
+| File                               | Purpose                                                                                   | Why It Matters                                                                                                                                                                                                                                                | Executes Code? |
+| ---------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| `quality/QUALITY.md`               | Quality constitution — coverage targets, fitness-to-purpose scenarios, theater prevention | Every AI session reads this first. It tells them what "good enough" means so they don't guess.                                                                                                                                                                | No             |
+| `quality/test_functional.*`        | Automated functional tests derived from specifications                                    | The safety net. Tests tied to what the spec says should happen, not just what the code does. Use the project's language: `test_functional.py` (Python), `FunctionalSpec.scala` (Scala), `functional.test.ts` (TypeScript), `FunctionalTest.java` (Java), etc. | **Yes**        |
+| `quality/RUN_CODE_REVIEW.md`       | Code review protocol with guardrails that prevent hallucinated findings                   | AI code reviews without guardrails produce confident but wrong findings. The guardrails (line numbers, grep before claiming, read bodies) often improve accuracy.                                                                                             | No             |
+| `quality/RUN_INTEGRATION_TESTS.md` | Integration test protocol — end-to-end pipeline across all variants                       | Unit tests pass, but does the system actually work end-to-end with real external services?                                                                                                                                                                    | **Yes**        |
+| `quality/RUN_SPEC_AUDIT.md`        | Council of Three multi-model spec audit protocol                                          | No single AI model catches everything. Three independent models with different blind spots catch defects that any one alone would miss.                                                                                                                       | No             |
+| `AGENTS.md`                        | Bootstrap context for any AI session working on this project                              | The "read this first" file. Without it, AI sessions waste their first hour figuring out what's going on.                                                                                                                                                      | No             |
 
 Plus output directories: `quality/code_reviews/`, `quality/spec_audits/`, `quality/results/`.
 
@@ -104,7 +104,7 @@ Read the README, existing documentation, and build config (`pyproject.toml` / `p
 2. **README and inline documentation** — many projects embed requirements in their README, API docs, or code comments.
 3. **Existing test suite** — tests are implicit specifications. If a test asserts `process(x) == y`, that's a requirement.
 4. **Type signatures and validation rules** — schemas, type annotations, and validators define what the system accepts and rejects.
-5. **Infer from code behavior** — as a last resort, read the code and infer what it's supposed to do. Mark these as *inferred requirements* in QUALITY.md and flag them for user confirmation.
+5. **Infer from code behavior** — as a last resort, read the code and infer what it's supposed to do. Mark these as _inferred requirements_ in QUALITY.md and flag them for user confirmation.
 
 When working from non-formal requirements, label each scenario and test with a **requirement tag** that includes a confidence tier and source:
 
@@ -184,12 +184,14 @@ If the project has a validation layer (Pydantic models in Python, JSON Schema, T
 Every project has a different failure profile. This step uses **two sources** — not just code exploration, but your training knowledge of what goes wrong in similar systems.
 
 **From code exploration**, ask:
+
 - What does "silently wrong" look like for this project?
 - What external dependencies can change without warning?
 - What looks simple but is actually complex?
 - Where do cross-cutting concerns hide?
 
 **From domain knowledge**, ask:
+
 - "What goes wrong in systems like this?" — If it's a batch processor, think about crash recovery, idempotency, silent data loss, state corruption. If it's a web app, think about auth edge cases, race conditions, input validation bypasses. If it handles randomness or statistics, think about seeding, correlation, distribution bias.
 - "What produces correct-looking output that is actually wrong?" — This is the most dangerous class of bug: output that passes all checks but is subtly corrupted.
 - "What happens at 10x scale that doesn't happen at 1x?" — Chunk boundaries, rate limits, timeout cascading, memory pressure.
@@ -213,7 +215,7 @@ Now write the six files. For each one, follow the structure below and consult th
 
 The constitution has six sections:
 
-1. **Purpose** — What quality means for this project, grounded in Deming (built in, not inspected), Juran (fitness for use), Crosby (quality is free). Apply these specifically: what does "fitness for use" mean for *this system*? Not "tests pass" but the actual operational requirement.
+1. **Purpose** — What quality means for this project, grounded in Deming (built in, not inspected), Juran (fitness for use), Crosby (quality is free). Apply these specifically: what does "fitness for use" mean for _this system_? Not "tests pass" but the actual operational requirement.
 2. **Coverage Targets** — Table mapping each subsystem to a target with rationale referencing real risks. Every target must have a "why" grounded in a specific scenario — without it, a future AI session will argue the target down.
 3. **Coverage Theater Prevention** — Project-specific examples of fake tests, derived from what you saw during exploration. (Why: AI-generated tests often pad coverage numbers without catching real bugs — asserting that imports worked, that dicts have keys, or that mocks return what they were configured to return. Calling this out explicitly stops the pattern.)
 4. **Fitness-to-Purpose Scenarios** — The heart of it. Each scenario documents a realistic failure mode with code references and verification method. Aim for 2+ scenarios per core module — typically 8–10 total for a medium project, fewer for small projects, more for complex ones. Quality matters more than count: a scenario that precisely captures a real architectural vulnerability is worth more than three generic ones. (Why: Coverage percentages tell you how much code ran, not whether it ran correctly. A system can have 95% coverage and still lose records silently. Fitness scenarios define what "working correctly" actually means in concrete terms that no one can argue down.)
@@ -235,6 +237,7 @@ Organize the tests into three logical groups (classes, describe blocks, modules,
 - **Boundaries and edge cases** — One test per defensive pattern from Step 5.
 
 Key rules:
+
 - **Match the existing import pattern exactly.** Read how existing tests import project modules and do the same thing. Getting this wrong means every test fails.
 - **Read every function's signature before calling it.** Read the actual `def` line — parameter names, types, defaults. Read real data files from the project to understand data shapes. Do not guess at function parameters or fixture structures.
 - **No placeholder tests.** Every test must import and call actual project code. If the body is `pass` or the assertion is trivial (`assert isinstance(x, list)`), delete it. A test that doesn't exercise project code inflates the count and creates false confidence.
@@ -348,6 +351,7 @@ Here's what I generated:
 Adapt the table to what you actually generated — the file names, metrics, and confidence levels will vary by project. The confidence column is the most important: it tells the user where to focus their attention.
 
 **Confidence levels:**
+
 - **High** — Derived directly from code, specs, or schemas. Unlikely to need revision.
 - **Medium** — Reasonable inference, but could be wrong. Benefits from user input.
 - **Low** — Best guess. Definitely needs user input to be useful.
@@ -468,12 +472,12 @@ Examine existing test files to understand how they set up test data. Whatever pa
 
 Read these as you work through each phase:
 
-| File | When to Read | Contains |
-|------|-------------|----------|
-| `references/defensive_patterns.md` | Step 5 (finding skeletons) | Grep patterns, how to convert findings to scenarios |
-| `references/schema_mapping.md` | Step 5b (schema types) | Field mapping format, mutation validity rules |
-| `references/constitution.md` | File 1 (QUALITY.md) | Full template with section-by-section guidance |
-| `references/functional_tests.md` | File 2 (functional tests) | Test structure, anti-patterns, cross-variant strategy |
-| `references/review_protocols.md` | Files 3–4 (code review, integration) | Templates for both protocols |
-| `references/spec_audit.md` | File 5 (Council of Three) | Full audit protocol, triage process, fix execution |
-| `references/verification.md` | Phase 3 (verify) | Complete self-check checklist with all 13 benchmarks |
+| File                               | When to Read                         | Contains                                              |
+| ---------------------------------- | ------------------------------------ | ----------------------------------------------------- |
+| `references/defensive_patterns.md` | Step 5 (finding skeletons)           | Grep patterns, how to convert findings to scenarios   |
+| `references/schema_mapping.md`     | Step 5b (schema types)               | Field mapping format, mutation validity rules         |
+| `references/constitution.md`       | File 1 (QUALITY.md)                  | Full template with section-by-section guidance        |
+| `references/functional_tests.md`   | File 2 (functional tests)            | Test structure, anti-patterns, cross-variant strategy |
+| `references/review_protocols.md`   | Files 3–4 (code review, integration) | Templates for both protocols                          |
+| `references/spec_audit.md`         | File 5 (Council of Three)            | Full audit protocol, triage process, fix execution    |
+| `references/verification.md`       | Phase 3 (verify)                     | Complete self-check checklist with all 13 benchmarks  |

@@ -7,11 +7,13 @@ Oracle automatically converts empty strings (`''`) to `NULL` in VARCHAR2 columns
 ## Behavior Comparison
 
 **Oracle:**
+
 - Empty string (`''`) is **always** treated as `NULL` in VARCHAR2 columns
 - `WHERE column = ''` never matches rows; use `WHERE column IS NULL`
 - Cannot distinguish between explicit empty string and `NULL`
 
 **PostgreSQL:**
+
 - Empty string (`''`) and `NULL` are **distinct** values
 - `WHERE column = ''` matches empty strings
 - `WHERE column IS NULL` matches `NULL` values
@@ -23,7 +25,7 @@ Oracle automatically converts empty strings (`''`) to `NULL` in VARCHAR2 columns
 INSERT INTO table (varchar_column) VALUES ('');
 SELECT * FROM table WHERE varchar_column IS NULL;  -- Returns the row
 
--- PostgreSQL behavior  
+-- PostgreSQL behavior
 INSERT INTO table (varchar_column) VALUES ('');
 SELECT * FROM table WHERE varchar_column IS NULL;  -- Returns nothing
 SELECT * FROM table WHERE varchar_column = '';     -- Returns the row
@@ -32,6 +34,7 @@ SELECT * FROM table WHERE varchar_column = '';     -- Returns the row
 ## Migration Actions
 
 ### 1. Stored Procedures
+
 Update logic that assumes empty strings convert to `NULL`:
 
 ```sql
@@ -43,6 +46,7 @@ column = param
 ```
 
 ### 2. Application Code
+
 Review code that checks for `NULL` and ensure it handles empty strings appropriately:
 
 ```csharp
@@ -54,6 +58,7 @@ if (string.IsNullOrEmpty(value)) { }
 ```
 
 ### 3. Tests
+
 Update assertions to be compatible with both behaviors:
 
 ```csharp
@@ -63,7 +68,9 @@ Assert.IsTrue(string.IsNullOrEmpty(value));
 ```
 
 ### 4. Data Migration
+
 Decide whether to:
+
 - Convert existing `NULL` values to empty strings
 - Convert empty strings to `NULL` using `NULLIF(column, '')`
 - Leave values as-is and update application logic

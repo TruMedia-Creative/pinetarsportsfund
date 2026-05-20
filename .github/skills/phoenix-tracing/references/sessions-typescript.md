@@ -5,6 +5,7 @@ Track multi-turn conversations by grouping traces with session IDs. **Use `withS
 ## Core Concept
 
 **Session Pattern:**
+
 1. Generate a unique `session.id` once at application startup
 2. Export SESSION_ID, import `withSpan` where needed
 3. Use `withSpan` to create a parent CHAIN span with `session.id` for each interaction
@@ -47,7 +48,7 @@ const handleInteraction = withSpan(
     name: "cli.interaction",
     kind: "CHAIN",
     attributes: { "session.id": SESSION_ID },
-  }
+  },
 );
 
 // Call it
@@ -65,7 +66,7 @@ const processQuery = withSpan(
     name: "process.query",
     kind: "CHAIN",
     attributes: { "session.id": SESSION_ID },
-  }
+  },
 );
 
 await processQuery("What is 2+2?");
@@ -74,11 +75,13 @@ await processQuery("What is 2+2?");
 ## Key Points
 
 ### Session ID Scope
+
 - **CLI/Desktop Apps**: Generate once at process startup
 - **Web Servers**: Generate per-user session (e.g., on login, store in session storage)
 - **Stateless APIs**: Accept session.id as a parameter from client
 
 ### Span Hierarchy
+
 ```
 cli.interaction (CHAIN) ← session.id here
 ├── ai.generateText (AGENT)
@@ -138,16 +141,17 @@ const handleWithContext = withSpan(
     kind: "CHAIN",
     attributes: {
       "session.id": SESSION_ID,
-      "user.id": userId,              // Track user
-      "metadata.environment": "prod",  // Custom metadata
+      "user.id": userId, // Track user
+      "metadata.environment": "prod", // Custom metadata
     },
-  }
+  },
 );
 ```
 
 ## Anti-Pattern: Don't Create Wrappers
 
 ❌ **Don't do this:**
+
 ```typescript
 // Unnecessary wrapper
 export function withSessionTracking(fn) {
@@ -156,13 +160,14 @@ export function withSessionTracking(fn) {
 ```
 
 ✅ **Do this instead:**
+
 ```typescript
 // Use withSpan directly
 import { withSpan } from "@arizeai/openinference-core";
 import { SESSION_ID } from "./instrumentation";
 
 const handler = withSpan(fn, {
-  attributes: { "session.id": SESSION_ID }
+  attributes: { "session.id": SESSION_ID },
 });
 ```
 
@@ -178,16 +183,18 @@ await context.with(
   setSession(context.active(), { sessionId: "user_123_conv_456" }),
   async () => {
     const response = await llm.invoke(prompt);
-  }
+  },
 );
 ```
 
 **Use Context API when:**
+
 - Building web servers with middleware chains
 - Session ID needs to flow through many async boundaries
 - You don't control the call stack (e.g., framework-provided handlers)
 
 **Use withSpan when:**
+
 - Building CLI apps or scripts
 - You control the function call points
 - Simpler, more explicit code is preferred

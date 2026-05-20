@@ -19,7 +19,6 @@ It is normal for the OS page cache to occupy all available RAM, but if resident 
 
 <!-- ToDo: Talk about memory usage of each components once API is available -->
 
-
 ## How much memory is needed for Qdrant?
 
 Optimal memory usage depends on the use case.
@@ -33,7 +32,6 @@ Payload indexes and HNSW graph also require memory, along with vectors themselve
 Additionally, Qdrant requires some extra memory for optimizations. During optimization, optimized segments are fully loaded into RAM, so it is important to leave enough headroom.
 The larger `max_segment_size` is, the more headroom is needed.
 
-
 ### When to put HNSW index on disk
 
 Putting frequently used components (such as HNSW index) on disk might cause significant performance degradation.
@@ -42,7 +40,6 @@ There are some scenarios, however, when it can be a good option:
 - Deployments with low latency disks - local NVMe or similar.
 - Multi-tenant deployments, where only a subset of tenants is frequently accessed, so that only a fraction of data & index is loaded in RAM at a time.
 - For deployments with [inline storage](https://search.qdrant.tech/md/documentation/operations/optimize/?s=inline-storage-in-hnsw-index) enabled.
-
 
 ## How to minimize memory footprint
 
@@ -64,4 +61,3 @@ Here are the main techniques to achieve that:
 - Consider storing Sparse Vectors and text payload on disk, as they are usually more disk-friendly than dense vectors.
 - Configure payload indexes to be stored on disk [docs](https://search.qdrant.tech/md/documentation/manage-data/indexing/?s=on-disk-payload-index)
 - Configure sparse vectors to be stored on disk [docs](https://search.qdrant.tech/md/documentation/manage-data/indexing/?s=sparse-vector-index)
-

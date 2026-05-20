@@ -25,7 +25,7 @@ The conversion script or tool should handle single files, batch conversions, and
 
 For more see [basic-markdown-to-html.md](references/basic-markdown-to-html.md)
 
-```text
+````text
     ```markdown
     # Level 1
     ## Level 2
@@ -98,13 +98,13 @@ For more see [basic-markdown-to-html.md](references/basic-markdown-to-html.md)
      console.log(simpleMath(one, two));</code>
     </pre>
     ```
-```
+````
 
 ### Code Block Conversions
 
 For more see [code-blocks-to-html.md](references/code-blocks-to-html.md)
 
-```text
+````text
 
     ```markdown
     your code here
@@ -145,13 +145,13 @@ For more see [code-blocks-to-html.md](references/code-blocks-to-html.md)
       ```
       </code></pre>
     ```
-```
+````
 
 ### Collapsed Section Conversions
 
 For more see [collapsed-sections-to-html.md](references/collapsed-sections-to-html.md)
 
-```text
+````text
     ```markdown
     <details>
     <summary>More info</summary>
@@ -187,13 +187,13 @@ For more see [collapsed-sections-to-html.md](references/collapsed-sections-to-ht
 
     </details>
     ```
-```
+````
 
 ### Mathematical Expression Conversions
 
 For more see [writing-mathematical-expressions-to-html.md](references/writing-mathematical-expressions-to-html.md)
 
-```text
+````text
     ```markdown
     This sentence uses `$` delimiters to show math inline: $\sqrt{3x-1}+(1+x)^2$
     ```
@@ -249,13 +249,13 @@ For more see [writing-mathematical-expressions-to-html.md](references/writing-ma
       </math>
      </math-renderer></p>
     ```
-```
+````
 
 ### Table Conversions
 
 For more see [tables-to-html.md](references/tables-to-html.md)
 
-```text
+````text
     ```markdown
     | First Header  | Second Header |
     | ------------- | ------------- |
@@ -303,7 +303,7 @@ For more see [tables-to-html.md](references/tables-to-html.md)
       </tbody>
     </table>
     ```
-```
+````
 
 ## Working with [`markedJS/marked`](references/marked.md)
 
@@ -342,23 +342,23 @@ marked -i input.md -o output.html -c config.json
 
 ### CLI Options Reference
 
-| Option | Description |
-|--------|-------------|
-| `-i, --input <file>` | Input Markdown file |
-| `-o, --output <file>` | Output HTML file |
-| `-s, --string <string>` | Parse string instead of file |
-| `-c, --config <file>` | Use custom config file |
-| `--gfm` | Enable GitHub Flavored Markdown |
-| `--breaks` | Convert newlines to `<br>` |
-| `--help` | Show all options |
+| Option                  | Description                     |
+| ----------------------- | ------------------------------- |
+| `-i, --input <file>`    | Input Markdown file             |
+| `-o, --output <file>`   | Output HTML file                |
+| `-s, --string <string>` | Parse string instead of file    |
+| `-c, --config <file>`   | Use custom config file          |
+| `--gfm`                 | Enable GitHub Flavored Markdown |
+| `--breaks`              | Convert newlines to `<br>`      |
+| `--help`                | Show all options                |
 
 ### Security Warning
 
 ⚠️ **Marked does NOT sanitize output HTML.** For untrusted input, use a sanitizer:
 
 ```javascript
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 const unsafeHtml = marked.parse(untrustedMarkdown);
 const safeHtml = DOMPurify.sanitize(unsafeHtml);
@@ -372,21 +372,21 @@ Recommended sanitizers:
 
 ### Supported Markdown Flavors
 
-| Flavor | Support |
-|--------|---------|
-| Original Markdown | 100% |
-| CommonMark 0.31 | 98% |
-| GitHub Flavored Markdown | 97% |
+| Flavor                   | Support |
+| ------------------------ | ------- |
+| Original Markdown        | 100%    |
+| CommonMark 0.31          | 98%     |
+| GitHub Flavored Markdown | 97%     |
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
+| Issue                            | Solution                                                                    |
+| -------------------------------- | --------------------------------------------------------------------------- |
 | Special characters at file start | Strip zero-width chars: `content.replace(/^[\u200B\u200C\u200D\uFEFF]/,"")` |
-| Code blocks not highlighting | Add a syntax highlighter like highlight.js |
-| Tables not rendering | Ensure `gfm: true` option is set |
-| Line breaks ignored | Set `breaks: true` in options |
-| XSS vulnerability concerns | Use DOMPurify to sanitize output |
+| Code blocks not highlighting     | Add a syntax highlighter like highlight.js                                  |
+| Tables not rendering             | Ensure `gfm: true` option is set                                            |
+| Line breaks ignored              | Set `breaks: true` in options                                               |
+| XSS vulnerability concerns       | Use DOMPurify to sanitize output                                            |
 
 ## Working with [`pandoc`](references/pandoc.md)
 
@@ -440,17 +440,17 @@ pandoc input.md -s -o output.docx
 
 ### CLI Configuration
 
-| Option | Description |
-|--------|-------------|
-| `-f, --from <format>` | Input format (markdown, html, latex, etc.) |
-| `-t, --to <format>` | Output format (html, latex, pdf, docx, etc.) |
-| `-s, --standalone` | Produce standalone document with header/footer |
-| `-o, --output <file>` | Output file (inferred from extension) |
-| `--mathml` | Convert TeX math to MathML |
-| `--metadata title="Title"` | Set document metadata |
-| `--toc` | Include table of contents |
-| `--template <file>` | Use custom template |
-| `--help` | Show all options |
+| Option                     | Description                                    |
+| -------------------------- | ---------------------------------------------- |
+| `-f, --from <format>`      | Input format (markdown, html, latex, etc.)     |
+| `-t, --to <format>`        | Output format (html, latex, pdf, docx, etc.)   |
+| `-s, --standalone`         | Produce standalone document with header/footer |
+| `-o, --output <file>`      | Output file (inferred from extension)          |
+| `--mathml`                 | Convert TeX math to MathML                     |
+| `--metadata title="Title"` | Set document metadata                          |
+| `--toc`                    | Include table of contents                      |
+| `--template <file>`        | Use custom template                            |
+| `--help`                   | Show all options                               |
 
 ### Security Warning
 
@@ -467,22 +467,22 @@ pandoc --sandbox input.md -o output.html
 
 ### Supported Markdown Flavors
 
-| Flavor | Support |
-|--------|---------|
-| Pandoc Markdown | 100% (native) |
-| CommonMark | Full (use `-f commonmark`) |
-| GitHub Flavored Markdown | Full (use `-f gfm`) |
-| MultiMarkdown | Partial |
+| Flavor                   | Support                    |
+| ------------------------ | -------------------------- |
+| Pandoc Markdown          | 100% (native)              |
+| CommonMark               | Full (use `-f commonmark`) |
+| GitHub Flavored Markdown | Full (use `-f gfm`)        |
+| MultiMarkdown            | Partial                    |
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| PDF generation fails | Install LaTeX (MacTeX, MiKTeX, or texlive) |
-| Encoding issues on Windows | Run `chcp 65001` before using pandoc |
-| Missing standalone headers | Add `-s` flag for complete documents |
-| Math not rendering | Use `--mathml` or `--mathjax` option |
-| Tables not rendering | Ensure proper table syntax with pipes and dashes |
+| Issue                      | Solution                                         |
+| -------------------------- | ------------------------------------------------ |
+| PDF generation fails       | Install LaTeX (MacTeX, MiKTeX, or texlive)       |
+| Encoding issues on Windows | Run `chcp 65001` before using pandoc             |
+| Missing standalone headers | Add `-s` flag for complete documents             |
+| Math not rendering         | Use `--mathml` or `--mathjax` option             |
+| Tables not rendering       | Ensure proper table syntax with pipes and dashes |
 
 ## Working with [`gomarkdown/markdown`](references/gomarkdown.md)
 
@@ -560,19 +560,19 @@ mdtohtml input-file [output-file]
 
 For advanced configuration, use the Go library programmatically with parser and renderer options:
 
-| Parser Extension | Description |
-|------------------|-------------|
-| `parser.CommonExtensions` | Tables, fenced code, autolinks, strikethrough, etc. |
-| `parser.AutoHeadingIDs` | Generate IDs for headings |
-| `parser.NoEmptyLineBeforeBlock` | No blank line needed before blocks |
-| `parser.MathJax` | MathJax support for LaTeX math |
+| Parser Extension                | Description                                         |
+| ------------------------------- | --------------------------------------------------- |
+| `parser.CommonExtensions`       | Tables, fenced code, autolinks, strikethrough, etc. |
+| `parser.AutoHeadingIDs`         | Generate IDs for headings                           |
+| `parser.NoEmptyLineBeforeBlock` | No blank line needed before blocks                  |
+| `parser.MathJax`                | MathJax support for LaTeX math                      |
 
-| HTML Flag | Description |
-|-----------|-------------|
-| `html.CommonFlags` | Common HTML output flags |
+| HTML Flag              | Description                    |
+| ---------------------- | ------------------------------ |
+| `html.CommonFlags`     | Common HTML output flags       |
 | `html.HrefTargetBlank` | Add `target="_blank"` to links |
-| `html.CompletePage` | Generate complete HTML page |
-| `html.UseXHTML` | Generate XHTML output |
+| `html.CompletePage`    | Generate complete HTML page    |
+| `html.UseXHTML`        | Generate XHTML output          |
 
 ### Security Warning
 
@@ -592,23 +592,23 @@ Recommended sanitizer: [Bluemonday](https://github.com/microcosm-cc/bluemonday)
 
 ### Supported Markdown Flavors
 
-| Flavor | Support |
-|--------|---------|
-| Original Markdown | 100% |
-| CommonMark | High (with extensions) |
+| Flavor                   | Support                                   |
+| ------------------------ | ----------------------------------------- |
+| Original Markdown        | 100%                                      |
+| CommonMark               | High (with extensions)                    |
 | GitHub Flavored Markdown | High (tables, fenced code, strikethrough) |
-| MathJax/LaTeX Math | Supported via extension |
-| Mmark | Supported |
+| MathJax/LaTeX Math       | Supported via extension                   |
+| Mmark                    | Supported                                 |
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Windows/Mac newlines not parsed | Use `parser.NormalizeNewlines(input)` |
-| Tables not rendering | Enable `parser.Tables` extension |
+| Issue                            | Solution                                      |
+| -------------------------------- | --------------------------------------------- |
+| Windows/Mac newlines not parsed  | Use `parser.NormalizeNewlines(input)`         |
+| Tables not rendering             | Enable `parser.Tables` extension              |
 | Code blocks without highlighting | Integrate with syntax highlighter like Chroma |
-| Math not rendering | Enable `parser.MathJax` extension |
-| XSS vulnerabilities | Use Bluemonday to sanitize output |
+| Math not rendering               | Enable `parser.MathJax` extension             |
+| XSS vulnerabilities              | Use Bluemonday to sanitize output             |
 
 ## Working with [`jekyll`](references/jekyll.md)
 
@@ -658,21 +658,21 @@ bundle exec jekyll serve --drafts
 
 ### CLI Configuration
 
-| Command | Description |
-|---------|-------------|
-| `jekyll new <path>` | Create new Jekyll site |
-| `jekyll build` | Build site to `_site` directory |
-| `jekyll serve` | Build and serve locally |
-| `jekyll clean` | Remove generated files |
-| `jekyll doctor` | Check for configuration issues |
+| Command             | Description                     |
+| ------------------- | ------------------------------- |
+| `jekyll new <path>` | Create new Jekyll site          |
+| `jekyll build`      | Build site to `_site` directory |
+| `jekyll serve`      | Build and serve locally         |
+| `jekyll clean`      | Remove generated files          |
+| `jekyll doctor`     | Check for configuration issues  |
 
-| Serve Options | Description |
-|---------------|-------------|
-| `--livereload` | Reload browser on changes |
-| `--drafts` | Include draft posts |
-| `--port <port>` | Set server port (default: 4000) |
-| `--host <host>` | Set server host (default: localhost) |
-| `--baseurl <url>` | Set base URL |
+| Serve Options     | Description                          |
+| ----------------- | ------------------------------------ |
+| `--livereload`    | Reload browser on changes            |
+| `--drafts`        | Include draft posts                  |
+| `--port <port>`   | Set server port (default: 4000)      |
+| `--host <host>`   | Set server host (default: localhost) |
+| `--baseurl <url>` | Set base URL                         |
 
 ### Security Warning
 
@@ -694,12 +694,12 @@ exclude:
 
 ### Supported Markdown Flavors
 
-| Flavor | Support |
-|--------|---------|
-| Kramdown (default) | 100% |
-| CommonMark | Via plugin (jekyll-commonmark) |
+| Flavor                   | Support                                |
+| ------------------------ | -------------------------------------- |
+| Kramdown (default)       | 100%                                   |
+| CommonMark               | Via plugin (jekyll-commonmark)         |
 | GitHub Flavored Markdown | Via plugin (jekyll-commonmark-ghpages) |
-| RedCarpet | Via plugin (deprecated) |
+| RedCarpet                | Via plugin (deprecated)                |
 
 Configure markdown processor in `_config.yml`:
 
@@ -712,13 +712,13 @@ kramdown:
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Ruby 3.0+ fails to serve | Run `bundle add webrick` |
-| Gem dependency errors | Run `bundle install` |
-| Slow builds | Use `--incremental` flag |
-| Liquid syntax errors | Check for unescaped `{` in content |
-| Plugin not loading | Add to `_config.yml` plugins list |
+| Issue                    | Solution                           |
+| ------------------------ | ---------------------------------- |
+| Ruby 3.0+ fails to serve | Run `bundle add webrick`           |
+| Gem dependency errors    | Run `bundle install`               |
+| Slow builds              | Use `--incremental` flag           |
+| Liquid syntax errors     | Check for unescaped `{` in content |
+| Plugin not loading       | Add to `_config.yml` plugins list  |
 
 ## Working with [`hugo`](references/hugo.md)
 
@@ -779,30 +779,30 @@ hugo server --port 8080
 
 ### CLI Configuration
 
-| Command | Description |
-|---------|-------------|
-| `hugo new site <name>` | Create new Hugo site |
-| `hugo new content <path>` | Create new content file |
-| `hugo` | Build site to `public` directory |
-| `hugo server` | Start development server |
-| `hugo mod init` | Initialize Hugo Modules |
+| Command                   | Description                      |
+| ------------------------- | -------------------------------- |
+| `hugo new site <name>`    | Create new Hugo site             |
+| `hugo new content <path>` | Create new content file          |
+| `hugo`                    | Build site to `public` directory |
+| `hugo server`             | Start development server         |
+| `hugo mod init`           | Initialize Hugo Modules          |
 
-| Build Options | Description |
-|---------------|-------------|
-| `-D, --buildDrafts` | Include draft content |
-| `-E, --buildExpired` | Include expired content |
-| `-F, --buildFuture` | Include future-dated content |
-| `--minify` | Minify output |
-| `--gc` | Run garbage collection after build |
-| `-d, --destination <path>` | Output directory |
+| Build Options              | Description                        |
+| -------------------------- | ---------------------------------- |
+| `-D, --buildDrafts`        | Include draft content              |
+| `-E, --buildExpired`       | Include expired content            |
+| `-F, --buildFuture`        | Include future-dated content       |
+| `--minify`                 | Minify output                      |
+| `--gc`                     | Run garbage collection after build |
+| `-d, --destination <path>` | Output directory                   |
 
-| Server Options | Description |
-|----------------|-------------|
-| `--bind <ip>` | Interface to bind to |
-| `-p, --port <port>` | Port number (default: 1313) |
-| `--liveReloadPort <port>` | Live reload port |
-| `--disableLiveReload` | Disable live reload |
-| `--navigateToChanged` | Navigate to changed content |
+| Server Options            | Description                 |
+| ------------------------- | --------------------------- |
+| `--bind <ip>`             | Interface to bind to        |
+| `-p, --port <port>`       | Port number (default: 1313) |
+| `--liveReloadPort <port>` | Live reload port            |
+| `--disableLiveReload`     | Disable live reload         |
+| `--navigateToChanged`     | Navigate to changed content |
 
 ### Security Warning
 
@@ -827,12 +827,12 @@ hugo server --port 8080
 
 ### Supported Markdown Flavors
 
-| Flavor | Support |
-|--------|---------|
-| Goldmark (default) | 100% (CommonMark compliant) |
+| Flavor                   | Support                                 |
+| ------------------------ | --------------------------------------- |
+| Goldmark (default)       | 100% (CommonMark compliant)             |
 | GitHub Flavored Markdown | Full (tables, strikethrough, autolinks) |
-| CommonMark | 100% |
-| Blackfriday (legacy) | Deprecated, not recommended |
+| CommonMark               | 100%                                    |
+| Blackfriday (legacy)     | Deprecated, not recommended             |
 
 Configure markdown in `hugo.toml`:
 
@@ -852,14 +852,14 @@ Configure markdown in `hugo.toml`:
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| "Page not found" on paths | Check `baseURL` in config |
-| Theme not loading | Verify theme in `themes/` or Hugo Modules |
-| Slow builds | Use `--templateMetrics` to identify bottlenecks |
-| Raw HTML not rendering | Set `unsafe = true` in goldmark config |
-| Images not loading | Check `static/` folder structure |
-| Module errors | Run `hugo mod tidy` |
+| Issue                     | Solution                                        |
+| ------------------------- | ----------------------------------------------- |
+| "Page not found" on paths | Check `baseURL` in config                       |
+| Theme not loading         | Verify theme in `themes/` or Hugo Modules       |
+| Slow builds               | Use `--templateMetrics` to identify bottlenecks |
+| Raw HTML not rendering    | Set `unsafe = true` in goldmark config          |
+| Images not loading        | Check `static/` folder structure                |
+| Module errors             | Run `hugo mod tidy`                             |
 
 ## References
 
