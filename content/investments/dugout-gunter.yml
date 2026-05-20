@@ -1,0 +1,261 @@
+title: Dugout Gunter
+audienceType: investor
+closingCta:
+  enabled: true
+  body: We are accepting commitments from qualified accredited investors for this round. Full data room access is provided upon execution of NDA.
+  ctaText: Request Data Room Access
+  ctaUrl: mailto:invest@pinetarsportsfund.com?subject=Dugout%20Gunter%20-%20Data%20Room%20Request
+  contactName: Larryon Truman, II
+  contactTitle: Business Development & Investor Relations
+  contactEmail: invest@pinetarsportsfund.com
+  sectionTitle: Next Steps
+  sectionImage:
+    url: /investments/gunter/dugout-gunter-5.jpg
+    layout: right
+cover:
+  tagline: Investment Opportunity
+  heroImageUrl: /investments/gunter/dugout-gunter-11.jpg
+  contactName: Tim Truman
+  contactTitle: Managing Partner
+  company: PineTar Sports Fund
+  address: ""
+  enabled: true
+  sectionTitle: ""
+  sectionImage:
+    url: /investments/gunter/dugout-gunter-11.jpg
+    layout: hidden
+  description: ""
+  subtitle: ""
+executiveSummary:
+  enabled: true
+  body: |
+    Strategic partnership opportunity in premier youth sports facility development. Proven track record with established operator in high-growth market. Immediate cash flow generation with targeted monthly returns and significant equity upside.
+  tableOfContents:
+    - number: 1
+      label: Executive Summary
+    - number: 2
+      label: Proven Track Record of Growth
+    - number: 3
+      label: Market Context
+    - number: 4
+      label: Project Overview
+    - number: 5
+      label: Team
+    - number: 6
+      label: Use of Funds
+    - number: 7
+      label: Returns & Timeline
+    - number: 8
+      label: Financial Projections
+    - number: 9
+      label: Risks & Disclaimer
+  returnsTableTitle: Ownership Opportunities & Expected Returns
+  returnsTableRows:
+    - label: Funds Raised for 70% Ownership
+      value: $1,700,000
+      highlight: true
+    - label: Capital Return Target
+      value: 38 Months
+      highlight: true
+    - label: Final Equity Position
+      value: Retained 70% Equity Stake
+      highlight: true
+    - label: Stabilized Profit
+      value: ~$400,000 annual triple net profit
+    - label: Tax Efficiency
+      value: ~$50K Year 1 depreciation (5% owner)
+      highlight: false
+  sectionImage:
+    url: /investments/gunter/dugout-gunter-13.jpg
+    captionStyle: below
+    layout: banner-top
+  sectionTitle: Intro
+investmentThesis:
+  enabled: true
+  body: |
+    Sports and entertainment real estate sits at the intersection of institutional-grade infrastructure and high-demand community assets. Unlike pure commercial real estate, multi-use sports complexes derive income from multiple synergistic streams: events, leases, naming rights, concessions, and youth programming.
+
+    Dugout Howe Complex is positioned to become the dominant year-round sports and entertainment destination in the North Texas market currently underserved in modern arena capacity.
+  bullets:
+    - "Proven Phase I revenue: $300K in Year 2 from athletic operations"
+    - "Anchor tenant LOI signed: Committed to 10-year lease"
+    - "Scarcity value: Consistent Sell Outs Denison"
+    - "Experienced operator: Development team has delivered 5 comparable assets since 2015"
+  sectionImage:
+    url: ""
+    layout: banner-top
+market:
+  enabled: true
+  body: |
+    The North Texas market is experiencing rapid growth, with a strong demand for modern sports and entertainment facilities. Indoor sports facilities in the region are aging, with limited capacity for mid-tier and youth/amateur programming — creating a significant opportunity for new developments like Dugout Howe Complex.
+  metrics:
+    - value: 9.1M
+      label: Population within 90 miles
+    - value: $84K
+      label: Average Weekend Spend on Sports & Entertainment (2025)
+    - value: "2"
+      label: Competing mid-tier baseball/softball facilities within 30 miles
+    - value: $69.1B
+      label: Youth Baseball/Softball Market (2025)
+  sectionImage:
+    url: /366661485-710874927719888-9209275143502677707-n.jpg
+    layout: banner-top
+opportunity:
+  enabled: true
+  body: |
+    Phase I delivered ahead of schedule and met revenue projections in its first operating year. Phase II construction begins Q3 2026 with a targeted grand opening of Q1 2028.
+
+    The window to participate in preferred equity is limited to this raise cycle. Once construction milestones are met, capital structure will shift to senior debt refinancing.
+  bullets:
+    - Phase I operational and cash-flow positive as of January 2027
+    - Anchor tenant provides base load revenue certainty
+  imageUrl: /slide2.jpg
+  sectionImage:
+    url: /howe-phases.png
+    layout: right
+  sectionTitle: Phases
+  subtitle: ""
+  description: ""
+projectName: Dugout Grayson County
+projectOverview:
+  enabled: true
+  body: |
+    Dugout Howe Complex Phase II consists of:
+
+    Additional Fields.
+    TBD
+  images: []
+  sectionImage:
+    url: /howe-phases.png
+    layout: left
+  sectionTitle: Phase 1
+  description: Purchase land, build 2 fields, facility infrastructure.
+projections:
+  enabled: true
+  body: The following operating assumptions summarize the core revenue drivers and key utilization targets from the current investor deck.
+  rows:
+    - label: Tournament Income (per team)
+      value: $125
+    - label: Weekend Tournament Capacity Assumption
+      value: 24 of 32 teams (75% occupancy)
+    - label: Gate & Concessions (net per team)
+      value: $598
+    - label: Weekday Utilization (per slot)
+      value: $100
+    - label: Weekday Utilization Assumption
+      value: 50% occupancy (Mon-Fri)
+    - label: High-Margin Programming (net per camp)
+      value: $2,500
+    - label: Stabilized Annual Triple Net Profit
+      value: $600,000
+    - label: Projected Asset Value
+      value: $6,000,000
+  metrics:
+    - value: 24/32
+      label: Weekend teams at target occupancy
+    - value: 75%
+      label: Tournament occupancy assumption
+    - value: 50%
+      label: Weekday utilization assumption
+    - value: $6.0M
+      label: Projected asset value
+    - value: $600K
+      label: Stabilized annual profit
+  sectionTitle: Projections
+published: true
+returns:
+  enabled: true
+  body: "Returns are driven by three compounding value creation levers: anchor tenant lease revenue, naming rights monetization, and asset appreciation at stabilization."
+  timelineItems:
+    - period: 0-12 Months
+      phase: Construction Phase
+      description: 9% preferred return is paid monthly during build-out. Facility opens for business at Month 12.
+    - period: Month 18
+      phase: Strategic Refinance
+      description: Cash-out refinance returns 50% of initial investment while funding Phase 2 expansion.
+    - period: Month 24
+      phase: Capital Distribution
+      description: $130,000 distribution to investors. 9% preferred return continues on the outstanding balance.
+    - period: 30-36 Months
+      phase: Full Payback
+      description: Investors are paid in full while retaining equity. Asset is projected to produce $600,000 in annual triple net profit.
+  keyMetrics:
+    - value: 9%
+      label: Preferred Return
+    - value: 30 Mo.
+      label: Target Payback
+    - value: $130K
+      label: Month 24 Distribution
+    - value: 70%
+      label: Retained Equity Stake
+  exitStrategyTitle: Refinance Exit Strategy
+  exitStrategyBody: |
+    Our model prioritizes early capital return through asset stabilization and bank refinancing, significantly de-risking the investment.
+  sectionTitle: Returns
+risksDisclaimer:
+  enabled: true
+  body: |
+    This document is provided for informational purposes only and does not constitute an offer or solicitation to purchase securities. Investment in real estate and sports facilities involves significant risk.
+  bullets:
+    - Construction cost overruns or delays could impact projected returns and timeline
+    - Anchor tenant commitment is subject to final lease execution; LOI terms may change
+    - Naming rights monetization is subject to market conditions and negotiation outcomes
+    - Interest rate environment could affect permanent financing terms at refinance
+    - Sports programming demand and event scheduling are subject to external factors
+    - Past performance of principals is not indicative of future results
+    - This offering is available to accredited investors only as defined under Regulation D, Rule 506(c)
+    - Prospective investors should consult independent legal, tax, and financial advisors before investing
+  sectionTitle: Disclaimer
+subtitle: The Future of Youth Sports in North Texas
+team:
+  enabled: true
+  body: Pine Tar Sports Fund is led by operators with direct experience in professional sports facility development, team ownership, and institutional real estate finance.
+  members:
+    - name: Tim Truman
+      title: Managing Partner
+      bio: ""
+      imageUrl: ""
+    - name: Larryon Truman, II
+      title: Business Development & Investor Relations
+      bio: Larryon helps translate complex deal structures into materials investors can evaluate quickly and confidently.
+      imageUrl: ""
+    - name: First Name Last Name
+      title: Role Title
+      bio: Short bio highlighting relevant experience and role in the project.
+      imageUrl: ""
+  sectionImage:
+    url: /tim-headshot.jpg
+    layout: right
+  sectionTitle: Team
+  subtitle: ""
+  description: ""
+useOfFunds:
+  enabled: true
+  body: PHASE 1 INVESTMENT & BUDGET OVERVIEW
+  allocationRows:
+    - category: "Land Acquisition (17.71 Acres)\t"
+      amount: $470,000
+    - category: "Field Construction (Fields 1, 2, 3)\t"
+      amount: $935,900
+    - category: "Main Building (30x140)\t"
+      amount: $235,000
+    - category: "Lighting Systems\t"
+      amount: $130,800
+    - category: "Preferred Return (Construction Phase)\t"
+      amount: $193,337
+    - category: "Equipment, Infrastructure & Other\t"
+      amount: $393,579
+    - category: "Contingency Fund\t"
+      amount: $141,517
+  totalLabel: Total Project Cost
+  totalAmount: $2,500,133
+  highlights:
+    - title: Asset Backing
+      body: Investors hold 70% ownership shares of the LLC which owns the facility, land, and all improvements.
+    - title: Financial Prudence
+      body: Budget includes a $141k contingency and pre-funded preferred returns to ensure stability during the 12-month build-out.
+    - title: Strategic Value
+      body: The investment secures a prime 17.71-acre location in the high-growth North Texas corridor.
+  sectionTitle: Use of Funds
+  subtitle: ""
+  description: ""
