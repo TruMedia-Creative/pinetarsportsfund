@@ -1,76 +1,14 @@
-seo:
-  title: Pine Tar Sports Fund — Investment Opportunities in Youth Sports
-  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium youth sports projects. Review current investment opportunities and explore partnership options.
-title: "Invest in Sports Facilities  \nWithout Operating Them."
-description: Pine Tar Sports Fund structures private sports facility investments for qualified investors — combining real estate, operator experience, preferred return targets, and growing youth sports demand.
-hero:
-  headline: 'Now accepting investors'
-  links:
-    - label: View Active Deals
-      color: primary
-      size: xl
-      to: /investments
-    - label: Who Are We?
-      size: xl
-      color: neutral
-      variant: soft
-      to: /#about
-terminal:
-  lines:
-    - segments:
-        - text: '$ '
-          style: prompt
-        - text: 'pinetarsf'
-          style: cmd
-        - text: ' opportunities --status open'
-          style: flag
-    - segments:
-        - text: '→ Scanning active offerings...'
-          style: dim
-    - segments:
-        - text: '→ Found '
-          style: dim
-        - text: 'active opportunities'
-          style: cmd
-        - text: ' across '
-          style: dim
-        - text: 'multiple audience types'
-          style: cmd
-    - segments:
-        - text: '→ Minimum investment from '
-          style: dim
-        - text: '$50,000'
-          style: metric-good
-    - segments:
-        - text: '→ Preferred Return'
-          style: dim
-        - text: '8-9%'
-          style: metric-good
-    - segments:
-        - text: ' '
-          style: dim
-    - segments:
-        - text: '✓ Investor portal at '
-          style: success
-        - text: 'pinetarsportsfund.com/investments'
-          style: url
-logos:
-  title: Structured for institutional and accredited investors
-  items:
-    - i-lucide-landmark
-    - i-lucide-building-2
-    - i-lucide-trophy
-    - i-lucide-handshake
-    - i-lucide-bar-chart-3
+title: |-
+  Invest in Sports Facilities  
+  Without Operating Them.
 about:
   headline: Meet the operator
-  title: 'Tim Truman brings
-    deal discipline to sports capital.'
+  title: Tim Truman brings deal discipline to sports capital.
   description: Pine Tar Sports Fund is built around operator judgment, structured underwriting, and long-term alignment. Tim Truman leads the platform with a focus on credible execution over promotional noise.
   primaryProfile:
     name: Tim Truman
     title: Founder & Managing Partner
-    quote: 'We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation.'
+    quote: "We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation."
     body: Tim Truman brings together operating experience, relationship-driven deal access, and a practical understanding of how capital moves through sports and entertainment markets. His approach centers on sourcing opportunities where underwriting discipline, smart structuring, and long-term partnership matter more than hype. That philosophy shapes how Pine Tar Sports Fund evaluates risk, aligns stakeholders, and builds offerings investors can understand.
     imageUrl: /tim-headshot.jpg
     credibilityBullets:
@@ -78,7 +16,7 @@ about:
       - Structured capital approach designed for investors, lenders, sponsors, and municipalities.
       - Underwriting discipline centered on downside protection, execution quality, and alignment.
     timelineItems:
-      - period: 2019
+      - period: "2013"
         label: Dugout Baseball in Kilgore, TX
         description: Started this journey founding Dugout Baseball, a baseball field project in East Texas. The experience revealed a gap in how sports projects are structured and financed — and the opportunity to build a better way.
       - period: 2023
@@ -90,7 +28,7 @@ about:
   profiles:
     - name: Larryon Truman, II
       title: Business Development & Investor Relations
-      quote: 'Play ball. Then keep score. Investors want to know how the game is going, and they want to trust the team keeping score.'
+      quote: Play ball. Then keep score. Investors want to know how the game is going, and they want to trust the team keeping score.
       body: Larryon helps translate complex deal structures into materials investors can evaluate quickly and confidently. He focuses on clarity, reporting cadence, and maintaining trust through disciplined communication from first review through closing.
       credibilityBullets:
         - Investor-facing process built around clarity, responsiveness, and documentation quality.
@@ -108,7 +46,7 @@ about:
           description: Maintains a clear expectation that updates, documentation, and accountability remain part of the investment experience.
     - name: Marcus Vale
       title: Strategic Partnerships
-      quote: 'The best sports deals work because the capital stack and the operating partners are aligned before the market ever sees the offering.'
+      quote: The best sports deals work because the capital stack and the operating partners are aligned before the market ever sees the offering.
       body: Marcus supports partner strategy across sponsors, municipalities, and operating counterparties. His role centers on shaping opportunities so commercial alignment, execution reality, and capital needs fit together before a project is presented to investors.
       credibilityBullets:
         - Partnership-first mindset across public, private, and sponsor-backed deal structures.
@@ -124,9 +62,20 @@ about:
         - period: Pipeline
           label: Opportunity development
           description: Continues expanding the fund’s access to projects that benefit from disciplined partnership architecture.
+cta:
+  title: Ready to review an offering?
+  description: All active investment opportunities are available here. Browse current offerings or reach out directly to discuss fit.
+  command: pinetarsportsfund.com/investments
+  links:
+    - label: Browse opportunities
+      color: primary
+      to: /investments
+description: Pine Tar Sports Fund structures private sports facility investments for qualified investors — combining real estate, operator experience, preferred return targets, and growing youth sports demand.
 features:
   headline: Why Pine Tar
-  title: "Structured deals.\nSerious returns."
+  title: |-
+    Structured deals.
+    Serious returns.
   description: We identify, underwrite, and manage sports capital projects — so investors gain institutional-grade exposure to a high-growth, relationship-driven market.
   items:
     - icon: i-lucide-shield-check
@@ -147,38 +96,35 @@ features:
     - icon: i-lucide-handshake
       title: Partnership Alignment
       description: Our fee structure is back-end heavy. We win when our investors win. There is no incentive to over-raise or over-promise.
-metrics:
-  headline: By the numbers
-  title: 'A track record built on execution.'
-  description: Pine Tar Sports Fund has structured over $20M in sports and entertainment capital projects since inception.
-  items:
-    - value: '$20M+'
-      label: Capital structured
-      class: 'text-primary'
-    - value: '8-9%'
-      label: Preferred Return
-      class: 'text-success'
-    - value: '7'
-      label: Active projects
-      class: 'text-info'
-    - value: '$50K'
-      label: Minimum investment
-      class: 'text-warning'
-problem:
-  title: Sports is booming. Access is the problem.
-  paragraphs:
-    - Youth sports, tournaments, training facilities, live events, and venue-based entertainment are growing into a serious asset class.
-    - But most private investors only see these opportunities after the best terms are gone, or they see deals that are long on excitement and short on structure.
-    - Pine Tar exists to bridge that gap.
 guide:
   title: We turn sports opportunities into investor-ready deals.
   paragraphs:
     - Pine Tar Sports Fund works with operators, developers, and sponsors to structure private sports and entertainment opportunities with clear deal materials, defined use of funds, preferred return targets, and transparent investor communication.
     - We do not just chase exciting projects.
     - We look for assets with demand, operators, revenue paths, and a real plan.
+hero:
+  headline: Now accepting investors
+  links:
+    - label: View Active Deals
+      color: primary
+      size: xl
+      to: /investments
+    - label: Who Are We?
+      size: xl
+      color: neutral
+      variant: soft
+      to: /#about
+logos:
+  title: Structured for institutional and accredited investors
+  items:
+    - i-lucide-landmark
+    - i-lucide-building-2
+    - i-lucide-trophy
+    - i-lucide-handshake
+    - i-lucide-bar-chart-3
 mechanism:
   title: Underwritten like real estate. Operated like sports. Structured for investors.
-  description: 'Every opportunity is reviewed through the lens of:'
+  description: "Every opportunity is reviewed through the lens of:"
   items:
     - Location demand
     - Facility economics
@@ -187,26 +133,83 @@ mechanism:
     - Capital stack
     - Investor protections
     - Exit or refinance potential
+metrics:
+  headline: By the numbers
+  title: A track record built on execution.
+  description: Pine Tar Sports Fund has structured over $20M in sports and entertainment capital projects since inception.
+  items:
+    - value: $20M+
+      label: Capital structured
+      class: text-primary
+    - value: 8-9%
+      label: Preferred Return
+      class: text-success
+    - value: "7"
+      label: Active projects
+      class: text-info
+    - value: $50K
+      label: Minimum investment
+      class: text-warning
+problem:
+  title: Sports is booming. Access is the problem.
+  paragraphs:
+    - Youth sports, tournaments, training facilities, live events, and venue-based entertainment are growing into a serious asset class.
+    - But most private investors only see these opportunities after the best terms are gone, or they see deals that are long on excitement and short on structure.
+    - Pine Tar exists to bridge that gap.
 process:
   title: How it works
   items:
-    - step: '01'
+    - step: "01"
       title: Review active opportunities
       description: See current sports facility, sponsorship, and entertainment offerings.
-    - step: '02'
+    - step: "02"
       title: Request the investor materials
       description: Get the deck, terms, projections, and supporting documents.
-    - step: '03'
+    - step: "03"
       title: Evaluate the fit
       description: Review the risk profile, return target, timeline, and minimum investment.
-    - step: '04'
+    - step: "04"
       title: Invest with clarity
       description: Participate in a structured opportunity with defined terms and transparent communication.
-cta:
-  title: "Ready to review\nan offering?"
-  description: All active investment opportunities are available here. Browse current offerings or reach out directly to discuss fit.
-  command: pinetarsportsfund.com/investments
-  links:
-    - label: Browse opportunities
-      color: primary
-      to: /investments
+seo:
+  title: Pine Tar Sports Fund — Investment Opportunities in Youth Sports
+  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium youth sports projects. Review current investment opportunities and explore partnership options.
+terminal:
+  lines:
+    - segments:
+        - text: "$ "
+          style: prompt
+        - text: pinetarsf
+          style: cmd
+        - text: " opportunities --status open"
+          style: flag
+    - segments:
+        - text: → Scanning active offerings...
+          style: dim
+    - segments:
+        - text: "→ Found "
+          style: dim
+        - text: active opportunities
+          style: cmd
+        - text: " across "
+          style: dim
+        - text: multiple audience types
+          style: cmd
+    - segments:
+        - text: "→ Minimum investment from "
+          style: dim
+        - text: $50,000
+          style: metric-good
+    - segments:
+        - text: → Preferred Return
+          style: dim
+        - text: 8-9%
+          style: metric-good
+    - segments:
+        - text: " "
+          style: dim
+    - segments:
+        - text: "✓ Investor portal at "
+          style: success
+        - text: pinetarsportsfund.com/investments
+          style: url
