@@ -1,15 +1,3 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-# CHECKLIST — fill in all fields below, then set published: true
-#
-#  [ ] Hero photo → /projects/dugout-temple/hero.jpg
-#  [ ] Gallery photos → /projects/dugout-temple/photo-1.jpg, photo-2.jpg …
-#  [ ] Google Maps embed URL
-#  [ ] Operational data: since, acreage, fields, capacity %, revenue, event types, anchors
-#  [ ] Team member photos + bios
-#  [ ] Financial projections / returns narrative
-#  [ ] Risks & disclaimer copy
-# ═══════════════════════════════════════════════════════════════════════════════
-
 title: Dugout Greenville
 audienceType: investor
 closingCta:
@@ -28,8 +16,8 @@ cover:
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
-  address: ''
-  description: ''
+  address: ""
+  description: ""
   sectionImage:
     url: /projects/dugout-greenville/hero.jpg
     layout: hidden
@@ -56,65 +44,65 @@ executiveSummary:
       label: Risks & Disclaimer
   returnsTableTitle: Key Investment Metrics
   returnsTableRows:
-    - label: ''
-      value: ''
+    - label: ""
+      value: ""
       highlight: true
 investmentThesis:
   enabled: true
   sectionTitle: Expansion Opportunity
-  body: ''
+  body: ""
   bullets: []
 location:
-  address: ''
+  address: 230 Co Rd 2260
   city: Greenville
   state: TX
-  zip: ''
-  mapEmbedUrl: ''
+  zip: "75402"
+  mapEmbedUrl: ""
 market:
   enabled: true
   sectionTitle: Market Context
-  body: ''
+  body: ""
   metrics:
-    - value: ''
+    - value: ""
       label: Population within 60 miles
-    - value: ''
+    - value: ""
       label: Median household income
-    - value: ''
+    - value: ""
       label: Youth sports participation rate
-    - value: ''
+    - value: ""
       label: Annual tournament market size
 operationalPerformance:
   enabled: true
   sectionTitle: Operational Performance
-  body: ''
-  since: ''
-  acreage: ''
+  body: ""
+  since: ""
+  acreage: ""
   fields:
     - type: Baseball
       count: 0
     - type: Softball
       count: 0
   capacityPercent: 0
-  annualRevenue: ''
+  annualRevenue: ""
   eventTypes:
     - Tournaments
     - League Play
     - Field Rentals
   anchorTenants: []
   metrics:
-    - value: ''
+    - value: ""
       label: Fields
-    - value: ''
+    - value: ""
       label: Operational Since
-    - value: ''
+    - value: ""
       label: Annual Revenue
-    - value: ''
+    - value: ""
       label: Avg. Capacity
 projectName: Dugout Greenville
 projectOverview:
   enabled: true
   sectionTitle: Project Overview
-  body: ''
+  body: ""
   images:
     - url: /projects/dugout-greenville/photo-1.jpg
       alt: Dugout Greenville aerial view
@@ -124,15 +112,15 @@ published: true
 returns:
   enabled: true
   sectionTitle: Returns & Timeline
-  body: ''
+  body: ""
   timelineItems: []
   keyMetrics:
-    - value: ''
+    - value: ""
       label: Preferred Return
-    - value: ''
+    - value: ""
       label: Target Payback
   exitStrategyTitle: Exit Strategy
-  exitStrategyBody: ''
+  exitStrategyBody: ""
 risksDisclaimer:
   enabled: true
   sectionTitle: Risks & Disclaimer
@@ -147,9 +135,9 @@ subtitle: Operational Youth Sports Complex — Greenville, TX
 team:
   enabled: true
   sectionTitle: Team
-  body: ''
+  body: ""
   members:
     - name: Tim Truman
       title: Managing Partner
-      bio: ''
-      imageUrl: ''
+      bio: ""
+      imageUrl: ""
