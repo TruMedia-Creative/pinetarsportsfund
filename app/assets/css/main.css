@@ -236,6 +236,18 @@
   box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--ui-bg) 82%, transparent);
 }
 
+/* ── Reduced-motion safety net ──────────────────────────────────── */
+/* Ensures motion-v / GSAP animated elements are never left invisible
+   when the user prefers reduced motion (e.g. if JS loads late or a
+   composable is not yet applied to a new component).              */
+@media (prefers-reduced-motion: reduce) {
+  .motion-root [style*='opacity'],
+  .motion-root [style*='transform'] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 .baseball-seam {
   background-image: repeating-linear-gradient(
     90deg,
