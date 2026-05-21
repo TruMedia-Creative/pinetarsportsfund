@@ -3,6 +3,7 @@
 This is a plain-language intake sheet you can reply to by email.
 
 If easier, respond in this format under each question:
+
 - "TBD" if unknown right now
 - "N/A" if not applicable
 - Best estimate if exact number is not yet final
@@ -10,18 +11,21 @@ If easier, respond in this format under each question:
 ## Dugout Greenville
 
 ### 1) Location and Cover Details
+
 - Property address for cover page (if different from site address):
 - Short 1-2 sentence cover description of the property/opportunity:
 - Google Maps embed link for this site:
 
 ### 2) Market Data Needed
+
 - Population within 60 miles:
 - Median household income:
 - Youth sports participation rate:
 - Annual tournament market size:
 - 2-4 sentence market context summary:
 
-### 3) Operations and Performance
+### 3) pOperations and Performance
+
 - Operational since (month/year):
 - Total acreage:
 - Number of baseball fields:
@@ -32,6 +36,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence operational performance summary:
 
 ### 4) Investment and Returns
+
 - Executive summary "Key Investment Metric" label:
 - Executive summary "Key Investment Metric" value:
 - 2-4 sentence expansion opportunity narrative:
@@ -43,6 +48,7 @@ If easier, respond in this format under each question:
 - Exit strategy summary:
 
 ### 5) Team and Story Content
+
 - 2-3 sentence team section intro:
 - Tim Truman bio (3-6 sentences):
 - Tim Truman image file/link:
@@ -53,6 +59,7 @@ If easier, respond in this format under each question:
 ## Dugout Millsap
 
 ### 1) Location and Cover Details
+
 - Full street address:
 - ZIP code:
 - Property address for cover page (if different):
@@ -60,6 +67,7 @@ If easier, respond in this format under each question:
 - Google Maps embed link for this site:
 
 ### 2) Market Data Needed
+
 - Population within 60 miles:
 - Median household income:
 - Youth sports participation rate:
@@ -67,6 +75,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence market context summary:
 
 ### 3) Operations and Performance
+
 - Operational since (month/year):
 - Total acreage:
 - Number of baseball fields:
@@ -77,6 +86,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence operational performance summary:
 
 ### 4) Investment and Returns
+
 - Executive summary "Key Investment Metric" label:
 - Executive summary "Key Investment Metric" value:
 - 2-4 sentence expansion opportunity narrative:
@@ -88,6 +98,7 @@ If easier, respond in this format under each question:
 - Exit strategy summary:
 
 ### 5) Team and Story Content
+
 - 2-3 sentence team section intro:
 - Tim Truman bio (3-6 sentences):
 - Tim Truman image file/link:
@@ -98,6 +109,7 @@ If easier, respond in this format under each question:
 ## Dugout Temple
 
 ### 1) Location and Cover Details
+
 - Full street address:
 - ZIP code:
 - Property address for cover page (if different):
@@ -105,6 +117,7 @@ If easier, respond in this format under each question:
 - Google Maps embed link for this site:
 
 ### 2) Market Data Needed
+
 - Population within 60 miles:
 - Median household income:
 - Youth sports participation rate:
@@ -112,6 +125,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence market context summary:
 
 ### 3) Operations and Performance
+
 - Operational since (month/year):
 - Total acreage:
 - Number of baseball fields:
@@ -122,6 +136,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence operational performance summary:
 
 ### 4) Investment and Returns
+
 - Executive summary "Key Investment Metric" label:
 - Executive summary "Key Investment Metric" value:
 - 2-4 sentence expansion opportunity narrative:
@@ -133,6 +148,7 @@ If easier, respond in this format under each question:
 - Exit strategy summary:
 
 ### 5) Team and Story Content
+
 - 2-3 sentence team section intro:
 - Tim Truman bio (3-6 sentences):
 - Tim Truman image file/link:
@@ -143,6 +159,7 @@ If easier, respond in this format under each question:
 ## Dugout Whitewright
 
 ### 1) Location and Cover Details
+
 - Full street address:
 - ZIP code:
 - Property address for cover page (if different):
@@ -150,6 +167,7 @@ If easier, respond in this format under each question:
 - Google Maps embed link for this site:
 
 ### 2) Market Data Needed
+
 - Population within 60 miles:
 - Median household income:
 - Youth sports participation rate:
@@ -157,6 +175,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence market context summary:
 
 ### 3) Operations and Performance
+
 - Operational since (month/year):
 - Total acreage:
 - Number of baseball fields:
@@ -167,6 +186,7 @@ If easier, respond in this format under each question:
 - 2-4 sentence operational performance summary:
 
 ### 4) Investment and Returns
+
 - Executive summary "Key Investment Metric" label:
 - Executive summary "Key Investment Metric" value:
 - 2-4 sentence expansion opportunity narrative:
@@ -178,6 +198,7 @@ If easier, respond in this format under each question:
 - Exit strategy summary:
 
 ### 5) Team and Story Content
+
 - 2-3 sentence team section intro:
 - Tim Truman bio (3-6 sentences):
 - Tim Truman image file/link:
