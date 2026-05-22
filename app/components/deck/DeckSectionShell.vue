@@ -60,7 +60,7 @@ const sectionDescription = computed(() => props.description || props.subtitle);
     </div>
 
     <div v-if="sectionTitle || sectionDescription" class="space-y-3">
-      <h2 v-if="sectionTitle" class="text-3xl font-bold">
+      <h2 v-if="sectionTitle" class="text-3xl text-center font-bold">
         {{ sectionTitle }}
       </h2>
       <p v-if="sectionDescription" class="text-base text-dimmed">

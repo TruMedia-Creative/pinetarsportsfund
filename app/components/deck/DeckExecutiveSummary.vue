@@ -33,17 +33,18 @@ const normalizedReturnsTableRows = computed(() =>
         :description="description"
         :section-image="sectionImage"
       >
-        <div class="grid lg:grid-cols-2 gap-12">
-          <div
+      <div class="max-w-2xl mx-auto px-2 mb-10">
+        <div
             v-if="body"
-            class="prose prose-invert max-w-none text-muted leading-relaxed whitespace-pre-line"
+            class="prose prose-invert max-w-none text-lg text-center text-muted leading-relaxed whitespace-pre-line"
           >
             {{ body }}
           </div>
-
-          <div class="space-y-8">
-            <div v-if="tableOfContents?.length">
-              <p class="text-xs uppercase tracking-widest font-mono text-dimmed mb-3">Contents</p>
+      </div>
+        <div class="grid lg:grid-cols-2 gap-12">
+          
+          <div v-if="tableOfContents?.length">
+              <p class="text-xs uppercase tracking-widest font-mono text-dimmed mb-3">Table of Contents</p>
               <ol class="space-y-2">
                 <li
                   v-for="item in tableOfContents"
@@ -57,6 +58,9 @@ const normalizedReturnsTableRows = computed(() =>
                 </li>
               </ol>
             </div>
+
+          <div class="space-y-8">
+            
 
             <div v-if="normalizedReturnsTableRows.length">
               <p class="text-xs uppercase tracking-widest font-mono text-dimmed mb-3">

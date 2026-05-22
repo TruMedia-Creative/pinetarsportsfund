@@ -14,7 +14,7 @@ closingCta:
     layout: right
 cover:
   tagline: Investment Opportunity
-  heroImageUrl: /investments/gunter/dugout-gunter-11.jpg
+  heroImageUrl: /slide4.jpg
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
@@ -22,7 +22,7 @@ cover:
   enabled: true
   sectionTitle: ""
   sectionImage:
-    url: /investments/gunter/dugout-gunter-11.jpg
+    url: ""
     layout: hidden
   description: ""
   subtitle: ""
@@ -69,21 +69,30 @@ executiveSummary:
     url: /investments/gunter/dugout-gunter-13.jpg
     captionStyle: below
     layout: banner-top
-  sectionTitle: Intro
+    caption: Aerial View of Dugout Gunter
+  sectionTitle: Executive Summary
+  subtitle: ""
+  description: ""
 investmentThesis:
   enabled: true
   body: |
     Sports and entertainment real estate sits at the intersection of institutional-grade infrastructure and high-demand community assets. Unlike pure commercial real estate, multi-use sports complexes derive income from multiple synergistic streams: events, leases, naming rights, concessions, and youth programming.
 
-    Dugout Howe Complex is positioned to become the dominant year-round sports and entertainment destination in the North Texas market currently underserved in modern arena capacity.
+    Dugout Gunter Complex is positioned to become the dominant year-round sports and entertainment destination in the North Texas market currently underserved in modern arena capacity.
   bullets:
     - "Proven Phase I revenue: $300K in Year 2 from athletic operations"
     - "Anchor tenant LOI signed: Committed to 10-year lease"
     - "Scarcity value: Consistent Sell Outs Denison"
     - "Experienced operator: Development team has delivered 5 comparable assets since 2015"
   sectionImage:
-    url: ""
+    url: /investments/gunter/dugout-gunter-4.jpg
     layout: banner-top
+    caption: This is a caption
+    captionStyle: below
+    alt: ""
+  sectionTitle: Investment Thesis
+  subtitle: ""
+  description: ""
 market:
   enabled: true
   body: |
@@ -116,7 +125,7 @@ opportunity:
   sectionTitle: Phases
   subtitle: ""
   description: ""
-projectName: Dugout Grayson County
+projectName: "Dugout Gunter, TX "
 projectOverview:
   enabled: true
   body: |
