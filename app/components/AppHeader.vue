@@ -8,11 +8,10 @@ const { data: studioAuth } = await useFetch<{ authenticated: boolean }>(
 );
 
 const isStudioAuthenticated = computed(() => studioAuth.value?.authenticated ?? false);
-const isMobileMenuOpen = ref(false);
-const route = useRoute();
 
 type HeaderLink = {
   label: string;
+  mobileLabel?: string;
   to: string;
   color?: 'neutral' | 'primary';
   variant?: 'ghost' | 'soft' | 'solid';
@@ -30,16 +29,15 @@ const navigationLinks = computed<HeaderLink[]>(() => {
   return [
     { label: 'About', to: '/#about', color: 'neutral', variant: 'ghost' },
     { label: 'Projects', to: '/projects', color: 'neutral', variant: 'ghost' },
-    { label: 'View Investment Opportunities', to: '/investments', color: 'primary', variant: 'solid' }
+    {
+      label: 'View Investment Opportunities',
+      mobileLabel: 'Investments',
+      to: '/investments',
+      color: 'primary',
+      variant: 'solid'
+    }
   ];
 });
-
-watch(
-  () => route.fullPath,
-  () => {
-    isMobileMenuOpen.value = false;
-  }
-);
 </script>
 
 <template>
@@ -81,26 +79,11 @@ watch(
         </div>
 
         <UColorModeButton />
-
-        <UButton
-          :icon="isMobileMenuOpen ? 'i-lucide-x' : 'i-lucide-menu'"
-          color="neutral"
-          variant="ghost"
-          class="md:hidden"
-          :aria-label="isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'"
-          :aria-expanded="isMobileMenuOpen"
-          aria-controls="mobile-navigation"
-          @click="isMobileMenuOpen = !isMobileMenuOpen"
-        />
       </template>
     </UHeader>
 
-    <nav
-      v-if="isMobileMenuOpen"
-      id="mobile-navigation"
-      class="border-t border-default/70 px-4 py-3 md:hidden"
-    >
-      <div class="mx-auto flex max-w-7xl flex-col gap-2">
+    <nav class="border-t border-default/70 px-4 py-3 md:hidden">
+      <div class="mx-auto flex max-w-7xl flex-wrap gap-2">
         <UBadge
           v-if="isStudioAuthenticated"
           color="primary"
@@ -112,13 +95,12 @@ watch(
         <UButton
           v-for="link in navigationLinks"
           :key="`mobile-${link.label}`"
-          :label="link.label"
+          :label="link.mobileLabel ?? link.label"
           :to="link.to"
           :color="link.color"
           :variant="link.variant"
-          class="w-full justify-center"
-          size="lg"
-          @click="isMobileMenuOpen = false"
+          class="min-w-[6.75rem] flex-1 justify-center"
+          size="sm"
         />
       </div>
     </nav>

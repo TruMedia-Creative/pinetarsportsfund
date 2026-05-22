@@ -37,13 +37,13 @@ test('about navigation returns to the landing page and targets the about section
   await expectAboutSectionNearViewportTop(page);
 });
 
-test('mobile header menu opens and navigates to the about section', async ({ page }) => {
+test('mobile header keeps the about link accessible and navigates to the about section', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/investments');
 
-  await page.getByRole('button', { name: 'Open navigation menu' }).click();
-
-  const aboutLink = page.getByRole('link', { name: 'About', exact: true });
+  const aboutLink = page.locator('header').getByRole('link', { name: 'About', exact: true });
   await expect(aboutLink).toBeVisible();
   await aboutLink.click();
 
