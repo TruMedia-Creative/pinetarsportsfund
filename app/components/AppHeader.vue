@@ -99,7 +99,7 @@ const navigationLinks = computed<HeaderLink[]>(() => {
           :to="link.to"
           :color="link.color"
           :variant="link.variant"
-          class="min-w-28 flex-1 justify-center"
+          class="min-w-20 flex-1 justify-center sm:min-w-28"
           size="sm"
         />
       </div>
