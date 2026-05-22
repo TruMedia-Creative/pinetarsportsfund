@@ -43,7 +43,7 @@ test('mobile header keeps the about link accessible and navigates to the about s
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/investments');
 
-  const aboutLink = page.locator('header').getByRole('link', { name: 'About', exact: true });
+  const aboutLink = page.getByRole('link', { name: 'About', exact: true }).first();
   await expect(aboutLink).toBeVisible();
   await aboutLink.click();
 
