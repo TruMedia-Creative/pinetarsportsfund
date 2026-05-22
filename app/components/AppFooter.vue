@@ -10,12 +10,13 @@ const links = [
 <template>
   <UFooter
     :ui="{
-      container: 'border-t border-default lg:py-8',
-      right: 'gap-x-0 flex-wrap',
+      container: 'border-t border-default py-6 lg:py-8',
+      left: 'w-full text-center md:w-auto md:text-left',
+      right: 'w-full justify-center gap-x-1 gap-y-1 md:w-auto md:justify-end',
     }"
   >
     <template #left>
-      <p class="text-sm text-dimmed">Pine Tar Sports Fund • © {{ new Date().getFullYear() }}</p>
+      <p class="text-xs text-dimmed sm:text-sm">Pine Tar Sports Fund • © {{ new Date().getFullYear() }}</p>
     </template>
 
     <template #right>
@@ -26,7 +27,7 @@ const links = [
         :to="link.to"
         color="neutral"
         variant="link"
-        class="font-light"
+        class="font-light whitespace-nowrap"
         size="sm"
       />
     </template>
