@@ -35,10 +35,16 @@ const { scrollMotion } = useMotion();
 
     <template #links>
       <Motion
-        class="flex flex-col items-center justify-center gap-6"
+        class="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:items-center sm:gap-4"
         v-bind="scrollMotion(0.2)"
       >
-        <UButton v-for="link in cta.links" :key="link.label" v-bind="link" size="xl" />
+        <UButton
+          v-for="link in cta.links"
+          :key="link.label"
+          v-bind="link"
+          class="w-full justify-center sm:w-auto"
+          size="xl"
+        />
       </Motion>
     </template>
   </UPageCTA>

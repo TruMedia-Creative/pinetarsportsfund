@@ -83,10 +83,16 @@ const { enterMotion } = useMotion();
 
     <template #links>
       <Motion
-        class="flex flex-wrap justify-center gap-6"
+        class="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
         v-bind="enterMotion(HERO_MOTION_DELAYS.links)"
       >
-        <UButton v-for="link in hero.links" :key="link.label" v-bind="link" />
+        <UButton
+          v-for="link in hero.links"
+          :key="link.label"
+          v-bind="link"
+          class="w-full justify-center sm:w-auto"
+          size="lg"
+        />
       </Motion>
     </template>
 

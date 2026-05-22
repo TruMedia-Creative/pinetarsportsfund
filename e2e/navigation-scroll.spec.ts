@@ -37,6 +37,20 @@ test('about navigation returns to the landing page and targets the about section
   await expectAboutSectionNearViewportTop(page);
 });
 
+test('mobile header menu opens and navigates to the about section', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/investments');
+
+  await page.getByRole('button', { name: 'Open navigation menu' }).click();
+
+  const aboutLink = page.getByRole('link', { name: 'About', exact: true });
+  await expect(aboutLink).toBeVisible();
+  await aboutLink.click();
+
+  await expect(page).toHaveURL(/\/#about$/);
+  await expectAboutSectionNearViewportTop(page);
+});
+
 test('home page renders the new narrative sections and how-it-works steps in order', async ({
   page,
 }) => {
