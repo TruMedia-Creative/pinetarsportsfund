@@ -51,7 +51,7 @@ const navigationLinks = computed<HeaderLink[]>(() => {
       <template #left>
         <NuxtLink
           to="/"
-          class="min-w-0 max-w-[12.5rem] text-sm leading-tight font-bold text-default sm:max-w-none sm:text-base"
+          class="min-w-0 max-w-52 text-sm leading-tight font-bold text-default sm:max-w-none sm:text-base"
         >
           Pine Tar Sports Fund
         </NuxtLink>
@@ -99,7 +99,7 @@ const navigationLinks = computed<HeaderLink[]>(() => {
           :to="link.to"
           :color="link.color"
           :variant="link.variant"
-          class="min-w-[6.75rem] flex-1 justify-center"
+          class="min-w-28 flex-1 justify-center"
           size="sm"
         />
       </div>
