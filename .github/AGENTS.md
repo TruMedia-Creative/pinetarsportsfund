@@ -1,61 +1,66 @@
 # Agent Operating Guide
 
+This is the primary instruction file for coding agents working in this repository.
+
 ## Mission
 
-Agents in this repository should produce small, correct, maintainable changes that match existing conventions.
+Deliver small, correct, maintainable changes that follow existing Nuxt and content-driven patterns.
 
-## Default workflow
+## Quick Start
 
-1. Understand the task.
-2. Inspect the repo.
-3. Identify affected files.
-4. Plan before editing.
-5. Make the smallest coherent change.
-6. Validate using project commands.
-7. Summarize the result.
+1. Install deps: `pnpm install`
+2. Run dev server: `pnpm dev`
+3. Validate fast: `pnpm check:fast`
+4. Run full gate when needed: `pnpm check`
 
-## Required behavior
+## Non-Negotiables
 
-- Prefer existing patterns.
-- Do not invent architecture unless asked.
-- Do not introduce dependencies casually.
-- Do not hide uncertainty.
-- Do not skip validation.
-- Do not make broad rewrites for narrow tasks.
-- Do not change formatting across unrelated files.
+- Use `pnpm` only unless the user explicitly asks otherwise.
+- Keep diffs minimal and targeted.
+- Reuse established patterns before creating new abstractions.
+- Do not add dependencies unless clearly justified.
+- Update docs when behavior or workflows change.
 
-## Active agents
+## Project Map
 
-- `architect`: architecture, implementation planning, technical breakdowns
-- `implementer`: focused code implementation
-- `reviewer`: production-readiness review
-- `debugger`: bugs, stack traces, broken builds, runtime failures
-- `test-engineer`: unit, integration, and Playwright tests
-- `ui-engineer`: UI, layout, Tailwind, Nuxt UI, accessibility, visual polish
-- `frontend-reviewer`: frontend-specific review
-- `performance-engineer`: speed, bundles, rendering, caching, performance
-- `nuxt-engineer`: Nuxt, Vue, Nitro, composables, server routes
-- `nextjs-engineer`: Next.js and React implementation
-- `devops-engineer`: GitHub Actions, Vercel, CI, env vars, deployment
-- `product-strategist`: MVP, prioritization, user stories, launch sequencing
-- `repo-scaffolder`: new repo setup and baseline structure
-- `critic`: pre-mortem, risk finding, assumption testing
+- App/pages/components/composables: [app](../app)
+- Content sources (YAML): [content](../content)
+- Studio auth API endpoints: [server/api/__studio](../server/api/__studio)
+- End-to-end tests: [e2e](../e2e)
+- Architecture and system diagrams: [docs/ARCHITECTURE_OVERVIEW.md](../docs/ARCHITECTURE_OVERVIEW.md)
+- Agent sequencing workflow: [docs/workflows/agent-workflow.md](../docs/workflows/agent-workflow.md)
 
-## Validation commands
+## Conventions Agents Should Respect
 
-Use whichever exist in this repo:
+- Content-driven pages query `@nuxt/content` collections and use `published: true` gating for public listings.
+- Prefer exact content lookups by `stem` when loading a specific deck/project route.
+- Motion and scroll behavior should respect reduced-motion preferences.
+- Keep route/page structure aligned with file-based routing under `app/pages`.
+
+## Known Pitfalls
+
+- Mixed/stale Nuxt modules can trigger payload reducer runtime errors. If seen, clear `.nuxt`, reinstall deps, and retry.
+- `better-sqlite3` may fail in some environments without native build approval via pnpm.
+- `pnpm typecheck` can fail from transient Nuxt/Volar/vue-router version mismatches even when runtime is healthy.
+
+## Validation Expectations
+
+Pick the smallest valid set for the change:
 
 - `pnpm lint`
 - `pnpm typecheck`
-- `pnpm test`
+- `pnpm test:e2e`
 - `pnpm build`
 
-## Output format
+## Output Expectations
 
-For every task, report:
+When reporting back, include:
 
-- Summary
+- What changed and why
 - Files changed
-- Validation
-- Risks
-- Follow-up recommendations
+- Validation run (or why skipped)
+- Remaining risks/assumptions
+
+## Agent Routing
+
+For structured multi-step work, use the sequence and role guidance in [docs/workflows/agent-workflow.md](../docs/workflows/agent-workflow.md).
