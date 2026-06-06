@@ -1,20 +1,20 @@
 title: |-
-  Invest in Sports Facilities  
+  Review Sports Facility Deals
   Without Operating Them.
 about:
   headline: Meet the operator
-  title: Tim Truman brings deal discipline to sports capital.
-  description: Pine Tar Sports Fund is built around operator judgment, structured underwriting, and long-term alignment. Tim Truman leads the platform with a focus on credible execution over promotional noise.
+  title: Operator-led sports facility investing starts with better diligence.
+  description: Pine Tar Sports Fund is led by operators who know where sports facility deals can work, where they break, and what investors need to see before they commit capital.
   primaryProfile:
     name: Tim Truman
     title: Founder & Managing Partner
-    quote: "We structure sports and entertainment deals the same way institutional capital evaluates any serious opportunity: with discipline, alignment, and a clear path to value creation."
-    body: Tim Truman brings together operating experience, relationship-driven deal access, and a practical understanding of how capital moves through sports and entertainment markets. His approach centers on sourcing opportunities where underwriting discipline, smart structuring, and long-term partnership matter more than hype. That philosophy shapes how Pine Tar Sports Fund evaluates risk, aligns stakeholders, and builds offerings investors can understand.
+    quote: "A sports facility deal has to make sense before the lights, turf, and scoreboard enter the conversation."
+    body: Tim Truman brings together operating experience, relationship-driven deal access, and a practical understanding of how capital moves through sports and entertainment markets. His approach centers on sourcing opportunities where demand, operator quality, capital structure, and investor alignment can be evaluated plainly. That philosophy shapes how Pine Tar Sports Fund reviews risk, aligns stakeholders, and builds offerings investors can understand.
     imageUrl: /tim-headshot.jpg
     credibilityBullets:
-      - Operator-led perspective rooted in how sports assets actually perform over time.
-      - Structured capital approach designed for investors, lenders, sponsors, and municipalities.
-      - Underwriting discipline centered on downside protection, execution quality, and alignment.
+      - Operator-led perspective rooted in how sports facilities actually perform over time.
+      - Structured capital approach for investors, lenders, sponsors, and municipal partners.
+      - Diligence centered on demand, downside risk, execution quality, and alignment.
     timelineItems:
       - period: "2013"
         label: Dugout Baseball in Kilgore, TX
@@ -63,59 +63,59 @@ about:
           label: Opportunity development
           description: Continues expanding the fund’s access to projects that benefit from disciplined partnership architecture.
 cta:
-  title: Ready to review an offering?
-  description: All active investment opportunities are available here. Browse current offerings or reach out directly to discuss fit.
+  title: Ready to see the current terms?
+  description: Review active offerings, compare the deal materials, and request data room access when an opportunity fits your investment criteria.
   command: pinetarsportsfund.com/investments
   links:
-    - label: Browse opportunities
+    - label: Review active offerings
       color: primary
       to: /investments
-description: Pine Tar Sports Fund structures private sports facility investments for qualified investors — combining real estate, operator experience, preferred return targets, and growing youth sports demand.
+description: Pine Tar Sports Fund publishes private sports facility offerings for qualified investors, including deal terms, projections, use of funds, return targets, and risk disclosures.
 features:
-  headline: Why Pine Tar
+  headline: Why investors use Pine Tar
   title: |-
-    Structured deals.
-    Serious returns.
-  description: We identify, underwrite, and manage sports capital projects — so investors gain institutional-grade exposure to a high-growth, relationship-driven market.
+    Better access.
+    Cleaner diligence.
+  description: We organize sports facility opportunities so qualified investors can understand the deal, the operator, the capital stack, and the risk before requesting access.
   items:
     - icon: i-lucide-shield-check
-      title: Institutional Underwriting
-      description: Every deal is stress-tested against conservative, base, and upside scenarios before it reaches an investor desk.
+      title: Plain-Language Underwriting
+      description: Each offering explains the demand case, capital need, return target, timeline, and key risks in one investor-facing format.
     - icon: i-lucide-trophy
-      title: Sports & Entertainment Focus
-      description: Venues, naming rights, media deals, franchise equity, and stadium financing — asset classes with durable long-term demand.
+      title: Sports Facility Focus
+      description: Pine Tar focuses on youth sports, tournaments, training facilities, and venue-backed opportunities where operations drive value.
     - icon: i-lucide-users
-      title: Operator-Led Structure
-      description: Principals have direct operating experience in professional sports, which means our diligence is practitioner-grade, not advisory.
+      title: Operator-Led Review
+      description: "Deals are evaluated through practical operating questions: demand, scheduling, maintenance, staffing, financing, and execution."
     - icon: i-lucide-landmark
-      title: Multi-Source Capital
-      description: We work with equity investors, lenders, sponsors, and municipalities — structuring each deal to match the right capital to the right risk profile.
+      title: Capital Stack Clarity
+      description: Offerings show how equity, debt, sponsorship, municipal support, and operator contributions fit together.
     - icon: i-lucide-file-text
-      title: Transparent Offerings
-      description: Every active offering has a dedicated page published here with terms, projections, use of funds, team details, and contact information in one place.
+      title: Deal Pages Built for Review
+      description: Active offerings include terms, projections, use of funds, team details, contact information, and risk disclosures.
     - icon: i-lucide-handshake
-      title: Partnership Alignment
-      description: Our fee structure is back-end heavy. We win when our investors win. There is no incentive to over-raise or over-promise.
+      title: Aligned Next Steps
+      description: Investors can review public materials first, then request the data room only when the opportunity is worth deeper diligence.
 guide:
-  title: We turn sports opportunities into investor-ready deals.
+  title: We turn sports facility opportunities into reviewable offerings.
   paragraphs:
-    - Pine Tar Sports Fund works with operators, developers, and sponsors to structure private sports and entertainment opportunities with clear deal materials, defined use of funds, preferred return targets, and transparent investor communication.
-    - We do not just chase exciting projects.
-    - We look for assets with demand, operators, revenue paths, and a real plan.
+    - Pine Tar Sports Fund works with operators, developers, and sponsors to turn private sports facility projects into materials investors can actually evaluate.
+    - That means clear use of funds, visible return targets, operating assumptions, risk notes, and a contact path for data room access.
+    - The goal is not hype. It is a faster, cleaner first pass before deeper diligence.
 hero:
-  headline: Now accepting investors
+  headline: Qualified investor opportunities
   links:
-    - label: View Active Deals
+    - label: Review Active Offerings
       color: primary
       size: xl
       to: /investments
-    - label: Who Are We?
+    - label: See How It Works
       size: xl
       color: neutral
       variant: soft
-      to: /#about
+      to: /#process
 logos:
-  title: Structured for institutional and accredited investors
+  title: Built for qualified investor review
   items:
     - i-lucide-landmark
     - i-lucide-building-2
@@ -123,20 +123,20 @@ logos:
     - i-lucide-handshake
     - i-lucide-bar-chart-3
 mechanism:
-  title: Underwritten like real estate. Operated like sports. Structured for investors.
-  description: "Every opportunity is reviewed through the lens of:"
+  title: Sports upside only matters when the deal survives diligence.
+  description: "Every opportunity is reviewed across the fundamentals investors ask about first:"
   items:
-    - Location demand
+    - Local demand
     - Facility economics
-    - Operator experience
+    - Operator quality
     - Revenue streams
     - Capital stack
     - Investor protections
     - Exit or refinance potential
 metrics:
   headline: By the numbers
-  title: A track record built on execution.
-  description: Pine Tar Sports Fund has structured over $20M in sports and entertainment capital projects since inception.
+  title: Real thresholds, visible before the call.
+  description: Active offerings publish the basic numbers investors need before deciding whether to request the data room.
   items:
     - value: $20M+
       label: Capital structured
@@ -151,29 +151,29 @@ metrics:
       label: Minimum investment
       class: text-warning
 problem:
-  title: Sports is booming. Access is the problem.
+  title: Sports is booming. Most private deals are still hard to read.
   paragraphs:
-    - Youth sports, tournaments, training facilities, live events, and venue-based entertainment are growing into a serious asset class.
-    - But most private investors only see these opportunities after the best terms are gone, or they see deals that are long on excitement and short on structure.
-    - Pine Tar exists to bridge that gap.
+    - Youth sports, tournaments, training facilities, live events, and venue-based entertainment are pulling serious capital into local markets.
+    - But many private investors still see opportunities too late, too informally, or without enough structure to judge the risk quickly.
+    - Pine Tar exists to make the first review clearer.
 process:
   title: How it works
   items:
     - step: "01"
       title: Review active opportunities
-      description: See current sports facility, sponsorship, and entertainment offerings.
+      description: Browse current sports facility and related private offerings in one place.
     - step: "02"
-      title: Request the investor materials
-      description: Get the deck, terms, projections, and supporting documents.
+      title: Check the public deal page
+      description: Review the terms, use of funds, projections, timeline, team, and risk disclosures.
     - step: "03"
-      title: Evaluate the fit
-      description: Review the risk profile, return target, timeline, and minimum investment.
+      title: Request data room access
+      description: If the opportunity fits your criteria, request the deeper diligence materials.
     - step: "04"
-      title: Invest with clarity
-      description: Participate in a structured opportunity with defined terms and transparent communication.
+      title: Decide with context
+      description: Evaluate the risk profile, return target, timeline, and minimum investment before committing.
 seo:
-  title: Pine Tar Sports Fund — Investment Opportunities in Youth Sports
-  description: Pine Tar Sports Fund connects investors, lenders, sponsors, and municipalities with premium youth sports projects. Review current investment opportunities and explore partnership options.
+  title: Pine Tar Sports Fund - Sports Facility Investment Opportunities
+  description: Review private sports facility offerings for qualified investors, including terms, projections, use of funds, return targets, and risk disclosures.
 terminal:
   lines:
     - segments:
@@ -181,19 +181,19 @@ terminal:
           style: prompt
         - text: pinetarsf
           style: cmd
-        - text: " opportunities --status open"
+        - text: " offerings --status active"
           style: flag
     - segments:
-        - text: → Scanning active offerings...
+        - text: "→ Loading investor review materials..."
           style: dim
     - segments:
         - text: "→ Found "
           style: dim
-        - text: active opportunities
+        - text: active offerings
           style: cmd
         - text: " across "
           style: dim
-        - text: multiple audience types
+        - text: sports facility projects
           style: cmd
     - segments:
         - text: "→ Minimum investment from "
