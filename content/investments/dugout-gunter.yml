@@ -171,7 +171,7 @@ projections:
     - value: $600K
       label: Stabilized annual profit
   sectionTitle: Projections
-published: true
+published: false
 returns:
   enabled: true
   body: "Returns are driven by three compounding value creation levers: anchor tenant lease revenue, naming rights monetization, and asset appreciation at stabilization."
