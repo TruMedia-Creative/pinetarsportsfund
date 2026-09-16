@@ -1,14 +1,16 @@
 title: Dugout Greenville
+subtitle: Operational Youth Sports Complex — Greenville, TX
+projectName: Dugout Greenville
 audienceType: investor
-closingCta:
-  enabled: true
-  sectionTitle: Next Steps
-  body: We are accepting commitments from qualified accredited investors for this round. Full data room access is provided upon execution of NDA.
-  ctaText: Request Data Room Access
-  ctaUrl: mailto:invest@pinetarsportsfund.com?subject=Dugout%20Greenville%20-%20Data%20Room%20Request
-  contactName: Larryon Truman, II
-  contactTitle: Business Development & Investor Relations
-  contactEmail: invest@pinetarsportsfund.com
+published: true
+
+location:
+  address: 230 County Road 2260
+  city: Greenville
+  state: TX
+  zip: "75402"
+  mapEmbedUrl: "https://maps.google.com/maps?q=230%20Co%20Rd%202260%2C%20Greenville%2C%20TX%2075402&output=embed"
+
 cover:
   enabled: true
   tagline: Investment Opportunity
@@ -16,15 +18,21 @@ cover:
   contactName: Tim Truman
   contactTitle: Managing Partner
   company: PineTar Sports Fund
-  address: ""
-  description: ""
+  address: 230 County Road 2260, Greenville, TX 75402
+  description: |
+    Dugout Greenville is a Pine Tar Sports/NCS-listed baseball facility in Hunt County, positioned for Northeast Texas tournament and league demand. This page is a Lar-review draft with sourced address and active scheduling context; final operating metrics and investor terms remain gated.
+  body: |
+    Dugout Greenville gives Pine Tar a Northeast Texas facility footprint for tournaments, league activity, field rentals, and recurring youth baseball programming. Unapproved financial and operating metrics are visibly marked for Lar review rather than filled with invented values.
   sectionImage:
     url: /projects/dugout-greenville/hero.jpg
     layout: hidden
+
 executiveSummary:
   enabled: true
   body: |
-    Dugout Greenville is a fully operational youth sports complex serving Hunt County and the broader Northeast Texas region. The facility is generating active revenue through tournament play, league rentals, and community programming. This offering presents an expansion opportunity for accredited investors seeking cash-flowing real estate backed by proven operational performance.
+    Dugout Greenville is listed by National Championship Sports as a Greenville, Texas baseball site and appears in Pine Tar Sports event/location pages. The facility fits the broader Dugout model documented in the venture notes: operate or improve sports facilities, create weekday and weekend programming, and connect facility demand to tournament activity.
+
+    This draft replaces the prior partially blank page with sourced location details, review-ready narrative copy, still images generated from existing Greenville project video, and explicit Lar-review placeholders for metrics and investment terms that still require source approval.
   tableOfContents:
     - number: 1
       label: Executive Summary
@@ -42,102 +50,143 @@ executiveSummary:
       label: Returns & Timeline
     - number: 8
       label: Risks & Disclaimer
-  returnsTableTitle: Key Investment Metrics
+  returnsTableTitle: Review Status
   returnsTableRows:
-    - label: ""
-      value: ""
+    - label: Key Investment Metric
+      value: Source-backed operating and return data pending Lar review
       highlight: true
-investmentThesis:
+
+projectOverview:
   enabled: true
-  sectionTitle: Expansion Opportunity
-  body: ""
-  bullets: []
-location:
-  address: 230 Co Rd 2260
-  city: Greenville
-  state: TX
-  zip: "75402"
-  mapEmbedUrl: ""
+  sectionTitle: Project Overview
+  body: |
+    Dugout Greenville should be treated as an operating-location diligence page until Tim/Lar approve the underlying business metrics. Available sources support the facility name, Greenville address, Pine Tar/NCS usage, and the operator-led facility model. The next content pass should add approved acreage, baseball/softball field counts, opening date, utilization, annual revenue, recurring partners, and return economics.
+
+    Greenville video assets already existed in the project folder; still images have been generated and wired into the cover and gallery so the page no longer points at missing media.
+  images:
+    - url: /projects/dugout-greenville/photo-1.jpg
+      alt: Dugout Greenville facility media still
+    - url: /projects/dugout-greenville/photo-2.jpg
+      alt: Dugout Greenville baseball field media still
+
 market:
   enabled: true
   sectionTitle: Market Context
-  body: ""
+  body: |
+    Greenville sits in Hunt County with a Northeast Texas trade-area story connected to Greenville, Royse City, Rockwall, Commerce, Sulphur Springs, and the eastern DFW edge. Pine Tar should validate the exact 60-mile population, median household income, youth participation rate, and annual tournament-market size before those figures are presented as investor metrics.
+
+    The supported market point today is qualitative: NCS lists Dugout Greenville as a site and shows event activity connected to Pine Tar Sports. Quantified market metrics remain in the Lar-review queue.
   metrics:
-    - value: ""
+    - value: Needs source data
       label: Population within 60 miles
-    - value: ""
+    - value: Needs source data
       label: Median household income
-    - value: ""
+    - value: Needs source data
       label: Youth sports participation rate
-    - value: ""
+    - value: Needs operator estimate
       label: Annual tournament market size
+
 operationalPerformance:
   enabled: true
   sectionTitle: Operational Performance
-  body: ""
-  since: ""
-  acreage: ""
-  fields:
-    - type: Baseball
-      count: 0
-    - type: Softball
-      count: 0
+  body: |
+    NCS lists Dugout Greenville as a Pine Tar Sports event site and shows scheduled youth baseball activity. That supports the facility's role in Pine Tar programming, but it does not by itself establish revenue, utilization, field count, acreage, or long-term tenant commitments.
+
+    Tim/Lar should provide or approve the operating data before this section is considered investor-ready.
+  since: Needs Lar review
+  acreage: Needs Lar review
+  fields: []
   capacityPercent: 0
-  annualRevenue: ""
+  annualRevenue: Needs Lar review
   eventTypes:
     - Tournaments
     - League Play
     - Field Rentals
-  anchorTenants: []
+    - Training / Practice Use
+    - Weekend Events
+  anchorTenants:
+    - Pine Tar Sports programming — confirm tenant/partner wording
   metrics:
-    - value: ""
+    - value: Needs count
       label: Fields
-    - value: ""
+    - value: Needs date
       label: Operational Since
-    - value: ""
+    - value: Needs source
       label: Annual Revenue
-    - value: ""
+    - value: Needs source
       label: Avg. Capacity
-projectName: Dugout Greenville
-projectOverview:
-  enabled: true
-  sectionTitle: Project Overview
-  body: ""
-  images:
-    - url: /projects/dugout-greenville/photo-1.jpg
-      alt: Dugout Greenville aerial view
-    - url: /projects/dugout-greenville/photo-2.jpg
-      alt: Dugout Greenville field view
-published: true
-returns:
-  enabled: true
-  sectionTitle: Returns & Timeline
-  body: ""
-  timelineItems: []
-  keyMetrics:
-    - value: ""
-      label: Preferred Return
-    - value: ""
-      label: Target Payback
-  exitStrategyTitle: Exit Strategy
-  exitStrategyBody: ""
-risksDisclaimer:
-  enabled: true
-  sectionTitle: Risks & Disclaimer
-  body: This presentation is for informational purposes only and does not constitute an offer to sell or a solicitation to buy any security. Investment involves risk, including the possible loss of principal.
-  bullets:
-    - Construction or expansion cost overruns
-    - Weather-related disruptions to operations
-    - Changes in local market demand for youth sports
-    - Anchor tenant or partnership risks
-    - Regulatory or zoning changes
-subtitle: Operational Youth Sports Complex — Greenville, TX
+
 team:
   enabled: true
   sectionTitle: Team
-  body: ""
+  body: |
+    Pine Tar Sports Fund is led by operators focused on turning sports-facility opportunities into reviewable, diligence-ready projects. The local notes position Tim Truman as the operator behind the Dugout/Pine Tar model; final role language should be approved before investor distribution.
   members:
     - name: Tim Truman
       title: Managing Partner
-      bio: ""
-      imageUrl: ""
+      bio: |
+        Tim Truman brings operating experience, relationship-driven deal access, and practical knowledge of how sports facilities generate demand through tournaments, training, rentals, and community programming. Pine Tar materials describe his approach as operator-led: evaluate local demand, improve or develop facilities where the model can work, and connect those facilities to repeatable programming. Final bio wording should be approved by Tim/Lar before this page is circulated externally.
+      imageUrl: /tim-headshot.jpg
+
+investmentThesis:
+  enabled: true
+  sectionTitle: Expansion Opportunity
+  body: |
+    The Greenville thesis is a Northeast Texas operating-node thesis: use a Pine Tar/NCS-listed facility to serve league play, rentals, practice demand, and weekend tournament traffic while the team verifies exact facility economics. The page should not state return targets until approved Greenville-specific data is available.
+  bullets:
+    - NCS-listed Dugout Greenville address and Pine Tar Sports event usage are now reflected in the page.
+    - The location gives Pine Tar a Northeast Texas node near Hunt County and the eastern DFW edge.
+    - Revenue narrative should focus on tournaments, league play, field rentals, training, and facility improvements once source-backed metrics are approved.
+    - Expansion scope, capital need, preferred return, payback, and exit assumptions remain needs-Lar-review items.
+
+returns:
+  enabled: true
+  sectionTitle: Returns & Timeline
+  body: |
+    Return targets are intentionally not stated in this public draft because the source documents reviewed do not provide approved Greenville-specific economics. Complete this section only after Tim/Lar approve the preferred return, payback period, exit/refinance path, facility revenue baseline, and legal/disclosure language.
+  timelineItems:
+    - period: Current draft
+      phase: Source-backed page rebuild
+      description: Address, map, page copy, and still images have been filled from available sources and assets.
+    - period: Next review
+      phase: Lar / operator diligence
+      description: Confirm opening date, acreage, field counts, utilization, annual revenue, event mix, and partner language.
+    - period: Before investor use
+      phase: Deal terms approval
+      description: Add approved preferred return, payback, exit strategy, and legal/disclosure language from authoritative offering materials only.
+  keyMetrics:
+    - value: Pending approval
+      label: Preferred Return
+    - value: Pending approval
+      label: Target Payback
+    - value: Pending source
+      label: Annual Revenue
+    - value: Pending source
+      label: Capacity Utilization
+  exitStrategyTitle: Exit Strategy
+  exitStrategyBody: |
+    Exit, refinance, sale, or hold-period language is pending Lar/operator approval. Do not reuse Gunter/Grayson return assumptions for Greenville without a source document confirming they apply.
+
+risksDisclaimer:
+  enabled: true
+  sectionTitle: Risks & Disclaimer
+  body: |
+    This presentation is for informational and draft-review purposes only and does not constitute an offer to sell or a solicitation to buy any security. Investment involves risk, including the possible loss of principal. Metrics marked pending must be source-verified and approved before investor use.
+  bullets:
+    - Operating metrics, acreage, field counts, utilization, revenue, and returns remain pending source verification.
+    - Construction, renovation, or expansion cost overruns could affect timing and economics.
+    - Weather, scheduling, league participation, and tournament demand may disrupt operations.
+    - Anchor tenant, partner, lease, and programming terms require final confirmation.
+    - Zoning, permitting, insurance, and regulatory requirements may change.
+    - Prospective investors should consult independent legal, tax, and financial advisors.
+
+closingCta:
+  enabled: true
+  sectionTitle: Next Steps
+  body: |
+    This page is ready for Lar/operator review. Before data room circulation, confirm the open diligence items: operating metrics, field/acreage data, revenue baseline, approved team bio, return targets, and exit strategy.
+  ctaText: Request Data Room Access
+  ctaUrl: mailto:invest@pinetarsportsfund.com?subject=Dugout%20Greenville%20-%20Data%20Room%20Request
+  contactName: Larryon Truman, II
+  contactTitle: Business Development & Investor Relations
+  contactEmail: invest@pinetarsportsfund.com
