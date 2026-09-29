@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.111",
-    "@iconify-json/simple-icons": "^1.2.85",
+    "@iconify-json/simple-icons": "^1.2.97",
     "@nuxt/content": "^3.14.0",
     "@nuxt/eslint-config": "^1.15.2",
     "@nuxt/hints": "1.0.3",
