@@ -43,7 +43,7 @@
     "better-sqlite3": "^12.10.0",
     "gsap": "^3.15.0",
     "motion-v": "^2.2.1",
-    "nuxt": "^4.4.8",
+    "nuxt": "^4.5.1",
     "nuxt-studio": "1.7.0",
     "tailwindcss": "^4.3.0",
     "unhead": "3.1.7",
@@ -55,7 +55,7 @@
     "@playwright/test": "^1.60.0",
     "eslint": "^10.4.1",
     "eslint-config-prettier": "^10.1.8",
-    "nuxt-og-image": "^6.5.1",
+    "nuxt-og-image": "^6.7.0",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.3"
