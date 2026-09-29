@@ -18,6 +18,8 @@ This file documents the current status of the four published Dugout project page
 | Dugout Whitewright | NCS site page / locations page for Dugout Whitewright | `12321 SH 11, Whitewright, TX 75491` | `hero.jpg`, `photo-1.jpg`, `photo-2.jpg` |
 | Dugout Greenville | NCS site page / locations page for Dugout Greenville | `230 County Road 2260, Greenville, TX 75402` | `hero.jpg`, `photo-1.jpg`, `photo-2.jpg` |
 
+Google Maps review assets were added to each location's `public/projects/<location>/` folder as `google-maps-satellite-overview.jpg` and `google-maps-satellite-detail.jpg`. Greenville also has `google-maps-place-photo.jpg`, the only user-contributed facility photo exposed by the signed-out public listings. See `GOOGLE_MAPS_MEDIA_SOURCES.md` for source links, accuracy notes, and rights-review cautions.
+
 ## Still needs Lar / operator review
 
 These items remain intentionally unresolved for all four pages unless noted otherwise:
